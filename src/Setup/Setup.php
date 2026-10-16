@@ -2,37 +2,24 @@
 
 namespace Redaxo\Core\Setup;
 
-use Redaxo\Core\Cache;
 use Redaxo\Core\Database\ConnectionConfig;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\Util\Version;
 
-use function array_key_exists;
-use function extension_loaded;
-use function function_exists;
-use function in_array;
-use function ini_get;
 use function sprintf;
 
 use const PHP_OS;
-use const PHP_SAPI;
-use const PHP_VERSION;
 
 /**
  * @internal
  */
 final class Setup
 {
-    /** @var string */
-    public const MIN_PHP_VERSION = REX_MIN_PHP_VERSION;
-    public const MIN_PHP_EXTENSIONS = ['ctype', 'fileinfo', 'iconv', 'intl', 'mbstring', 'pdo_mysql', 'session', 'tokenizer'];
     public const MIN_MYSQL_VERSION = '8.4';
     public const MIN_MARIADB_VERSION = '10.11';
 
@@ -40,37 +27,6 @@ final class Setup
     public const DEFAULT_DUMMY_PASSWORD = '-REDAXO-DEFAULT-DUMMY-PASSWORD-';
 
     private function __construct() {}
-
-    /** Prepares the filesystem for a fresh installation. */
-    public static function init(): void
-    {
-        // initial purge all generated files
-        Cache::delete();
-    }
-
-    /**
-     * checks environment related conditions.
-     *
-     * @return list<string> An array of error messages
-     */
-    public static function checkEnvironment(): array
-    {
-        $errors = [];
-
-        // -------------------------- VERSIONSCHECK
-        if (1 == version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<')) {
-            $errors[] = I18n::msg('setup_201', PHP_VERSION, self::MIN_PHP_VERSION);
-        }
-
-        // -------------------------- EXTENSION CHECK
-        foreach (self::MIN_PHP_EXTENSIONS as $extension) {
-            if (!extension_loaded($extension)) {
-                $errors[] = I18n::msg('setup_202', $extension);
-            }
-        }
-
-        return $errors;
-    }
 
     /**
      * checks permissions of all required filesystem resources.
@@ -138,6 +94,16 @@ final class Setup
             return $err;
         }
 
+        return self::checkDbVersion();
+    }
+
+    /**
+     * Checks that the connected database server meets the minimum version.
+     *
+     * @return string Error message, empty if the version is supported
+     */
+    public static function checkDbVersion(): string
+    {
         $sql = Sql::factory();
         $type = $sql->getDbType();
         $version = $sql->getDbVersion();
@@ -148,110 +114,5 @@ final class Setup
         }
 
         return '';
-    }
-
-    /**
-     * Basic php security checks. Returns a human readable strings on error.
-     *
-     * @return list<string>
-     */
-    public static function checkPhpSecurity(): array
-    {
-        $security = [];
-
-        if (PHP_SAPI !== 'cli' && !Request::isHttps()) {
-            $security[] = I18n::msg('setup_security_no_https');
-        }
-
-        if (function_exists('apache_get_modules') && in_array('mod_security', apache_get_modules())) {
-            $security[] = I18n::msg('setup_security_warn_mod_security');
-        }
-
-        if (ini_get('session.auto_start')) {
-            $security[] = I18n::msg('setup_session_autostart_warning');
-        }
-
-        // Source: https://www.php.net/supported-versions.php, Security Support Until, set to 1st of month
-        $deprecatedVersions = [
-            '8.1' => '2025-12-01',
-            '8.2' => '2026-12-01',
-            '8.3' => '2027-12-01',
-            '8.4' => '2028-12-01',
-            '8.5' => '2029-12-01',
-        ];
-
-        $versionNumber = Formatter::version(PHP_VERSION, '%s.%s');
-
-        if (array_key_exists($versionNumber, $deprecatedVersions)) {
-            $deprecationDate = $deprecatedVersions[$versionNumber];
-            $currentDate = date('Y-m-d');
-            if ($currentDate > $deprecationDate) {
-                $security[] = I18n::msg('setup_security_deprecated_php', PHP_VERSION);
-            }
-        }
-        return $security;
-    }
-
-    /**
-     * Basic database security checks. Returns a human readable strings on error.
-     *
-     * @return list<string>
-     */
-    public static function checkDbSecurity(): array
-    {
-        $sql = Sql::factory();
-        $dbVersion = $sql->getDbVersion();
-        $dbType = $sql->getDbType();
-        $security = [];
-        $currentDate = date('Y-m-d');
-
-        if (Sql::MARIADB === $dbType) {
-            // Deprecated versions and dates
-            // Source: https://endoflife.date/mariadb, set to 1st of month
-            $deprecatedVersions = [
-                '10.11' => '2028-02-01', // LTS
-                '11.0' => '2024-06-01',
-                '11.1' => '2024-08-01',
-                '11.2' => '2024-11-01',
-                '11.3' => '2024-05-01',
-                '11.4' => '2029-05-01', // LTS
-                '11.5' => '2024-11-01',
-                '11.6' => '2025-02-01',
-                '11.7' => '2025-05-01',
-                '11.8' => '2028-06-01',
-                '12.0' => '2025-11-01',
-                '12.1' => '2026-02-01',
-            ];
-
-            $versionNumber = Formatter::version($dbVersion, '%s.%s');
-            if (array_key_exists($versionNumber, $deprecatedVersions)) {
-                $deprecationDate = $deprecatedVersions[$versionNumber];
-                if ($currentDate > $deprecationDate) {
-                    $security[] = I18n::msg('setup_security_deprecated_mariadb', $dbVersion);
-                }
-            }
-        } elseif (Sql::MYSQL === $dbType) {
-            // Deprecated versions and dates
-            // Source: https://en.wikipedia.org/wiki/MySQL#Release_history, set to 1st of month
-            $deprecatedVersions = [
-                '8.4' => '2032-04-01',
-                '9.0' => '2024-10-01',
-                '9.1' => '2025-01-01',
-                '9.2' => '2025-04-01',
-                '9.3' => '2025-07-01',
-                '9.4' => '2025-10-01',
-                '9.5' => '2026-01-01',
-            ];
-
-            $versionNumber = Formatter::version($dbVersion, '%s.%s');
-            if (array_key_exists($versionNumber, $deprecatedVersions)) {
-                $deprecationDate = $deprecatedVersions[$versionNumber];
-                if ($currentDate > $deprecationDate) {
-                    $security[] = I18n::msg('setup_security_deprecated_mysql', $dbVersion);
-                }
-            }
-        }
-
-        return $security;
     }
 }

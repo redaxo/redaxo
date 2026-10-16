@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <psalm
     errorLevel="1"
-    autoloader=".tools/constants.php"
     findUnusedCode="false"
     findUnusedPsalmSuppress="true"
     findUnusedBaselineEntry="false"

@@ -149,22 +149,12 @@ dev_mode_marker = Der Dev-Modus ist aktiv
 system_report = Systembericht
 system_report_markdown = Als Markdown
 
-setup_201 = Die PHP-Version des Servers ist veraltet ({0}), bitte aktualisieren Sie auf eine höhere Version (mindestens {1}, neueste empfohlen)
-setup_202 = Die benötigte PHP-Extension <b>{0}</b> wurde nicht gefunden!
 setup_204 = Die folgenden Verzeichnisse sind nicht beschreibbar:
 setup_205 = Die folgenden Dateien sind nicht beschreibbar:
 setup_206 = Die folgenden Verzeichnisse sind nicht vorhanden oder es fehlt die Berechtigung:
-setup_208 = PHP-Version <b>{0}</b> ok
 setup_211 = Die folgenden Dateien/Verzeichnisse sind für alle Anwender auf dem Server veränderbar (Others-Mode-Bit 7). Die Berechtigungen sollten restriktiver sein:
 
-setup_402 = Tabelle {0} wurde nicht gefunden!
 
-setup_security_no_https = Die Verbindung ist unverschlüsselt. Frontend und Backend sollten grundsätzlich durch HTTPS verschlüsselt aufgerufen werden, um die Privatsphäre zu schützen und den Datenschutz zu gewährleisten.
-setup_security_warn_mod_security = Das Apache Modul "mod_security" ist geladen. Dies kann bei falscher Konfiguration zu Problemen führen.
-setup_security_deprecated_php = Die verwendete PHP-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
-setup_security_deprecated_mysql = Die verwendete MySQL-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
-setup_security_deprecated_mariadb = Die verwendete MariaDB-Version {0} wird nicht mehr vom Hersteller gepflegt und sollte aktualisiert werden.
-setup_session_autostart_warning = In den PHP-Einstellungen ist "session.auto_start" aktiviert. Es wird empfohlen, dies zu deaktivieren, um Probleme zu vermeiden.
 
 sql_database_name_missing = Es muss ein Datenbankname angegeben werden!
 sql_database_host_invalid = "{0}" ist kein gültiger MySQL Host

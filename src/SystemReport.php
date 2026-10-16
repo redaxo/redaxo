@@ -8,7 +8,6 @@ use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
-use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Util\Version;
 
 use function extension_loaded;
@@ -55,11 +54,6 @@ final class SystemReport
             'Xdebug' => extension_loaded('xdebug'),
         ];
 
-        $security = Setup::checkPhpSecurity();
-        if ($security) {
-            $data['PHP']['Warning'] = implode('<br/>', $security);
-        }
-
         foreach (ConnectionConfig::getAll() as $dbId => $db) {
             $dbData = [];
 
@@ -67,13 +61,6 @@ final class SystemReport
                 $sql = Sql::factory($dbId);
 
                 $dbData['Version'] = $sql->getDbType() . ' ' . $sql->getDbVersion();
-
-                if (1 === $dbId) {
-                    $security = Setup::checkDbSecurity();
-                    if ($security) {
-                        $dbData['Warning'] = implode('<br/>', $security);
-                    }
-                }
             } catch (SqlException $exception) {
                 $dbData['Warning'] = $exception->getMessage();
             }

@@ -26,13 +26,6 @@ use Redaxo\Core\Util\VarDumper;
 use Redaxo\Core\View\Fragment;
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
-define('REX_MIN_PHP_VERSION', '8.5');
-
-if (version_compare(PHP_VERSION, REX_MIN_PHP_VERSION) < 0) {
-    echo 'Ooops, something went wrong!<br>';
-    throw new Exception('PHP version >=' . REX_MIN_PHP_VERSION . ' needed!');
-}
-
 // start output buffering as early as possible, so we can be sure
 // we can set http header whenever we want/need to
 ob_start();

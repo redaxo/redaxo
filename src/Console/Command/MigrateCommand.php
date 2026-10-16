@@ -6,15 +6,13 @@ use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Addon\AddonManager;
 use Redaxo\Core\Cache;
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Database\Table;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\MetaInfo\MetaSync;
 use Redaxo\Core\Migration\Migration;
 use Redaxo\Core\Migration\Migrator;
 use Redaxo\Core\Setup\Setup;
-use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Version;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
@@ -41,13 +39,8 @@ final class MigrateCommand extends AbstractCommand implements StandaloneInterfac
         SymfonyStyle $io,
         #[Option('Record pending migrations as executed without running them')] bool $fake = false,
     ): int {
-        // verify the database server meets the minimum version requirements
-        $sql = Sql::factory();
-        $dbType = $sql->getDbType();
-        $dbVersion = $sql->getDbVersion();
-        $minVersion = Sql::MARIADB === $dbType ? Setup::MIN_MARIADB_VERSION : Setup::MIN_MYSQL_VERSION;
-        if (Version::compare($dbVersion, $minVersion, '<')) {
-            $io->error(I18n::msg('sql_database_required_version', $dbType, $dbVersion, Setup::MIN_MYSQL_VERSION, Setup::MIN_MARIADB_VERSION));
+        if ('' !== $error = Setup::checkDbVersion()) {
+            $io->error($error);
             return Command::FAILURE;
         }
 
@@ -72,10 +65,20 @@ final class MigrateCommand extends AbstractCommand implements StandaloneInterfac
     {
         $io->section('Schema');
 
+        // without the core's config table, no install() has ever run on this database
+        $freshInstance = !Table::get('rex_config')->exists();
+
         if (!$this->convergePackage($io, Migrator::CORE, static function (): void {
             require Path::core('setup/install.php');
         })) {
             return false;
+        }
+
+        if ($freshInstance) {
+            // install() created the current schema, so the migrations leading there must not run (addons do the same
+            // in their AddonManager::install(), the project is new along with the instance)
+            Migrator::baseline(Migrator::CORE);
+            Migrator::baseline(Migrator::PROJECT);
         }
 
         foreach (Addon::getBootOrder() as $addonName) {

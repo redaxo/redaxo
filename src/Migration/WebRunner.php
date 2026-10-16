@@ -391,7 +391,7 @@ final class WebRunner
      */
     private static function renderSystemCheck(): string
     {
-        $messages = array_map(static fn (string $error): string => '<p>' . escape($error) . '</p>', Setup::checkEnvironment());
+        $messages = [];
 
         foreach (Setup::checkFilesystem() as $key => $paths) {
             $items = array_map(static fn (string $path): string => '<li>' . escape(Path::relative($path)) . '</li>', $paths);
@@ -399,7 +399,7 @@ final class WebRunner
         }
 
         if ([] === $messages) {
-            return '<p class="ok">PHP version and directory permissions ok.</p>';
+            return '<p class="ok">Directory permissions ok.</p>';
         }
 
         return '<div class="fail">' . implode('', $messages) . '</div>';

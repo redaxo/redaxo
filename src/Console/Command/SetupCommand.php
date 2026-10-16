@@ -10,9 +10,7 @@ use Redaxo\Core\Env;
 use Redaxo\Core\Environment;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
-use Redaxo\Core\Language\LanguageHandler;
 use Redaxo\Core\Security\BackendLogin;
-use Redaxo\Core\Setup\Importer;
 use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
@@ -20,6 +18,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -27,12 +26,9 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 use function array_key_exists;
-use function count;
 use function in_array;
 use function is_string;
 use function sprintf;
-
-use const PHP_VERSION;
 
 /**
  * @internal
@@ -50,7 +46,6 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         InputInterface $input,
         SymfonyStyle $io,
         #[Option('System language e.g. "de_de" or "en_gb"', suggestedValues: I18n::getLocales(...))] ?string $lang = null,
-        #[Option('Accept license terms and conditions')] bool $agreeLicense = false, // BC, not used anymore
         #[Option('Database url, e.g. "mysql://<login>:<password>@<host>/<name>"')] ?string $databaseUrl = null,
         #[Option('Database hostname e.g. "localhost" or "127.0.0.1"')] ?string $dbHost = null,
         #[Option('Database login')] ?string $dbLogin = null,
@@ -61,7 +56,6 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         #[Option('Path to SSL certificate file')] ?string $dbSslCert = null,
         #[Option('Verify SSL server certificate (yes/no)', suggestedValues: ['yes', 'no'])] ?string $dbSslVerifyServerCert = null,
         #[Option('Creates the database "yes" or "no"', suggestedValues: ['yes', 'no'])] ?string $dbCreatedb = null,
-        #[Option('Database setup mode e.g. "normal", "override" or "existing"', suggestedValues: ['normal', 'override', 'existing'])] ?string $dbSetup = null,
         #[Option('Creates a redaxo admin user with the given username')] ?string $adminUsername = null,
         #[Option('Sets the password for the admin user account')] ?string $adminPassword = null,
     ): int {
@@ -75,10 +69,8 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             return $value;
         };
 
-        Setup::init();
-
         // ---------------------------------- Step 1 . Language
-        $io->title('Step 1 of 5 / Language');
+        $io->title('Step 1 of 4 / Language');
         $langs = [];
         foreach (I18n::getLocales() as $locale) {
             $langs[$locale] = I18n::msgInLocale('lang', $locale);
@@ -98,17 +90,8 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             },
         ));
 
-        // ---------------------------------- Step 2 . Perms, Environment
-        $io->title('Step 2 of 5 / System check');
-
-        $io->warning('The checks are executed only in the cli environment and do not guarantee correctness in the web server environment.');
-
-        if (Command::SUCCESS !== $code = $this->performSystemcheck()) {
-            return $code;
-        }
-
-        // ---------------------------------- step 3 . Database
-        $io->title('Step 3 of 5 / Database');
+        // ---------------------------------- Step 2 . Database
+        $io->title('Step 2 of 4 / Database');
 
         // a url the environment already provides seeds the questions, so that a re-run can keep or adjust it
         $envUrl = Env::get('DATABASE_URL');
@@ -235,81 +218,24 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             return Command::FAILURE;
         }
 
-        // ---------------------------------- step 4 . create db / demo
-        $io->title('Step 4 of 5 / Database');
+        // ---------------------------------- Step 3 . Migration
+        $io->title('Step 3 of 4 / Migration');
 
         $sql = Sql::factory();
-        $dbEol = Setup::checkDbSecurity();
-        if (!empty($dbEol)) {
-            foreach ($dbEol as $warning) {
-                $io->warning($warning);
-            }
-        } else {
-            $io->block('Database version: ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
+        $io->block('Database version: ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
+
+        $migrateInput = new ArrayInput([]);
+        $migrateInput->setInteractive($input->isInteractive());
+
+        if (Command::SUCCESS !== $code = new MigrateCommand()->run($migrateInput, $io)) {
+            return $code;
         }
-
-        $tablesComplete = '' == Importer::verifyDbSchema();
-
-        // spaces before/after to make sf-console render the array-key instead of
-        // our overlong description text
-        $defaultDbMode = ' normal ';
-        $createdbOptions = [
-            'normal' => 'Setup database',
-            'override' => 'Setup database and overwrite it if it exitsts already (Caution - All existing data will be deleted!)',
-            'existing' => 'Database already exists (Continue with the existing data)',
-        ];
-
-        if ($tablesComplete) {
-            $defaultDbMode = ' existing ';
-        } else {
-            unset($createdbOptions['existing']);
-        }
-
-        $createdb = $this->getOptionOrAsk(
-            new ChoiceQuestion('Choose database setup', $createdbOptions, $defaultDbMode),
-            'db-setup',
-            null,
-            null,
-            static function ($value) use ($createdbOptions) {
-                if (!array_key_exists($value, $createdbOptions)) {
-                    throw new InvalidArgumentException('Unknown db-setup value "' . $value . '".');
-                }
-                return $value;
-            },
-        );
-        $io->success('Using "' . $createdb . '" database setup');
-
-        if ('existing' == $createdb && $tablesComplete) {
-            $error = Importer::databaseAlreadyExists();
-            $io->success('Skipping database setup');
-        } elseif ('override' == $createdb) {
-            $error = Importer::overrideExisting();
-            $io->success('Database successfully overwritten');
-        } elseif ('normal' == $createdb) {
-            $error = Importer::prepareEmptyDb();
-            $io->success('Database successfully created');
-        } else {
-            $error = 'An undefinied error occurred';
-        }
-
-        if ('' !== $error) {
-            $io->error($this->decodeMessage($error));
-            return Command::FAILURE;
-        }
-
-        $error = Importer::verifyDbSchema();
-        if ('' != $error) {
-            $io->error($this->decodeMessage($error));
-            return Command::FAILURE;
-        }
-
-        LanguageHandler::generateCache();
 
         // the language chosen in step 1 becomes the default language of the installation
         Core::setConfig('lang', $lang);
 
-        // ---------------------------------- Step 5 . Create User
-        $io->title('Step 5 of 5 / User');
+        // ---------------------------------- Step 4 . Create User
+        $io->title('Step 4 of 4 / User');
 
         $user = Sql::factory();
         $user
@@ -593,46 +519,5 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         }
 
         return $this->io->ask($question, Type::nullOrString($default), $validator);
-    }
-
-    private function performSystemcheck(): int
-    {
-        /** Cloned from command system:check*/
-        $errors = Setup::checkEnvironment();
-        if (0 == count($errors)) {
-            $phpEol = Setup::checkPhpSecurity();
-            if (!empty($phpEol)) {
-                foreach ($phpEol as $warning) {
-                    $this->io->warning($warning);
-                }
-            } else {
-                $this->io->success($this->decodeMessage(I18n::msg('setup_208', PHP_VERSION)));
-            }
-        } else {
-            $errors = array_map($this->decodeMessage(...), $errors);
-            $this->io->error("PHP version errors:\n" . implode("\n", $errors));
-            return Command::FAILURE;
-        }
-
-        $res = Setup::checkFilesystem();
-        if (count($res) > 0) {
-            $errors = []; // @phpstan-ignore assign.redundant
-            foreach ($res as $key => $messages) {
-                if (count($messages) > 0) {
-                    $affectedFiles = [];
-                    foreach ($messages as $message) {
-                        $affectedFiles[] = '- ' . Path::relative($message);
-                    }
-                    $errors[] = I18n::msg($key) . "\n" . implode("\n", $affectedFiles);
-                }
-            }
-
-            $errors = array_map($this->decodeMessage(...), $errors);
-            $this->io->error("Directory permissions error:\n" . implode("\n", $errors));
-            return Command::FAILURE;
-        }
-        $this->io->success('Directory permissions ok');
-
-        return Command::SUCCESS;
     }
 }

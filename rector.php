@@ -336,7 +336,6 @@ return RectorConfig::configure()
         'rex_user_session' => Security\UserSession::class,
         'rex_webauthn' => Security\WebAuthn::class,
         'rex_setup' => Setup\Setup::class,
-        'rex_setup_importer' => Setup\Importer::class,
         'rex_list' => View\DataList::class,
         'rex_fragment' => View\Fragment::class,
         'rex_navigation' => View\Navigation::class,

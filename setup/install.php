@@ -16,6 +16,10 @@ if (!Dir::delete(Path::coreAssets()) || !Dir::copy(Path::core('assets'), Path::c
     throw new UserMessageException('Unable to copy the assets to "' . Path::coreAssets() . '". Is the folder writable?');
 }
 
+if (!Dir::create(Path::media())) {
+    throw new UserMessageException('Unable to create the media folder "' . Path::media() . '". Is the parent folder writable?');
+}
+
 Table::get('rex_language')
     ->ensurePrimaryIdColumn()
     ->ensureColumn(Column::varchar('code', 35)) // maximum length of a well-formed BCP 47 language tag
