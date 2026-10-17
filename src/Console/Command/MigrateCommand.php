@@ -114,7 +114,7 @@ final class MigrateCommand extends AbstractCommand implements StandaloneInterfac
         }
 
         $io->warning([
-            'These addons still have data in the database but are no longer installed via composer. `migrate:cleanup` removes it — run it once the new release is live:',
+            'These addons still have data in the database but are no longer installed via composer. `migrate:cleanup` removes it:',
             implode("\n", $lines),
         ]);
     }
