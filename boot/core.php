@@ -1,12 +1,9 @@
 <?php
 
-use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\ModulePermission;
 use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
-use Redaxo\Core\Cronjob\CronjobExecutor;
-use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -111,17 +108,6 @@ if ('cli' !== PHP_SAPI) {
     if (Response::$useHsts && !Core::isDevMode() && Request::isHttps()) {
         Response::setHeader('Strict-Transport-Security', 'max-age=' . Response::$hstsMaxAge);
     }
-}
-
-$nexttime = 'cli' === PHP_SAPI ? 0 : (int) Core::getConfig('cronjob_nexttime', 0);
-if (0 !== $nexttime && time() >= $nexttime) {
-    $env = CronjobExecutor::getCurrentEnvironment();
-    $EP = 'backend' === $env ? 'PAGE_CHECKED' : 'PACKAGES_INCLUDED';
-    Extension::register($EP, static function () use ($env) {
-        if ('backend' !== $env || !in_array(Controller::getCurrentPagePart(1), ['login', 'cronjob'], true)) {
-            CronjobManager::factory()->check();
-        }
-    });
 }
 
 if (Core::getConfig('article_history', false)) {

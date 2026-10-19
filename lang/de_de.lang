@@ -340,94 +340,26 @@ user_no_role = keine Rolle
 # cronjob
 cronjob_title = Cronjobs
 
-cronjob_add = Cronjob hinzufügen
-cronjob_edit = Cronjob editieren
-
-cronjob_caption = Liste der angelegten Cronjobs
-cronjob_no_cronjobs = Keine Cronjobs vorhanden
-
-cronjob_delete = löschen
-cronjob_really_delete = Cronjob wirklich löschen?
-cronjob_delete_success = Cronjob "{0}" wurde erfolgreich gelöscht!
-
-cronjob_execute = ausführen
-cronjob_execute_success = Cronjob "{0}" wurde erfolgreich ausgeführt!
-cronjob_execute_error = Cronjob "{0}" wurde nicht erfolgreich ausgeführt!
-
 cronjob_name = Name
-cronjob_description = Beschreibung
-cronjob_examples = Beispiele
-
-cronjob_type = Typ
-cronjob_type_not_found = Cronjob "{0}" kann nicht bearbeitet werden, da die Klasse "{1}" nicht gefunden wurde. Prüfen Sie, ob das zugehörige AddOn aktiviert ist!
-cronjob_type_urlrequest = URL-Aufruf
-cronjob_type_urlrequest_url = URL
-cronjob_type_urlrequest_post = POST-Parameter
-cronjob_type_urlrequest_httpauth = HTTP-Authentifizierung
-cronjob_type_urlrequest_user = Benutzer
-cronjob_type_urlrequest_password = Passwort
-cronjob_type_parameters = Typspezifische Parameter
-cronjob_type_no_parameters = Für diesen Typ sind keine weiteren Parameter notwendig!
-
-cronjob_interval = Intervall
-cronjob_interval_minutes = Minuten
-cronjob_interval_minutes_all = Alle 5 Minuten
-cronjob_interval_hours = Stunden
-cronjob_interval_hours_all = Jede Stunde
-cronjob_interval_days = Tage
-cronjob_interval_days_all = Jeden Tag
-cronjob_interval_weekdays = Wochentage
-cronjob_interval_weekdays_all = Beliebiger Wochentag
-cronjob_interval_months = Monate
-cronjob_interval_months_all = Jeden Monat
-
-cronjob_environment = Umgebung
-cronjob_environment_notice = Skript: Ausführung über <code>{0}</code>. Das Skript sollte mittels eines echten Cronjobs regelmäßig aufgerufen werden.
-cronjob_environment_frontend = Frontend
-cronjob_environment_backend = Backend
-cronjob_environment_script = Skript
-cronjob_environment_console = Skript
-cronjob_environment_backend_manual = Backend (manuell)
-
-cronjob_execution = Ausführung
-cronjob_execution_beginning = Skriptanfang
-cronjob_execution_ending = Skriptende
-
 cronjob_nexttime = Nächste Ausführung
-
-cronjob_status_function = Status/Funktion
-cronjob_status = Status
-cronjob_status_activated = aktiviert
-cronjob_status_deactivated = deaktiviert
-cronjob_status_invalid = fehlerhaft
-cronjob_status_activate_success = Cronjob "{0}" wurde aktiviert!
-cronjob_status_deactivate_success = Cronjob "{0}" wurde deaktiviert!
-
-cronjob_error_no_name = Der Name darf nicht leer sein!
-cronjob_error_no_environment = Mindestens eine Umgebung muss ausgewählt werden!
-cronjob_error_interval_incomplete = Beim Intervall muss in jeder Kategorie ein Wert ausgewählt werden!
-
-cronjob_not_found = Cronjob nicht gefunden!
-cronjob_not_editable = Cronjob ist nicht editierbar!
+cronjob_caption = Liste der Cronjobs
+cronjob_no_cronjobs = Keine Cronjobs vorhanden. Cronjobs werden im Code registriert, indem eine Methode mit dem Attribut <code>#[AsCronjob]</code> versehen wird.
+cronjob_schedule = Zeitplan
+cronjob_lastrun = Letzte Ausführung
+cronjob_running = läuft
+cronjob_not_enabled = auf dieser Instanz deaktiviert
+cronjob_disabled_by_env = Auf dieser Instanz werden keine Cronjobs nach Zeitplan ausgeführt, da die Env-Variable <code>REX_CRONJOBS</code> auf <code>none</code> gesetzt ist.
+cronjob_unknown_names_in_env = Die Env-Variable <code>REX_CRONJOBS</code> enthält unbekannte Cronjob-Namen: {0}
+cronjob_notice = Ausgeführt werden die Cronjobs über <code>{0}</code>, das per System-Cron jede Minute aufgerufen werden sollte. Mit <code>{0} &lt;name&gt;</code> lässt sich ein einzelner Cronjob sofort ausführen. Welche Cronjobs auf dieser Instanz laufen, steuert die Env-Variable <code>REX_CRONJOBS</code>.
+cronjob_trigger = Auslöser
+cronjob_trigger_schedule = Zeitplan
+cronjob_trigger_manual = Manuell
 
 cronjob_log = Log
 cronjob_log_date = Datum
-cronjob_log_year = Jahr
-cronjob_log_month = Monat
-cronjob_log_ok = OK
-cronjob_no_log_files = Keine Log-Dateien vorhanden.
-cronjob_log_no_data = Keine Daten vorhanden.
-cronjob_log_caption_1 = Liste der ausgeführten Cronjobs im {0} {1}
-cronjob_log_caption_2 = Liste der zuletzt ausgeführten Cronjobs
 cronjob_log_message = Meldung
 
 cronjob_delete_log_msg = Das Cronjob-Log löschen?
-
-cronjob_article_status = Artikel-Status
-cronjob_article_reset_date = Artikel-Datumsfelder nach Statusänderung leeren
-cronjob_article_reset_date_info = Mit dieser Option wird das "online_from"-Datum bzw. "online_to"-Datum<br>in den Metadaten des Artikels nach der Statusänderung gelöscht.
-
-cronjob_optimize_tables = Tabellen-Optimierung
 
 
 mailer = Mailer
@@ -448,15 +380,12 @@ mailer_archive_no_files = Keine archivierten E-Mails vorhanden
 mailer_archive_no_recipient = Kein Empfänger
 mailer_archive_no_subject = Kein Betreff
 mailer_archive_path = Archiv-Pfad
-mailer_archive_purge_info = Das Archiv kann über den Cronjob "Mail-Archiv bereinigen" regelmäßig bereinigt werden, um ältere Mails automatisch zu entfernen.
+mailer_archive_purge_info = Ältere Mails lassen sich automatisch entfernen, indem <code>MailArchive::purge()</code> regelmäßig in einem Cronjob aufgerufen wird.
 mailer_archive_recent_mails = Zuletzt archivierte E-Mails
 mailer_archive_size = Archiv-Größe
 mailer_archive_status = Status
 mailer_archive_subject = Betreff
 mailer_archive_to = Empfänger
-mailer_archivecron = Mail-Archiv bereinigen
-mailer_archivecron_days = Tage
-mailer_archivecron_label = Lösche Mails älter als
 mailer_delete_log_msg = Das Mail-Log löschen?
 mailer_detour = Umleitung
 mailer_from = Absender
@@ -783,12 +712,6 @@ structure_history_button_delete_history = Historie komplett löschen
 structure_history_deleted = Historie wurde komplett gelöscht.
 structure_history_savedby = gesichert durch
 structure_history_close = Abbrechen
-
-structure_history_cleanup = Artikel-Historie aufräumen
-structure_history_cleanup_after = Historie löschen wenn älter als
-structure_history_days = {0} Tage
-structure_history_months = {0} Monate
-structure_history_years = {0} Jahre
 
 
 version = Version

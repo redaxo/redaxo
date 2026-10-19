@@ -98,7 +98,10 @@ jobs:
                     echo "REX_INSTANCE_COLOR='#3bb594'" >> project/.env.local
                     echo "REX_MIGRATE_TOKEN=visual-test-token" >> project/.env.local
                     echo "MAILER_DSN=smtp://mail.example.org:587" >> project/.env.local
+                    # keeps the next run dates, which depend on the current time, out of the cronjob overview
+                    echo "REX_CRONJOBS=none" >> project/.env.local
                     cp -r .tools/visual-tests/fixtures/media/* $GITHUB_WORKSPACE/project/public/media/
+                    mkdir -p project/var/log && cp .tools/visual-tests/fixtures/cronjob.log project/var/log/
 
             -   name: Start php server
                 run: |

@@ -2,6 +2,8 @@
 
 namespace Redaxo\Core\Mailer;
 
+use DateTimeInterface;
+use Redaxo\Core\Cronjob\AsCronjob;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
@@ -14,18 +16,18 @@ use const PATHINFO_EXTENSION;
 
 /**
  * Archive of the sent mails as `.eml` files, enabled by the env var `REX_MAILER_ARCHIVE`.
- *
- * @internal
  */
 final class MailArchive
 {
     private function __construct() {}
 
+    /** @internal */
     public static function folder(): string
     {
         return Path::coreData('mailer/archive');
     }
 
+    /** @internal */
     public static function add(string $content, bool $sent = true): void
     {
         $dir = self::folder() . '/' . date('Y') . '/' . date('m');
@@ -40,7 +42,35 @@ final class MailArchive
     }
 
     /**
+     * Deletes the archived mails older than the given date, e.g. in a cronjob (see {@see AsCronjob}).
+     *
+     * @return int Number of deleted mails
+     */
+    public static function purge(DateTimeInterface $olderThan): int
+    {
+        $folder = self::folder();
+
+        if (!is_dir($folder)) {
+            return 0;
+        }
+
+        $count = 0;
+        foreach (Finder::factory($folder)->recursive()->childFirst() as $path => $file) {
+            if ($file->isDir()) {
+                // only succeeds for directories that have become empty
+                @rmdir($path);
+            } elseif ($file->getMTime() < $olderThan->getTimestamp() && File::delete($path)) {
+                ++$count;
+            }
+        }
+
+        return $count;
+    }
+
+    /**
      * Returns the size and the number of mails of the archive.
+     *
+     * @internal
      *
      * @return array{size: int, fileCount: int}
      */
@@ -68,6 +98,8 @@ final class MailArchive
     /**
      * Returns the paths of the most recently archived mails, newest first.
      *
+     * @internal
+     *
      * @return list<string>
      */
     public static function getRecentFiles(int $limit = 10): array
@@ -92,6 +124,8 @@ final class MailArchive
 
     /**
      * Parses the subject and the recipient from the headers of the archived mail.
+     *
+     * @internal
      *
      * @return array{subject: string, recipient: string, size: int, mtime: int}
      */

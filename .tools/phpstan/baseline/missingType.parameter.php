@@ -4,16 +4,6 @@ declare(strict_types=1);
 
 $ignoreErrors = [];
 $ignoreErrors[] = [
-    'rawMessage' => 'Method Redaxo\\Core\\Cronjob\\Form\\CronjobForm::addIntervalField() has parameter $attributes with no type specified.',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../src/Cronjob/Form/CronjobForm.php',
-];
-$ignoreErrors[] = [
-    'rawMessage' => 'Method Redaxo\\Core\\Cronjob\\Form\\CronjobForm::addIntervalField() has parameter $value with no type specified.',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../src/Cronjob/Form/CronjobForm.php',
-];
-$ignoreErrors[] = [
     'rawMessage' => 'Method Redaxo\\Core\\Form\\Field\\ContainerField::addField() has parameter $value with no type specified.',
     'count' => 1,
     'path' => __DIR__ . '/../../../src/Form/Field/ContainerField.php',

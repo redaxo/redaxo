@@ -169,7 +169,7 @@ final class Controller
             }
         }
 
-        $logsPage->addSubpage(new Page('cronjob', I18n::msg('cronjob_title'))->setSubPath(Path::core('pages/cronjob/log.php')));
+        $logsPage->addSubpage(new Page('cronjob', I18n::msg('cronjob_title'))->setSubPath(Path::core('pages/system/log.cronjob.php')));
 
         self::$pages['structure'] = new MainPage('system', 'structure', I18n::msg('structure'))
             ->setPath(Path::core('pages/structure/index.php'))
@@ -248,16 +248,6 @@ final class Controller
                     ->setSubPath(Path::core('pages/user/roles.php'))
                     ->setRequiredPermissions('isAdmin'),
             )
-        ;
-
-        self::$pages['cronjob'] = new MainPage('system', 'cronjob', I18n::msg('cronjob_title'))
-            ->setPath(Path::core('pages/cronjob/index.php'))
-            ->setRequiredPermissions('isAdmin')
-            ->setPrio(80)
-            ->setPjax()
-            ->setIcon('rex-icon rex-icon-cronjob')
-            ->addSubpage(new Page('cronjobs', I18n::msg('cronjob_title'))->setSubPath(Path::core('pages/cronjob/cronjobs.php')))
-            ->addSubpage(new Page('log', I18n::msg('cronjob_log'))->setSubPath(Path::core('pages/cronjob/log.php')))
         ;
 
         self::$pages['mediapool'] = new MainPage('system', 'mediapool', I18n::msg('mediapool'))

@@ -30,9 +30,9 @@ REPLACE INTO `rex_config` VALUES
 ('core','article_work_version','true'),
 ('core','default_template','"default"');
 
-INSERT IGNORE INTO `rex_cronjob` VALUES
-(1,'Artikel-Status',NULL,'Redaxo\\Core\\Cronjob\\Type\\ArticleStatusType',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',1,NULL,0,'2022-07-17 21:08:53','admin','2022-07-18 00:03:20','admin'),
-(2,'Tabellen-Optimierung',NULL,'Redaxo\\Core\\Cronjob\\Type\\OptimizeTableType',NULL,'{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}',NULL,'|frontend|backend|script|',0,NULL,0,'2022-07-17 21:08:54','admin','2022-07-17 21:18:38','admin');
+REPLACE INTO `rex_cronjob` (`name`, `last_run`, `last_success`, `execution_start`) VALUES
+('article_history_cleanup','2021-01-01 02:30:00',1,NULL),
+('mail_archive_cleanup','2021-01-01 00:00:00',0,NULL);
 
 INSERT IGNORE INTO `rex_media` (`id`, `category_id`, `filetype`, `filename`, `originalname`, `filesize`, `width`, `height`, `meta_ai_generated`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
 (1,NULL,'image/jpeg','redaxo_2018_berlin_sticker.jpg','redaxo_2018_berlin_sticker.jpg','78410',1200,900,1,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername');
