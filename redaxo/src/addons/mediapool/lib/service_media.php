@@ -430,7 +430,12 @@ final class rex_media_service
             return null;
         }
 
-        $content = (new Sanitizer())->sanitize(rex_type::notNull(rex_file::get($path)));
+        try {
+            $content = (new Sanitizer())->sanitize(rex_type::notNull(rex_file::get($path)));
+        } catch (ValueError) {
+            // svg-sanitize 1.1.0 throws instead of returning `false` for some malformed input
+            $content = false;
+        }
 
         if (false === $content) {
             throw new rex_api_exception(rex_i18n::msg('pool_file_upload_error'));
