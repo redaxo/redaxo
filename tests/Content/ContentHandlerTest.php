@@ -14,7 +14,7 @@ use ReflectionProperty;
 /** @internal */
 final class ContentHandlerTest extends TestCase
 {
-    private const int FAKE_ID = 2_147_483_647;
+    private int $articleId;
 
     private mixed $extensions;
 
@@ -25,16 +25,17 @@ final class ContentHandlerTest extends TestCase
     protected function setUp(): void
     {
         // the slices need an article to hang off, see the foreign key of `rex_article_slice`
-        Sql::factory()
+        $this->articleId = Sql::factory()
             ->setTable('rex_article')
-            ->setValues(['id' => self::FAKE_ID, 'parent_id' => null, 'priority' => 1, 'path' => '|'])
+            ->setValues(['parent_id' => null, 'priority' => 1, 'path' => '|'])
             ->addGlobalCreateFields()
             ->addGlobalUpdateFields()
-            ->insert();
+            ->insert()
+            ->getLastId();
 
         Sql::factory()
             ->setTable('rex_article_translation')
-            ->setValues(['article_id' => self::FAKE_ID, 'language_id' => 1, 'name' => 'test', 'status' => 1])
+            ->setValues(['article_id' => $this->articleId, 'language_id' => 1, 'name' => 'test', 'status' => 1])
             ->insert();
 
         $this->extensions = new ReflectionProperty(Extension::class, 'extensions')->getValue();
@@ -52,14 +53,14 @@ final class ContentHandlerTest extends TestCase
         // the translation and the slices are removed by the foreign keys
         Sql::factory()
             ->setTable('rex_article')
-            ->setWhere(['id' => self::FAKE_ID])
+            ->setWhere(['id' => $this->articleId])
             ->delete();
     }
 
     public function testSliceActionsDispatchArticleContentUpdatedWithSlice(): void
     {
-        ContentHandler::addSlice(self::FAKE_ID, 1, 1, 'test', ['value1' => 'foo']);
-        ContentHandler::addSlice(self::FAKE_ID, 1, 1, 'test', ['value1' => 'bar']);
+        ContentHandler::addSlice($this->articleId, 1, 1, 'test', ['value1' => 'foo']);
+        ContentHandler::addSlice($this->articleId, 1, 1, 'test', ['value1' => 'bar']);
 
         $first = $this->events[0]->slice;
         self::assertNotNull($first);
@@ -67,7 +68,7 @@ final class ContentHandlerTest extends TestCase
         self::assertSame(1, $first->priority);
 
         // moveSlice() resolves equal priorities by updatedate, so the slices must not share the current second
-        Sql::factory()->setQuery('UPDATE rex_article_slice SET updatedate = updatedate - INTERVAL 1 MINUTE WHERE article_id = ?', [self::FAKE_ID]);
+        Sql::factory()->setQuery('UPDATE rex_article_slice SET updatedate = updatedate - INTERVAL 1 MINUTE WHERE article_id = ?', [$this->articleId]);
 
         ContentHandler::moveSlice($first->id, 1, 'movedown');
         ContentHandler::sliceStatus($first->id, 0);
