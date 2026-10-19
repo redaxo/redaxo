@@ -1,8 +1,9 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Addon\Command;
 
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Console\AbstractCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;

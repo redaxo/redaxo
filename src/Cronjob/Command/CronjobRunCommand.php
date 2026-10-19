@@ -1,7 +1,8 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Cronjob\Command;
 
+use Redaxo\Core\Console\AbstractCommand;
 use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Cronjob\CronjobRegistry;
 use Redaxo\Core\Cronjob\CronjobResult;

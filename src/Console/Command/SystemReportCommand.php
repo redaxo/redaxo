@@ -2,6 +2,7 @@
 
 namespace Redaxo\Core\Console\Command;
 
+use Redaxo\Core\Console\AbstractCommand;
 use Redaxo\Core\SystemReport;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;

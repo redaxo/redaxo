@@ -4,7 +4,6 @@ namespace Redaxo\Core\Console;
 
 use Override;
 use Redaxo\Core\ClassDiscovery;
-use Redaxo\Core\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LazyCommand;

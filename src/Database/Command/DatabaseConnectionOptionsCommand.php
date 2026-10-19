@@ -1,7 +1,9 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Database\Command;
 
+use Redaxo\Core\Console\AbstractCommand;
+use Redaxo\Core\Console\StandaloneInterface;
 use Redaxo\Core\Database\ConnectionConfig;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

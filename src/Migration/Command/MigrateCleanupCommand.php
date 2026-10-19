@@ -1,8 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Migration\Command;
 
 use Redaxo\Core\Addon\AddonManager;
+use Redaxo\Core\Console\AbstractCommand;
+use Redaxo\Core\Console\StandaloneInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;

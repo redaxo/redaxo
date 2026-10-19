@@ -8,8 +8,6 @@ use Override;
 use ParseError;
 use Redaxo\Core\AbstractProject;
 use Redaxo\Core\Addon\Addon;
-use Redaxo\Core\Console\Command\AbstractCommand;
-use Redaxo\Core\Console\Command\StandaloneInterface;
 use Redaxo\Core\Console\ExtensionPoint\ConsoleShutdown;
 use Redaxo\Core\Core;
 use Redaxo\Core\ExtensionPoint\Extension;
