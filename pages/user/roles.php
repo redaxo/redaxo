@@ -6,9 +6,9 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\DbForm;
 use Redaxo\Core\Form\Field\PermissionSelectField;
 use Redaxo\Core\Form\Field\SelectField;
-use Redaxo\Core\Form\Form;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\ComplexPermission;
@@ -82,7 +82,7 @@ if ('' == $func) {
 } else {
     $title = 'edit' == $func ? I18n::msg('edit_user_role') : I18n::msg('add_user_role');
 
-    $form = Form::factory('rex_user_role', '', 'id = ' . $id);
+    $form = DbForm::factory('rex_user_role', '', 'id = ' . $id);
     $form->addParam('id', $id);
     $form->setApplyUrl(Url::currentBackendPage());
     $form->setEditMode('edit' == $func);

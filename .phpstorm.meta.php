@@ -7,10 +7,10 @@ namespace PHPSTORM_META;
 expectedArguments(\Redaxo\Core\Filesystem\Finder::sort(), 0, \Redaxo\Core\Util\SortableIterator::KEYS, \Redaxo\Core\Util\SortableIterator::VALUES);
 expectedArguments(\Redaxo\Core\Util\SortableIterator::__construct(), 1, \Redaxo\Core\Util\SortableIterator::KEYS, \Redaxo\Core\Util\SortableIterator::VALUES);
 
-expectedArguments(\Redaxo\Core\Form\Form::factory(), 3, 'get', 'post');
+expectedArguments(\Redaxo\Core\Form\DbForm::factory(), 3, 'get', 'post');
 
 registerArgumentsSet('form_field_type', 'text', 'textarea', 'checkbox', 'radio', 'select', 'media', 'article', 'hidden', 'readonly', 'readonlytext', 'control');
-expectedArguments(\Redaxo\Core\Form\Form::createInput(), 0, argumentsSet('form_field_type'));
+expectedArguments(\Redaxo\Core\Form\DbForm::createInput(), 0, argumentsSet('form_field_type'));
 expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addField(), 0, argumentsSet('form_field_type'));
 expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addGroupedField(), 1, argumentsSet('form_field_type'));
 
