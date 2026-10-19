@@ -828,6 +828,11 @@
       <code><![CDATA[$value]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Addon/Command/AddonListCommand.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[json_encode($rows)]]></code>
+    </PossiblyFalseArgument>
+  </file>
   <file src="src/ApiFunction/Result.php">
     <MixedAssignment>
       <code><![CDATA[$json]]></code>
@@ -863,6 +868,11 @@
       <code><![CDATA[self::$data[$namespace][$key] ?? $default]]></code>
     </MixedReturnStatement>
   </file>
+  <file src="src/Console/AbstractCommand.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$message]]></code>
+    </PossiblyNullArgument>
+  </file>
   <file src="src/Console/Application.php">
     <PossiblyFalseArgument>
       <code><![CDATA[fileowner(Path::backend())]]></code>
@@ -871,69 +881,6 @@
       <code><![CDATA[$currentuser['name']]]></code>
       <code><![CDATA[$webuser['name']]]></code>
     </PossiblyInvalidArrayAccess>
-  </file>
-  <file src="src/Console/AbstractCommand.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$message]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Addon/Command/AddonListCommand.php">
-    <PossiblyFalseArgument>
-      <code><![CDATA[json_encode($rows)]]></code>
-    </PossiblyFalseArgument>
-  </file>
-  <file src="src/Database/Command/DatabaseConnectionOptionsCommand.php">
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$port]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
-  <file src="src/Database/Command/DatabaseDumpSchemaCommand.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$table]]></code>
-    </ArgumentTypeCoercion>
-  </file>
-  <file src="src/Setup/Command/SetupCommand.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$login]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[$dbCreate]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[['login' => $login]]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$dbCreate]]></code>
-      <code><![CDATA[$login]]></code>
-      <code><![CDATA[$password]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedOperand>
-  </file>
-  <file src="src/Security/Command/UserCreateCommand.php">
-    <MixedArgument>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$password]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$password]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="src/Security/Command/UserSetPasswordCommand.php">
-    <MixedArgument>
-      <code><![CDATA[$password]]></code>
-      <code><![CDATA[$password]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$password]]></code>
-    </MixedAssignment>
   </file>
   <file src="src/Content/ArticleContentBase.php">
     <FalsableReturnStatement>
@@ -996,6 +943,16 @@
     <MixedReturnStatement>
       <code><![CDATA[Config::get(self::CONFIG_NAMESPACE, $key, $default)]]></code>
     </MixedReturnStatement>
+  </file>
+  <file src="src/Database/Command/DatabaseConnectionOptionsCommand.php">
+    <PossiblyUndefinedArrayOffset>
+      <code><![CDATA[$port]]></code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="src/Database/Command/DatabaseDumpSchemaCommand.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$table]]></code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="src/Database/Exception/SqlException.php">
     <MixedReturnStatement>
@@ -1522,6 +1479,24 @@
       <code><![CDATA[$previousPasswords]]></code>
     </MixedAssignment>
   </file>
+  <file src="src/Security/Command/UserCreateCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$password]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$password]]></code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Security/Command/UserSetPasswordCommand.php">
+    <MixedArgument>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$password]]></code>
+    </MixedArgument>
+    <MixedAssignment>
+      <code><![CDATA[$password]]></code>
+    </MixedAssignment>
+  </file>
   <file src="src/Security/Login.php">
     <PossiblyNullArgument>
       <code><![CDATA[$this->userPassword]]></code>
@@ -1568,6 +1543,31 @@
     <MixedArgumentTypeCoercion>
       <code><![CDATA[[$data->id, $id]]]></code>
     </MixedArgumentTypeCoercion>
+  </file>
+  <file src="src/Setup/Command/SetupCommand.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$login]]></code>
+    </ArgumentTypeCoercion>
+    <MixedArgument>
+      <code><![CDATA[$dbCreate]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$password]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[['login' => $login]]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$dbCreate]]></code>
+      <code><![CDATA[$login]]></code>
+      <code><![CDATA[$password]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$value]]></code>
+      <code><![CDATA[$value]]></code>
+    </MixedOperand>
   </file>
   <file src="src/Setup/Setup.php">
     <MixedArgument>
