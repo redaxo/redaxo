@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Config;
 use Redaxo\Core\Core;
+use Redaxo\Core\Cronjob\CronjobManager;
 use Redaxo\Core\Database\Column;
 use Redaxo\Core\Database\ForeignKey;
 use Redaxo\Core\Database\Index;
@@ -245,22 +246,15 @@ Table::get('rex_article_slice_history')
     ->ensureForeignKeyTo('rex_article_translation', ['article_id' => 'article_id', 'language_id' => 'language_id'], onDelete: ForeignKey::CASCADE)
     ->ensure();
 
+// The cronjobs themselves are defined in code via #[AsCronjob], the table only holds their runtime state
 Table::get('rex_cronjob')
-    ->ensurePrimaryIdColumn()
-    ->ensureColumn(Column::varchar('name', 255))
-    ->ensureColumn(Column::varchar('description', 255, nullable: true))
-    ->ensureColumn(Column::varchar('type', 255))
-    ->ensureColumn(Column::text('parameters', nullable: true))
-    // JSON with five interval parts. Selecting every single option the form offers comes to 277
-    // characters, so this leaves room for finer-grained parts without another schema change.
-    ->ensureColumn(Column::varchar('interval', 500))
-    ->ensureColumn(Column::datetime('nexttime', nullable: true))
-    ->ensureColumn(Column::varchar('environment', 255))
-    ->ensureColumn(Column::bool('execution_moment'))
+    ->ensureColumn(Column::varchar('name', 191))
+    ->ensureColumn(Column::datetime('last_run', nullable: true))
+    ->ensureColumn(Column::bool('last_success', nullable: true))
     ->ensureColumn(Column::datetime('execution_start', nullable: true))
-    ->ensureColumn(Column::bool('status'))
-    ->ensureGlobalColumns()
+    ->setPrimaryKey('name')
     ->ensure();
+CronjobManager::removeOrphanedStates();
 
 Table::get('rex_media_category')
     ->ensurePrimaryIdColumn()

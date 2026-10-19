@@ -75,10 +75,8 @@ const allPages = {
     'system_settings.png': START_URL + '?page=system/settings',
     'system_lang.png': START_URL + '?page=system/lang',
     'system_log.png': START_URL + '?page=system/log/redaxo',
+    'system_log_cronjob.png': START_URL + '?page=system/log/cronjob',
     'system_report.png': START_URL + '?page=system/report/html',
-
-    'cronjob_cronjobs.png': START_URL + '?page=cronjob/cronjobs',
-    'cronjob_cronjobs_add.png': START_URL + '?page=cronjob/cronjobs&func=add',
 };
 
 function countDiffPixels(img1path, img2path ) {

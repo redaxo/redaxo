@@ -309,94 +309,26 @@ user_no_role = No roles
 # cronjob
 cronjob_title = Cronjobs
 
-cronjob_add = Add cronjob
-cronjob_edit = Edit cronjob
-
-cronjob_caption = List of created cronjobs
-cronjob_no_cronjobs = No cronjobs created
-
-cronjob_delete = delete
-cronjob_really_delete = Do you really want to delete this cronjob?
-cronjob_delete_success = Cronjob "{0}" was deleted successfully!
-
-cronjob_execute = execute
-cronjob_execute_success = Cronjob "{0}" was executed successfully!
-cronjob_execute_error = Cronjob "{0}" was not executed successfully!
-
 cronjob_name = Name
-cronjob_description = Description
-cronjob_examples = Examples
-
-cronjob_type = Type
-cronjob_type_not_found = Cronjob "{0}" can not be modified due to a missing class "{1}". Make sure the associated AddOn is active!
-cronjob_type_urlrequest = URL-Request
-cronjob_type_urlrequest_url = URL
-cronjob_type_urlrequest_post = POST-Parameter
-cronjob_type_urlrequest_httpauth = HTTP-Authentification
-cronjob_type_urlrequest_user = User
-cronjob_type_urlrequest_password = Password
-cronjob_type_parameters = Type-specific parameter
-cronjob_type_no_parameters = No other parameters are required for this type!
-
-cronjob_interval = Interval
-cronjob_interval_minutes = Minutes
-cronjob_interval_minutes_all = Every 5 minutes
-cronjob_interval_hours = Hours
-cronjob_interval_hours_all = Every hour
-cronjob_interval_days = Days
-cronjob_interval_days_all = Every day
-cronjob_interval_weekdays = Weekdays
-cronjob_interval_weekdays_all = Any weekday
-cronjob_interval_months = Months
-cronjob_interval_months_all = Every month
-
-cronjob_environment = Environment
-cronjob_environment_notice = Script: Execution via <code>{0}</code>. The script should be invoked by a real cronjob.
-cronjob_environment_frontend = Frontend
-cronjob_environment_backend = Backend
-cronjob_environment_script = Script
-cronjob_environment_console = Script
-cronjob_environment_backend_manual = Backend (manually)
-
-cronjob_execution = Execution
-cronjob_execution_beginning = Execution beginning
-cronjob_execution_ending = Execution ending
-
 cronjob_nexttime = Next execution
-
-cronjob_status_function = Status/Function
-cronjob_status = Status
-cronjob_status_activated = activated
-cronjob_status_deactivated = deactivated
-cronjob_status_invalid = invalid
-cronjob_status_activate_success = Cronjob "{0}" was activated!
-cronjob_status_deactivate_success = Cronjob "{0}" was deactivated!
-
-cronjob_error_no_name = The name must not be empty!
-cronjob_error_no_environment = At least one environment must be selected!
-cronjob_error_interval_incomplete = For the interval, a value must be selected in each category!
-
-cronjob_not_found = Cronjob was not found!
-cronjob_not_editable = Cronjob can not be modified!
+cronjob_caption = List of cronjobs
+cronjob_no_cronjobs = No cronjobs available. Cronjobs are registered in code by adding the attribute <code>#[AsCronjob]</code> to a method.
+cronjob_schedule = Schedule
+cronjob_lastrun = Last run
+cronjob_running = running
+cronjob_not_enabled = disabled on this instance
+cronjob_disabled_by_env = No cronjobs are executed on schedule on this instance, as the env var <code>REX_CRONJOBS</code> is set to <code>none</code>.
+cronjob_unknown_names_in_env = The env var <code>REX_CRONJOBS</code> contains unknown cronjob names: {0}
+cronjob_notice = The cronjobs are executed by <code>{0}</code>, which should be called every minute by the system cron. <code>{0} &lt;name&gt;</code> executes a single cronjob immediately. Which cronjobs run on this instance is controlled by the env var <code>REX_CRONJOBS</code>.
+cronjob_trigger = Trigger
+cronjob_trigger_schedule = schedule
+cronjob_trigger_manual = manual
 
 cronjob_log = Log
 cronjob_log_date = Date
-cronjob_log_year = Year
-cronjob_log_month = Month
-cronjob_log_ok = OK
-cronjob_no_log_files = No log files available.
-cronjob_log_no_data = No log data available.
-cronjob_log_caption_1 = List of executed cronjobs in {0} {1}
-cronjob_log_caption_2 = List of latest executed cronjobs
 cronjob_log_message = Log message
 
 cronjob_delete_log_msg = Delete the cronjob log?
-
-cronjob_article_status = Article status
-cronjob_article_reset_date = Set the article's date fields empty after a status change
-cronjob_article_reset_date_info = With this option the "online_from" resp. "online_to"-date<br>in the article's metadata will be set empty after a status change.
-
-cronjob_optimize_tables = Optimize tables
 
 
 mailer = Mailer
@@ -417,15 +349,12 @@ mailer_archive_no_files = No archived emails available
 mailer_archive_no_recipient = No recipient
 mailer_archive_no_subject = No subject
 mailer_archive_path = Archive Path
-mailer_archive_purge_info = The archive can be purged regularly via the cronjob "Purge mail archive" to remove older mails automatically.
+mailer_archive_purge_info = Older mails can be removed automatically by calling <code>MailArchive::purge()</code> regularly in a cronjob.
 mailer_archive_recent_mails = Recently Archived Emails
 mailer_archive_size = Archive Size
 mailer_archive_status = Status
 mailer_archive_subject = Subject
 mailer_archive_to = Recipient
-mailer_archivecron = Purge mail archive
-mailer_archivecron_days = days
-mailer_archivecron_label = Delete mails older than
 mailer_delete_log_msg = Delete the mail log?
 mailer_detour = Detour
 mailer_from = Sender
@@ -749,12 +678,6 @@ structure_history_button_delete_history = Delete all snapshots from History
 structure_history_deleted = All snapshots have been deleted.
 structure_history_savedby = Saved by
 structure_history_close = Close
-
-structure_history_cleanup = Article-History Cleanup
-structure_history_cleanup_after = Delete Historie if older than
-structure_history_days = {0} days
-structure_history_months = {0} months
-structure_history_years = {0} years
 
 
 version = Version

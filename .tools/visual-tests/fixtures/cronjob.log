@@ -1,0 +1,2 @@
+2021-01-01T00:00:00+01:00 | ERROR | mail_archive_cleanup | rmdir(/var/www/project/var/data/core/mail_archive/2020-11): Permission denied | schedule
+2021-01-01T02:30:00+01:00 | SUCCESS | article_history_cleanup |  | schedule

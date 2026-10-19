@@ -599,73 +599,6 @@
       <code><![CDATA[$this->jsProperties]]></code>
     </MixedOperand>
   </file>
-  <file src="pages/cronjob/cronjobs.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$list->getValue('environment')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidOperand>
-      <code><![CDATA[$envFieldId]]></code>
-      <code><![CDATA[$envFieldId]]></code>
-      <code><![CDATA[$typeFieldId]]></code>
-      <code><![CDATA[escape($field->getAttribute('id'), 'js')]]></code>
-    </InvalidOperand>
-    <InvalidScalarArgument>
-      <code><![CDATA[$activeType]]></code>
-    </InvalidScalarArgument>
-    <MixedArgument>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$label]]></code>
-      <code><![CDATA[$label]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['notice']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['options']]]></code>
-      <code><![CDATA[$param['type']]]></code>
-      <code><![CDATA[$type]]></code>
-      <code><![CDATA[$type]]></code>
-      <code><![CDATA[$type]]></code>
-    </MixedArgument>
-    <MixedArrayOffset>
-      <code><![CDATA[$visible[$key][$value]]]></code>
-      <code><![CDATA[$visible[$key][$value]]]></code>
-      <code><![CDATA[$visible[$key][$value]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$attributes]]></code>
-      <code><![CDATA[$label]]></code>
-      <code><![CDATA[$type]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$param['name']]]></code>
-    </MixedOperand>
-    <PossiblyNullArgument>
-      <code><![CDATA[$activeType]]></code>
-      <code><![CDATA[$field->getValue()]]></code>
-      <code><![CDATA[$list->getValue('environment')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code><![CDATA[$list->getValue('type')]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[$value]]></code>
-    </PossiblyNullArgument>
-    <PossiblyNullOperand>
-      <code><![CDATA[$envFieldId]]></code>
-      <code><![CDATA[$envFieldId]]></code>
-      <code><![CDATA[$typeFieldId]]></code>
-      <code><![CDATA[escape($field->getAttribute('id'), 'js')]]></code>
-    </PossiblyNullOperand>
-  </file>
   <file src="pages/layout/top.php">
     <PossiblyNullArgument>
       <code><![CDATA[preg_replace('/[^a-zA-Z0-9\-]*/', '', str_replace('_', '-', $p))]]></code>
@@ -949,24 +882,6 @@
       <code><![CDATA[json_encode($rows)]]></code>
     </PossiblyFalseArgument>
   </file>
-  <file src="src/Console/Command/CronjobRunCommand.php">
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$name]]></code>
-      <code><![CDATA[$selected]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$jobs]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayOffset>
-      <code><![CDATA[$jobs[$id]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$name]]></code>
-    </MixedAssignment>
-  </file>
   <file src="src/Console/Command/DatabaseConnectionOptionsCommand.php">
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$port]]></code>
@@ -1081,101 +996,6 @@
     <MixedReturnStatement>
       <code><![CDATA[Config::get(self::CONFIG_NAMESPACE, $key, $default)]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="src/Cronjob/CronjobExecutor.php">
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-  </file>
-  <file src="src/Cronjob/CronjobManager.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['interval']]]></code>
-      <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$jobs[0]]]></code>
-      <code><![CDATA[$jobs[0]['name']]]></code>
-      <code><![CDATA[$type]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArgument>
-      <code><![CDATA[$job]]></code>
-      <code><![CDATA[$jobs[0]]]></code>
-    </InvalidArgument>
-    <MixedArgument>
-      <code><![CDATA[$value]]></code>
-      <code><![CDATA[json_decode($interval, true)]]></code>
-    </MixedArgument>
-    <PossiblyNullArgument>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['id']]]></code>
-      <code><![CDATA[$job['interval']]]></code>
-      <code><![CDATA[$job['name']]]></code>
-      <code><![CDATA[$jobs[0]['name']]]></code>
-      <code><![CDATA[$type]]></code>
-    </PossiblyNullArgument>
-  </file>
-  <file src="src/Cronjob/Form/CronjobForm.php">
-    <MixedArgument>
-      <code><![CDATA[$attributes]]></code>
-    </MixedArgument>
-    <MixedArrayAssignment>
-      <code><![CDATA[$attributes['class']]]></code>
-      <code><![CDATA[$attributes['internal::fieldClass']]]></code>
-    </MixedArrayAssignment>
-    <PossiblyNullReference>
-      <code><![CDATA[getIntervalElements]]></code>
-      <code><![CDATA[setValue]]></code>
-    </PossiblyNullReference>
-  </file>
-  <file src="src/Cronjob/Form/IntervalField.php">
-    <MixedAssignment>
-      <code><![CDATA[$this->intervalElements]]></code>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
-    <PossiblyFalseArgument>
-      <code><![CDATA[strtotime('last sunday +' . $i . ' days')]]></code>
-      <code><![CDATA[strtotime('last sunday')]]></code>
-    </PossiblyFalseArgument>
-    <PossiblyFalsePropertyAssignmentValue>
-      <code><![CDATA[json_encode($value)]]></code>
-    </PossiblyFalsePropertyAssignmentValue>
-    <PossiblyInvalidOperand>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-    </PossiblyInvalidOperand>
-    <PossiblyNullOperand>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('id')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-      <code><![CDATA[$this->getAttribute('name')]]></code>
-    </PossiblyNullOperand>
-  </file>
-  <file src="src/Cronjob/Type/ClearArticleHistoryType.php">
-    <MixedAssignment>
-      <code><![CDATA[$period]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$period]]></code>
-      <code><![CDATA[$period]]></code>
-      <code><![CDATA[$period]]></code>
-    </MixedOperand>
-  </file>
-  <file src="src/Cronjob/Type/PurgeMailerArchiveType.php">
-    <PossiblyFalseOperand>
-      <code><![CDATA[filemtime($file)]]></code>
-    </PossiblyFalseOperand>
-  </file>
-  <file src="src/Cronjob/Type/UrlRequestType.php">
-    <MixedArgument>
-      <code><![CDATA[$this->getParam('url')]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$post]]></code>
-    </MixedAssignment>
   </file>
   <file src="src/Database/Exception/SqlException.php">
     <MixedReturnStatement>

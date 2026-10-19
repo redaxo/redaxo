@@ -201,21 +201,12 @@ return RectorConfig::configure()
         'rex_command_user_set_password' => Console\Command\UserSetPasswordCommand::class,
         'rex_command_only_setup_packages' => Console\Command\StandaloneInterface::class,
         'rex_command_standalone' => Console\Command\StandaloneInterface::class,
-        'rex_cronjob_form' => Cronjob\Form\CronjobForm::class,
         'rex_config' => Config::class,
         'rex_config_db' => Database\ConnectionConfig::class,
         'rex_context' => Http\Context::class,
         'rex_context_provider_interface' => Http\ContextProviderInterface::class,
         'rex_request' => Http\Request::class,
         'rex_response' => Http\Response::class,
-        'rex_cronjob_form_interval_element' => Cronjob\Form\IntervalField::class,
-        'rex_cronjob' => Cronjob\Type\AbstractType::class,
-        'rex_cronjob_urlrequest' => Cronjob\Type\UrlRequestType::class,
-        'rex_cronjob_article_status' => Cronjob\Type\ArticleStatusType::class,
-        'rex_cronjob_optimize_tables' => Cronjob\Type\OptimizeTableType::class,
-        'rex_cronjob_structure_history' => Cronjob\Type\ClearArticleHistoryType::class,
-        'rex_cronjob_mailer_purge' => Cronjob\Type\PurgeMailerArchiveType::class,
-        'rex_cronjob_manager' => Cronjob\CronjobExecutor::class,
         'rex_cronjob_manager_sql' => Cronjob\CronjobManager::class,
         'rex_dir' => Filesystem\Dir::class,
         'rex_editor' => Util\Editor::class,
@@ -388,9 +379,6 @@ return RectorConfig::configure()
         new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addArticleField'),
         new MethodCallRename(Form\AbstractForm::class, 'addLinkmapField', 'addArticleField'),
         new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
-
-        new MethodCallRename(Cronjob\CronjobManager::class, 'getManager', 'getExecutor'),
-        new MethodCallRename(Cronjob\CronjobManager::class, 'hasManager', 'hasExecutor'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Core::class, 'getPackageOrder', Addon\Addon::class, 'getBootOrder'),
@@ -483,11 +471,6 @@ return RectorConfig::configure()
         new MethodCallToPropertyFetch(ApiFunction\Result::class, 'requiresReboot', 'requiresReboot'),
 
         new MethodCallToPropertyFetch(Console\Command\AbstractCommand::class, 'getPackage', 'addon'),
-
-        new MethodCallToPropertyFetch(Cronjob\Type\AbstractType::class, 'getMessage', 'message'),
-        new MethodCallToPropertyFetch(Cronjob\Type\AbstractType::class, 'hasMessage', 'message'),
-        new MethodCallToPropertyFetch(Cronjob\CronjobExecutor::class, 'getMessage', 'message'),
-        new MethodCallToPropertyFetch(Cronjob\CronjobExecutor::class, 'hasMessage', 'message'),
 
         new MethodCallToPropertyFetch(Content\Article::class, 'getCategoryId', 'categoryId'), // changed from int to ?int
         new MethodCallToPropertyFetch(Content\Article::class, 'getTemplateId', 'templateKey'),
@@ -626,9 +609,6 @@ return RectorConfig::configure()
         new MethodCallToPropertyFetch(Security\User::class, 'getStartPage', 'startPage'),
     ])
     ->withConfiguredRule(RedaxoRule\MethodCallToPropertyAssignRector::class, [
-        new MethodCallToPropertyAssign(Cronjob\Type\AbstractType::class, 'setMessage', 'message'),
-        new MethodCallToPropertyAssign(Cronjob\CronjobExecutor::class, 'setMessage', 'message'),
-
         new MethodCallToPropertyAssign(Content\ArticleContentBase::class, 'setSliceId', 'sliceId'),
         new MethodCallToPropertyAssign(Content\ArticleContentBase::class, 'setSliceRevision', 'sliceRevision'),
         new MethodCallToPropertyAssign(Content\ArticleContentBase::class, 'setMode', 'mode'),

@@ -4,6 +4,7 @@ namespace Redaxo\Test;
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Backend\Page;
+use Redaxo\Core\Cronjob\AsCronjob;
 use Redaxo\Core\ExtensionPoint\AsExtension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
@@ -22,5 +23,12 @@ final class TestAddon extends Addon
         $system = $ep->subject['system'] ?? null;
 
         $system?->addSubpage(new Page('markdown', 'Markdown')->setSubPath($this->getPath('README.md')));
+    }
+
+    /** Covers non-static cronjob methods, which are called on the existing addon instance. */
+    #[AsCronjob('test_addon', '@hourly')]
+    public function cronjob(): string
+    {
+        return 'Called on addon ' . $this->name;
     }
 }
