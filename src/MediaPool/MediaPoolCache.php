@@ -41,6 +41,7 @@ final class MediaPoolCache
                 File::delete($file);
             }
         }
+        Media::clearInstanceListPool();
         MediaCategory::clearInstanceListPool();
     }
 
@@ -53,6 +54,9 @@ final class MediaPoolCache
     {
         File::delete(Path::coreCache('mediapool/' . ($categoryId ?? 0) . '.mlist'));
         MediaCategory::clearInstanceList([$categoryId ?? 0, 'media']);
+        if (null === $categoryId) {
+            Media::clearInstanceList('root_media');
+        }
     }
 
     /** Löscht die gecachten Media-Kategorien-Listen. */

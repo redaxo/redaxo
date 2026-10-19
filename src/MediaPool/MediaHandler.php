@@ -16,6 +16,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Type;
+use ValueError;
 
 use function assert;
 use function count;
@@ -164,6 +165,7 @@ final class MediaHandler
 
         $data['message'] = implode('<br />', $message);
 
+        Media::clearInstances($data['file']['name_new']);
         MediaPoolCache::deleteList($categoryId);
 
         /**
@@ -479,7 +481,12 @@ final class MediaHandler
             return null;
         }
 
-        $content = new Sanitizer()->sanitize(Type::notNull(File::get($path)));
+        try {
+            $content = new Sanitizer()->sanitize(Type::notNull(File::get($path)));
+        } catch (ValueError) {
+            // svg-sanitize 1.1.0 throws instead of returning `false` for some malformed input
+            $content = false;
+        }
 
         if (false === $content) {
             throw new ApiFunctionException(I18n::msg('pool_file_upload_error'));
