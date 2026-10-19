@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Console\Command;
 
 use PDOException;
+use Redaxo\Core\Console\AbstractCommand;
 use Redaxo\Core\Database\ConnectionConfig;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Setup\Setup;

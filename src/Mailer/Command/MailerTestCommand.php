@@ -1,7 +1,8 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Mailer\Command;
 
+use Redaxo\Core\Console\AbstractCommand;
 use Redaxo\Core\Core;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;

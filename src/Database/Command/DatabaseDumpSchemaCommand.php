@@ -1,7 +1,8 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Database\Command;
 
+use Redaxo\Core\Console\AbstractCommand;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\SchemaDumper;
 use Redaxo\Core\Database\Sql;

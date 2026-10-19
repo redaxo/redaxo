@@ -1,10 +1,12 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Migration\Command;
 
 use DateTimeImmutable;
 use DateTimeZone;
 use Redaxo\Core\Addon\Addon;
+use Redaxo\Core\Console\AbstractCommand;
+use Redaxo\Core\Console\StandaloneInterface;
 use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;

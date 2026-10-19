@@ -1,7 +1,8 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Security\Command;
 
+use Redaxo\Core\Console\AbstractCommand;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Environment;
 use Redaxo\Core\Security\BackendLogin;

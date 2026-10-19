@@ -1,7 +1,9 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Migration\Command;
 
+use Redaxo\Core\Console\AbstractCommand;
+use Redaxo\Core\Console\StandaloneInterface;
 use Redaxo\Core\Migration\MigrationFile;
 use Redaxo\Core\Migration\Migrator;
 use Symfony\Component\Console\Attribute\AsCommand;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Redaxo\Core\Tests\Console\Command;
+namespace Redaxo\Core\Tests\Console;
 
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\Console\Command\AbstractCommand;
+use Redaxo\Core\Console\AbstractCommand;
 use ReflectionMethod;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

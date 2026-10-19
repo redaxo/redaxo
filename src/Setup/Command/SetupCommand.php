@@ -1,8 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Setup\Command;
 
 use PDOException;
+use Redaxo\Core\Console\AbstractCommand;
+use Redaxo\Core\Console\StandaloneInterface;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\ConnectionConfig;
 use Redaxo\Core\Database\Sql;
@@ -10,6 +12,7 @@ use Redaxo\Core\Env;
 use Redaxo\Core\Environment;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Migration\Command\MigrateCommand;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;

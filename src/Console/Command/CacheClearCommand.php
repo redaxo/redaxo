@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Console\Command;
 
 use Redaxo\Core\Cache;
+use Redaxo\Core\Console\AbstractCommand;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;

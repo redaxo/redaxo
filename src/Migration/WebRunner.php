@@ -3,8 +3,6 @@
 namespace Redaxo\Core\Migration;
 
 use Redaxo\Core\Addon\Addon;
-use Redaxo\Core\Console\Command\MigrateCommand;
-use Redaxo\Core\Console\Command\UserCreateCommand;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\ConnectionConfig;
 use Redaxo\Core\Database\Exception\CouldNotConnectException;
@@ -16,7 +14,9 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\Migration\Command\MigrateCommand;
 use Redaxo\Core\Security\BackendLogin;
+use Redaxo\Core\Security\Command\UserCreateCommand;
 use Redaxo\Core\Setup\Setup;
 use Redaxo\Core\Translation\I18n;
 use Symfony\Component\Console\Command\Command;

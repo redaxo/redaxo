@@ -872,27 +872,27 @@
       <code><![CDATA[$webuser['name']]]></code>
     </PossiblyInvalidArrayAccess>
   </file>
-  <file src="src/Console/Command/AbstractCommand.php">
+  <file src="src/Console/AbstractCommand.php">
     <PossiblyNullArgument>
       <code><![CDATA[$message]]></code>
     </PossiblyNullArgument>
   </file>
-  <file src="src/Console/Command/AddonListCommand.php">
+  <file src="src/Addon/Command/AddonListCommand.php">
     <PossiblyFalseArgument>
       <code><![CDATA[json_encode($rows)]]></code>
     </PossiblyFalseArgument>
   </file>
-  <file src="src/Console/Command/DatabaseConnectionOptionsCommand.php">
+  <file src="src/Database/Command/DatabaseConnectionOptionsCommand.php">
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$port]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="src/Console/Command/DatabaseDumpSchemaCommand.php">
+  <file src="src/Database/Command/DatabaseDumpSchemaCommand.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$table]]></code>
     </ArgumentTypeCoercion>
   </file>
-  <file src="src/Console/Command/SetupCommand.php">
+  <file src="src/Setup/Command/SetupCommand.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$login]]></code>
     </ArgumentTypeCoercion>
@@ -917,7 +917,7 @@
       <code><![CDATA[$value]]></code>
     </MixedOperand>
   </file>
-  <file src="src/Console/Command/UserCreateCommand.php">
+  <file src="src/Security/Command/UserCreateCommand.php">
     <MixedArgument>
       <code><![CDATA[$password]]></code>
       <code><![CDATA[$password]]></code>
@@ -926,7 +926,7 @@
       <code><![CDATA[$password]]></code>
     </MixedAssignment>
   </file>
-  <file src="src/Console/Command/UserSetPasswordCommand.php">
+  <file src="src/Security/Command/UserSetPasswordCommand.php">
     <MixedArgument>
       <code><![CDATA[$password]]></code>
       <code><![CDATA[$password]]></code>

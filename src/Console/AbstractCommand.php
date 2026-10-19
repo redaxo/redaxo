@@ -1,6 +1,6 @@
 <?php
 
-namespace Redaxo\Core\Console\Command;
+namespace Redaxo\Core\Console;
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Exception\LogicException;
