@@ -7,8 +7,12 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
+use Redaxo\Core\MediaPool\MediaPool;
 use ReflectionMethod;
+
+use function count;
 
 /** @internal */
 final class MediaHandlerTest extends TestCase
@@ -129,5 +133,35 @@ final class MediaHandlerTest extends TestCase
         self::moveMedia($srcFile, $dstFile, 'image/svg+xml');
 
         self::assertSame([], glob(self::getTempPath() . '/*') ?: []);
+    }
+
+    public function testAddMediaClearsInstancePool(): void
+    {
+        $srcFile = self::getPath('source.txt');
+        File::put($srcFile, 'test');
+
+        $filename = MediaPool::filename('media_handler_test.txt');
+
+        // populate the instance pools, including a cached null for the not yet existing media
+        $media = Media::get($filename);
+        self::assertNull($media);
+        $rootMedia = Media::getRootMedia();
+
+        $result = MediaHandler::addMedia([
+            'category_id' => null,
+            'title' => 'test',
+            'file' => ['name' => $filename, 'path' => $srcFile],
+        ], false);
+
+        try {
+            self::assertSame($filename, $result['filename']);
+            self::assertSame($filename, Media::get($filename)?->fileName);
+
+            $rootMediaNames = array_map(static fn (Media $media) => $media->fileName, Media::getRootMedia());
+            self::assertCount(count($rootMedia) + 1, $rootMediaNames);
+            self::assertContains($filename, $rootMediaNames);
+        } finally {
+            MediaHandler::deleteMedia($filename);
+        }
     }
 }

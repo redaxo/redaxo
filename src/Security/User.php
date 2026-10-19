@@ -180,6 +180,7 @@ final class User
         $user = self::getInstance($key);
 
         if (!$user) {
+            self::baseClearInstance($key);
             return;
         }
 
