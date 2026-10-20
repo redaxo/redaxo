@@ -17,13 +17,23 @@ use Redaxo\Core\MediaPool\Media;
 /** @internal */
 final class AllFields
 {
-    #[Textarea('Text', rows: 3)]
+    #[Textarea(
+        'Text',
+        rows: 3,
+    )]
     public string $text = '';
 
-    #[Number('Count', min: 1, max: 10)]
+    #[Number(
+        'Count',
+        min: 1,
+        max: 10,
+    )]
     public int $count = 1;
 
-    #[Number('Price', step: 0.01)]
+    #[Number(
+        'Price',
+        step: 0.01,
+    )]
     public ?float $price = null;
 
     #[DatePicker('Date')]
@@ -36,25 +46,45 @@ final class AllFields
     public ?DateTimeImmutable $time = null;
 
     /** @var list<string> */
-    #[Choice('Tags', choices: ['a' => 'A', 'Group' => ['b' => 'B', 'c' => 'C']], multiple: true)]
+    #[Choice(
+        'Tags',
+        choices: ['a' => 'A', 'Group' => ['b' => 'B', 'c' => 'C']],
+        multiple: true,
+    )]
     public array $tags = [];
 
     /** @var list<int> */
-    #[Choice('Days', choices: [1 => 'Mon', 2 => 'Tue', 3 => 'Wed'], multiple: true, expanded: true)]
+    #[Choice(
+        'Days',
+        choices: [1 => 'Mon', 2 => 'Tue', 3 => 'Wed'],
+        multiple: true,
+        expanded: true,
+    )]
     public array $days = [];
 
-    #[Choice('Color', choices: self::colors(...), expanded: true)]
+    #[Choice(
+        'Color',
+        choices: self::colors(...),
+        expanded: true,
+    )]
     public ?Color $color = null;
 
     #[ArticlePicker('Article')]
     public ?Article $article = null;
 
     /** @var list<Article> */
-    #[ArticlePicker('Articles', multiple: true)]
+    #[ArticlePicker(
+        'Articles',
+        multiple: true,
+    )]
     public array $articles = [];
 
     /** @var list<Media> */
-    #[MediaPicker('Media', multiple: true, types: ['jpg'])]
+    #[MediaPicker(
+        'Media',
+        multiple: true,
+        types: ['jpg'],
+    )]
     public array $media = [];
 
     /** @return array<string, string> */

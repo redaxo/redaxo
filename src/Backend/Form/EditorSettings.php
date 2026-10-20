@@ -19,6 +19,9 @@ final class EditorSettings
     )]
     public ?string $name = null;
 
-    #[Text(new Translatable('system_editor_basepath'), note: new Translatable('system_editor_basepath_note'))]
+    #[Text(
+        new Translatable('system_editor_basepath'),
+        note: new Translatable('system_editor_basepath_note'),
+    )]
     public ?string $basepath = null;
 }

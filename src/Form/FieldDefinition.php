@@ -5,6 +5,9 @@ namespace Redaxo\Core\Form;
 use Redaxo\Core\Form\Field\Field;
 use ReflectionProperty;
 
+use function preg_replace;
+use function strtolower;
+
 /**
  * A property of a form data class together with its field type.
  *
@@ -14,7 +17,7 @@ final readonly class FieldDefinition
 {
     public string $name;
 
-    /** Key used by storages. */
+    /** Storage key: the {@see Field::$key}, or the property name in snake_case (`$maxItems` → `max_items`). */
     public string $key;
 
     public function __construct(
@@ -25,7 +28,7 @@ final readonly class FieldDefinition
         public ?Fieldset $fieldset = null,
     ) {
         $this->name = $property->name;
-        $this->key = $field->key ?? $property->name;
+        $this->key = $field->key ?? strtolower((string) preg_replace('/(?<=[a-z0-9])[A-Z]|(?<=[A-Z])[A-Z](?=[a-z])/', '_$0', $property->name));
     }
 
     /** @param class-string $class */

@@ -5,6 +5,8 @@ namespace Redaxo\Core\Tests\Form;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Config;
+use Redaxo\Core\Form\Field\Number;
+use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Storage\ConfigStorage;
 use Redaxo\Core\Tests\Form\Fixtures\Color;
 use Redaxo\Core\Tests\Form\Fixtures\Settings;
@@ -40,6 +42,23 @@ final class ConfigStorageTest extends TestCase
         $storage->load($loaded);
 
         self::assertEquals($settings, $loaded);
+    }
+
+    public function testKeysInSnakeCase(): void
+    {
+        $data = new class {
+            #[Number('Max items')]
+            public int $maxItems = 10;
+
+            #[Text('HTML title')]
+            public string $HTMLTitle = '';
+        };
+        $data->maxItems = 20;
+        $data->HTMLTitle = 'Title';
+
+        new ConfigStorage(self::CONFIG_NAMESPACE)->save($data);
+
+        self::assertSame(['max_items' => 20, 'html_title' => 'Title'], Config::get(self::CONFIG_NAMESPACE));
     }
 
     public function testLoadSkipsMissingAndInvalidValues(): void

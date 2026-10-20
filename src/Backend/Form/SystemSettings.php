@@ -14,19 +14,32 @@ use function asort;
 /** @internal */
 final class SystemSettings
 {
-    #[Choice(new Translatable('backend_language'), choices: self::locales(...), required: true, key: 'lang')]
+    #[Choice(
+        new Translatable('backend_language'),
+        choices: self::locales(...),
+        required: true,
+        key: 'lang',
+    )]
     public string $language = 'en_gb';
 
-    #[ArticlePicker(new Translatable('system_setting_start_article_id'), required: true, key: 'start_article_id')]
+    #[ArticlePicker(
+        new Translatable('system_setting_start_article_id'),
+        required: true,
+        key: 'start_article_id',
+    )]
     public ?Article $startArticle = null;
 
-    #[ArticlePicker(new Translatable('system_setting_notfound_article_id'), required: true, key: 'notfound_article_id')]
+    #[ArticlePicker(
+        new Translatable('system_setting_notfound_article_id'),
+        required: true,
+        key: 'notfound_article_id',
+    )]
     public ?Article $notFoundArticle = null;
 
-    #[Checkbox(new Translatable('system_setting_article_history'), key: 'article_history')]
+    #[Checkbox(new Translatable('system_setting_article_history'))]
     public bool $articleHistory = false;
 
-    #[Checkbox(new Translatable('system_setting_article_work_version'), key: 'article_work_version')]
+    #[Checkbox(new Translatable('system_setting_article_work_version'))]
     public bool $articleWorkVersion = false;
 
     /** @return array<string, string> */

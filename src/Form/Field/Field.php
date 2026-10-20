@@ -35,7 +35,7 @@ abstract class Field
         public readonly string|Renderable $label,
         public readonly string|Renderable|null $note = null,
         public readonly bool $required = false,
-        /** Key used by storages; defaults to the property name. */
+        /** Key used by storages; defaults to the property name in snake_case. */
         public readonly ?string $key = null,
     ) {}
 

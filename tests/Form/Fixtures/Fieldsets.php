@@ -11,12 +11,14 @@ final class Fieldsets
     #[Text('A')]
     public string $a = '';
 
-    #[Text('B'), Fieldset('Group 1')]
+    #[Text('B')]
+    #[Fieldset('Group 1')]
     public string $b = '';
 
     #[Text('C')]
     public string $c = '';
 
-    #[Text('D'), Fieldset('Group 2')]
+    #[Text('D')]
+    #[Fieldset('Group 2')]
     public string $d = '';
 }

@@ -142,7 +142,12 @@ final class FieldsTest extends TestCase
     public function testDecimal(): void
     {
         $data = new class {
-            #[Number('Price', min: '0.01', max: '99.99', step: '0.01')]
+            #[Number(
+                'Price',
+                min: '0.01',
+                max: '99.99',
+                step: '0.01',
+            )]
             public ?Decimal $price = null;
         };
 
@@ -169,13 +174,24 @@ final class FieldsTest extends TestCase
     public function testLimits(): void
     {
         $data = new class {
-            #[DatePicker('Date', min: 'today', max: '+1 year')]
+            #[DatePicker(
+                'Date',
+                min: 'today',
+                max: '+1 year',
+            )]
             public ?DateTimeImmutable $date = null;
 
-            #[TimePicker('Time', min: '08:00', max: '18:00')]
+            #[TimePicker(
+                'Time',
+                min: '08:00',
+                max: '18:00',
+            )]
             public ?string $time = null;
 
-            #[Textarea('Text', maxLength: 5)]
+            #[Textarea(
+                'Text',
+                maxLength: 5,
+            )]
             public string $text = '';
         };
 
@@ -266,7 +282,11 @@ final class FieldsTest extends TestCase
     public static function provideUnsupportedType(): iterable
     {
         yield 'multiple choice without array' => [new class {
-            #[Choice('Tags', choices: ['a' => 'A'], multiple: true)]
+            #[Choice(
+                'Tags',
+                choices: ['a' => 'A'],
+                multiple: true,
+            )]
             public string $tags = '';
         }::class];
         yield 'article picker with int' => [new class {

@@ -93,6 +93,7 @@ All core classes live in the `Redaxo\Core\` namespace, mapped to `src/`. Tests l
 - Comments and commit messages in English; commits use conventional commits (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`, `test:`, `style:`, `ci:`). The same rules (English + conventional commit prefix) apply to PR titles, since they become the commit message on squash merge
 - Don't write bare `@name` tokens in commit messages (e.g. annotations like `@internal`/`@deprecated`, or anything that looks like a username): GitHub autolinks them into user mentions and pings a random account. Wrap them in backticks (`` `@internal` ``) — GitHub renders code spans in commit messages and doesn't link mentions inside them
 - **Properties**: prefer modern public properties (with `readonly`, asymmetric visibility, property hooks as appropriate) over getter/setter methods
+- **Form field attributes** (`#[Text(…)]`, `#[Choice(…)]` …): one line if only the label is given, otherwise one argument per line with a trailing comma; the label stays positional, all other arguments are named. Each attribute gets its own `#[…]`
 - Don't put issue references (`Fixes #123`, `Closes #123`) in commit messages — they belong in the PR description instead
 
 ### Comments
