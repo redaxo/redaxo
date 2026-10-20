@@ -10,7 +10,7 @@ use Redaxo\Core\View\RendersView;
  * The file name is submitted by the (read-only) text input. The element id follows the `REX_MEDIA_*` convention the
  * media pool scripts rely on.
  */
-class MediaInput implements Widget
+final class MediaInput implements Widget
 {
     use RendersView;
 

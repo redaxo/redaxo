@@ -10,7 +10,7 @@ use Redaxo\Core\View\RendersView;
  * The file names are submitted comma-separated by a hidden input. The element ids follow the `REX_MEDIALIST_*`
  * convention the media pool scripts rely on.
  */
-class MediaListInput implements Widget
+final class MediaListInput implements Widget
 {
     use RendersView;
 

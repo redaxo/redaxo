@@ -10,7 +10,7 @@ use Redaxo\Core\View\RendersView;
  * The `id` belongs to the visible (read-only) name input, so a label can point to it; the article id is submitted by
  * a hidden input.
  */
-class ArticleInput implements Widget
+final class ArticleInput implements Widget
 {
     use RendersView;
 
@@ -23,7 +23,7 @@ class ArticleInput implements Widget
         public ?int $categoryId = null,
     ) {}
 
-    public function labelTarget(): ?string
+    public function labelTarget(): string
     {
         return $this->id;
     }

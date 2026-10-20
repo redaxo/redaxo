@@ -6,7 +6,7 @@ use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\RendersView;
 
 /** Multi-line text input. */
-class Textarea implements Widget
+final class Textarea implements Widget
 {
     use RendersView;
 

@@ -11,7 +11,7 @@ use Redaxo\Core\View\RendersView;
  * Attributes that only apply to some types (`maxlength`, `min`, `max`, `step`, `placeholder` …) are passed via
  * `attributes`.
  */
-class Input implements Widget
+final class Input implements Widget
 {
     use RendersView;
 
