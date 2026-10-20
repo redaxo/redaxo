@@ -10,6 +10,7 @@ final class MediaCategoryUpdated extends ExtensionPoint
 {
     public function __construct(
         public readonly MediaCategory $category,
+        public readonly MediaCategory $previous,
     ) {
         parent::__construct(self::class, null, readonly: true);
     }

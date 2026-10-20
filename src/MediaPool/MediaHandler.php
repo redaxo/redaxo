@@ -184,14 +184,16 @@ final class MediaHandler
             throw new InvalidArgumentException('Expecting Filename.');
         }
 
-        $media = Media::get($filename);
-        if (!$media) {
+        $languageId ??= Language::getCurrentId();
+
+        $previous = Media::get($filename, $languageId);
+        if (!$previous) {
             throw new UserMessageException(I18n::msg('pool_file_not_found'));
         }
 
         Sql::factory()
             ->setTable('rex_media_translation')
-            ->setWhere(['media_id' => $media->id, 'language_id' => $languageId ?? Language::getCurrentId()])
+            ->setWhere(['media_id' => $previous->id, 'language_id' => $languageId])
             ->setValue('title', $data['title'])
             ->update();
 
@@ -262,7 +264,7 @@ final class MediaHandler
 
         $media = Type::notNull(Media::get($filename, $languageId));
 
-        Extension::dispatch(new MediaUpdated($media));
+        Extension::dispatch(new MediaUpdated($media, $previous));
 
         return $media;
     }

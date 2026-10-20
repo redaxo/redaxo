@@ -101,7 +101,8 @@ final class MediaCategoryHandler
      */
     public static function editCategory(int $categoryId, array $data): MediaCategory
     {
-        if (!MediaCategory::get($categoryId)) {
+        $previous = MediaCategory::get($categoryId);
+        if (!$previous) {
             throw new UserMessageException(I18n::msg('pool_kat_not_found'));
         }
 
@@ -119,7 +120,7 @@ final class MediaCategoryHandler
 
         $category = Type::notNull(MediaCategory::get($categoryId));
 
-        Extension::dispatch(new MediaCategoryUpdated($category));
+        Extension::dispatch(new MediaCategoryUpdated($category, $previous));
 
         return $category;
     }
