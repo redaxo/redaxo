@@ -419,14 +419,13 @@ final class Response
     /**
      * @param string $name The name of the cookie
      * @param string|null $value the value of the cookie, a empty value to delete the cookie
-     * @param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string, raw?: bool} $options Different cookie Options. Supported keys are:
+     * @param array{expires?: int|string|DateTimeInterface, path?: string, domain?: ?string, secure?: bool, httponly?: bool, samesite?: ?string} $options Different cookie Options. Supported keys are:
      *                             "expires" int|string|DateTimeInterface The time the cookie expires
      *                             "path" string                          The path on the server in which the cookie will be available on
      *                             "domain" string|null                   The domain that the cookie is available to
      *                             "secure" bool                          Whether the cookie should only be transmitted over a secure HTTPS connection from the client
      *                             "httponly" bool                        Whether the cookie will be made accessible only through the HTTP protocol
      *                             "samesite" string|null                 Whether the cookie will be available for cross-site requests
-     *                             "raw" bool                             Whether the cookie value should be sent with no url encoding
      */
     public static function sendCookie(string $name, ?string $value, array $options = []): void
     {
@@ -436,7 +435,6 @@ final class Response
         $secure = $options['secure'] ?? false;
         $httpOnly = $options['httponly'] ?? true;
         $sameSite = $options['samesite'] ?? null;
-        $raw = $options['raw'] ?? false;
 
         // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
@@ -467,11 +465,11 @@ final class Response
             throw new InvalidArgumentException('The "sameSite" parameter value is not valid.');
         }
 
-        $str = 'Set-Cookie: ' . ($raw ? $name : urlencode($name)) . '=';
+        $str = 'Set-Cookie: ' . urlencode($name) . '=';
         if ('' === (string) $value) {
             $str .= 'deleted; expires=' . gmdate('D, d-M-Y H:i:s T', time() - 31_536_001) . '; Max-Age=0';
         } else {
-            $str .= $raw ? $value : rawurlencode($value);
+            $str .= rawurlencode($value);
             if (0 !== $expire) {
                 $str .= '; expires=' . gmdate('D, d-M-Y H:i:s T', $expire) . '; Max-Age=' . $maxAge;
             }
