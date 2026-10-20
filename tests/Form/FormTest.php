@@ -100,7 +100,7 @@ final class FormTest extends TestCase
         $form = new Form(new Settings(), csrf: false);
 
         $html = (string) $form->row('title');
-        self::assertStringContainsString('<label for="settings-title">Title</label>', $html);
+        self::assertStringContainsString('<label for="settings-title" class="required">Title</label>', $html);
         self::assertStringContainsString('name="settings[title]"', $html);
         self::assertStringContainsString('value="Hello"', $html);
         self::assertStringContainsString('maxlength="20"', $html);
