@@ -30,7 +30,7 @@ use function sprintf;
 abstract class MetaSchema
 {
     /** Prefix every meta column carries, so that meta columns are distinguishable from the columns owned by core. */
-    public const string COLUMN_PREFIX = 'meta_';
+    final public const string COLUMN_PREFIX = 'meta_';
 
     /** @var array<string, list<class-string<self>>>|null keyed by MetaEntity case name */
     private static ?array $schemas = null;

@@ -28,7 +28,7 @@ use function implode;
 abstract class AbstractHandler
 {
     /** Name of the request parameter holding the submitted meta values. */
-    public const string REQUEST_KEY = 'meta';
+    final public const string REQUEST_KEY = 'meta';
 
     /** @var array<string, list<Form>> the submitted forms, keyed by entity case name */
     private array $submitted = [];
@@ -38,7 +38,7 @@ abstract class AbstractHandler
      *
      * Meta fields which are rendered into a form of another addon are covered by the csrf token of that form.
      */
-    public static function getCsrfToken(): CsrfToken
+    final public static function getCsrfToken(): CsrfToken
     {
         return CsrfToken::factory('metainfo');
     }
@@ -48,7 +48,7 @@ abstract class AbstractHandler
      *
      * @param bool $vertical whether to place the labels above the fields, e.g. in narrow columns
      */
-    public function renderFields(MetaContext $context, bool $vertical = false): string
+    final public function renderFields(MetaContext $context, bool $vertical = false): string
     {
         $html = '';
         foreach ($this->submitted[$context->entity->name] ?? $this->createForms($context) as $form) {
@@ -63,7 +63,7 @@ abstract class AbstractHandler
     }
 
     /** Whether the schemas define at least one field visible in the given context. */
-    public function hasFields(MetaContext $context): bool
+    final public function hasFields(MetaContext $context): bool
     {
         return [] !== $this->createForms($context);
     }
@@ -73,7 +73,7 @@ abstract class AbstractHandler
      *
      * @return bool whether all values are valid; only then {@see self::saveValues()} may be called
      */
-    protected function submit(MetaContext $context): bool
+    final protected function submit(MetaContext $context): bool
     {
         /** @var array<array-key, mixed> $values */
         $values = Request::post(self::REQUEST_KEY, 'array', []);
@@ -106,7 +106,7 @@ abstract class AbstractHandler
      * @param bool|null $translated restrict to the translated (`true`) or the shared (`false`) fields, as both are
      *     saved into different tables; `null` sets all fields
      */
-    protected function saveValues(Sql $sql, MetaEntity $entity, ?bool $translated = null): void
+    final protected function saveValues(Sql $sql, MetaEntity $entity, ?bool $translated = null): void
     {
         foreach ($this->submitted[$entity->name] ?? [] as $form) {
             /** @var MetaSchema $schema */
@@ -126,7 +126,7 @@ abstract class AbstractHandler
      * The errors of the submitted values, for hosts that save the meta fields after their own data and show the errors
      * as message instead of rendering the meta fields again.
      */
-    protected function invalidValues(MetaEntity $entity): UserMessageException
+    final protected function invalidValues(MetaEntity $entity): UserMessageException
     {
         $errors = [I18n::msg('minfo_metadata_not_saved')];
         foreach ($this->submitted[$entity->name] ?? [] as $form) {
