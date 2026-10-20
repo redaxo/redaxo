@@ -44,15 +44,15 @@ if ('add_file' == $mediaMethod) {
             $types = Request::post('types', 'string');
 
             try {
-                $data = MediaHandler::addMedia($data, true, '' === $types ? [] : explode(',', $types));
+                $media = MediaHandler::addMedia($data, true, '' === $types ? [] : explode(',', $types));
                 $info = I18n::msg('pool_file_added');
                 if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
                         if (str_starts_with($openerInputField, 'REX_MEDIALIST_')) {
-                            $js = "selectMedialist('" . $data['filename'] . "');";
+                            $js = "selectMedialist('" . $media->fileName . "');";
                             $js .= 'location.href = "' . Url::backendPage('mediapool', ['info' => $info, ...$argUrl]) . '";';
                         } else {
-                            $js = "selectMedia('" . $data['filename'] . "');";
+                            $js = "selectMedia('" . $media->fileName . "');";
                         }
                     }
 

@@ -51,9 +51,8 @@ final class MediaHandler
      * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      * @param list<string> $types Restrict the allowed file extensions to these types
      * @throws UserMessageException
-     * @return array{category_id: int|null, title: string, file: array{name: string, path: string, tmp_name?: string, error?: int, name_new: string, type: string|null}, width?: int, height?: int, message: string, type: string|null, msg: string, filename: string, old_filename: string, ok: 1}
      */
-    public static function addMedia(array $data, bool $doSubindexing = true, array $types = []): array
+    public static function addMedia(array $data, bool $doSubindexing = true, array $types = []): Media
     {
         $error = $data['file']['error'] ?? null;
 
@@ -157,34 +156,17 @@ final class MediaHandler
                 ->insert();
         }
 
-        $message = [];
-
-        $message[] = I18n::msg('pool_file_added');
-
-        if ($data['file']['name_new'] != $data['file']['name']) {
-            $message[] = I18n::rawMsg('pool_file_renamed', $data['file']['name'], $data['file']['name_new']);
-        }
-
-        $data['message'] = implode('<br />', $message);
-
         Media::clearInstances($data['file']['name_new']);
         MediaPoolCache::deleteList($categoryId);
 
-        /**
-         * @deprecated $return
-         * in future only $data -> MEDIA_ADDED and return $data;
-         */
-        $return = $data;
-        $return['type'] = $data['file']['type'];
-        $return['msg'] = implode('<br />', $message);
+        Extension::dispatch(new ExtensionPoint('MEDIA_ADDED', '', [
+            ...$data,
+            'type' => $data['file']['type'],
+            'filename' => $data['file']['name_new'],
+            'old_filename' => $data['file']['name'],
+        ]));
 
-        $return['filename'] = $data['file']['name_new'];
-        $return['old_filename'] = $data['file']['name'];
-        $return['ok'] = 1;
-
-        Extension::dispatch(new ExtensionPoint('MEDIA_ADDED', '', $return));
-
-        return $return;
+        return Type::notNull(Media::get($data['file']['name_new']));
     }
 
     /**
@@ -195,9 +177,8 @@ final class MediaHandler
      * @param array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}} $data `category_id` is `null` for the root level
      * @param int|null $languageId the language the title is saved for, defaults to the current language
      * @throws UserMessageException
-     * @return array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}, ok: 1, msg: string, id: int, filename: string, type: string|null, filetype: string|null}
      */
-    public static function updateMedia(string $filename, array $data, ?int $languageId = null): array
+    public static function updateMedia(string $filename, array $data, ?int $languageId = null): Media
     {
         if ('' === $filename) {
             throw new InvalidArgumentException('Expecting Filename.');
@@ -280,23 +261,15 @@ final class MediaHandler
 
         MediaPoolCache::delete($filename);
 
-        /**
-         * @deprecated $return
-         * in future only $data -> MEDIA_UPDATED and return $data;
-         */
-        $return = $data;
+        Extension::dispatch(new ExtensionPoint('MEDIA_UPDATED', '', [
+            ...$data,
+            'id' => $media->id,
+            'filename' => $filename,
+            'type' => $filetype,
+            'filetype' => $filetype,
+        ]));
 
-        $return['ok'] = 1;
-        $return['msg'] = I18n::msg('pool_file_infos_updated');
-
-        $return['id'] = $media->id;
-        $return['filename'] = $filename;
-        $return['type'] = $filetype;
-        $return['filetype'] = $filetype;
-
-        Extension::dispatch(new ExtensionPoint('MEDIA_UPDATED', '', $return));
-
-        return $return;
+        return Type::notNull(Media::get($filename));
     }
 
     /** @throws UserMessageException */

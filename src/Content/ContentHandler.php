@@ -15,6 +15,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 use function function_exists;
 use function sprintf;
@@ -24,7 +25,7 @@ final class ContentHandler
     private function __construct() {}
 
     /** @param array{priority?: int, revision?: int, ...<string, scalar|null>} $data */
-    public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $data = []): string
+    public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $data = []): ArticleSlice
     {
         $data['revision'] ??= 0;
 
@@ -66,19 +67,19 @@ final class ContentHandler
         ArticleCache::delete($articleId, $languageId);
 
         $article = Article::require($articleId, $languageId);
-        $slice = ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $data['revision']);
+        $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $data['revision']));
 
-        return Extension::dispatch(new ArticleContentUpdated($article, 'slice_added', $slice, I18n::msg('slice_added')));
+        Extension::dispatch(new ArticleContentUpdated($article, 'slice_added', $slice));
+
+        return $slice;
     }
 
     /**
      * Verschiebt einen Slice.
      *
      * @throws UserMessageException
-     *
-     * @return string Eine Statusmeldung
      */
-    public static function moveSlice(int $sliceId, int $languageId, SliceMoveDirection $direction): string
+    public static function moveSlice(int $sliceId, int $languageId, SliceMoveDirection $direction): ArticleSlice
     {
         // ctype beachten
         // verschieben / vertauschen
@@ -87,74 +88,72 @@ final class ContentHandler
         // check if slice id is valid
         $CM = Sql::factory();
         $CM->setQuery('select * from rex_article_slice where id=? and language_id=?', [$sliceId, $languageId]);
-        if (1 == $CM->getRows()) {
-            // origin value for later success-check
-            $oldPriority = $CM->getIntValue('priority');
-
-            // prepare sql for later saving
-            $upd = Sql::factory();
-            $upd->setTable('rex_article_slice');
-            $upd->setWhere([
-                'id' => $sliceId,
-            ]);
-
-            // some vars for later use
-            $articleId = $CM->getIntValue('article_id');
-            $ctype = $CM->getIntValue('ctype_id');
-            $sliceRevision = $CM->getIntValue('revision');
-
-            Extension::dispatch(new ExtensionPoint('SLICE_MOVE', '', [
-                'direction' => $direction,
-                'slice_id' => $sliceId,
-                'article_id' => $articleId,
-                'language_id' => $languageId,
-                'slice_revision' => $sliceRevision,
-            ]));
-
-            if (SliceMoveDirection::Up === $direction) {
-                $upd->setValue('priority', $oldPriority - 1);
-                $updSort = 'DESC';
-            } else {
-                $upd->setValue('priority', $oldPriority + 1);
-                $updSort = 'ASC';
-            }
-            $upd->addGlobalUpdateFields(self::getUser());
-            $upd->update();
-
-            DatabaseUtil::organizePriorities(
-                'rex_article_slice',
-                'priority',
-                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . $sliceRevision,
-                'priority, updatedate ' . $updSort,
-            );
-
-            // check if the slice moved at all (first cannot be moved up, last not down)
-            $CM->setQuery('select * from rex_article_slice where id=? and language_id=?', [$sliceId, $languageId]);
-            $newPriority = $CM->getIntValue('priority');
-            if ($oldPriority === $newPriority) {
-                throw new UserMessageException(I18n::msg('slice_moved_error'));
-            }
-
-            ArticleCache::deleteContent($articleId, $languageId);
-
-            $article = Article::require($articleId, $languageId);
-            $slice = ArticleSlice::getArticleSliceById($sliceId, $languageId, $sliceRevision);
-            $info = Extension::dispatch(new ArticleContentUpdated($article, 'slice_moved', $slice, I18n::msg('slice_moved')));
-        } else {
+        if (1 != $CM->getRows()) {
             throw new UserMessageException(I18n::msg('slice_not_found'));
         }
 
-        return $info;
+        // origin value for later success-check
+        $oldPriority = $CM->getIntValue('priority');
+
+        // prepare sql for later saving
+        $upd = Sql::factory();
+        $upd->setTable('rex_article_slice');
+        $upd->setWhere([
+            'id' => $sliceId,
+        ]);
+
+        // some vars for later use
+        $articleId = $CM->getIntValue('article_id');
+        $ctype = $CM->getIntValue('ctype_id');
+        $sliceRevision = $CM->getIntValue('revision');
+
+        Extension::dispatch(new ExtensionPoint('SLICE_MOVE', '', [
+            'direction' => $direction,
+            'slice_id' => $sliceId,
+            'article_id' => $articleId,
+            'language_id' => $languageId,
+            'slice_revision' => $sliceRevision,
+        ]));
+
+        if (SliceMoveDirection::Up === $direction) {
+            $upd->setValue('priority', $oldPriority - 1);
+            $updSort = 'DESC';
+        } else {
+            $upd->setValue('priority', $oldPriority + 1);
+            $updSort = 'ASC';
+        }
+        $upd->addGlobalUpdateFields(self::getUser());
+        $upd->update();
+
+        DatabaseUtil::organizePriorities(
+            'rex_article_slice',
+            'priority',
+            'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . $sliceRevision,
+            'priority, updatedate ' . $updSort,
+        );
+
+        // check if the slice moved at all (first cannot be moved up, last not down)
+        $CM->setQuery('select * from rex_article_slice where id=? and language_id=?', [$sliceId, $languageId]);
+        $newPriority = $CM->getIntValue('priority');
+        if ($oldPriority === $newPriority) {
+            throw new UserMessageException(I18n::msg('slice_moved_error'));
+        }
+
+        ArticleCache::deleteContent($articleId, $languageId);
+
+        $article = Article::require($articleId, $languageId);
+        $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, $sliceRevision));
+        Extension::dispatch(new ArticleContentUpdated($article, 'slice_moved', $slice));
+
+        return $slice;
     }
 
     /**
      * Deletes a slice.
      *
      * @throws UserMessageException
-     *
-     * @return string Status message
      */
-    public static function deleteSlice(int $sliceId): string
+    public static function deleteSlice(int $sliceId): void
     {
         $curr = Sql::factory();
         $curr->setQuery('SELECT * FROM rex_article_slice WHERE id=?', [$sliceId]);
@@ -186,11 +185,11 @@ final class ContentHandler
 
         $article = Article::require($slice->articleId, $slice->languageId);
 
-        return Extension::dispatch(new ArticleContentUpdated($article, 'slice_deleted', $slice, I18n::msg('block_deleted')));
+        Extension::dispatch(new ArticleContentUpdated($article, 'slice_deleted', $slice));
     }
 
     /** @throws UserMessageException */
-    public static function sliceStatus(int $sliceId, int $status): void
+    public static function sliceStatus(int $sliceId, int $status): ArticleSlice
     {
         $sql = Sql::factory();
         $sql->setQuery('SELECT article_id, language_id, revision FROM rex_article_slice WHERE id = ?', [$sliceId]);
@@ -209,9 +208,11 @@ final class ContentHandler
 
         ArticleCache::deleteContent($article->id, $article->languageId);
 
-        $slice = ArticleSlice::getArticleSliceById($sliceId, $article->languageId, $revision);
+        $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $article->languageId, $revision));
 
         Extension::dispatch(new ArticleContentUpdated($article, 'slice_status', $slice));
+
+        return $slice;
     }
 
     /**

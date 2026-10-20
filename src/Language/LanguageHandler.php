@@ -21,7 +21,7 @@ final class LanguageHandler
     private function __construct() {}
 
     /** Creates a language and copies the articles of an existing one into it. */
-    public static function add(string $code, string $name, int $priority, bool $status = false): void
+    public static function add(string $code, string $name, int $priority, bool $status = false): Language
     {
         $sql = Sql::factory();
         $sql->setTable('rex_language');
@@ -52,8 +52,12 @@ final class LanguageHandler
 
         Cache::delete();
 
+        $language = Language::require($id);
+
         // ----- EXTENSION POINT
-        Extension::dispatch(new LanguageAdded(Language::require($id)));
+        Extension::dispatch(new LanguageAdded($language));
+
+        return $language;
     }
 
     /**
@@ -61,7 +65,7 @@ final class LanguageHandler
      *
      * @throws UserMessageException
      */
-    public static function edit(int $id, string $code, string $name, int $priority, ?bool $status = null): void
+    public static function edit(int $id, string $code, string $name, int $priority, ?bool $status = null): Language
     {
         if (!Language::exists($id)) {
             throw new UserMessageException(I18n::msg('language_not_found', $id));
@@ -85,8 +89,12 @@ final class LanguageHandler
 
         Cache::delete();
 
+        $language = Language::require($id);
+
         // ----- EXTENSION POINT
-        Extension::dispatch(new LanguageUpdated(Language::require($id)));
+        Extension::dispatch(new LanguageUpdated($language));
+
+        return $language;
     }
 
     /**
