@@ -195,22 +195,20 @@ final class ArticleContentEditor extends ArticleContentBase
             }
 
             if ($moduleAllowed && Core::requireUser()->hasPerm('moveSlice[]')) {
-                // moveup
                 $item = [];
                 $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_up');
                 $item['url'] = $context->getUrl(
-                    ['upd' => time(), 'direction' => 'moveup'] + ArticleSliceMove::getUrlParams(),
+                    ['upd' => time(), 'direction' => SliceMoveDirection::Up->value] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = I18n::msg('move_slice_up');
                 $item['icon'] = 'up';
                 $menuMoveupAction = $item;
 
-                // movedown
                 $item = [];
                 $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_down');
                 $item['url'] = $context->getUrl(
-                    ['upd' => time(), 'direction' => 'movedown'] + ArticleSliceMove::getUrlParams(),
+                    ['upd' => time(), 'direction' => SliceMoveDirection::Down->value] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
                 $item['attributes']['class'][] = 'btn-move';
                 $item['attributes']['title'] = I18n::msg('move_slice_down');

@@ -15,7 +15,7 @@ use Redaxo\Core\Http\Response;
 use Redaxo\Core\Mailer\MailArchive;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\Util\Markdown\Markdown;
 use Redaxo\Core\Util\Timer;
 use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;

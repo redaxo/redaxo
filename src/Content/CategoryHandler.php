@@ -2,10 +2,11 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
@@ -29,7 +30,7 @@ final class CategoryHandler
      * @param array{catpriority: int, catname: string, name?: string, status?: int} $data Category data, the names
      *     are used for all languages
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string A status message
      */
@@ -41,7 +42,7 @@ final class CategoryHandler
         if (null !== $categoryId) {
             $parent = Category::get($categoryId);
             if (!$parent) {
-                throw new ApiFunctionException('Target category with ID "' . $categoryId . '" does not exist.');
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = '|' . implode('|', [...$parent->path, $parent->id]) . '|';
         } else {
@@ -152,7 +153,7 @@ final class CategoryHandler
      *
      * @param array{catname?: string, catpriority?: int} $data Category data
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string A status message
      */
@@ -162,7 +163,7 @@ final class CategoryHandler
         $thisCat = self::select($categoryId, $languageId);
 
         if (1 != $thisCat->getRows()) {
-            throw new ApiFunctionException(I18n::msg('no_such_category'));
+            throw new UserMessageException(I18n::msg('no_such_category'));
         }
 
         if (isset($data['catname'])) {
@@ -222,7 +223,7 @@ final class CategoryHandler
     /**
      * Löscht eine Kategorie und reorganisiert die Prioritäten verbleibender Geschwister-Kategorien.
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string Eine Statusmeldung
      */
@@ -233,20 +234,20 @@ final class CategoryHandler
 
         // Prüfen ob die Kategorie existiert
         if (1 != $thisCat->getRows()) {
-            throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted'));
+            throw new UserMessageException(I18n::msg('category_could_not_be_deleted'));
         }
 
         $KAT = Sql::factory();
         $KAT->setQuery('SELECT a.id FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.parent_id = ? LIMIT 1', [$categoryId]);
         // Prüfen ob die Kategorie noch Unterkategorien besitzt
         if (0 != $KAT->getRows()) {
-            throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
+            throw new UserMessageException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
         }
 
         $KAT->setQuery('SELECT a.id FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.parent_id = ? AND c.id IS NULL LIMIT 1', [$categoryId]);
         // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
         if (0 != $KAT->getRows()) {
-            throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
+            throw new UserMessageException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
         }
 
         $parentId = $thisCat->getNullableIntValue('parent_id');
@@ -273,7 +274,7 @@ final class CategoryHandler
      *
      * @param int|null $status Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return int Der neue Status der Kategorie
      */
@@ -310,7 +311,7 @@ final class CategoryHandler
                 'status' => $newstatus,
             ]));
         } else {
-            throw new ApiFunctionException(I18n::msg('no_such_category'));
+            throw new UserMessageException(I18n::msg('no_such_category'));
         }
 
         return $newstatus;
@@ -403,12 +404,14 @@ final class CategoryHandler
      * Moves a category into another category.
      *
      * @param int|null $toCat `null` for the root level
+     *
+     * @throws UserMessageException
      */
-    public static function moveCategory(int $fromCat, ?int $toCat): bool
+    public static function moveCategory(int $fromCat, ?int $toCat): void
     {
         if ($fromCat === $toCat) {
             // kann nicht in gleiche kategroie kopiert werden
-            return false;
+            throw new UserMessageException(I18n::msg('content_error_movecategory'));
         }
 
         // kategorien vorhanden ?
@@ -420,14 +423,13 @@ final class CategoryHandler
         $tcat->setQuery('SELECT a.* FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$toCat]);
 
         if (1 != $fcat->getRows() || (1 != $tcat->getRows() && null !== $toCat)) {
-            // eine der kategorien existiert nicht
-            return false;
+            throw new UserMessageException(I18n::msg('no_such_category'));
         }
         if (null !== $toCat) {
             $tcats = explode('|', $tcat->getStringValue('path'));
             if (in_array($fromCat, $tcats)) {
                 // zielkategorie ist in quellkategorie -> nicht verschiebbar
-                return false;
+                throw new UserMessageException(I18n::msg('content_error_movecategory'));
             }
         }
 
@@ -500,8 +502,6 @@ final class CategoryHandler
             'id' => $fromCat,
             'category_id' => $toCat,
         ]));
-
-        return true;
     }
 
     /** Selects the category with its start article and the translations in the given language. */
@@ -524,12 +524,11 @@ final class CategoryHandler
      * Checks whether the required array key $keyName isset.
      *
      * @param array<string, mixed> $array
-     * @throws ApiFunctionException
      */
     private static function reqKey(array $array, string $keyName): void
     {
         if (!isset($array[$keyName])) {
-            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
+            throw new InvalidArgumentException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

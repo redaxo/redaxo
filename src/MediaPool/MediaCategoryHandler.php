@@ -54,14 +54,18 @@ final class MediaCategoryHandler
      */
     public static function deleteCategory(int $categoryId): string
     {
+        $category = MediaCategory::get($categoryId);
+        if (!$category) {
+            throw new UserMessageException(I18n::msg('pool_kat_not_found'));
+        }
+
         $gf = Sql::factory();
         $gf->setQuery('SELECT * FROM rex_media WHERE category_id=?', [$categoryId]);
         $gd = Sql::factory();
         $gd->setQuery('SELECT * FROM rex_media_category WHERE parent_id=?', [$categoryId]);
         if (0 == $gf->getRows() && 0 == $gd->getRows()) {
             if ($uses = self::categoryIsInUse($categoryId)) {
-                $gf->setQuery('SELECT name FROM rex_media_category WHERE id=?', [$categoryId]);
-                $name = "{$gf->getValue('name')} [$categoryId]";
+                $name = "{$category->name} [$categoryId]";
                 throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
 
@@ -97,10 +101,16 @@ final class MediaCategoryHandler
      * @param int $categoryId The id of the category to edit
      * @param array{name: string} $data The category data
      *
+     * @throws UserMessageException
+     *
      * @return string A success message
      */
     public static function editCategory(int $categoryId, array $data): string
     {
+        if (!MediaCategory::get($categoryId)) {
+            throw new UserMessageException(I18n::msg('pool_kat_not_found'));
+        }
+
         $catName = $data['name'];
 
         $db = Sql::factory();

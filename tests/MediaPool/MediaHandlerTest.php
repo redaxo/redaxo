@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Tests\MediaPool;
 
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -104,8 +104,8 @@ final class MediaHandlerTest extends TestCase
 
         try {
             self::moveMedia($srcFile, $dstFile, 'image/svg+xml');
-            self::fail('Expected an ApiFunctionException');
-        } catch (ApiFunctionException) {
+            self::fail('Expected a UserMessageException');
+        } catch (UserMessageException) {
             // expected
         }
 
