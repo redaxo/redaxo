@@ -22,7 +22,7 @@ use const JSON_THROW_ON_ERROR;
  * Each field is stored in the column named by its key, array values as JSON. Columns that are missing or hold a value
  * no longer fitting the property type are skipped on load, so the property keeps its default.
  */
-final class DbStorage
+final class DatabaseStorage
 {
     public function __construct(
         public readonly string $table,

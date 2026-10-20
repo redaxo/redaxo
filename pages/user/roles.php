@@ -5,7 +5,7 @@ use Redaxo\Core\Backend\Form\Role;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Form;
-use Redaxo\Core\Form\Storage\DbStorage;
+use Redaxo\Core\Form\Storage\DatabaseStorage;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
@@ -79,7 +79,7 @@ if ('' == $func) {
     $content = $fragment->parse('core/page/section.php');
 } else {
     $role = new Role();
-    $source = new DbStorage('rex_user_role', $id, globalFields: true);
+    $source = new DatabaseStorage('rex_user_role', $id, globalFields: true);
 
     if ('add' === $func) {
         $role->grantAllItems();
@@ -88,7 +88,7 @@ if ('' == $func) {
     }
 
     // a duplicate is saved as new role
-    $storage = 'edit' === $func ? $source : new DbStorage('rex_user_role', globalFields: true);
+    $storage = 'edit' === $func ? $source : new DatabaseStorage('rex_user_role', globalFields: true);
 
     $form = new Form(
         $role,

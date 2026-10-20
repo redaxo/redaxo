@@ -6,12 +6,12 @@ use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Form\Field\Choice;
-use Redaxo\Core\Form\Storage\DbStorage;
+use Redaxo\Core\Form\Storage\DatabaseStorage;
 use Redaxo\Core\Tests\Form\Fixtures\Color;
 use Redaxo\Core\Tests\Form\Fixtures\Settings;
 
 /** @internal */
-final class DbStorageTest extends TestCase
+final class DatabaseStorageTest extends TestCase
 {
     private const string TABLE = 'rex_tests_form_storage';
 
@@ -49,7 +49,7 @@ final class DbStorageTest extends TestCase
         $settings->color = Color::Red;
         $settings->active = false;
 
-        $storage = new DbStorage(self::TABLE, globalFields: true);
+        $storage = new DatabaseStorage(self::TABLE, globalFields: true);
         $storage->save($settings);
 
         self::assertIsInt($storage->id);
@@ -67,14 +67,14 @@ final class DbStorageTest extends TestCase
         self::assertSame(1, Sql::factory()->getArray('SELECT COUNT(*) AS c FROM ' . self::TABLE)[0]['c']);
 
         $loaded = new Settings();
-        self::assertTrue(new DbStorage(self::TABLE, $storage->id)->load($loaded));
+        self::assertTrue(new DatabaseStorage(self::TABLE, $storage->id)->load($loaded));
         self::assertEquals($settings, $loaded);
     }
 
     public function testLoadMissingRow(): void
     {
-        self::assertFalse(new DbStorage(self::TABLE)->load(new Settings()));
-        self::assertFalse(new DbStorage(self::TABLE, 999)->load(new Settings()));
+        self::assertFalse(new DatabaseStorage(self::TABLE)->load(new Settings()));
+        self::assertFalse(new DatabaseStorage(self::TABLE, 999)->load(new Settings()));
     }
 
     public function testArrayAsJson(): void
@@ -94,7 +94,7 @@ final class DbStorageTest extends TestCase
 
         $sql = Sql::factory();
         $sql->setQuery('INSERT INTO `' . self::TABLE . '` (title, size_id, active) VALUES ("", 1, 1)');
-        $storage = new DbStorage(self::TABLE, $sql->getLastId());
+        $storage = new DatabaseStorage(self::TABLE, $sql->getLastId());
         $storage->save($data);
 
         self::assertSame('["a","b"]', Sql::factory()->getArray('SELECT tags FROM ' . self::TABLE)[0]['tags']);
