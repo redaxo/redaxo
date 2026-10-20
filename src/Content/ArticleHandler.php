@@ -4,9 +4,9 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
@@ -391,7 +391,7 @@ final class ArticleHandler
                 ? 'parent_id IS NULL AND id NOT IN (SELECT id FROM rex_category)'
                 : '(parent_id = ' . $parentId . ' AND id NOT IN (SELECT id FROM rex_category)) OR id = ' . $parentId;
 
-            Util::organizePriorities(
+            DatabaseUtil::organizePriorities(
                 'rex_article',
                 'priority',
                 $where,

@@ -4,8 +4,8 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
@@ -380,7 +380,7 @@ final class CategoryHandler
                 $addsql = 'asc';
             }
 
-            Util::organizePriorities(
+            DatabaseUtil::organizePriorities(
                 'rex_category',
                 'priority',
                 'id IN (SELECT id FROM rex_article WHERE parent_id ' . (null === $parentId ? 'IS NULL' : '= ' . $parentId) . ')',

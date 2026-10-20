@@ -14,8 +14,8 @@ use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Content\Module;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
@@ -259,7 +259,7 @@ if (
                             $newsql->insert();
                             $sliceId = $newsql->getLastId();
 
-                            Util::organizePriorities(
+                            DatabaseUtil::organizePriorities(
                                 'rex_article_slice',
                                 'priority',
                                 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,

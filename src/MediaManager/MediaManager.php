@@ -15,7 +15,6 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Http\Session;
-use Redaxo\Core\MediaManager\Attribute\AsMediaType;
 use Redaxo\Core\MediaManager\Exception\MediaNotFoundException;
 use Redaxo\Core\MediaPool\Media;
 

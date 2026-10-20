@@ -4,7 +4,7 @@ namespace Redaxo\Core\Backend;
 
 use Redaxo\Core\Addon\Addon;
 use Redaxo\Core\Core;
-use Redaxo\Core\Database\Util;
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Env;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\File;
@@ -163,7 +163,7 @@ final class Controller
         }
 
         if ('system' === self::getCurrentPagePart(1) && 'log' === self::getCurrentPagePart(2)) {
-            $slowQueryLogPath = Util::slowQueryLogPath();
+            $slowQueryLogPath = DatabaseUtil::slowQueryLogPath();
             if (null !== $slowQueryLogPath && @is_readable($slowQueryLogPath)) {
                 $logsPage->addSubpage(new Page('slow_queries', I18n::msg('syslog_slowqueries'))->setSubPath(Path::core('pages/system/log.slow_queries.php')));
             }

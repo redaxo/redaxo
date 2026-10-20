@@ -1,10 +1,8 @@
 <?php
 
-namespace Redaxo\Core\MediaManager\Attribute;
+namespace Redaxo\Core\MediaManager;
 
 use Attribute;
-use Redaxo\Core\MediaManager\MediaManager;
-use Redaxo\Core\MediaManager\MediaType;
 
 /**
  * Registers a {@see MediaType} under the given name.

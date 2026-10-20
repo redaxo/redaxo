@@ -3,7 +3,6 @@
 namespace Redaxo\Core\MediaManager;
 
 use Redaxo\Core\ClassDiscovery;
-use Redaxo\Core\MediaManager\Attribute\AsMediaType;
 use ReflectionClass;
 
 use function array_map;
