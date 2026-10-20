@@ -1,9 +1,21 @@
 <?php
 
-namespace Redaxo\Core\Util;
+namespace Redaxo\Core\Util\Markdown;
 
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Event\DocumentParsedEvent;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
+use League\CommonMark\Extension\DescriptionList\DescriptionListExtension;
+use League\CommonMark\Extension\Footnote\FootnoteExtension;
+use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\MarkdownConverter;
 use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\Exception\RuntimeException;
+use Redaxo\Core\Util\Str;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 
 use function Redaxo\Core\View\escape;
@@ -37,9 +49,9 @@ class Markdown
         bool $highlightPhp = false,
         ?HtmlSanitizerConfig $sanitizerConfig = null,
     ): string {
-        $parser = $this->createParser($softLineBreaks, $highlightPhp);
+        $html = $this->createEnvironment($softLineBreaks, $highlightPhp)->convert($code)->getContent();
 
-        return Str::sanitizeHtml($parser->text($code), $sanitizerConfig);
+        return trim(Str::sanitizeHtml($html, $sanitizerConfig));
     }
 
     /**
@@ -60,13 +72,11 @@ class Markdown
         bool $highlightPhp = false,
         ?HtmlSanitizerConfig $sanitizerConfig = null,
     ): array {
-        $parser = $this->createParser($softLineBreaks, $highlightPhp);
-        $parser->generateToc = true;
-        $parser->topLevel = $topLevel;
-        $parser->bottomLevel = $bottomLevel;
+        $headingIds = new HeadingIdListener($topLevel, $bottomLevel);
+        $html = $this->createEnvironment($softLineBreaks, $highlightPhp, $headingIds)->convert($code)->getContent();
 
-        $content = Str::sanitizeHtml($parser->text($code), $sanitizerConfig);
-        $headers = $parser->headers;
+        $content = trim(Str::sanitizeHtml($html, $sanitizerConfig));
+        $headers = $headingIds->headings;
 
         $previous = $topLevel - 1;
         $toc = '';
@@ -109,12 +119,44 @@ class Markdown
         return [$toc, $content];
     }
 
-    private function createParser(bool $softLineBreaks, bool $highlightPhp): Parsedown
-    {
-        $parser = new Parsedown();
-        $parser->setBreaksEnabled($softLineBreaks);
-        $parser->highlightPhp = $highlightPhp;
+    private function createEnvironment(
+        bool $softLineBreaks,
+        bool $highlightPhp,
+        ?HeadingIdListener $headingIds = null,
+    ): MarkdownConverter {
+        $environment = new Environment([
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => 100,
+            'renderer' => [
+                'soft_break' => $softLineBreaks ? "<br>\n" : "\n",
+            ],
+            'table' => [
+                'alignment_attributes' => [
+                    'left' => ['style' => 'text-align: left;'],
+                    'center' => ['style' => 'text-align: center;'],
+                    'right' => ['style' => 'text-align: right;'],
+                ],
+            ],
+        ]);
 
-        return $parser;
+        $environment
+            ->addExtension(new CommonMarkCoreExtension())
+            ->addExtension(new AutolinkExtension())
+            ->addExtension(new StrikethroughExtension())
+            ->addExtension(new TableExtension())
+            ->addExtension(new FootnoteExtension())
+            ->addExtension(new DescriptionListExtension())
+            ->addExtension(new AttributesExtension());
+
+        if ($headingIds) {
+            // runs after the attributes listener, so that explicit ids (`{#foo}`) are respected
+            $environment->addEventListener(DocumentParsedEvent::class, $headingIds, -10);
+        }
+
+        if ($highlightPhp) {
+            $environment->addRenderer(FencedCode::class, new PhpHighlightRenderer(), 10);
+        }
+
+        return new MarkdownConverter($environment);
     }
 }

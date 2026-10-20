@@ -28,25 +28,5 @@ $ignoreErrors[] = [
     'count' => 1,
     'path' => __DIR__ . '/../../../src/Form/Field/SelectField.php',
 ];
-$ignoreErrors[] = [
-    'rawMessage' => 'Method Redaxo\\Core\\Util\\Parsedown::blockFencedCodeComplete() has parameter $Block with no type specified.',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../src/Util/Parsedown.php',
-];
-$ignoreErrors[] = [
-    'rawMessage' => 'Method Redaxo\\Core\\Util\\Parsedown::blockHeader() has parameter $Line with no type specified.',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../src/Util/Parsedown.php',
-];
-$ignoreErrors[] = [
-    'rawMessage' => 'Method Redaxo\\Core\\Util\\Parsedown::blockSetextHeader() has parameter $Line with no type specified.',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../src/Util/Parsedown.php',
-];
-$ignoreErrors[] = [
-    'rawMessage' => 'Method Redaxo\\Core\\Util\\Parsedown::text() has parameter $text with no type specified.',
-    'count' => 1,
-    'path' => __DIR__ . '/../../../src/Util/Parsedown.php',
-];
 
 return ['parameters' => ['ignoreErrors' => $ignoreErrors]];
