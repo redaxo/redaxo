@@ -47,9 +47,6 @@
       <code><![CDATA[$languageId]]></code>
       <code><![CDATA[$sliceRevision]]></code>
     </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$ep->getParam('direction')]]></code>
-    </MixedOperand>
   </file>
   <file src="boot/frontend.php">
     <MixedAssignment>

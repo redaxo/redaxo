@@ -8,6 +8,7 @@ use Redaxo\Core\Base\FactoryTrait;
 use Redaxo\Core\ClassDiscovery;
 use Redaxo\Core\Core;
 use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Exception\HttpException;
 use Redaxo\Core\Http\Exception\NotFoundHttpException;
@@ -81,6 +82,7 @@ abstract class ApiFunction
      * This function may also throw exceptions e.g. in case when permissions are missing or the provided parameters are invalid.
      *
      * @throws ApiFunctionException
+     * @throws UserMessageException
      * @return Result The result of the api-function
      */
     abstract public function execute(): Result;
@@ -213,7 +215,7 @@ abstract class ApiFunction
                             self::REQ_RESULT_PARAM => $key,
                         ]));
                     }
-                } catch (ApiFunctionException $e) {
+                } catch (ApiFunctionException|UserMessageException $e) {
                     $message = $e->getMessage();
                     $result = new Result(false, $message);
                     $apiFunc->result = $result;

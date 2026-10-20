@@ -2,11 +2,12 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
@@ -28,7 +29,7 @@ final class ArticleHandler
      * @param array{category_id: int|null, priority: int, name: string, template?: string} $data Article data,
      *     `category_id` is `null` for the root level, `name` is used for all languages
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string A status message
      */
@@ -47,7 +48,7 @@ final class ArticleHandler
         if (null !== $categoryId) {
             $parent = Category::get($categoryId);
             if (!$parent) {
-                throw new ApiFunctionException('Target category with ID "' . $categoryId . '" does not exist.');
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = '|' . implode('|', [...$parent->path, $parent->id]) . '|';
         } else {
@@ -112,7 +113,7 @@ final class ArticleHandler
      *
      * @param array{name: string, priority?: int, template?: string|null} $data Article data
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string A status message
      */
@@ -123,7 +124,7 @@ final class ArticleHandler
         $thisArt = self::select($articleId, $languageId);
 
         if (1 != $thisArt->getRows()) {
-            throw new ApiFunctionException('Unable to find article with id "' . $articleId . '" and language "' . $languageId . '"!');
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
         $ooArt = Article::require($articleId, $languageId);
@@ -194,7 +195,7 @@ final class ArticleHandler
     /**
      * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel.
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string Eine Statusmeldung
      */
@@ -204,7 +205,7 @@ final class ArticleHandler
         $Art->setQuery('SELECT a.* FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL', [$articleId]);
 
         if (1 != $Art->getRows()) {
-            throw new ApiFunctionException(I18n::msg('article_doesnt_exist'));
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
         $message = self::_deleteArticle($articleId);
@@ -227,7 +228,7 @@ final class ArticleHandler
     /**
      * Löscht einen Artikel.
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string Eine Statusmeldung
      */
@@ -247,10 +248,10 @@ final class ArticleHandler
         // --> rekursiv aufrufen
 
         if ($id == Article::getSiteStartArticleId()) {
-            throw new ApiFunctionException(I18n::msg('cant_delete_sitestartarticle'));
+            throw new UserMessageException(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == Article::getNotfoundArticleId()) {
-            throw new ApiFunctionException(I18n::msg('cant_delete_notfoundarticle'));
+            throw new UserMessageException(I18n::msg('cant_delete_notfoundarticle'));
         }
 
         $ART = Sql::factory();
@@ -285,7 +286,7 @@ final class ArticleHandler
 
             return $message;
         }
-        throw new ApiFunctionException(I18n::msg('category_doesnt_exist'));
+        throw new UserMessageException(I18n::msg('category_doesnt_exist'));
     }
 
     /**
@@ -293,7 +294,7 @@ final class ArticleHandler
      *
      * @param int|null $status Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return int Der neue Status des Artikels
      */
@@ -326,7 +327,7 @@ final class ArticleHandler
                 'status' => $newstatus,
             ]));
         } else {
-            throw new ApiFunctionException(I18n::msg('no_such_category'));
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
         return $newstatus;
@@ -410,13 +411,17 @@ final class ArticleHandler
         }
     }
 
-    /** Konvertiert einen Artikel in eine Kategorie. */
-    public static function article2category(int $artId): bool
+    /**
+     * Konvertiert einen Artikel in eine Kategorie.
+     *
+     * @throws UserMessageException
+     */
+    public static function article2category(int $artId): void
     {
         $sql = Sql::factory();
         $sql->setQuery('SELECT a.parent_id FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL', [$artId]);
         if (1 != $sql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tocategory_failed'));
         }
         $parentId = $sql->getNullableIntValue('parent_id');
 
@@ -445,24 +450,26 @@ final class ArticleHandler
         ArticleCache::delete($artId);
 
         Extension::dispatch(new ExtensionPoint('ART_TO_CAT', '', ['id' => $artId]));
-
-        return true;
     }
 
-    /** Konvertiert eine Kategorie in einen Artikel. */
-    public static function category2article(int $artId): bool
+    /**
+     * Konvertiert eine Kategorie in einen Artikel.
+     *
+     * @throws UserMessageException
+     */
+    public static function category2article(int $artId): void
     {
         $sql = Sql::factory();
 
         // Kategorie muss leer sein
         $sql->setQuery('SELECT id FROM rex_article WHERE parent_id = ? LIMIT 1', [$artId]);
         if (0 != $sql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_toarticle_failed'));
         }
 
         $sql->setQuery('SELECT a.parent_id FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$artId]);
         if (1 != $sql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_toarticle_failed'));
         }
         $parentId = $sql->getNullableIntValue('parent_id');
 
@@ -482,8 +489,6 @@ final class ArticleHandler
         ArticleCache::delete($artId);
 
         Extension::dispatch(new ExtensionPoint('CAT_TO_ART', '', ['id' => $artId]));
-
-        return true;
     }
 
     /**
@@ -491,8 +496,10 @@ final class ArticleHandler
      *
      * The category keeps its position, names and meta values, but continues under the id of the new start article,
      * while the previous start article becomes a plain article inside the category.
+     *
+     * @throws UserMessageException
      */
-    public static function article2startarticle(int $neuId): bool
+    public static function article2startarticle(int $neuId): void
     {
         $GAID = [];
 
@@ -500,20 +507,20 @@ final class ArticleHandler
         $neu = Sql::factory();
         $neu->setQuery('SELECT a.* FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL', [$neuId]);
         if (1 != $neu->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tostartarticle_failed'));
         }
         $altId = $neu->getNullableIntValue('parent_id');
 
         // in oberster kategorie dann return
         if (null === $altId) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tostartarticle_failed'));
         }
 
         // alten startartikel
         $alt = Sql::factory();
         $alt->setQuery('SELECT a.* FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$altId]);
         if (1 != $alt->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tostartarticle_failed'));
         }
         $parentId = $alt->getNullableIntValue('parent_id');
 
@@ -592,8 +599,6 @@ final class ArticleHandler
             'id' => $neuId,
             'id_old' => $altId,
         ]));
-
-        return true;
     }
 
     /**
@@ -604,10 +609,10 @@ final class ArticleHandler
      *
      * @param list<string> $params Names of the columns to copy
      */
-    public static function copyMeta(int $fromId, int $toId, int $fromLanguageId = 1, int $toLanguageId = 1, array $params = []): bool
+    public static function copyMeta(int $fromId, int $toId, int $fromLanguageId = 1, int $toLanguageId = 1, array $params = []): void
     {
         if ($fromId === $toId && $fromLanguageId === $toLanguageId) {
-            return false;
+            throw new InvalidArgumentException('Source and target of the meta copy must differ.');
         }
 
         $tables = [
@@ -650,7 +655,7 @@ final class ArticleHandler
         }
 
         if ([] === $copied) {
-            return false;
+            return;
         }
 
         // the owner of a changed translation counts as updated as well
@@ -670,8 +675,6 @@ final class ArticleHandler
         } else {
             ArticleCache::deleteMeta($toId, $toLanguageId);
         }
-
-        return true;
     }
 
     /**
@@ -679,16 +682,18 @@ final class ArticleHandler
      *
      * @param int|null $toCatId `null` for the root level
      *
-     * @return int|false The id of the copied article, or `false` on failure
+     * @throws UserMessageException
+     *
+     * @return int The id of the copied article
      */
-    public static function copyArticle(int $id, ?int $toCatId): int|false
+    public static function copyArticle(int $id, ?int $toCatId): int
     {
         $user = self::getUser();
 
         $fromSql = Sql::factory();
         $fromSql->setQuery('SELECT * FROM rex_article WHERE id = ?', [$id]);
         if (1 != $fromSql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
         $path = '|';
@@ -696,7 +701,7 @@ final class ArticleHandler
             $toSql = Sql::factory();
             $toSql->setQuery('SELECT a.path FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$toCatId]);
             if (1 != $toSql->getRows()) {
-                return false;
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = $toSql->getStringValue('path') . $toCatId . '|';
         }
@@ -773,18 +778,20 @@ final class ArticleHandler
      *
      * @param int|null $fromCatId `null` for the root level
      * @param int|null $toCatId `null` for the root level
+     *
+     * @throws UserMessageException
      */
-    public static function moveArticle(int $id, ?int $fromCatId, ?int $toCatId): bool
+    public static function moveArticle(int $id, ?int $fromCatId, ?int $toCatId): void
     {
         if ($fromCatId === $toCatId) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_errormovearticle'));
         }
 
         // validierung der id & from_cat_id
         $fromSql = Sql::factory();
         $fromSql->setQuery('SELECT a.id FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL AND a.parent_id <=> ?', [$id, $fromCatId]);
         if (1 != $fromSql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
         // validierung der to_cat_id
@@ -793,7 +800,7 @@ final class ArticleHandler
             $toSql = Sql::factory();
             $toSql->setQuery('SELECT a.path FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$toCatId]);
             if (1 != $toSql->getRows()) {
-                return false;
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = $toSql->getStringValue('path') . $toCatId . '|';
         }
@@ -826,8 +833,6 @@ final class ArticleHandler
                 ArticleCache::delete($categoryId);
             }
         }
-
-        return true;
     }
 
     /** Selects the article together with its translation in the given language. */
@@ -859,13 +864,11 @@ final class ArticleHandler
      * Checks whether the required array key $keyName isset.
      *
      * @param array<string, mixed> $array
-     *
-     * @throws ApiFunctionException
      */
     private static function reqKey(array $array, string $keyName): void
     {
         if (!array_key_exists($keyName, $array)) {
-            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
+            throw new InvalidArgumentException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

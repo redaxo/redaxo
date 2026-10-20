@@ -37,26 +37,26 @@ if ($PERMALL) {
         if (!$csrf->isValid()) {
             $error = I18n::msg('csrf_token_invalid');
         } else {
-            if ('edit_file_cat' == $mediaMethod) {
-                $catName = Request::request('cat_name', 'string');
-                $data = ['name' => $catName];
-                $success = MediaCategoryHandler::editCategory($editId, $data);
-            } elseif ('delete_file_cat' == $mediaMethod) {
-                try {
+            try {
+                if ('edit_file_cat' == $mediaMethod) {
+                    $catName = Request::request('cat_name', 'string');
+                    $data = ['name' => $catName];
+                    $success = MediaCategoryHandler::editCategory($editId, $data);
+                } elseif ('delete_file_cat' == $mediaMethod) {
                     $success = MediaCategoryHandler::deleteCategory($editId);
-                } catch (UserMessageException $e) {
-                    $error = $e->getMessage();
+                } elseif ('add_file_cat' == $mediaMethod) {
+                    $parent = null;
+                    $parentId = Request::request('cat_id', 'int');
+                    if ($parentId) {
+                        $parent = MediaCategory::get($parentId);
+                    }
+                    $success = MediaCategoryHandler::addCategory(
+                        Request::request('catname', 'string'),
+                        $parent,
+                    );
                 }
-            } elseif ('add_file_cat' == $mediaMethod) {
-                $parent = null;
-                $parentId = Request::request('cat_id', 'int');
-                if ($parentId) {
-                    $parent = MediaCategory::get($parentId);
-                }
-                $success = MediaCategoryHandler::addCategory(
-                    Request::request('catname', 'string'),
-                    $parent,
-                );
+            } catch (UserMessageException $e) {
+                $error = $e->getMessage();
             }
         }
     }

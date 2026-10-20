@@ -241,7 +241,7 @@ form_resetted = Data has been reset!
 # language
 all_languages = All languages
 language_error_startidcanotbedeleted = Default language with Id "{0}" may not be deleted
-language_error_idcanotbedeleted = Language with Id "{0}" does not exist
+language_not_found = Language with Id "{0}" does not exist
 
 # footer
 footer_joinforum = Visit the forums
@@ -401,6 +401,7 @@ pool_kat_deleted = Media category deleted
 pool_kat_create_label = Add new category
 pool_kat_create = Add category
 pool_kat_edit = Edit
+pool_kat_not_found = Media category doesn't exist!
 pool_kat_not_deleted = Category cannot be deleted, because it is not empty!
 pool_kat_name = Name
 pool_kat_function = Function
@@ -616,6 +617,7 @@ copy_article = to categorie
 no_rights_to_edit = No editing permissions for this block!
 slice_moved = Slice moved.
 slice_moved_error = Error. Slice not moved.
+slice_not_found = Slice doesn't exist!
 slice_deleted_error = Error. Slice not deleted.
 slice_saved_error = Error. Slice not saved.
 content_contentcopy = Content copied.
@@ -629,7 +631,6 @@ content_errormovearticle = Error. Article not moved.
 content_articlemoved = Article moved.
 content_submitcopyarticle = Copy article
 content_articlecopied = Article copied.
-content_errorcopyarticle = Error. Article not copied.
 content_error_movecategory = Error. Category not moved.
 content_submitmovecategory = Move category
 content_startarticle = Start article

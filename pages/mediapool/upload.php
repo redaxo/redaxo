@@ -1,7 +1,7 @@
 <?php
 
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
@@ -65,7 +65,7 @@ if ('add_file' == $mediaMethod) {
                 }
 
                 Response::sendRedirect(Url::backendPage('mediapool/media', ['info' => $info, ...$argUrl]));
-            } catch (ApiFunctionException $e) {
+            } catch (UserMessageException $e) {
                 $warning = $e->getMessage();
             }
         }
