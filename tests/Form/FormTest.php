@@ -149,6 +149,17 @@ final class FormTest extends TestCase
         new Form($data);
     }
 
+    public function testCapture(): void
+    {
+        $form = new Form(new Settings(), csrf: false);
+
+        $html = (string) $form->capture(static function (Form $form): void { ?>
+            <div class="custom"><?= $form->row('title') ?></div>
+        <?php }, ['class' => ['my-form']]);
+
+        self::assertMatchesRegularExpression('/^<form [^>]*class="my-form"[^>]*><input type="hidden" name="settings\\[_submit\\]" value="1">\s*<div class="custom">.*name="settings\\[title\\]".*<\/div>\s*<\/form>$/s', $html);
+    }
+
     public function testUnknownField(): void
     {
         $form = new Form(new Settings(), only: ['title']);

@@ -225,33 +225,31 @@ $mainContent[] = $systemForm->render();
 
 $viaCookie = array_key_exists('editor', $_COOKIE);
 
-$mainContent[] = Html::capture(static function () use ($editorForm, $viaCookie): void { ?>
-    <?= $editorForm->open() ?>
-        <section class="rex-page-section">
-            <div class="panel panel-edit">
-                <header class="panel-heading"><div class="panel-title"><?= Html::from($editorForm->title ?? '') ?></div></header>
-                <div class="panel-body">
-                    <p><?= I18n::msg('system_editor_note') ?></p>
-                    <?php if ($viaCookie): ?>
-                        <?= Message::info(I18n::msg('system_editor_note_cookie')) ?>
-                    <?php elseif (Env::get('REX_EDITOR')): ?>
-                        <?= Message::info(I18n::msg('system_editor_note_env')) ?>
-                    <?php endif ?>
-                    <?= $editorForm->rest() ?>
-                </div>
-                <footer class="panel-footer">
-                    <div class="rex-form-panel-footer">
-                        <div class="btn-toolbar">
-                            <?= $editorForm->submitButton() ?>
-                            <?php if ($viaCookie): ?>
-                                <button class="btn btn-delete" type="submit" name="editor_delete_cookie" value="1"><?= I18n::msg('system_editor_delete_cookie') ?></button>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                </footer>
+$mainContent[] = $editorForm->capture(static function (Form $form) use ($viaCookie): void { ?>
+    <section class="rex-page-section">
+        <div class="panel panel-edit">
+            <header class="panel-heading"><div class="panel-title"><?= Html::from($form->title ?? '') ?></div></header>
+            <div class="panel-body">
+                <p><?= I18n::msg('system_editor_note') ?></p>
+                <?php if ($viaCookie): ?>
+                    <?= Message::info(I18n::msg('system_editor_note_cookie')) ?>
+                <?php elseif (Env::get('REX_EDITOR')): ?>
+                    <?= Message::info(I18n::msg('system_editor_note_env')) ?>
+                <?php endif ?>
+                <?= $form->rest() ?>
             </div>
-        </section>
-    <?= $editorForm->close() ?>
+            <footer class="panel-footer">
+                <div class="rex-form-panel-footer">
+                    <div class="btn-toolbar">
+                        <?= $form->submitButton() ?>
+                        <?php if ($viaCookie): ?>
+                            <button class="btn btn-delete" type="submit" name="editor_delete_cookie" value="1"><?= I18n::msg('system_editor_delete_cookie') ?></button>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
 <?php });
 
 $fragment = new Fragment();

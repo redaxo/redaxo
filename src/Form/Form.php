@@ -2,9 +2,9 @@
 
 namespace Redaxo\Core\Form;
 
+use Closure;
 use Redaxo\Core\Backend\Accesskey;
 use Redaxo\Core\Exception\LogicException;
-use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\Translatable;
@@ -36,8 +36,8 @@ use function sprintf;
  * Submitted values that are invalid never reach the object: they are kept as raw values in the form, so they can be
  * redisplayed together with the error.
  *
- * Render the whole form with {@see self::render()}, or build the markup yourself from {@see self::open()},
- * {@see self::row()}/{@see self::widget()}, {@see self::rest()} and {@see self::close()}.
+ * Render the whole form with {@see self::render()}, or build the markup yourself with {@see self::capture()}, using
+ * {@see self::row()}/{@see self::widget()} and {@see self::rest()} inside.
  */
 final class Form implements Renderable
 {
@@ -282,13 +282,34 @@ final class Form implements Renderable
     }
 
     /**
+     * Renders the form tag around the markup the closure emits, for custom markup of the form.
+     *
+     * The closure is called with the form and writes its markup like a view, leaving PHP mode inside.
+     *
+     * @param Closure(self):void $content
+     * @param array<literal-string, bool|string|int|array<string|int, string|bool>|null> $attributes attributes of the form tag
+     */
+    public function capture(Closure $content, array $attributes = []): Html
+    {
+        $inner = Html::capture(function () use ($content): void {
+            $content($this);
+        });
+
+        return Html::raw((string) $this->open($attributes) . (string) $inner . (string) $this->close());
+    }
+
+    /**
      * Renders the opening form tag plus the hidden fields the form needs.
+     *
+     * Prefer {@see self::capture()}; use this together with {@see self::close()} only if the form tag can not be
+     * rendered in one place.
      *
      * @param array<literal-string, bool|string|int|array<string|int, string|bool>|null> $attributes
      */
     public function open(array $attributes = []): Html
     {
-        $attributes = new HtmlAttributes(['action' => Url::currentBackendPage(), 'method' => 'post'])->with($attributes);
+        // without an action the browser submits to the current url, including all of its parameters
+        $attributes = new HtmlAttributes(['method' => 'post'])->with($attributes);
 
         $html = '<form ' . $attributes->toString() . '>';
         $html .= '<input type="hidden" name="' . escape($this->name . '[' . self::SUBMIT_KEY . ']') . '" value="1">';
