@@ -55,7 +55,7 @@ final class ArticleCopy extends ApiFunction
             'language' => $languageId,
         ]);
 
-        $newArticle = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew ?: null);
+        $newArticle = ArticleHandler::copy($articleId, $categoryCopyIdNew ?: null);
 
         Response::sendRedirect($context->getUrl([
             'article_id' => $newArticle->id,

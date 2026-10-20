@@ -44,7 +44,7 @@ if ('add_file' == $mediaMethod) {
             $types = Request::post('types', 'string');
 
             try {
-                $media = MediaHandler::addMedia($data, true, '' === $types ? [] : explode(',', $types));
+                $media = MediaHandler::add($data, true, '' === $types ? [] : explode(',', $types));
                 $info = I18n::msg('pool_file_added');
                 if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {

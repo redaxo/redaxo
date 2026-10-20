@@ -57,7 +57,7 @@ if (Request::post('btn_delete', 'string')) {
             $filename = $media->fileName;
             if ($perm->hasCategoryPerm($media->categoryId)) {
                 try {
-                    MediaHandler::deleteMedia($filename);
+                    MediaHandler::delete($filename);
                     $success = I18n::msg('pool_file_deleted');
                     $fileId = 0;
 
@@ -101,7 +101,7 @@ if (Request::post('btn_update', 'string')) {
             }
 
             try {
-                MediaHandler::updateMedia($filename, $data);
+                MediaHandler::edit($filename, $data);
 
                 if (($gf->getNullableIntValue('category_id') ?? 0) !== $rexFileCategory) {
                     Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [

@@ -40,7 +40,7 @@ final class CategoryStatusChange extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        CategoryHandler::categoryStatus($categoryId, $languageId, $status);
+        CategoryHandler::changeStatus($categoryId, $languageId, $status);
 
         return new Result(true, I18n::msg('category_status_updated'));
     }

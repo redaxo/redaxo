@@ -7,7 +7,7 @@ use Redaxo\Core\ApiFunction\AsApiFunction;
 use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
-use Redaxo\Core\Content\ArticleHandler;
+use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\I18n;
@@ -37,7 +37,7 @@ final class CategoryToArticle extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        ArticleHandler::category2article($articleId);
+        CategoryHandler::convertToArticle($articleId);
 
         return new Result(true, I18n::msg('content_toarticle_ok'));
     }

@@ -55,7 +55,7 @@ final class MediaHandler
      * @param list<string> $types Restrict the allowed file extensions to these types
      * @throws UserMessageException
      */
-    public static function addMedia(array $data, bool $doSubindexing = true, array $types = []): Media
+    public static function add(array $data, bool $doSubindexing = true, array $types = []): Media
     {
         $error = $data['file']['error'] ?? null;
 
@@ -178,7 +178,7 @@ final class MediaHandler
      * @param int|null $languageId the language the title is saved for, defaults to the current language
      * @throws UserMessageException
      */
-    public static function updateMedia(string $filename, array $data, ?int $languageId = null): Media
+    public static function edit(string $filename, array $data, ?int $languageId = null): Media
     {
         if ('' === $filename) {
             throw new InvalidArgumentException('Expecting Filename.');
@@ -270,7 +270,7 @@ final class MediaHandler
     }
 
     /** @throws UserMessageException */
-    public static function deleteMedia(string $filename): void
+    public static function delete(string $filename): void
     {
         $media = Media::get($filename);
         if (!$media) {
