@@ -36,7 +36,7 @@ final class ArticleToStartArticle extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        ArticleHandler::article2startarticle($articleId);
+        ArticleHandler::convertToStartArticle($articleId);
 
         return new Result(true, I18n::msg('content_tostartarticle_ok'));
     }

@@ -36,7 +36,7 @@ final class ArticleDelete extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        ArticleHandler::deleteArticle($articleId);
+        ArticleHandler::delete($articleId);
 
         return new Result(true, I18n::msg('article_deleted'));
     }

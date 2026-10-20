@@ -52,7 +52,7 @@ final class ArticleSliceStatusChange extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        ContentHandler::sliceStatus($sliceId, $status);
+        ContentHandler::changeSliceStatus($sliceId, $status);
 
         return new Result(true);
     }

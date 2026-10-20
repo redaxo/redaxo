@@ -189,7 +189,7 @@ final class ContentHandler
     }
 
     /** @throws UserMessageException */
-    public static function sliceStatus(int $sliceId, int $status): ArticleSlice
+    public static function changeSliceStatus(int $sliceId, int $status): ArticleSlice
     {
         $sql = Sql::factory();
         $sql->setQuery('SELECT article_id, language_id, revision FROM rex_article_slice WHERE id = ?', [$sliceId]);

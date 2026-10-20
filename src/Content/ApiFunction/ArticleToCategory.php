@@ -36,7 +36,7 @@ final class ArticleToCategory extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        ArticleHandler::article2category($articleId);
+        ArticleHandler::convertToCategory($articleId);
 
         return new Result(true, I18n::msg('content_tocategory_ok'));
     }

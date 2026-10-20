@@ -41,10 +41,10 @@ if ($PERMALL) {
                 if ('edit_file_cat' == $mediaMethod) {
                     $catName = Request::request('cat_name', 'string');
                     $data = ['name' => $catName];
-                    $category = MediaCategoryHandler::editCategory($editId, $data);
+                    $category = MediaCategoryHandler::edit($editId, $data);
                     $success = I18n::msg('pool_kat_updated', $category->name);
                 } elseif ('delete_file_cat' == $mediaMethod) {
-                    MediaCategoryHandler::deleteCategory($editId);
+                    MediaCategoryHandler::delete($editId);
                     $success = I18n::msg('pool_kat_deleted');
                 } elseif ('add_file_cat' == $mediaMethod) {
                     $parent = null;
@@ -52,7 +52,7 @@ if ($PERMALL) {
                     if ($parentId) {
                         $parent = MediaCategory::get($parentId);
                     }
-                    $category = MediaCategoryHandler::addCategory(Request::request('catname', 'string'), $parent);
+                    $category = MediaCategoryHandler::add(Request::request('catname', 'string'), $parent);
                     $success = I18n::msg('pool_kat_saved', $category->name);
                 }
             } catch (UserMessageException $e) {

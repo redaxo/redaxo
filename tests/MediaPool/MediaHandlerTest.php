@@ -151,7 +151,7 @@ final class MediaHandlerTest extends TestCase
         self::assertNull($media);
         $rootMedia = Media::getRootMedia();
 
-        $addedMedia = MediaHandler::addMedia([
+        $addedMedia = MediaHandler::add([
             'category_id' => null,
             'title' => 'test',
             'file' => ['name' => $filename, 'path' => $srcFile],
@@ -165,7 +165,7 @@ final class MediaHandlerTest extends TestCase
             self::assertCount(count($rootMedia) + 1, $rootMediaNames);
             self::assertContains($filename, $rootMediaNames);
         } finally {
-            MediaHandler::deleteMedia($filename);
+            MediaHandler::delete($filename);
         }
     }
 
@@ -174,7 +174,7 @@ final class MediaHandlerTest extends TestCase
         $srcFile = self::getPath('source.txt');
         File::put($srcFile, 'test');
 
-        $filename = MediaHandler::addMedia([
+        $filename = MediaHandler::add([
             'category_id' => null,
             'title' => 'old title',
             'file' => ['name' => MediaPool::filename('media_handler_test.txt'), 'path' => $srcFile],
@@ -188,7 +188,7 @@ final class MediaHandlerTest extends TestCase
                 $events[] = $ep;
             });
 
-            $media = MediaHandler::updateMedia($filename, ['category_id' => null, 'title' => 'new title']);
+            $media = MediaHandler::edit($filename, ['category_id' => null, 'title' => 'new title']);
 
             self::assertSame('new title', $media->title);
             self::assertCount(1, $events);
@@ -196,7 +196,7 @@ final class MediaHandlerTest extends TestCase
             self::assertSame('old title', $events[0]->previous->title);
         } finally {
             new ReflectionProperty(Extension::class, 'extensions')->setValue(null, $extensions);
-            MediaHandler::deleteMedia($filename);
+            MediaHandler::delete($filename);
         }
     }
 }
