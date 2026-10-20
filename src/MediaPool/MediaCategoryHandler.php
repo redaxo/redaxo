@@ -6,6 +6,9 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryAdded;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryDeleted;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryUpdated;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
@@ -39,13 +42,11 @@ final class MediaCategoryHandler
 
         MediaPoolCache::deleteCategoryList($parentId);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_ADDED', [
-            'id' => $id,
-            'parent_id' => $parentId,
-            'name' => $name,
-        ]));
+        $category = Type::notNull(MediaCategory::get($id));
 
-        return Type::notNull(MediaCategory::get($id));
+        Extension::dispatch(new MediaCategoryAdded($category));
+
+        return $category;
     }
 
     /** @throws UserMessageException */
@@ -73,7 +74,7 @@ final class MediaCategoryHandler
             throw new UserMessageException(I18n::msg('pool_kat_not_deleted'));
         }
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_DELETED', ['id' => $categoryId]));
+        Extension::dispatch(new MediaCategoryDeleted($category));
     }
 
     /** @return false|string false or warning message */
@@ -116,11 +117,10 @@ final class MediaCategoryHandler
 
         MediaPoolCache::deleteCategory($categoryId);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_UPDATED', [
-            'id' => $categoryId,
-            'name' => $catName,
-        ]));
+        $category = Type::notNull(MediaCategory::get($categoryId));
 
-        return Type::notNull(MediaCategory::get($categoryId));
+        Extension::dispatch(new MediaCategoryUpdated($category));
+
+        return $category;
     }
 }

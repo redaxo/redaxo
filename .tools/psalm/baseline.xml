@@ -1445,9 +1445,6 @@
     <MixedArgument>
       <code><![CDATA[$params['filename']]]></code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[['filename' => $params['filename']]]]></code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="src/Security/ApiFunction/UserHasSession.php">
     <MixedArgument>

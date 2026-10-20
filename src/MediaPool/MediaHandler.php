@@ -13,6 +13,9 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -159,14 +162,11 @@ final class MediaHandler
         Media::clearInstances($data['file']['name_new']);
         MediaPoolCache::deleteList($categoryId);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_ADDED', '', [
-            ...$data,
-            'type' => $data['file']['type'],
-            'filename' => $data['file']['name_new'],
-            'old_filename' => $data['file']['name'],
-        ]));
+        $media = Type::notNull(Media::get($data['file']['name_new']));
 
-        return Type::notNull(Media::get($data['file']['name_new']));
+        Extension::dispatch(new MediaAdded($media));
+
+        return $media;
     }
 
     /**
@@ -201,7 +201,6 @@ final class MediaHandler
         $saveObject->setValue('category_id', $data['category_id'] ?: null);
 
         $file = $data['file'] ?? null;
-        $filetype = null;
 
         if ($file && !empty($file['name'])) {
             $error = $file['error'] ?? null;
@@ -261,15 +260,11 @@ final class MediaHandler
 
         MediaPoolCache::delete($filename);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_UPDATED', '', [
-            ...$data,
-            'id' => $media->id,
-            'filename' => $filename,
-            'type' => $filetype,
-            'filetype' => $filetype,
-        ]));
+        $media = Type::notNull(Media::get($filename, $languageId));
 
-        return Type::notNull(Media::get($filename));
+        Extension::dispatch(new MediaUpdated($media));
+
+        return $media;
     }
 
     /** @throws UserMessageException */
@@ -290,9 +285,7 @@ final class MediaHandler
         File::delete(Path::media($filename));
         MediaPoolCache::delete($filename);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_DELETED', '', [
-            'filename' => $filename,
-        ]));
+        Extension::dispatch(new MediaDeleted($media));
     }
 
     /**

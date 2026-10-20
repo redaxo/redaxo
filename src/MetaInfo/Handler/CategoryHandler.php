@@ -4,6 +4,8 @@ namespace Redaxo\Core\MetaInfo\Handler;
 
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\Category;
+use Redaxo\Core\Content\ExtensionPoint\CategoryAdded;
+use Redaxo\Core\Content\ExtensionPoint\CategoryUpdated;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\AsExtension;
 use Redaxo\Core\ExtensionPoint\ExtensionLevel;
@@ -53,25 +55,18 @@ final class CategoryHandler extends AbstractHandler
             </tr>';
     }
 
-    /**
-     * Saves the submitted values together with the category, as only that request is protected by a csrf token.
-     *
-     * @param ExtensionPoint<null> $ep
-     */
-    #[AsExtension('CAT_ADDED', ExtensionLevel::Early)]
-    #[AsExtension('CAT_UPDATED', ExtensionLevel::Early)]
-    public function saveForm(ExtensionPoint $ep): void
+    /** Saves the submitted values together with the category, as only that request is protected by a csrf token. */
+    #[AsExtension(level: ExtensionLevel::Early)]
+    public function saveForm(CategoryAdded|CategoryUpdated $ep): void
     {
-        $params = $ep->getParams();
-
-        if ('post' !== Request::requestMethod() || !isset($params['id'])) {
+        if ('post' !== Request::requestMethod()) {
             return;
         }
 
-        // a freshly added category has no language, its values apply to all languages
-        $languageIds = isset($params['language']) ? [(int) $params['language']] : Language::getAllIds();
+        // the values of a freshly added category apply to all languages
+        $languageIds = $ep instanceof CategoryAdded ? Language::getAllIds() : [$ep->category->languageId];
 
-        $this->save((int) $params['id'], $languageIds, $this->createContext($params));
+        $this->save($ep->category->id, $languageIds, new MetaContext(MetaEntity::Category, $ep->category, $ep->category));
     }
 
     /** @param array<string, mixed> $params */

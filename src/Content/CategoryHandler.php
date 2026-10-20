@@ -2,6 +2,9 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Content\ExtensionPoint\CategoryAdded;
+use Redaxo\Core\Content\ExtensionPoint\CategoryDeleted;
+use Redaxo\Core\Content\ExtensionPoint\CategoryUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
@@ -129,21 +132,12 @@ final class CategoryHandler
 
         ArticleCache::delete($id);
 
-        // ----- EXTENSION POINT
-        $category = self::select($id, Language::getStartId());
-        Extension::dispatch(new ExtensionPoint('CAT_ADDED', null, [
-            'category' => $category,
-            'id' => $id,
-            'parent_id' => $categoryId,
-            'name' => $data['catname'],
-            'priority' => $data['catpriority'],
-            'path' => $path,
-            'status' => $data['status'],
-            'article' => $category,
-            'data' => $data,
-        ]));
+        $category = Category::require($id);
 
-        return Category::require($id);
+        // ----- EXTENSION POINT
+        Extension::dispatch(new CategoryAdded($category));
+
+        return $category;
     }
 
     /**
@@ -161,6 +155,8 @@ final class CategoryHandler
         if (1 != $thisCat->getRows()) {
             throw new UserMessageException(I18n::msg('no_such_category'));
         }
+
+        $previous = Category::require($categoryId, $languageId);
 
         if (isset($data['catname'])) {
             Sql::factory()
@@ -193,25 +189,12 @@ final class CategoryHandler
 
         ArticleCache::delete($categoryId);
 
+        $category = Category::require($categoryId, $languageId);
+
         // ----- EXTENSION POINT
-        Extension::dispatch(new ExtensionPoint('CAT_UPDATED', null, [
-            'id' => $categoryId,
+        Extension::dispatch(new CategoryUpdated($category, $previous));
 
-            'category' => self::select($categoryId, $languageId),
-            'category_old' => clone $thisCat,
-            'article' => self::select($categoryId, $languageId),
-
-            'parent_id' => $thisCat->getValue('parent_id'),
-            'language' => $languageId,
-            'name' => $data['catname'] ?? $thisCat->getValue('catname'),
-            'priority' => $data['catpriority'] ?? $thisCat->getValue('catpriority'),
-            'path' => $thisCat->getValue('path'),
-            'status' => $thisCat->getValue('status'),
-
-            'data' => $data,
-        ]));
-
-        return Category::require($categoryId, $languageId);
+        return $category;
     }
 
     /**
@@ -221,11 +204,8 @@ final class CategoryHandler
      */
     public static function deleteCategory(int $categoryId): void
     {
-        $thisCat = Sql::factory();
-        $thisCat->setQuery('SELECT a.*, c.priority AS catpriority FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$categoryId]);
-
-        // Prüfen ob die Kategorie existiert
-        if (1 != $thisCat->getRows()) {
+        $category = Category::get($categoryId);
+        if (!$category) {
             throw new UserMessageException(I18n::msg('category_could_not_be_deleted'));
         }
 
@@ -242,19 +222,13 @@ final class CategoryHandler
             throw new UserMessageException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
         }
 
-        $parentId = $thisCat->getNullableIntValue('parent_id');
         ArticleHandler::_deleteArticle($categoryId);
 
         // ----- PRIOR
-        self::newCatPrio($parentId, 0, 1);
+        self::newCatPrio($category->parentId, 0, 1);
 
         // ----- EXTENSION POINT
-        Extension::dispatch(new ExtensionPoint('CAT_DELETED', null, [
-            'id' => $categoryId,
-            'parent_id' => $parentId,
-            'priority' => $thisCat->getValue('catpriority'),
-            'path' => $thisCat->getValue('path'),
-        ]));
+        Extension::dispatch(new CategoryDeleted($category));
 
         ComplexPermission::removeItem('structure', $categoryId);
     }

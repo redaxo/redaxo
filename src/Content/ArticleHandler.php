@@ -2,6 +2,9 @@
 
 namespace Redaxo\Core\Content;
 
+use Redaxo\Core\Content\ExtensionPoint\ArticleAdded;
+use Redaxo\Core\Content\ExtensionPoint\ArticleDeleted;
+use Redaxo\Core\Content\ExtensionPoint\ArticleUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
@@ -91,19 +94,12 @@ final class ArticleHandler
 
         ArticleCache::delete($id);
 
-        // ----- EXTENSION POINT
-        Extension::dispatch(new ExtensionPoint('ART_ADDED', null, [
-            'id' => $id,
-            'status' => 0,
-            'name' => $data['name'],
-            'parent_id' => $categoryId,
-            'priority' => $data['priority'],
-            'path' => $path,
-            'template_key' => $data['template'],
-            'data' => $data,
-        ]));
+        $article = Article::require($id);
 
-        return Article::require($id);
+        // ----- EXTENSION POINT
+        Extension::dispatch(new ArticleAdded($article));
+
+        return $article;
     }
 
     /**
@@ -123,8 +119,8 @@ final class ArticleHandler
             throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
-        $ooArt = Article::require($articleId, $languageId);
-        $data['category_id'] = $ooArt->categoryId;
+        $previous = Article::require($articleId, $languageId);
+        $data['category_id'] = $previous->categoryId;
 
         $templates = Template::getTemplatesForCategory($data['category_id']);
         $data['template'] = isset($data['template']) ? Type::string($data['template']) : null;
@@ -141,8 +137,6 @@ final class ArticleHandler
             }
         }
 
-        // complete remaining optional aprams
-        $data['path'] = $thisArt->getValue('path');
         $data['priority'] ??= $thisArt->getIntValue('priority');
 
         Sql::factory()
@@ -168,22 +162,12 @@ final class ArticleHandler
 
         ArticleCache::delete($articleId);
 
-        // ----- EXTENSION POINT
-        Extension::dispatch(new ExtensionPoint('ART_UPDATED', null, [
-            'id' => $articleId,
-            'article' => self::select($articleId, $languageId),
-            'article_old' => clone $thisArt,
-            'status' => $thisArt->getValue('status'),
-            'name' => $data['name'],
-            'language' => $languageId,
-            'parent_id' => $data['category_id'],
-            'priority' => $data['priority'],
-            'path' => $data['path'],
-            'template_key' => $data['template'],
-            'data' => $data,
-        ]));
+        $article = Article::require($articleId, $languageId);
 
-        return Article::require($articleId, $languageId);
+        // ----- EXTENSION POINT
+        Extension::dispatch(new ArticleUpdated($article, $previous));
+
+        return $article;
     }
 
     /**
@@ -200,19 +184,15 @@ final class ArticleHandler
             throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
+        $article = Article::require($articleId);
+
         self::_deleteArticle($articleId);
-        $parentId = $Art->getNullableIntValue('parent_id');
 
         // ----- PRIOR
-        self::newArtPrio($parentId, 0, 1);
+        self::newArtPrio($article->categoryId, 0, 1);
 
         // ----- EXTENSION POINT
-        Extension::dispatch(new ExtensionPoint('ART_DELETED', null, [
-            'id' => $articleId,
-            'parent_id' => $parentId,
-            'priority' => $Art->getValue('priority'),
-            'path' => $Art->getValue('path'),
-        ]));
+        Extension::dispatch(new ArticleDeleted($article));
     }
 
     /**
