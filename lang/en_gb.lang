@@ -316,6 +316,7 @@ user_role_apply = Apply role changes
 user_role_duplicate = duplicate
 user_role_delete = delete
 user_role_caption = List of all roles
+user_role_perms = Permissions
 user_no_role = No roles
 
 

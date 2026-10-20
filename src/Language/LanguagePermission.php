@@ -2,8 +2,10 @@
 
 namespace Redaxo\Core\Language;
 
+use Override;
 use Redaxo\Core\Security\ComplexPermission;
-use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Security\PermissionChoices;
+use Redaxo\Core\Translation\Translatable;
 
 use function count;
 use function in_array;
@@ -27,16 +29,13 @@ final class LanguagePermission extends ComplexPermission
         return $this->hasAll() ? Language::getAllIds() : $this->perms;
     }
 
-    public static function getFieldParams(): array
+    #[Override]
+    public static function getChoices(): PermissionChoices
     {
-        $options = array_map(static function (Language $language) {
+        $choices = array_map(static function (Language $language) {
             return $language->name;
         }, Language::getAll());
 
-        return [
-            'label' => I18n::msg('languages'),
-            'all_label' => I18n::msg('all_languages'),
-            'options' => $options,
-        ];
+        return new PermissionChoices(new Translatable('languages'), new Translatable('all_languages'), $choices);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\Form\Select\CategorySelect;
+use Override;
 use Redaxo\Core\Security\ComplexPermission;
-use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Security\PermissionChoices;
+use Redaxo\Core\Translation\Translatable;
 
 use function count;
 use function in_array;
@@ -76,12 +77,13 @@ final class StructurePermission extends ComplexPermission
         return $categories;
     }
 
-    public static function getFieldParams(): array
+    #[Override]
+    public static function getChoices(): PermissionChoices
     {
-        return [
-            'label' => I18n::msg('categories'),
-            'all_label' => I18n::msg('all_categories'),
-            'select' => new CategorySelect(false, null, false, false),
-        ];
+        return new PermissionChoices(
+            new Translatable('categories'),
+            new Translatable('all_categories'),
+            new CategoryChoices(checkPerms: false),
+        );
     }
 }
