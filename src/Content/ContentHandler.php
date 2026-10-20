@@ -7,7 +7,6 @@ use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -79,7 +78,7 @@ final class ContentHandler
      *
      * @return string Eine Statusmeldung
      */
-    public static function moveSlice(int $sliceId, int $languageId, string $direction): string
+    public static function moveSlice(int $sliceId, int $languageId, SliceMoveDirection $direction): string
     {
         // ctype beachten
         // verschieben / vertauschen
@@ -112,39 +111,35 @@ final class ContentHandler
                 'slice_revision' => $sliceRevision,
             ]));
 
-            if ('moveup' == $direction || 'movedown' == $direction) {
-                if ('moveup' == $direction) {
-                    $upd->setValue('priority', $oldPriority - 1);
-                    $updSort = 'DESC';
-                } else {
-                    $upd->setValue('priority', $oldPriority + 1);
-                    $updSort = 'ASC';
-                }
-                $upd->addGlobalUpdateFields(self::getUser());
-                $upd->update();
-
-                DatabaseUtil::organizePriorities(
-                    'rex_article_slice',
-                    'priority',
-                    'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . $sliceRevision,
-                    'priority, updatedate ' . $updSort,
-                );
-
-                // check if the slice moved at all (first cannot be moved up, last not down)
-                $CM->setQuery('select * from rex_article_slice where id=? and language_id=?', [$sliceId, $languageId]);
-                $newPriority = $CM->getIntValue('priority');
-                if ($oldPriority === $newPriority) {
-                    throw new UserMessageException(I18n::msg('slice_moved_error'));
-                }
-
-                ArticleCache::deleteContent($articleId, $languageId);
-
-                $article = Article::require($articleId, $languageId);
-                $slice = ArticleSlice::getArticleSliceById($sliceId, $languageId, $sliceRevision);
-                $info = Extension::dispatch(new ArticleContentUpdated($article, 'slice_moved', $slice, I18n::msg('slice_moved')));
+            if (SliceMoveDirection::Up === $direction) {
+                $upd->setValue('priority', $oldPriority - 1);
+                $updSort = 'DESC';
             } else {
-                throw new InvalidArgumentException('Unsupported move direction "' . $direction . '".');
+                $upd->setValue('priority', $oldPriority + 1);
+                $updSort = 'ASC';
             }
+            $upd->addGlobalUpdateFields(self::getUser());
+            $upd->update();
+
+            DatabaseUtil::organizePriorities(
+                'rex_article_slice',
+                'priority',
+                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . $sliceRevision,
+                'priority, updatedate ' . $updSort,
+            );
+
+            // check if the slice moved at all (first cannot be moved up, last not down)
+            $CM->setQuery('select * from rex_article_slice where id=? and language_id=?', [$sliceId, $languageId]);
+            $newPriority = $CM->getIntValue('priority');
+            if ($oldPriority === $newPriority) {
+                throw new UserMessageException(I18n::msg('slice_moved_error'));
+            }
+
+            ArticleCache::deleteContent($articleId, $languageId);
+
+            $article = Article::require($articleId, $languageId);
+            $slice = ArticleSlice::getArticleSliceById($sliceId, $languageId, $sliceRevision);
+            $info = Extension::dispatch(new ArticleContentUpdated($article, 'slice_moved', $slice, I18n::msg('slice_moved')));
         } else {
             throw new UserMessageException(I18n::msg('slice_not_found'));
         }

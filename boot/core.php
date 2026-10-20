@@ -2,6 +2,7 @@
 
 use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\ModulePermission;
+use Redaxo\Core\Content\SliceMoveDirection;
 use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\ErrorHandler;
@@ -116,7 +117,7 @@ if (Core::getConfig('article_history', false)) {
         static function (ExtensionPoint $ep) {
             $type = match ($ep->name) {
                 'ART_SLICES_COPY' => 'slices_copy',
-                'SLICE_MOVE' => 'slice_' . $ep->getParam('direction'),
+                'SLICE_MOVE' => 'slice_move' . Type::instanceOf($ep->getParam('direction'), SliceMoveDirection::class)->value,
                 default => strtolower($ep->name),
             };
 
