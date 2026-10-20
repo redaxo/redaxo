@@ -17,6 +17,9 @@ use Redaxo\Core\MetaInfo\MetaEntity;
  */
 final class ArticleHandler extends AbstractHandler
 {
+    /** Whether the submitted meta form has been saved; `null` if it was not submitted. */
+    public private(set) ?bool $saved = null;
+
     /**
      * Renders (and on save persists) the article meta form.
      *
@@ -32,14 +35,17 @@ final class ArticleHandler extends AbstractHandler
 
         // Only save when the meta form was actually submitted (e.g. not when navigating via be_search).
         if (Request::post('savemeta', 'boolean') && self::getCsrfToken()->isValid()) {
-            $context = $this->save($params, $context);
+            $this->saved = $this->submit($context);
+            if ($this->saved) {
+                $this->save($params);
+            }
         }
 
-        return $this->renderFields($context);
+        return $this->renderFields($context, vertical: true);
     }
 
     /** @param array{id: int, language: int, article: object} $params */
-    private function save(array $params, MetaContext $context): MetaContext
+    private function save(array $params): void
     {
         $id = $params['id'];
         $languageId = $params['language'];
@@ -48,22 +54,19 @@ final class ArticleHandler extends AbstractHandler
         $translation->setTable('rex_article_translation');
         $translation->setWhere(['article_id' => $id, 'language_id' => $languageId]);
         $translation->setValue('name', Request::post('meta_article_name', 'string'));
-        $saved = $this->saveRequestValues($translation, $context, translatable: true);
+        $this->saveValues($translation, MetaEntity::Article, translated: true);
         $translation->update();
 
         $shared = Sql::factory();
         $shared->setTable('rex_article');
         $shared->setWhere(['id' => $id]);
-        $saved += $this->saveRequestValues($shared, $context, translatable: false);
+        $this->saveValues($shared, MetaEntity::Article, translated: false);
         $shared->addGlobalUpdateFields();
         $shared->update();
 
         ArticleCache::deleteMeta($id);
 
         Extension::dispatch(new ExtensionPoint('ART_META_UPDATED', '', $params));
-
-        // Redisplay the freshly submitted values.
-        return new MetaContext($context->entity, $context->subject, $context->category, $context->mediaCategory, $saved);
     }
 
     /** @param ExtensionPoint<string> $ep */

@@ -106,6 +106,11 @@ final readonly class Column
         return new self($name, $type, $nullable, $default, null, $comment);
     }
 
+    public static function double(string $name, bool $nullable = false, ?float $default = null, ?string $comment = null): self
+    {
+        return new self($name, 'double', $nullable, null === $default ? null : (string) $default, null, $comment);
+    }
+
     /** @param int<0, 6>|null $precision Fractional seconds precision, whole seconds when omitted */
     public static function datetime(string $name, ?int $precision = null, bool $nullable = false, ?string $default = null, ?string $comment = null): self
     {

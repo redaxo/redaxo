@@ -75,6 +75,8 @@ final class Form implements Renderable
         public string|Translatable $submitLabel = new Translatable('form_save'),
         public readonly bool $csrf = true,
         ?array $only = null,
+        /** Whether the rows place their labels above the widgets instead of next to them, e.g. in narrow columns. */
+        public bool $vertical = false,
     ) {
         $class = new ReflectionClass($data);
         if (null === $name && $class->isAnonymous()) {
@@ -235,7 +237,12 @@ final class Form implements Renderable
         $field = $this->field($name);
         $this->rendered[$name] = true;
 
-        return $field->field->row($field)->render();
+        $row = $field->field->row($field);
+        if ($this->vertical && $row instanceof FieldRow) {
+            $row->vertical = true;
+        }
+
+        return $row->render();
     }
 
     /** Renders the bare control of the field. */

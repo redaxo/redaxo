@@ -20,6 +20,8 @@ final class FieldRow implements Renderable
         public string|Renderable|null $note = null,
         public string|Renderable|null $error = null,
         public bool $required = false,
+        /** Whether the label is placed above the widget instead of next to it, e.g. in narrow columns. */
+        public bool $vertical = false,
     ) {}
 
     public function labelFor(): ?string

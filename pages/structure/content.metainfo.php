@@ -10,6 +10,8 @@ use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Form\FieldRow;
+use Redaxo\Core\Form\Widget\Input;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MetaInfo\Handler\AbstractHandler as MetaInfoHandler;
@@ -115,22 +117,23 @@ if (1 == $article->getRows()) {
         'article' => $article,
     ]);
 
-    // The article name is not a meta field, but it is offered in the same form. Render it with the same
-    // markup as the meta fields (see MetaField::render) so it lines up with them instead of using the
-    // legacy horizontal form fragment.
-    $articleName = '<div class="form-group">'
-        . '<label for="rex-id-meta-article-name">' . escape(I18n::msg('header_article_name')) . '</label>'
-        . '<input class="form-control" type="text" id="rex-id-meta-article-name" name="meta_article_name" value="' . escape(Article::require($articleId, $languageId)->name) . '">'
-        . '</div>';
-    $form = $articleName . $form;
+    // The article name is not a meta field, but it is offered in the same form, with the same markup.
+    $articleName = new FieldRow(
+        new Input('meta_article_name', Article::require($articleId, $languageId)->name, 'rex-id-meta-article-name'),
+        I18n::msg('header_article_name'),
+        vertical: true,
+    )->render();
+    $form = (string) $articleName . $form;
 
     $csrfToken = MetaInfoHandler::getCsrfToken();
 
     $message = '';
     if (Request::post('savemeta', 'boolean')) {
-        $message = $csrfToken->isValid()
-            ? Message::success(I18n::msg('minfo_metadata_saved'))
-            : Message::error(I18n::msg('csrf_token_invalid'));
+        $message = match (true) {
+            !$csrfToken->isValid() => Message::error(I18n::msg('csrf_token_invalid')),
+            $metainfoHandler->saved => Message::success(I18n::msg('minfo_metadata_saved')),
+            default => Message::error(I18n::msg('form_save_error')),
+        };
     }
 
     $content[] = '

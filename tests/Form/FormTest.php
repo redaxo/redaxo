@@ -160,6 +160,16 @@ final class FormTest extends TestCase
         self::assertMatchesRegularExpression('/^<form [^>]*class="my-form"[^>]*><input type="hidden" name="settings\\[_submit\\]" value="1">\s*<div class="custom">.*name="settings\\[title\\]".*<\/div>\s*<\/form>$/s', $html);
     }
 
+    public function testVertical(): void
+    {
+        $form = new Form(new Settings(), csrf: false);
+        self::assertStringNotContainsString('rex-form-group-vertical', (string) $form->row('title'));
+
+        $form = new Form(new Settings(), csrf: false, vertical: true);
+        self::assertStringContainsString('rex-form-group-vertical', (string) $form->row('title'));
+        self::assertStringContainsString('rex-form-group-vertical', (string) $form->row('active'), 'checkbox rows as well');
+    }
+
     public function testUnknownField(): void
     {
         $form = new Form(new Settings(), only: ['title']);

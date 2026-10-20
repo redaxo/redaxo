@@ -5,7 +5,7 @@ use Redaxo\Core\View\Html;
 use Redaxo\Core\View\HtmlAttributes;
 
 return static function (FieldRow $row): void { ?>
-    <dl <?= new HtmlAttributes(['class' => ['rex-form-group', 'form-group', 'has-error' => null !== $row->error, 'rex-is-required' => $row->required]]) ?>>
+    <dl <?= new HtmlAttributes(['class' => ['rex-form-group', 'form-group', 'rex-form-group-vertical' => $row->vertical, 'has-error' => null !== $row->error, 'rex-is-required' => $row->required]]) ?>>
         <?php if (null !== $row->label): ?>
             <dt><label <?= new HtmlAttributes(['for' => $row->labelFor()]) ?>><?= Html::from($row->label) ?></label></dt>
         <?php endif ?>
