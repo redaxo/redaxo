@@ -45,7 +45,7 @@ final class Form implements Renderable
 
     private const string SUBMIT_KEY = '_submit';
 
-    /** Name of the request parameter holding the submitted values. */
+    /** Name of the request parameter holding the submitted values; defaults to the short class name of the data object. */
     public readonly string $name;
 
     private readonly FormSchema $schema;
@@ -76,7 +76,11 @@ final class Form implements Renderable
         public readonly bool $csrf = true,
         ?array $only = null,
     ) {
-        $this->name = $name ?? lcfirst(new ReflectionClass($data)->getShortName());
+        $class = new ReflectionClass($data);
+        if (null === $name && $class->isAnonymous()) {
+            throw new LogicException('A form for an anonymous class needs an explicit name.');
+        }
+        $this->name = $name ?? lcfirst($class->getShortName());
         $this->schema = FormSchema::of($data::class);
 
         $fields = $this->schema->fields;

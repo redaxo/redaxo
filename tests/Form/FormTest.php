@@ -6,6 +6,7 @@ use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Tests\Form\Fixtures\Color;
 use Redaxo\Core\Tests\Form\Fixtures\Fieldsets;
@@ -129,6 +130,22 @@ final class FormTest extends TestCase
         self::assertStringContainsString('meta[size]', $html);
         self::assertStringNotContainsString('meta[active]', $html);
         self::assertStringNotContainsString('<form', $html);
+    }
+
+    public function testAnonymousClass(): void
+    {
+        $data = new class {
+            #[Text('Title')]
+            public string $title = '';
+        };
+
+        $form = new Form($data, name: 'inline', csrf: false);
+        self::assertTrue($form->submit(['title' => 'Inline']));
+        self::assertSame('Inline', $data->title);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('A form for an anonymous class needs an explicit name.');
+        new Form($data);
     }
 
     public function testUnknownField(): void
