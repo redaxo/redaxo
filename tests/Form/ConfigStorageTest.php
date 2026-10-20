@@ -12,12 +12,12 @@ use Redaxo\Core\Tests\Form\Fixtures\Settings;
 /** @internal */
 final class ConfigStorageTest extends TestCase
 {
-    private const string NAMESPACE = 'test-form-storage';
+    private const string CONFIG_NAMESPACE = 'test-form-storage';
 
     #[Override]
     protected function tearDown(): void
     {
-        Config::removeNamespace(self::NAMESPACE);
+        Config::removeNamespace(self::CONFIG_NAMESPACE);
     }
 
     public function testSaveAndLoad(): void
@@ -28,13 +28,13 @@ final class ConfigStorageTest extends TestCase
         $settings->color = Color::Red;
         $settings->active = false;
 
-        $storage = new ConfigStorage(self::NAMESPACE);
+        $storage = new ConfigStorage(self::CONFIG_NAMESPACE);
         $storage->save($settings);
 
-        self::assertSame('Stored', Config::get(self::NAMESPACE, 'title'));
-        self::assertSame(2, Config::get(self::NAMESPACE, 'size_id'), 'the field key is used');
-        self::assertSame('red', Config::get(self::NAMESPACE, 'color'));
-        self::assertFalse(Config::has(self::NAMESPACE, 'notAField'));
+        self::assertSame('Stored', Config::get(self::CONFIG_NAMESPACE, 'title'));
+        self::assertSame(2, Config::get(self::CONFIG_NAMESPACE, 'size_id'), 'the field key is used');
+        self::assertSame('red', Config::get(self::CONFIG_NAMESPACE, 'color'));
+        self::assertFalse(Config::has(self::CONFIG_NAMESPACE, 'notAField'));
 
         $loaded = new Settings();
         $storage->load($loaded);
@@ -44,10 +44,10 @@ final class ConfigStorageTest extends TestCase
 
     public function testLoadSkipsMissingAndInvalidValues(): void
     {
-        Config::set(self::NAMESPACE, ['title' => 'Stored', 'size_id' => 'large', 'color' => 'green']);
+        Config::set(self::CONFIG_NAMESPACE, ['title' => 'Stored', 'size_id' => 'large', 'color' => 'green']);
 
         $settings = new Settings();
-        new ConfigStorage(self::NAMESPACE)->load($settings);
+        new ConfigStorage(self::CONFIG_NAMESPACE)->load($settings);
 
         self::assertSame('Stored', $settings->title);
         self::assertSame(1, $settings->size);
