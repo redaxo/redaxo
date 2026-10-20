@@ -61,7 +61,7 @@ abstract class Field
     }
 
     /** @throws InvalidValueException */
-    protected static function scalarToRaw(mixed $value): string
+    final protected static function scalarToRaw(mixed $value): string
     {
         return match (true) {
             null === $value => '',
@@ -126,7 +126,7 @@ abstract class Field
      * @param string|array<array-key, mixed>|null $raw
      * @return list<string>
      */
-    protected static function splitList(string|array|null $raw): array
+    final protected static function splitList(string|array|null $raw): array
     {
         $items = is_array($raw) ? $raw : explode(',', $raw ?? '');
 

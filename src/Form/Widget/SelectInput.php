@@ -11,7 +11,7 @@ use Redaxo\Core\View\RendersView;
  *
  * Choices are given as `value => label`; a nested array becomes an optgroup, its key being the group label.
  */
-class SelectInput implements Widget
+final class SelectInput implements Widget
 {
     use GroupsChoices;
     use RendersView;

@@ -12,7 +12,7 @@ use function preg_replace;
  *
  * Choices are given as `value => label`; a nested array becomes a fieldset, its key being the legend.
  */
-class ChoiceList implements Widget
+final class ChoiceList implements Widget
 {
     use GroupsChoices;
     use RendersView;

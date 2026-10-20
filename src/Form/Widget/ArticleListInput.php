@@ -10,7 +10,7 @@ use Redaxo\Core\View\RendersView;
  * The article ids are submitted comma-separated by a hidden input. The element ids follow the `REX_LINKLIST_*`
  * convention the linkmap scripts rely on.
  */
-class ArticleListInput implements Widget
+final class ArticleListInput implements Widget
 {
     use RendersView;
 
