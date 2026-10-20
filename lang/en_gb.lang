@@ -451,7 +451,6 @@ pool_file_in_use_articles = Article (Content)
 pool_file_changed = File exchanged!
 pool_file_added = File added!
 pool_file_movefailed = Upload failed.
-pool_file_renamed = Original filename <code>{0}</code> has been changed: <code>{1}</code>
 pool_file_mediatype_not_allowed = File type not allowed:
 pool_file_allowed_mediatypes = Allowed file types:
 pool_file_banned_mediatypes = Prohibited file types:

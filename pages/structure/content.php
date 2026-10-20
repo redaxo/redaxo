@@ -273,7 +273,8 @@ if (
                     } else {
                         // make delete
 
-                        $globalInfo = ContentHandler::deleteSlice($sliceId);
+                        ContentHandler::deleteSlice($sliceId);
+                        $globalInfo = I18n::msg('block_deleted');
                     }
                     // ----- / SAVE SLICE
 

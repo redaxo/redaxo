@@ -16,6 +16,8 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Http\Session;
 use Redaxo\Core\MediaManager\Exception\MediaNotFoundException;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\MediaPool\Media;
 
 use function array_filter;
@@ -169,11 +171,10 @@ final class MediaManager
     }
 
     /** @internal */
-    #[AsExtension('MEDIA_UPDATED')]
-    #[AsExtension('MEDIA_DELETED')]
-    public static function mediaUpdated(ExtensionPoint $ep): void
+    #[AsExtension]
+    public static function mediaUpdated(MediaUpdated|MediaDeleted $ep): void
     {
-        self::deleteCache((string) $ep->getParam('filename'));
+        self::deleteCache($ep->media->fileName);
     }
 
     /** @return never */

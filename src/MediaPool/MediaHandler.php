@@ -13,6 +13,9 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -51,9 +54,8 @@ final class MediaHandler
      * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      * @param list<string> $types Restrict the allowed file extensions to these types
      * @throws UserMessageException
-     * @return array{category_id: int|null, title: string, file: array{name: string, path: string, tmp_name?: string, error?: int, name_new: string, type: string|null}, width?: int, height?: int, message: string, type: string|null, msg: string, filename: string, old_filename: string, ok: 1}
      */
-    public static function addMedia(array $data, bool $doSubindexing = true, array $types = []): array
+    public static function addMedia(array $data, bool $doSubindexing = true, array $types = []): Media
     {
         $error = $data['file']['error'] ?? null;
 
@@ -157,34 +159,14 @@ final class MediaHandler
                 ->insert();
         }
 
-        $message = [];
-
-        $message[] = I18n::msg('pool_file_added');
-
-        if ($data['file']['name_new'] != $data['file']['name']) {
-            $message[] = I18n::rawMsg('pool_file_renamed', $data['file']['name'], $data['file']['name_new']);
-        }
-
-        $data['message'] = implode('<br />', $message);
-
         Media::clearInstances($data['file']['name_new']);
         MediaPoolCache::deleteList($categoryId);
 
-        /**
-         * @deprecated $return
-         * in future only $data -> MEDIA_ADDED and return $data;
-         */
-        $return = $data;
-        $return['type'] = $data['file']['type'];
-        $return['msg'] = implode('<br />', $message);
+        $media = Type::notNull(Media::get($data['file']['name_new']));
 
-        $return['filename'] = $data['file']['name_new'];
-        $return['old_filename'] = $data['file']['name'];
-        $return['ok'] = 1;
+        Extension::dispatch(new MediaAdded($media));
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_ADDED', '', $return));
-
-        return $return;
+        return $media;
     }
 
     /**
@@ -195,22 +177,23 @@ final class MediaHandler
      * @param array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}} $data `category_id` is `null` for the root level
      * @param int|null $languageId the language the title is saved for, defaults to the current language
      * @throws UserMessageException
-     * @return array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}, ok: 1, msg: string, id: int, filename: string, type: string|null, filetype: string|null}
      */
-    public static function updateMedia(string $filename, array $data, ?int $languageId = null): array
+    public static function updateMedia(string $filename, array $data, ?int $languageId = null): Media
     {
         if ('' === $filename) {
             throw new InvalidArgumentException('Expecting Filename.');
         }
 
-        $media = Media::get($filename);
-        if (!$media) {
+        $languageId ??= Language::getCurrentId();
+
+        $previous = Media::get($filename, $languageId);
+        if (!$previous) {
             throw new UserMessageException(I18n::msg('pool_file_not_found'));
         }
 
         Sql::factory()
             ->setTable('rex_media_translation')
-            ->setWhere(['media_id' => $media->id, 'language_id' => $languageId ?? Language::getCurrentId()])
+            ->setWhere(['media_id' => $previous->id, 'language_id' => $languageId])
             ->setValue('title', $data['title'])
             ->update();
 
@@ -220,7 +203,6 @@ final class MediaHandler
         $saveObject->setValue('category_id', $data['category_id'] ?: null);
 
         $file = $data['file'] ?? null;
-        $filetype = null;
 
         if ($file && !empty($file['name'])) {
             $error = $file['error'] ?? null;
@@ -280,23 +262,11 @@ final class MediaHandler
 
         MediaPoolCache::delete($filename);
 
-        /**
-         * @deprecated $return
-         * in future only $data -> MEDIA_UPDATED and return $data;
-         */
-        $return = $data;
+        $media = Type::notNull(Media::get($filename, $languageId));
 
-        $return['ok'] = 1;
-        $return['msg'] = I18n::msg('pool_file_infos_updated');
+        Extension::dispatch(new MediaUpdated($media, $previous));
 
-        $return['id'] = $media->id;
-        $return['filename'] = $filename;
-        $return['type'] = $filetype;
-        $return['filetype'] = $filetype;
-
-        Extension::dispatch(new ExtensionPoint('MEDIA_UPDATED', '', $return));
-
-        return $return;
+        return $media;
     }
 
     /** @throws UserMessageException */
@@ -317,9 +287,7 @@ final class MediaHandler
         File::delete(Path::media($filename));
         MediaPoolCache::delete($filename);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_DELETED', '', [
-            'filename' => $filename,
-        ]));
+        Extension::dispatch(new MediaDeleted($media));
     }
 
     /**
