@@ -914,6 +914,22 @@
       <code><![CDATA[$data['value']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
+  <file src="src/Content/CategoryNavigation.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[(string) $va]]></code>
+    </ArgumentTypeCoercion>
+    <InvalidStringClass>
+      <code><![CDATA[$class::$method($category, $depth, $li, $a, $aContent)]]></code>
+    </InvalidStringClass>
+    <MixedAssignment>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
+      <code><![CDATA[$result]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[$method]]></code>
+    </MixedMethodCall>
+  </file>
   <file src="src/Content/ContentHandler.php">
     <PossiblyNullArrayOffset>
       <code><![CDATA[$ctypes]]></code>
@@ -1768,22 +1784,6 @@
     <MixedPropertyAssignment>
       <code><![CDATA[$this->decorator]]></code>
     </MixedPropertyAssignment>
-  </file>
-  <file src="src/Content/CategoryNavigation.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[(string) $va]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidStringClass>
-      <code><![CDATA[$class::$method($category, $depth, $li, $a, $aContent)]]></code>
-    </InvalidStringClass>
-    <MixedAssignment>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$result]]></code>
-    </MixedAssignment>
-    <MixedMethodCall>
-      <code><![CDATA[$method]]></code>
-    </MixedMethodCall>
   </file>
   <file src="src/View/View.php">
     <PossiblyFalseOperand>
