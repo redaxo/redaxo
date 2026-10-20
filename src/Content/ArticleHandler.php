@@ -3,7 +3,12 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Content\ExtensionPoint\ArticleAdded;
+use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToCategory;
+use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToStartArticle;
+use Redaxo\Core\Content\ExtensionPoint\ArticleCopied;
 use Redaxo\Core\Content\ExtensionPoint\ArticleDeleted;
+use Redaxo\Core\Content\ExtensionPoint\ArticleMoved;
+use Redaxo\Core\Content\ExtensionPoint\ArticleStatusChanged;
 use Redaxo\Core\Content\ExtensionPoint\ArticleUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
@@ -252,36 +257,36 @@ final class ArticleHandler
     public static function changeStatus(int $articleId, int $languageId, ?int $status = null): Article
     {
         $GA = self::select($articleId, $languageId);
-        if (1 == $GA->getRows()) {
-            // Status wurde nicht von außen vorgegeben,
-            // => zyklisch auf den nächsten Weiterschalten
-            if (null === $status) {
-                $newstatus = self::nextStatus($GA->getIntValue('status'));
-            } else {
-                $newstatus = $status;
-            }
-
-            Sql::factory()
-                ->setTable('rex_article_translation')
-                ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
-                ->setValue('status', $newstatus)
-                ->update();
-
-            self::touch($articleId);
-
-            ArticleCache::delete($articleId, $languageId);
-
-            // ----- EXTENSION POINT
-            Extension::dispatch(new ExtensionPoint('ART_STATUS', null, [
-                'id' => $articleId,
-                'language' => $languageId,
-                'status' => $newstatus,
-            ]));
-        } else {
+        if (1 != $GA->getRows()) {
             throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
-        return Article::require($articleId, $languageId);
+        $previous = Article::require($articleId, $languageId);
+
+        // Status wurde nicht von außen vorgegeben,
+        // => zyklisch auf den nächsten Weiterschalten
+        if (null === $status) {
+            $newstatus = self::nextStatus($GA->getIntValue('status'));
+        } else {
+            $newstatus = $status;
+        }
+
+        Sql::factory()
+            ->setTable('rex_article_translation')
+            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
+            ->setValue('status', $newstatus)
+            ->update();
+
+        self::touch($articleId);
+
+        ArticleCache::delete($articleId, $languageId);
+
+        $article = Article::require($articleId, $languageId);
+
+        // ----- EXTENSION POINT
+        Extension::dispatch(new ArticleStatusChanged($article, $previous));
+
+        return $article;
     }
 
     /**
@@ -377,6 +382,7 @@ final class ArticleHandler
             throw new UserMessageException(I18n::msg('content_tocategory_failed'));
         }
         $parentId = $sql->getNullableIntValue('parent_id');
+        $previous = Article::require($artId);
 
         $user = self::getUser();
 
@@ -402,7 +408,7 @@ final class ArticleHandler
         ArticleCache::deleteLists($parentId);
         ArticleCache::delete($artId);
 
-        Extension::dispatch(new ExtensionPoint('ART_TO_CAT', '', ['id' => $artId]));
+        Extension::dispatch(new ArticleConvertedToCategory(Category::require($artId), $previous));
     }
 
     /**
@@ -509,10 +515,7 @@ final class ArticleHandler
 
         ComplexPermission::replaceItem('structure', $altId, $neuId);
 
-        Extension::dispatch(new ExtensionPoint('ART_TO_STARTARTICLE', '', [
-            'id' => $neuId,
-            'id_old' => $altId,
-        ]));
+        Extension::dispatch(new ArticleConvertedToStartArticle(Article::require($neuId), Article::require($altId)));
     }
 
     /**
@@ -668,12 +671,6 @@ final class ArticleHandler
         // Prios neu berechnen
         self::updatePriorities($toCatId, 1, 0);
 
-        Extension::dispatch(new ExtensionPoint('ART_COPIED', null, [
-            'id_source' => $id,
-            'id' => $newId,
-            'category_id' => $toCatId,
-        ]));
-
         // Caches des Artikels löschen, in allen Sprachen
         ArticleCache::delete($id);
 
@@ -682,7 +679,11 @@ final class ArticleHandler
             ArticleCache::delete($toCatId);
         }
 
-        return Article::require($newId);
+        $article = Article::require($newId);
+
+        Extension::dispatch(new ArticleCopied($article, Article::require($id)));
+
+        return $article;
     }
 
     /**
@@ -717,6 +718,8 @@ final class ArticleHandler
             $path = $toSql->getStringValue('path') . $toCatId . '|';
         }
 
+        $previous = Article::require($id);
+
         $artSql = Sql::factory();
         $artSql->setTable('rex_article');
         $artSql->setWhere(['id' => $id]);
@@ -731,11 +734,6 @@ final class ArticleHandler
         self::updatePriorities($toCatId, 1, 0);
         self::updatePriorities($fromCatId, 1, 0);
 
-        Extension::dispatch(new ExtensionPoint('ART_MOVED', null, [
-            'id' => $id,
-            'category_id' => $toCatId,
-        ]));
-
         // Caches des Artikels löschen, in allen Sprachen
         ArticleCache::delete($id);
 
@@ -745,6 +743,8 @@ final class ArticleHandler
                 ArticleCache::delete($categoryId);
             }
         }
+
+        Extension::dispatch(new ArticleMoved(Article::require($id), $previous));
     }
 
     /** Selects the article together with its translation in the given language. */

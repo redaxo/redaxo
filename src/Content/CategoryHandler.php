@@ -3,7 +3,10 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Content\ExtensionPoint\CategoryAdded;
+use Redaxo\Core\Content\ExtensionPoint\CategoryConvertedToArticle;
 use Redaxo\Core\Content\ExtensionPoint\CategoryDeleted;
+use Redaxo\Core\Content\ExtensionPoint\CategoryMoved;
+use Redaxo\Core\Content\ExtensionPoint\CategoryStatusChanged;
 use Redaxo\Core\Content\ExtensionPoint\CategoryUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
@@ -243,40 +246,40 @@ final class CategoryHandler
     public static function changeStatus(int $categoryId, int $languageId, ?int $status = null): Category
     {
         $KAT = self::select($categoryId, $languageId);
-        if (1 == $KAT->getRows()) {
-            // Status wurde nicht von außen vorgegeben,
-            // => zyklisch auf den nächsten Weiterschalten
-            if (null === $status) {
-                $newstatus = self::nextStatus($KAT->getIntValue('status'));
-            } else {
-                $newstatus = $status;
-            }
-
-            Sql::factory()
-                ->setTable('rex_article_translation')
-                ->setWhere(['article_id' => $categoryId, 'language_id' => $languageId])
-                ->setValue('status', $newstatus)
-                ->update();
-
-            Sql::factory()
-                ->setTable('rex_article')
-                ->setWhere(['id' => $categoryId])
-                ->addGlobalUpdateFields(self::getUser())
-                ->update();
-
-            ArticleCache::delete($categoryId, $languageId);
-
-            // ----- EXTENSION POINT
-            Extension::dispatch(new ExtensionPoint('CAT_STATUS', null, [
-                'id' => $categoryId,
-                'language' => $languageId,
-                'status' => $newstatus,
-            ]));
-        } else {
+        if (1 != $KAT->getRows()) {
             throw new UserMessageException(I18n::msg('no_such_category'));
         }
 
-        return Category::require($categoryId, $languageId);
+        $previous = Category::require($categoryId, $languageId);
+
+        // Status wurde nicht von außen vorgegeben,
+        // => zyklisch auf den nächsten Weiterschalten
+        if (null === $status) {
+            $newstatus = self::nextStatus($KAT->getIntValue('status'));
+        } else {
+            $newstatus = $status;
+        }
+
+        Sql::factory()
+            ->setTable('rex_article_translation')
+            ->setWhere(['article_id' => $categoryId, 'language_id' => $languageId])
+            ->setValue('status', $newstatus)
+            ->update();
+
+        Sql::factory()
+            ->setTable('rex_article')
+            ->setWhere(['id' => $categoryId])
+            ->addGlobalUpdateFields(self::getUser())
+            ->update();
+
+        ArticleCache::delete($categoryId, $languageId);
+
+        $category = Category::require($categoryId, $languageId);
+
+        // ----- EXTENSION POINT
+        Extension::dispatch(new CategoryStatusChanged($category, $previous));
+
+        return $category;
     }
 
     /**
@@ -388,6 +391,7 @@ final class CategoryHandler
         }
 
         $fromParentId = $fcat->getNullableIntValue('parent_id');
+        $previous = Category::require($fromCat);
 
         // ----- folgende cats regenerate
         $RC = [];
@@ -452,10 +456,7 @@ final class CategoryHandler
 
         self::updatePriorities($fromParentId, 0, 1);
 
-        Extension::dispatch(new ExtensionPoint('CAT_MOVED', null, [
-            'id' => $fromCat,
-            'category_id' => $toCat,
-        ]));
+        Extension::dispatch(new CategoryMoved(Category::require($fromCat), $previous));
     }
 
     /**
@@ -478,6 +479,7 @@ final class CategoryHandler
             throw new UserMessageException(I18n::msg('content_toarticle_failed'));
         }
         $parentId = $sql->getNullableIntValue('parent_id');
+        $previous = Category::require($categoryId);
 
         // the translations of the category are removed by the foreign key
         $sql->setQuery('DELETE FROM rex_category WHERE id = ?', [$categoryId]);
@@ -494,7 +496,7 @@ final class CategoryHandler
         ArticleCache::deleteLists($parentId);
         ArticleCache::delete($categoryId);
 
-        Extension::dispatch(new ExtensionPoint('CAT_TO_ART', '', ['id' => $categoryId]));
+        Extension::dispatch(new CategoryConvertedToArticle(Article::require($categoryId), $previous));
     }
 
     /** Selects the category with its start article and the translations in the given language. */
