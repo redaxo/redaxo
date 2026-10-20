@@ -3,7 +3,9 @@
 namespace Redaxo\Core\Form\Field;
 
 use Attribute;
+use DateTimeImmutable;
 use Override;
+use Redaxo\Core\Util\Formatter;
 
 /** Date picker, stored as a SQL `date` (`Y-m-d`). */
 #[Attribute(Attribute::TARGET_PROPERTY)]
@@ -31,5 +33,11 @@ class DatePicker extends AbstractDateTimeField
     protected function storageFormat(): string
     {
         return 'Y-m-d';
+    }
+
+    #[Override]
+    protected function display(DateTimeImmutable $date): string
+    {
+        return Formatter::intlDate($date);
     }
 }

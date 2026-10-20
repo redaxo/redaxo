@@ -14,6 +14,8 @@ use Redaxo\Core\Form\Field\Choice;
 use Redaxo\Core\Form\Field\DatePicker;
 use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Text;
+use Redaxo\Core\Form\Field\Textarea;
+use Redaxo\Core\Form\Field\TimePicker;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\FormSchema;
 use Redaxo\Core\Tests\Form\Fixtures\AllFields;
@@ -160,6 +162,42 @@ final class FieldsTest extends TestCase
         $field = new Number('Price');
         self::assertSame('19.90', $field->encode(new Decimal('19.90')));
         self::assertEquals(new Decimal('19.90'), $field->decode('19.90', FormSchema::of($data::class)->get('price')->type));
+    }
+
+    public function testLimits(): void
+    {
+        $data = new class {
+            #[DatePicker('Date', min: 'today', max: '+1 year')]
+            public ?DateTimeImmutable $date = null;
+
+            #[TimePicker('Time', min: '08:00', max: '18:00')]
+            public ?string $time = null;
+
+            #[Textarea('Text', maxLength: 5)]
+            public string $text = '';
+        };
+
+        $today = new DateTimeImmutable('today');
+        $form = new Form($data, name: 'limits', csrf: false);
+        self::assertStringContainsString('min="' . $today->format('Y-m-d') . '" max="' . $today->modify('+1 year')->format('Y-m-d') . '"', (string) $form->widget('date'));
+        self::assertStringContainsString('min="08:00" max="18:00"', (string) $form->widget('time'));
+        self::assertStringContainsString('maxlength="5"', (string) $form->widget('text'));
+
+        self::assertTrue($form->submit(['date' => $today->format('Y-m-d'), 'time' => '18:00', 'text' => "ab\r\ncd"]), 'a line break counts as one character');
+        self::assertEquals($today, $data->date);
+
+        $cases = [
+            'date' => ['form_min_date', ['date' => $today->modify('-1 day')->format('Y-m-d')]],
+            'time' => ['form_max_date', ['time' => '18:01']],
+            'text' => ['form_max_length', ['text' => "abc\r\ndef"]],
+        ];
+        foreach ($cases as $property => [$error, $submitted]) {
+            $form = new Form(clone $data, name: 'limits', csrf: false);
+            self::assertFalse($form->submit($submitted + ['date' => '', 'time' => '', 'text' => '']));
+            $message = $form->field($property)->error;
+            self::assertInstanceOf(Translatable::class, $message);
+            self::assertSame($error, $message->key);
+        }
     }
 
     public function testMissingDefault(): void

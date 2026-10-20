@@ -24,7 +24,7 @@ final class FormFields
     #[Text('Text', note: 'With a note', required: true, maxLength: 50)]
     public string $text = '';
 
-    #[Textarea('Textarea', rows: 3)]
+    #[Textarea('Textarea', rows: 3, maxLength: 200)]
     public string $textarea = '';
 
     #[Number('Number', min: 1, max: 99)]
@@ -50,13 +50,13 @@ final class FormFields
     #[Choice('Checkboxes', choices: self::CHOICES, multiple: true, expanded: true)]
     public array $checkboxes = [];
 
-    #[DatePicker('Date')]
+    #[DatePicker('Date', min: 'today')]
     public ?DateTimeImmutable $date = null;
 
     #[DateTimePicker('Date and time')]
     public ?DateTimeImmutable $dateTime = null;
 
-    #[TimePicker('Time')]
+    #[TimePicker('Time', min: '08:00', max: '18:00')]
     public ?string $time = null;
 
     #[ArticlePicker('Article')]
