@@ -56,11 +56,15 @@ final class LanguageHandler
         Extension::dispatch(new LanguageAdded(Language::require($id)));
     }
 
-    /** Updates a language. */
-    public static function edit(int $id, string $code, string $name, int $priority, ?bool $status = null): bool
+    /**
+     * Updates a language.
+     *
+     * @throws UserMessageException
+     */
+    public static function edit(int $id, string $code, string $name, int $priority, ?bool $status = null): void
     {
         if (!Language::exists($id)) {
-            throw new RuntimeException('Language with id "' . $id . '" does not exist');
+            throw new UserMessageException(I18n::msg('language_not_found', $id));
         }
 
         $oldPriority = Language::require($id)->priority;
@@ -83,8 +87,6 @@ final class LanguageHandler
 
         // ----- EXTENSION POINT
         Extension::dispatch(new LanguageUpdated(Language::require($id)));
-
-        return true;
     }
 
     /**
@@ -100,7 +102,7 @@ final class LanguageHandler
         }
 
         if (!Language::exists($id)) {
-            throw new UserMessageException(I18n::msg('language_error_idcanotbedeleted', $id));
+            throw new UserMessageException(I18n::msg('language_not_found', $id));
         }
 
         $language = Language::require($id);

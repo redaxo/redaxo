@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Core;
@@ -10,6 +9,7 @@ use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\RuntimeException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
@@ -24,10 +24,7 @@ final class ContentHandler
 {
     private function __construct() {}
 
-    /**
-     * @param array{priority?: int, revision?: int, ...<string, scalar|null>} $data
-     * @throws ApiFunctionException
-     */
+    /** @param array{priority?: int, revision?: int, ...<string, scalar|null>} $data */
     public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $data = []): string
     {
         $data['revision'] ??= 0;
@@ -78,7 +75,7 @@ final class ContentHandler
     /**
      * Verschiebt einen Slice.
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string Eine Statusmeldung
      */
@@ -137,7 +134,7 @@ final class ContentHandler
                 $CM->setQuery('select * from rex_article_slice where id=? and language_id=?', [$sliceId, $languageId]);
                 $newPriority = $CM->getIntValue('priority');
                 if ($oldPriority === $newPriority) {
-                    throw new ApiFunctionException(I18n::msg('slice_moved_error'));
+                    throw new UserMessageException(I18n::msg('slice_moved_error'));
                 }
 
                 ArticleCache::deleteContent($articleId, $languageId);
@@ -149,7 +146,7 @@ final class ContentHandler
                 throw new InvalidArgumentException('Unsupported move direction "' . $direction . '".');
             }
         } else {
-            throw new ApiFunctionException(I18n::msg('slice_moved_error'));
+            throw new UserMessageException(I18n::msg('slice_not_found'));
         }
 
         return $info;
@@ -158,6 +155,8 @@ final class ContentHandler
     /**
      * Deletes a slice.
      *
+     * @throws UserMessageException
+     *
      * @return string Status message
      */
     public static function deleteSlice(int $sliceId): string
@@ -165,7 +164,7 @@ final class ContentHandler
         $curr = Sql::factory();
         $curr->setQuery('SELECT * FROM rex_article_slice WHERE id=?', [$sliceId]);
         if (1 != $curr->getRows()) {
-            throw new RuntimeException(sprintf('Slice with id=%d not found.', $sliceId));
+            throw new UserMessageException(I18n::msg('slice_not_found'));
         }
 
         $slice = ArticleSlice::fromSql($curr);
@@ -195,13 +194,14 @@ final class ContentHandler
         return Extension::dispatch(new ArticleContentUpdated($article, 'slice_deleted', $slice, I18n::msg('block_deleted')));
     }
 
+    /** @throws UserMessageException */
     public static function sliceStatus(int $sliceId, int $status): void
     {
         $sql = Sql::factory();
         $sql->setQuery('SELECT article_id, language_id, revision FROM rex_article_slice WHERE id = ?', [$sliceId]);
 
         if (!$sql->getRows()) {
-            throw new RuntimeException(sprintf('Slice with id=%d not found.', $sliceId));
+            throw new UserMessageException(I18n::msg('slice_not_found'));
         }
 
         $article = Article::require($sql->getIntValue('article_id'), $sql->getIntValue('language_id'));
@@ -224,11 +224,13 @@ final class ContentHandler
      *
      * @param int|null $revision If null, slices of all revisions are copied
      * @param bool $overwrite If true, existing content in target language will be deleted before copying
+     *
+     * @throws UserMessageException
      */
-    public static function copyContent(int $fromId, int $toId, int $fromLanguageId = 1, int $toLanguageId = 1, ?int $revision = null, bool $overwrite = false): bool
+    public static function copyContent(int $fromId, int $toId, int $fromLanguageId = 1, int $toLanguageId = 1, ?int $revision = null, bool $overwrite = false): void
     {
         if ($fromId == $toId && $fromLanguageId == $toLanguageId) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_errorcopy'));
         }
 
         $gc = Sql::factory();
@@ -320,8 +322,6 @@ final class ContentHandler
 
         $article = Article::require($toId, $toLanguageId);
         Extension::dispatch(new ArticleContentUpdated($article, 'content_copied'));
-
-        return true;
     }
 
     /** Generates the article content cache, for one language or for all of them. */

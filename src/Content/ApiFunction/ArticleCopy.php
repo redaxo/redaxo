@@ -55,14 +55,11 @@ final class ArticleCopy extends ApiFunction
             'language' => $languageId,
         ]);
 
-        if (false !== ($newId = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew ?: null))) {
-            $result = new Result(true, I18n::msg('content_articlecopied'));
-            Response::sendRedirect($context->getUrl([
-                'article_id' => $newId,
-                'info' => $result->message,
-            ]));
-        }
+        $newId = ArticleHandler::copyArticle($articleId, $categoryCopyIdNew ?: null);
 
-        return new Result(false, I18n::msg('content_errorcopyarticle'));
+        Response::sendRedirect($context->getUrl([
+            'article_id' => $newId,
+            'info' => I18n::msg('content_articlecopied'),
+        ]));
     }
 }

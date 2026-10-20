@@ -272,7 +272,7 @@ form_resetted = Eingaben wurden verworfen!
 # language
 all_languages = Alle Sprachen
 language_error_startidcanotbedeleted = Startsprache mit der ID "{0}" kann nicht gelöscht werden
-language_error_idcanotbedeleted = Sprache mit der ID "{0}" existiert nicht
+language_not_found = Sprache mit der ID "{0}" existiert nicht
 
 # footer
 footer_joinforum = Besuche das Forum
@@ -432,6 +432,7 @@ pool_kat_deleted = Medienkategorie wurde gelöscht
 pool_kat_create_label = Neue Medienkategorie anlegen
 pool_kat_create = Medienkategorie hinzufügen
 pool_kat_edit = Medienkategorie bearbeiten
+pool_kat_not_found = Medienkategorie existiert nicht!
 pool_kat_not_deleted = Kategorie kann nicht gelöscht werden, da sich noch Dateien in dieser Kategorie befinden!
 pool_kat_name = Name
 pool_kat_function = Funktion
@@ -647,6 +648,7 @@ copy_article = in Kategorie
 no_rights_to_edit = Sie haben keine Editiererlaubnis!
 slice_moved = Block wurde verschoben.
 slice_moved_error = Block konnte nicht verschoben werden.
+slice_not_found = Block existiert nicht!
 slice_deleted_error = Block konnte nicht gelöscht werden.
 slice_saved_error = Eingaben wurden nicht übernommen.
 content_contentcopy = Inhalt wurde kopiert.
@@ -660,7 +662,6 @@ content_errormovearticle = Artikel konnte nicht verschoben werden.
 content_articlemoved = Artikel wurde verschoben
 content_submitcopyarticle = Artikel kopieren
 content_articlecopied = Artikel wurde kopiert
-content_errorcopyarticle = Artikel konnte nicht kopiert werden.
 content_error_movecategory = Kategorie konnte nicht verschoben werden
 content_submitmovecategory = Kategorie verschieben
 content_startarticle = Startartikel

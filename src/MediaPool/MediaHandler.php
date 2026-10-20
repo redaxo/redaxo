@@ -3,9 +3,10 @@
 namespace Redaxo\Core\MediaPool;
 
 use enshrined\svgSanitize\Sanitizer;
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
@@ -49,6 +50,7 @@ final class MediaHandler
      *     `title` is used for all languages
      * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      * @param list<string> $types Restrict the allowed file extensions to these types
+     * @throws UserMessageException
      * @return array{category_id: int|null, title: string, file: array{name: string, path: string, tmp_name?: string, error?: int, name_new: string, type: string|null}, width?: int, height?: int, message: string, type: string|null, msg: string, filename: string, old_filename: string, ok: 1}
      */
     public static function addMedia(array $data, bool $doSubindexing = true, array $types = []): array
@@ -56,16 +58,16 @@ final class MediaHandler
         $error = $data['file']['error'] ?? null;
 
         if (UPLOAD_ERR_INI_SIZE === $error) {
-            throw new ApiFunctionException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(Request::getMaxUploadSize())));
+            throw new UserMessageException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(Request::getMaxUploadSize())));
         }
         if ($error) {
-            throw new ApiFunctionException(I18n::msg('pool_file_upload_error'));
+            throw new UserMessageException(I18n::msg('pool_file_upload_error'));
         }
 
         $data['file']['path'] ??= $data['file']['tmp_name'] ?? null;
 
         if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
-            throw new ApiFunctionException(I18n::msg('pool_file_not_found'));
+            throw new UserMessageException(I18n::msg('pool_file_not_found'));
         }
 
         if (!MediaPool::isAllowedExtension($data['file']['name'], $types)) {
@@ -75,12 +77,12 @@ final class MediaHandler
                     ? '<br />' . I18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', escape($allowedExtensions)), ', ') . '</code>'
                     : '<br />' . I18n::msg('pool_file_banned_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', escape(MediaPool::$blockedExtensions)), ', ') . '</code>';
 
-            throw new ApiFunctionException($warning);
+            throw new UserMessageException($warning);
         }
 
         if (!MediaPool::isAllowedMimeType($data['file']['path'], $data['file']['name'])) {
             $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape(File::extension($data['file']['name'])) . '</code> (<code>' . escape(File::mimeType($data['file']['path'], $data['file']['name']) ?? 'unknown mime type') . '</code>)';
-            throw new ApiFunctionException($warning);
+            throw new UserMessageException($warning);
         }
 
         $categoryId = $data['category_id'] ?: null;
@@ -112,7 +114,7 @@ final class MediaHandler
         ]));
         if ($errorMessage) {
             // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
-            throw new ApiFunctionException($errorMessage);
+            throw new UserMessageException($errorMessage);
         }
 
         // preserve the perms of an existing file, otherwise use the umask-derived default
@@ -192,17 +194,18 @@ final class MediaHandler
      *
      * @param array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}} $data `category_id` is `null` for the root level
      * @param int|null $languageId the language the title is saved for, defaults to the current language
+     * @throws UserMessageException
      * @return array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}, ok: 1, msg: string, id: int, filename: string, type: string|null, filetype: string|null}
      */
     public static function updateMedia(string $filename, array $data, ?int $languageId = null): array
     {
         if ('' === $filename) {
-            throw new ApiFunctionException('Expecting Filename.');
+            throw new InvalidArgumentException('Expecting Filename.');
         }
 
         $media = Media::get($filename);
         if (!$media) {
-            throw new ApiFunctionException(I18n::msg('pool_file_not_found'));
+            throw new UserMessageException(I18n::msg('pool_file_not_found'));
         }
 
         Sql::factory()
@@ -223,15 +226,15 @@ final class MediaHandler
             $error = $file['error'] ?? null;
 
             if (UPLOAD_ERR_INI_SIZE === $error) {
-                throw new ApiFunctionException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(Request::getMaxUploadSize())));
+                throw new UserMessageException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(Request::getMaxUploadSize())));
             }
             if ($error) {
-                throw new ApiFunctionException(I18n::msg('pool_file_upload_error'));
+                throw new UserMessageException(I18n::msg('pool_file_upload_error'));
             }
 
             $file['path'] = $file['tmp_name'] ?? null;
             if (empty($file['path'])) {
-                throw new ApiFunctionException(I18n::msg('pool_file_not_found'));
+                throw new UserMessageException(I18n::msg('pool_file_not_found'));
             }
 
             $filetype = File::mimeType($file['path'], $file['name']);
@@ -248,7 +251,7 @@ final class MediaHandler
             ) {
                 if (!MediaPool::isAllowedMimeType($srcFile, $dstFile)) {
                     $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape($extensionNew) . '</code> (<code>' . escape($filetype ?? 'unknown mime type') . '</code>)';
-                    throw new ApiFunctionException($warning);
+                    throw new UserMessageException($warning);
                 }
 
                 // preserve the perms of an existing file, otherwise use the umask-derived default
@@ -268,7 +271,7 @@ final class MediaHandler
                     $saveObject->setValue('height', $size[1]);
                 }
             } else {
-                throw new ApiFunctionException(I18n::msg('pool_file_upload_errortype'));
+                throw new UserMessageException(I18n::msg('pool_file_upload_errortype'));
             }
         }
 
@@ -296,15 +299,16 @@ final class MediaHandler
         return $return;
     }
 
+    /** @throws UserMessageException */
     public static function deleteMedia(string $filename): void
     {
         $media = Media::get($filename);
         if (!$media) {
-            throw new ApiFunctionException(I18n::msg('pool_file_not_found', $filename));
+            throw new UserMessageException(I18n::msg('pool_file_not_found', $filename));
         }
 
         if ($uses = MediaPool::mediaIsInUse($filename)) {
-            throw new ApiFunctionException(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
+            throw new UserMessageException(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
         }
 
         $sql = Sql::factory();
@@ -442,7 +446,7 @@ final class MediaHandler
      * The file must never be moved before it has been sanitized, otherwise the unsanitized content would be publicly
      * available for a short time (or permanently, if sanitizing fails).
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      */
     private static function moveMedia(string $srcFile, string $dstFile, ?string $type): void
     {
@@ -453,7 +457,7 @@ final class MediaHandler
                 File::delete($sanitizedFile);
             }
 
-            throw new ApiFunctionException(I18n::msg('pool_file_movefailed'));
+            throw new UserMessageException(I18n::msg('pool_file_movefailed'));
         }
 
         // the source file is left behind when the sanitized copy has been moved instead
@@ -467,7 +471,7 @@ final class MediaHandler
      *
      * @param string $filename Name of the target file, used to detect the file extension
      *
-     * @throws ApiFunctionException
+     * @throws UserMessageException
      *
      * @return string|null Path of the sanitized temp file or `null` if the file does not need sanitization
      */
@@ -489,14 +493,14 @@ final class MediaHandler
         }
 
         if (false === $content) {
-            throw new ApiFunctionException(I18n::msg('pool_file_upload_error'));
+            throw new UserMessageException(I18n::msg('pool_file_upload_error'));
         }
 
         // the temp file is placed inside the project to keep the final move to the media folder atomic
         $sanitizedFile = Path::coreCache('mediapool/sanitize/' . bin2hex(random_bytes(16)) . '.svg');
 
         if (!File::put($sanitizedFile, $content)) {
-            throw new ApiFunctionException(I18n::msg('pool_file_movefailed'));
+            throw new UserMessageException(I18n::msg('pool_file_movefailed'));
         }
 
         return $sanitizedFile;
