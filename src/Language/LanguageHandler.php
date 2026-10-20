@@ -3,9 +3,9 @@
 namespace Redaxo\Core\Language;
 
 use Redaxo\Core\Cache;
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -33,7 +33,7 @@ final class LanguageHandler
         $sql->insert();
         $id = $sql->getLastId();
 
-        Util::organizePriorities('rex_language', 'priority', '', 'priority, id != ' . $id);
+        DatabaseUtil::organizePriorities('rex_language', 'priority', '', 'priority, id != ' . $id);
 
         $sourceId = Language::getStartId();
         if ($sourceId === $id) {
@@ -77,7 +77,7 @@ final class LanguageHandler
         $editLang->update();
 
         $comparator = $oldPriority < $priority ? '=' : '!=';
-        Util::organizePriorities('rex_language', 'priority', '', 'priority, id' . $comparator . $id);
+        DatabaseUtil::organizePriorities('rex_language', 'priority', '', 'priority, id' . $comparator . $id);
 
         Cache::delete();
 
@@ -107,7 +107,7 @@ final class LanguageHandler
 
         Sql::factory()->setQuery('delete from rex_language where id=?', [$id]);
 
-        Util::organizePriorities('rex_language', 'priority', '', 'priority');
+        DatabaseUtil::organizePriorities('rex_language', 'priority', '', 'priority');
 
         Cache::delete();
 

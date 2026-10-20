@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Form\Field;
 
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Form;
@@ -118,7 +118,7 @@ class PriorityField extends SelectField
         if ($this->table->equals($ep->getParam('form'))) {
             $name = $this->getFieldName();
 
-            Util::organizePriorities(
+            DatabaseUtil::organizePriorities(
                 $this->table->getTableName(),
                 $name,
                 $this->whereCondition,

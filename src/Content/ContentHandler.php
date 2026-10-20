@@ -6,8 +6,8 @@ use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
 use Redaxo\Core\Core;
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Database\Util;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -60,7 +60,7 @@ final class ContentHandler
         $sql->insert();
         $sliceId = $sql->getLastId();
 
-        Util::organizePriorities(
+        DatabaseUtil::organizePriorities(
             'rex_article_slice',
             'priority',
             $where,
@@ -126,7 +126,7 @@ final class ContentHandler
                 $upd->addGlobalUpdateFields(self::getUser());
                 $upd->update();
 
-                Util::organizePriorities(
+                DatabaseUtil::organizePriorities(
                     'rex_article_slice',
                     'priority',
                     'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . $sliceRevision,
@@ -181,7 +181,7 @@ final class ContentHandler
         $del->setQuery('DELETE FROM rex_article_slice WHERE id=?', [$sliceId]);
 
         // reorg remaining slices
-        Util::organizePriorities(
+        DatabaseUtil::organizePriorities(
             'rex_article_slice',
             'priority',
             'article_id=' . $slice->articleId . ' AND language_id=' . $slice->languageId . ' AND ctype_id=' . $slice->contentSectionId . ' AND revision=' . $slice->revision,
@@ -307,7 +307,7 @@ final class ContentHandler
         foreach ($ctypes as $ctype => $revisions) {
             foreach ($revisions as $revision => $_) {
                 // reorg slices
-                Util::organizePriorities(
+                DatabaseUtil::organizePriorities(
                     'rex_article_slice',
                     'priority',
                     'article_id=' . $toId . ' AND language_id=' . $toLanguageId . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . $revision,

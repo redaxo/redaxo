@@ -3,7 +3,6 @@
 namespace Redaxo\Core\MediaManager;
 
 use Intervention\Image\Interfaces\ModifierInterface;
-use Redaxo\Core\MediaManager\Attribute\AsMediaType;
 use Redaxo\Core\MediaManager\Exception\MediaNotFoundException;
 
 /**

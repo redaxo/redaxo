@@ -10,7 +10,7 @@ use function sprintf;
 /**
  * Database helpers.
  */
-final readonly class Util
+final readonly class DatabaseUtil
 {
     private function __construct() {}
 

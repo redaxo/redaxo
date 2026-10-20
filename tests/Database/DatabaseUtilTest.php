@@ -5,13 +5,13 @@ namespace Redaxo\Core\Tests\Database;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;
+use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
-use Redaxo\Core\Database\Util;
 
 /** @internal */
-final class UtilTest extends TestCase
+final class DatabaseUtilTest extends TestCase
 {
     public const string TABLE = 'rex_sql_util_test';
     public const string TABLE2 = 'rex_sql_util_test2';
@@ -50,7 +50,7 @@ final class UtilTest extends TestCase
     {
         $table = self::createTableWithData();
 
-        Util::copyTable(self::TABLE, self::TABLE2);
+        DatabaseUtil::copyTable(self::TABLE, self::TABLE2);
 
         $table2 = Table::get(self::TABLE2);
 
@@ -64,7 +64,7 @@ final class UtilTest extends TestCase
     {
         $table = self::createTableWithData();
 
-        Util::copyTableWithData(self::TABLE, self::TABLE2);
+        DatabaseUtil::copyTableWithData(self::TABLE, self::TABLE2);
 
         $table2 = Table::get(self::TABLE2);
 

@@ -1769,7 +1769,7 @@
       <code><![CDATA[$this->decorator]]></code>
     </MixedPropertyAssignment>
   </file>
-  <file src="src/View/Navigation.php">
+  <file src="src/Content/CategoryNavigation.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[(string) $va]]></code>
     </ArgumentTypeCoercion>

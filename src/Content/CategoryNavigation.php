@@ -1,10 +1,8 @@
 <?php
 
-namespace Redaxo\Core\View;
+namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Base\FactoryTrait;
-use Redaxo\Core\Content\Article;
-use Redaxo\Core\Content\Category;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Util\Str;
@@ -14,6 +12,7 @@ use function in_array;
 use function is_array;
 use function is_object;
 use function is_string;
+use function Redaxo\Core\View\escape;
 use function sprintf;
 
 /**
@@ -28,22 +27,22 @@ use function sprintf;
  *
  * Navigation:
  *
- * $nav = Navigation::factory();
+ * $nav = CategoryNavigation::factory();
  * $nav->setClasses(array('lev1', 'lev2', 'lev3'));
  * $nav->setLinkClasses(array('alev1', 'alev2', 'alev3'));
  * echo $nav->get(0,2,TRUE,TRUE);
  *
  * Sitemap:
  *
- * $nav = Navigation::factory();
+ * $nav = CategoryNavigation::factory();
  * $nav->show(0,-1,TRUE,TRUE);
  *
  * Breadcrump:
  *
- * $nav = Navigation::factory();
+ * $nav = CategoryNavigation::factory();
  * $nav->showBreadcrumb(true);
  */
-class Navigation
+class CategoryNavigation
 {
     use FactoryTrait;
 
