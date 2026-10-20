@@ -62,8 +62,8 @@ final class ArticleSliceMove extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        $message = ContentHandler::moveSlice($sliceId, $languageId, $direction);
+        ContentHandler::moveSlice($sliceId, $languageId, $direction);
 
-        return new Result(true, $message);
+        return new Result(true, I18n::msg('slice_moved'));
     }
 }

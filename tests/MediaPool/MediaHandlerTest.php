@@ -147,14 +147,14 @@ final class MediaHandlerTest extends TestCase
         self::assertNull($media);
         $rootMedia = Media::getRootMedia();
 
-        $result = MediaHandler::addMedia([
+        $addedMedia = MediaHandler::addMedia([
             'category_id' => null,
             'title' => 'test',
             'file' => ['name' => $filename, 'path' => $srcFile],
         ], false);
 
         try {
-            self::assertSame($filename, $result['filename']);
+            self::assertSame($filename, $addedMedia->fileName);
             self::assertSame($filename, Media::get($filename)?->fileName);
 
             $rootMediaNames = array_map(static fn (Media $media) => $media->fileName, Media::getRootMedia());
