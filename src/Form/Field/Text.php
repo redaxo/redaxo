@@ -10,6 +10,7 @@ use Redaxo\Core\Form\ValueType;
 use Redaxo\Core\Form\Widget\Input;
 use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\Renderable;
 
 use function mb_strlen;
@@ -51,7 +52,14 @@ class Text extends Field
     #[Override]
     public function widget(BoundField $field): Input
     {
-        return new Input($field->inputName, Type::string($field->raw), $field->id, $this->inputType(), $this->maxLength, $this->required);
+        return new Input(
+            $field->inputName,
+            Type::string($field->raw),
+            $field->id,
+            $this->inputType(),
+            $this->required,
+            new HtmlAttributes(['maxlength' => $this->maxLength]),
+        );
     }
 
     /** The `type` of the input element. */

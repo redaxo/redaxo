@@ -9,7 +9,6 @@ return static function (Input $input): void { ?>
         'name' => $input->name,
         'id' => $input->id,
         'value' => $input->value,
-        'maxlength' => $input->maxLength,
         'required' => $input->required,
     ]) ?>>
 <?php };

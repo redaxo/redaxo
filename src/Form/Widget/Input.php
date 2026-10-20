@@ -5,7 +5,12 @@ namespace Redaxo\Core\Form\Widget;
 use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\RendersView;
 
-/** Single-line `<input>`, e.g. of type `text`, `email`, `date` or `time`. */
+/**
+ * Single-line `<input>`, e.g. of type `text`, `email`, `date` or `time`.
+ *
+ * Attributes that only apply to some types (`maxlength`, `min`, `max`, `step`, `placeholder` …) are passed via
+ * `attributes`.
+ */
 class Input implements Widget
 {
     use RendersView;
@@ -15,8 +20,6 @@ class Input implements Widget
         public ?string $value = null,
         public ?string $id = null,
         public string $type = 'text',
-        /** @var positive-int|null */
-        public ?int $maxLength = null,
         public bool $required = false,
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
