@@ -41,7 +41,7 @@ final class ArticleHandler extends AbstractHandler
             }
         }
 
-        return $this->renderFields($context);
+        return $this->renderFields($context, vertical: true);
     }
 
     /** @param array{id: int, language: int, article: object} $params */

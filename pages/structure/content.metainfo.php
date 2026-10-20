@@ -121,6 +121,7 @@ if (1 == $article->getRows()) {
     $articleName = new FieldRow(
         new Input('meta_article_name', Article::require($articleId, $languageId)->name, 'rex-id-meta-article-name'),
         I18n::msg('header_article_name'),
+        vertical: true,
     )->render();
     $form = (string) $articleName . $form;
 

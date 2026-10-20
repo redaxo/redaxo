@@ -43,11 +43,16 @@ abstract class AbstractHandler
         return CsrfToken::factory('metainfo');
     }
 
-    /** Renders the fields visible in the given context, with the submitted values and errors after a submit. */
-    public function renderFields(MetaContext $context): string
+    /**
+     * Renders the fields visible in the given context, with the submitted values and errors after a submit.
+     *
+     * @param bool $vertical whether to place the labels above the fields, e.g. in narrow columns
+     */
+    public function renderFields(MetaContext $context, bool $vertical = false): string
     {
         $html = '';
         foreach ($this->submitted[$context->entity->name] ?? $this->createForms($context) as $form) {
+            $form->vertical = $vertical;
             foreach ($form->getFormErrors() as $error) {
                 $html .= Message::error((string) Html::from($error));
             }
