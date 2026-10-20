@@ -12,6 +12,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Header\MailboxListHeader;
 
 use function array_slice;
+use function is_array;
 
 use const ICONV_MIME_DECODE_CONTINUE_ON_ERROR;
 use const PATHINFO_EXTENSION;
@@ -141,37 +142,22 @@ final class MailArchive
      */
     public static function parseHeaders(string $file): array
     {
-        $subject = I18n::msg('mailer_archive_no_subject');
-        $recipient = null;
-        $envelopeRecipient = null;
+        $head = explode("\n\n", str_replace("\r\n", "\n", File::get($file, '')), 2)[0];
+        /** @var array<string, string|list<string>> $headers headers occurring several times are returned as list */
+        $headers = iconv_mime_decode_headers($head, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8') ?: [];
+        $headers = array_change_key_case($headers);
 
-        $content = File::get($file);
-        if ($content) {
-            foreach (array_slice(explode("\n", $content), 0, 50) as $line) {
-                $line = trim($line);
-                if ('' === $line) {
-                    break; // end of headers
-                }
+        $header = static function (string $name) use ($headers): ?string {
+            $value = $headers[$name] ?? '';
+            $value = trim(is_array($value) ? $value[0] : $value);
 
-                if (0 === stripos($line, 'Subject:')) {
-                    $subject = substr($line, 8);
-                    $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
-                    if (false !== $decodedSubject) {
-                        $subject = $decodedSubject;
-                    }
-                    $subject = trim($subject);
-                    $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
-                }
+            return '' === $value ? null : $value;
+        };
 
-                if (0 === stripos($line, 'To:')) {
-                    $recipient = trim(substr($line, 3));
-                } elseif (0 === stripos($line, 'X-Envelope-To:')) {
-                    $envelopeRecipient = trim(substr($line, 14));
-                }
-            }
-        }
+        $subject = $header('subject') ?? I18n::msg('mailer_archive_no_subject');
+        $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
 
-        $recipient ??= $envelopeRecipient ?? I18n::msg('mailer_archive_no_recipient');
+        $recipient = $header('to') ?? $header('x-envelope-to') ?? I18n::msg('mailer_archive_no_recipient');
         $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
 
         return [
