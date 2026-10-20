@@ -397,7 +397,7 @@ mailer_log_subject = Betreff
 mailer_log_success = Status
 mailer_log_title = Mail-Log "{0}"
 mailer_log_to = An
-mailer_not_configured = Der Mailer ist nicht konfiguriert, die Env-Variable MAILER_DSN fehlt.
+mailer_not_configured = Der Mailer ist nicht konfiguriert, die Env-Variable MAILER_DSN ist nicht gesetzt.
 mailer_transport = Transport
 
 # mediapool

@@ -8,6 +8,8 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Header\MailboxListHeader;
 
 use function array_slice;
 
@@ -27,9 +29,17 @@ final class MailArchive
         return Path::coreData('mailer/archive');
     }
 
-    /** @internal */
-    public static function add(string $content, bool $sent = true): void
+    /**
+     * The envelope recipients are prepended as `X-Envelope-To` header, because the `Bcc` header is not part of the mail.
+     *
+     * @param array<Address> $recipients
+     * @internal
+     */
+    public static function add(string $content, array $recipients, bool $sent = true): void
     {
+        $recipients = array_map(static fn (Address $address) => new Address($address->getAddress()), $recipients);
+        $content = new MailboxListHeader('X-Envelope-To', $recipients)->toString() . "\r\n" . $content;
+
         $dir = self::folder() . '/' . date('Y') . '/' . date('m');
         $prefix = $sent ? '' : 'not_sent_';
         $count = 1;
@@ -132,7 +142,8 @@ final class MailArchive
     public static function parseHeaders(string $file): array
     {
         $subject = I18n::msg('mailer_archive_no_subject');
-        $recipient = I18n::msg('mailer_archive_no_recipient');
+        $recipient = null;
+        $envelopeRecipient = null;
 
         $content = File::get($file);
         if ($content) {
@@ -154,10 +165,14 @@ final class MailArchive
 
                 if (0 === stripos($line, 'To:')) {
                     $recipient = trim(substr($line, 3));
-                    $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
+                } elseif (0 === stripos($line, 'X-Envelope-To:')) {
+                    $envelopeRecipient = trim(substr($line, 14));
                 }
             }
         }
+
+        $recipient ??= $envelopeRecipient ?? I18n::msg('mailer_archive_no_recipient');
+        $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
 
         return [
             'subject' => $subject,

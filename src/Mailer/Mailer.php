@@ -5,6 +5,7 @@ namespace Redaxo\Core\Mailer;
 use Redaxo\Core\Core;
 use Redaxo\Core\Env;
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
@@ -74,7 +75,8 @@ final readonly class Mailer implements MailerInterface
     }
 
     /**
-     * Sends the message, a `TransportExceptionInterface` is thrown if it could not be sent.
+     * Sends the message, a `TransportExceptionInterface` is thrown if it could not be sent, a `LogicException` if the
+     * message is invalid (e.g. has no sender).
      *
      * The extension points `MAILER_PRE_SEND` (the message can still be modified there), `MAILER_SENT` and
      * `MAILER_FAILED` are dispatched while sending.
@@ -92,6 +94,10 @@ final readonly class Mailer implements MailerInterface
 
             Extension::dispatch(new ExtensionPoint('MAILER_PRE_SEND', $message, ['envelope' => $envelope], true));
 
+            if ($message instanceof Message && !$message->getHeaders()->has('From') && !$message->getHeaders()->has('Sender')) {
+                throw new LogicException('The mail has no sender, set a "From" header or the env var "REX_MAILER_FROM".');
+            }
+
             // the detour is applied after the extension point, so that no listener can bypass it
             $messageToSend = $message;
             if ($this->detourRecipients) {
@@ -105,7 +111,7 @@ final readonly class Mailer implements MailerInterface
                     $this->log('ERROR', $message, $envelope, $exception->getMessage());
                 }
                 if ($archive) {
-                    MailArchive::add($messageToSend->toString(), sent: false);
+                    MailArchive::add($messageToSend->toString(), ($envelope ?? Envelope::create($messageToSend))->getRecipients(), sent: false);
                 }
 
                 Extension::dispatch(new ExtensionPoint('MAILER_FAILED', $message, ['envelope' => $envelope, 'exception' => $exception], true));
@@ -114,7 +120,10 @@ final readonly class Mailer implements MailerInterface
             }
 
             if ($archive) {
-                MailArchive::add($sentMessage?->toString() ?? $messageToSend->toString());
+                MailArchive::add(
+                    $sentMessage?->toString() ?? $messageToSend->toString(),
+                    ($sentMessage?->getEnvelope() ?? $envelope ?? Envelope::create($messageToSend))->getRecipients(),
+                );
             }
             if (MailLogMode::All === $this->logMode) {
                 $this->log('OK', $message, $envelope);
@@ -174,7 +183,14 @@ final readonly class Mailer implements MailerInterface
             if ($replyTo = $message->getReplyTo()) {
                 $from .= '; reply-to: ' . $addresses($replyTo);
             }
-            $to = $addresses($message->getTo());
+            $to = [$addresses($message->getTo())];
+            if ($cc = $message->getCc()) {
+                $to[] = 'cc: ' . $addresses($cc);
+            }
+            if ($bcc = $message->getBcc()) {
+                $to[] = 'bcc: ' . $addresses($bcc);
+            }
+            $to = implode('; ', array_filter($to));
             $subject = $message->getSubject() ?? '';
         } elseif (null !== $envelope) {
             $from = $envelope->getSender()->getAddress();
