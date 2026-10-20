@@ -119,14 +119,14 @@ $ignoreErrors[] = [
     'path' => __DIR__ . '/../../../src/Form/Field/ContainerField.php',
 ];
 $ignoreErrors[] = [
-    'rawMessage' => 'Method Redaxo\\Core\\Form\\Form::addPrioField() has parameter $attributes with no value type specified in iterable type array.',
+    'rawMessage' => 'Method Redaxo\\Core\\Form\\DbForm::addPrioField() has parameter $attributes with no value type specified in iterable type array.',
     'count' => 1,
-    'path' => __DIR__ . '/../../../src/Form/Form.php',
+    'path' => __DIR__ . '/../../../src/Form/DbForm.php',
 ];
 $ignoreErrors[] = [
-    'rawMessage' => 'Property Redaxo\\Core\\Form\\Form::$languageSupport type has no value type specified in iterable type array.',
+    'rawMessage' => 'Property Redaxo\\Core\\Form\\DbForm::$languageSupport type has no value type specified in iterable type array.',
     'count' => 1,
-    'path' => __DIR__ . '/../../../src/Form/Form.php',
+    'path' => __DIR__ . '/../../../src/Form/DbForm.php',
 ];
 
 return ['parameters' => ['ignoreErrors' => $ignoreErrors]];

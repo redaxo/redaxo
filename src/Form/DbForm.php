@@ -20,7 +20,7 @@ use function in_array;
 use function is_string;
 
 /**
- * Form repraesentiert ein Formular in REDAXO.
+ * DbForm repraesentiert ein Formular in REDAXO.
  * Diese Klasse kann in Frontend u. Backend eingesetzt werden.
  *
  * Nach erzeugen eines Formulars mit der factory()-Methode muss dieses mit verschiedenen Input-Feldern bestueckt werden.
@@ -28,7 +28,7 @@ use function is_string;
  *
  * Nachdem alle Felder eingefuegt wurden, muss das Fomular mit get() oder show() ausgegeben werden.
  */
-class Form extends AbstractForm
+class DbForm extends AbstractForm
 {
     use FactoryTrait;
 

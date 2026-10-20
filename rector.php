@@ -220,7 +220,7 @@ return RectorConfig::configure()
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
         'rex_form_base' => Form\AbstractForm::class,
-        'rex_form' => Form\Form::class,
+        'rex_form' => Form\DbForm::class,
         'rex_config_form' => Form\ConfigForm::class,
         'rex_form_element' => Form\Field\BaseField::class,
         'rex_form_options_element' => Form\Field\AbstractOptionField::class,
@@ -694,7 +694,7 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(Form\Select\CategorySelect::class, '__construct', 1, false, null),
     ])
     ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
-        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Form\Form::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
+        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Form\DbForm::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
     ])
     ->withConfiguredRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(ExtensionPoint\Extension::class, 'EARLY', ExtensionPoint\ExtensionLevel::class, 'Early'),
