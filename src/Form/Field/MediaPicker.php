@@ -11,6 +11,7 @@ use Redaxo\Core\Form\Widget\MediaInput;
 use Redaxo\Core\Form\Widget\MediaListInput;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\Translation\Translatable;
+use Redaxo\Core\View\Renderable;
 
 use function array_keys;
 use function array_map;
@@ -34,9 +35,9 @@ class MediaPicker extends Field
 {
     /** @param list<string> $types allowed file extensions, e.g. `['jpg', 'png']`; empty allows all */
     public function __construct(
-        string|Translatable $label,
+        string|Renderable $label,
         public readonly bool $multiple = false,
-        string|Translatable|null $note = null,
+        string|Renderable|null $note = null,
         bool $required = false,
         ?string $key = null,
         /** Media category the media pool opens in. */

@@ -229,7 +229,7 @@ $mainContent[] = Html::capture(static function () use ($editorForm, $viaCookie):
     <?= $editorForm->open() ?>
         <section class="rex-page-section">
             <div class="panel panel-edit">
-                <header class="panel-heading"><div class="panel-title"><?= escape((string) $editorForm->title) ?></div></header>
+                <header class="panel-heading"><div class="panel-title"><?= Html::from($editorForm->title ?? '') ?></div></header>
                 <div class="panel-body">
                     <p><?= I18n::msg('system_editor_note') ?></p>
                     <?php if ($viaCookie): ?>

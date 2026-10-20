@@ -7,16 +7,16 @@ use Override;
 use Redaxo\Core\Form\BoundField;
 use Redaxo\Core\Form\ValueType;
 use Redaxo\Core\Form\Widget\Textarea as TextareaWidget;
-use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\View\Renderable;
 
 /** Multi-line text input. */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Textarea extends Field
 {
     public function __construct(
-        string|Translatable $label,
-        string|Translatable|null $note = null,
+        string|Renderable $label,
+        string|Renderable|null $note = null,
         bool $required = false,
         ?string $key = null,
         /** @var positive-int */

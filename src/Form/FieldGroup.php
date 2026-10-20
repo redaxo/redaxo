@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\Form;
 
-use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\View\Html;
 use Redaxo\Core\View\Renderable;
 use Redaxo\Core\View\RendersView;
@@ -14,6 +13,6 @@ class FieldGroup implements Renderable
 
     public function __construct(
         public Html $content,
-        public string|Translatable|null $legend = null,
+        public string|Renderable|null $legend = null,
     ) {}
 }

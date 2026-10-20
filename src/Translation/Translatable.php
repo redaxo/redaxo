@@ -3,15 +3,22 @@
 namespace Redaxo\Core\Translation;
 
 use Override;
-use Stringable;
+use Redaxo\Core\View\Html;
+use Redaxo\Core\View\Renderable;
+
+use function array_values;
 
 /**
  * A translation key that is resolved lazily, when the text is actually needed.
  *
  * Unlike the result of {@see I18n::msg()} it can be created in constant expressions, so translated texts can be
- * passed to attributes (`#[Text(new Translatable('my_label'))]`). The resolved text is not escaped.
+ * passed to attributes (`#[Text(new Translatable('my_label'))]`).
+ *
+ * In HTML it renders like {@see I18n::msg()}, keeping basic tags of the message (`<b>`, `<code>` …); outside of HTML,
+ * {@see self::translate()} returns the plain text. It is deliberately not `Stringable`, so that the context has to be
+ * chosen explicitly.
  */
-final readonly class Translatable implements Stringable
+final readonly class Translatable implements Renderable
 {
     /** @var list<string|int> */
     public array $replacements;
@@ -23,6 +30,7 @@ final readonly class Translatable implements Stringable
         $this->replacements = array_values($replacements);
     }
 
+    /** Returns the plain, not escaped text, e.g. for attribute values. */
     public function translate(?string $locale = null): string
     {
         return null === $locale
@@ -31,8 +39,14 @@ final readonly class Translatable implements Stringable
     }
 
     #[Override]
-    public function __toString(): string
+    public function render(): Html
     {
-        return $this->translate();
+        return Html::raw(I18n::msg($this->key, ...$this->replacements));
+    }
+
+    /** Returns the plain text of a text that is either given directly or as translation key. */
+    public static function text(string|self $text): string
+    {
+        return $text instanceof self ? $text->translate() : $text;
     }
 }

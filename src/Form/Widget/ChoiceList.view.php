@@ -1,6 +1,7 @@
 <?php
 
 use Redaxo\Core\Form\Widget\ChoiceList;
+use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\View\HtmlAttributes;
 
 use function Redaxo\Core\View\escape;
@@ -20,7 +21,7 @@ return static function (ChoiceList $list): void {
                             'value' => (string) $value,
                             'checked' => $list->isSelected($value),
                         ]) ?>>
-                        <?= escape((string) $label) ?>
+                        <?= escape(Translatable::text($label)) ?>
                     </label>
                 </div>
             <?php endforeach ?>

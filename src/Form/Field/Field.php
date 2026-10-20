@@ -32,8 +32,8 @@ use function is_string;
 abstract class Field
 {
     public function __construct(
-        public readonly string|Translatable $label,
-        public readonly string|Translatable|null $note = null,
+        public readonly string|Renderable $label,
+        public readonly string|Renderable|null $note = null,
         public readonly bool $required = false,
         /** Key used by storages; defaults to the property name. */
         public readonly ?string $key = null,

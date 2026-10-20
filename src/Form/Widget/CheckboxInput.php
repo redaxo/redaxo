@@ -2,8 +2,8 @@
 
 namespace Redaxo\Core\Form\Widget;
 
-use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\View\HtmlAttributes;
+use Redaxo\Core\View\Renderable;
 use Redaxo\Core\View\RendersView;
 
 /**
@@ -17,7 +17,7 @@ class CheckboxInput implements Widget
 
     public function __construct(
         public string $name,
-        public string|Translatable $label,
+        public string|Renderable $label,
         public bool $checked = false,
         public string $value = '1',
         public ?string $id = null,

@@ -3,7 +3,6 @@
 namespace Redaxo\Core\Form;
 
 use Redaxo\Core\Form\Widget\Widget;
-use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\View\Renderable;
 use Redaxo\Core\View\RendersView;
 
@@ -15,11 +14,11 @@ class FieldRow implements Renderable
     public function __construct(
         public Renderable $widget,
         /** `null` for widgets that render their label themselves (e.g. a checkbox). */
-        public string|Translatable|null $label = null,
+        public string|Renderable|null $label = null,
         /** Id of the element the label points to; defaults to the {@see Widget::labelTarget()} of the widget. */
         public ?string $labelFor = null,
-        public string|Translatable|null $note = null,
-        public string|Translatable|null $error = null,
+        public string|Renderable|null $note = null,
+        public string|Renderable|null $error = null,
         public bool $required = false,
     ) {}
 

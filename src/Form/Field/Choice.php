@@ -12,6 +12,7 @@ use Redaxo\Core\Form\ValueType;
 use Redaxo\Core\Form\Widget\ChoiceList;
 use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Translation\Translatable;
+use Redaxo\Core\View\Renderable;
 
 use function array_key_exists;
 use function array_key_first;
@@ -48,12 +49,12 @@ class Choice extends Field
      *     an empty one by default
      */
     public function __construct(
-        string|Translatable $label,
+        string|Renderable $label,
         private readonly array|Closure $choices,
         public readonly bool $multiple = false,
         public readonly bool $expanded = false,
         public readonly string|Translatable|null $placeholder = null,
-        string|Translatable|null $note = null,
+        string|Renderable|null $note = null,
         bool $required = false,
         ?string $key = null,
     ) {

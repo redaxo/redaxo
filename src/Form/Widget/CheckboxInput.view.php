@@ -1,8 +1,7 @@
 <?php
 
 use Redaxo\Core\Form\Widget\CheckboxInput;
-
-use function Redaxo\Core\View\escape;
+use Redaxo\Core\View\Html;
 
 return static function (CheckboxInput $checkbox): void { ?>
     <div class="checkbox">
@@ -15,7 +14,7 @@ return static function (CheckboxInput $checkbox): void { ?>
                 'checked' => $checkbox->checked,
                 'required' => $checkbox->required,
             ]) ?>>
-            <?= escape((string) $checkbox->label) ?>
+            <?= Html::from($checkbox->label) ?>
         </label>
     </div>
 <?php };

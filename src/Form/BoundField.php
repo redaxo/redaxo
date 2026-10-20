@@ -3,7 +3,7 @@
 namespace Redaxo\Core\Form;
 
 use Redaxo\Core\Form\Field\Field;
-use Redaxo\Core\Translation\Translatable;
+use Redaxo\Core\View\Renderable;
 
 /**
  * A field of a concrete form, carrying everything a field type needs to create its widget.
@@ -23,6 +23,6 @@ final readonly class BoundField
         public string $id,
         /** @var string|list<string> */
         public string|array $raw,
-        public string|Translatable|null $error = null,
+        public string|Renderable|null $error = null,
     ) {}
 }

@@ -4,6 +4,7 @@ namespace Redaxo\Core\Form;
 
 use Redaxo\Core\Exception\Exception;
 use Redaxo\Core\Translation\Translatable;
+use Redaxo\Core\View\Renderable;
 use RuntimeException;
 
 /**
@@ -14,8 +15,12 @@ use RuntimeException;
 final class InvalidValueException extends RuntimeException implements Exception
 {
     public function __construct(
-        public readonly string|Translatable $userMessage,
+        public readonly string|Renderable $userMessage,
     ) {
-        parent::__construct((string) $userMessage);
+        parent::__construct(match (true) {
+            $userMessage instanceof Translatable => $userMessage->translate(),
+            $userMessage instanceof Renderable => strip_tags((string) $userMessage->render()),
+            default => $userMessage,
+        });
     }
 }

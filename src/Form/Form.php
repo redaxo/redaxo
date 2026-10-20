@@ -58,10 +58,10 @@ final class Form implements Renderable
     /** @var array<string, string|list<string>> */
     private array $raw = [];
 
-    /** @var array<string, string|Translatable> */
+    /** @var array<string, string|Renderable> */
     private array $fieldErrors = [];
 
-    /** @var list<string|Translatable> */
+    /** @var list<string|Renderable> */
     private array $formErrors = [];
 
     /** @var array<string, true> */
@@ -71,7 +71,7 @@ final class Form implements Renderable
     public function __construct(
         public readonly object $data,
         ?string $name = null,
-        public string|Translatable|null $title = null,
+        public string|Renderable|null $title = null,
         public string|Translatable $submitLabel = new Translatable('form_save'),
         public readonly bool $csrf = true,
         ?array $only = null,
@@ -180,7 +180,7 @@ final class Form implements Renderable
      *
      * @param string|null $field the property name, or `null` for an error concerning the whole form
      */
-    public function addError(string|Translatable $message, ?string $field = null): void
+    public function addError(string|Renderable $message, ?string $field = null): void
     {
         if (null === $field) {
             $this->formErrors[] = $message;
@@ -192,13 +192,13 @@ final class Form implements Renderable
         $this->fieldErrors[$field] = $message;
     }
 
-    /** @return list<string|Translatable> */
+    /** @return list<string|Renderable> */
     public function getFormErrors(): array
     {
         return $this->formErrors;
     }
 
-    /** @return array<string, string|Translatable> keyed by property name */
+    /** @return array<string, string|Renderable> keyed by property name */
     public function getFieldErrors(): array
     {
         return $this->fieldErrors;
@@ -247,7 +247,7 @@ final class Form implements Renderable
     {
         $field = $this->field($name);
 
-        return Html::raw('<label for="' . escape($field->id) . '">' . escape((string) $field->field->label) . '</label>');
+        return Html::raw('<label for="' . escape($field->id) . '">' . (string) Html::from($field->field->label) . '</label>');
     }
 
     /** Renders the rows of all fields not rendered yet, wrapped in their {@see Fieldset}s. */
@@ -302,7 +302,7 @@ final class Form implements Renderable
 
     public function submitButton(): Html
     {
-        $label = (string) $this->submitLabel;
+        $label = Translatable::text($this->submitLabel);
 
         return Html::raw('<button class="btn btn-save rex-form-aligned" type="submit"' . Accesskey::attributes($label, 'save') . '>' . escape($label) . '</button>');
     }

@@ -11,6 +11,7 @@ use Redaxo\Core\Form\ValueType;
 use Redaxo\Core\Form\Widget\ArticleInput;
 use Redaxo\Core\Form\Widget\ArticleListInput;
 use Redaxo\Core\Translation\Translatable;
+use Redaxo\Core\View\Renderable;
 
 use function array_keys;
 use function array_map;
@@ -31,9 +32,9 @@ use const FILTER_VALIDATE_INT;
 class ArticlePicker extends Field
 {
     public function __construct(
-        string|Translatable $label,
+        string|Renderable $label,
         public readonly bool $multiple = false,
-        string|Translatable|null $note = null,
+        string|Renderable|null $note = null,
         bool $required = false,
         ?string $key = null,
         /** Category the linkmap opens in when no article is selected. */
