@@ -7,7 +7,7 @@ use Redaxo\Core\View\Renderable;
 use Redaxo\Core\View\RendersView;
 
 /** The form group around a widget: label, widget, note and error. */
-class FieldRow implements Renderable
+final class FieldRow implements Renderable
 {
     use RendersView;
 

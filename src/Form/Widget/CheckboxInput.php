@@ -11,7 +11,7 @@ use Redaxo\Core\View\RendersView;
  *
  * The label belongs to the control (it is its click target), so unlike other widgets the checkbox renders it itself.
  */
-class CheckboxInput implements Widget
+final class CheckboxInput implements Widget
 {
     use RendersView;
 
