@@ -10,6 +10,7 @@ use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\ArticlePicker;
 use Redaxo\Core\Form\Field\Choice;
 use Redaxo\Core\Form\Field\DatePicker;
+use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\FormSchema;
@@ -31,6 +32,8 @@ final class FieldsTest extends TestCase
         $_POST['allFields'] = [
             '_submit' => '1',
             'text' => "Line 1\nLine 2",
+            'count' => '3',
+            'price' => '9.99',
             'date' => '2026-10-19',
             'dateTime' => '2026-10-19T14:30',
             'time' => '08:15',
@@ -46,6 +49,8 @@ final class FieldsTest extends TestCase
 
         self::assertTrue($form->handleRequest());
         self::assertSame("Line 1\nLine 2", $data->text);
+        self::assertSame(3, $data->count);
+        self::assertSame(9.99, $data->price);
         self::assertEquals(new DateTimeImmutable('2026-10-19 00:00:00'), $data->date);
         self::assertSame('2026-10-19 14:30:00', $data->dateTime);
         self::assertEquals(new DateTimeImmutable('1970-01-01 08:15:00'), $data->time);
@@ -75,6 +80,9 @@ final class FieldsTest extends TestCase
     /** @return iterable<string, array{string, string, array<string, string|list<string>>}> */
     public static function provideInvalidSubmit(): iterable
     {
+        yield 'number below min' => ['count', 'form_min', ['count' => '0']];
+        yield 'number above max' => ['count', 'form_max', ['count' => '11']];
+        yield 'decimal for int' => ['count', 'form_invalid_value', ['count' => '1.5']];
         yield 'invalid date' => ['date', 'form_invalid_value', ['date' => '2026-02-30']];
         yield 'invalid time' => ['time', 'form_invalid_value', ['time' => '25:00']];
         yield 'unknown grouped choice' => ['tags', 'form_invalid_choice', ['tags' => ['a', 'x']]];
@@ -113,6 +121,12 @@ final class FieldsTest extends TestCase
         $html = (string) $form->row('days');
         self::assertStringNotContainsString('<label for=', $html, 'a checkbox group has no single label target');
         self::assertMatchesRegularExpression('/<input type="checkbox" name="allFields\[days\]\[\]" id="allFields-days-2" value="2" checked>/', $html);
+
+        $html = (string) $form->row('count');
+        self::assertMatchesRegularExpression('/<input [^>]*type="number"[^>]* min="1" max="10"/', $html);
+
+        $html = (string) $form->row('price');
+        self::assertStringContainsString('step="0.01"', $html);
 
         $html = (string) $form->row('date');
         self::assertStringContainsString('type="date"', $html);
@@ -154,6 +168,14 @@ final class FieldsTest extends TestCase
         yield 'article picker with int' => [new class {
             #[ArticlePicker('Article')]
             public ?int $article = null;
+        }::class];
+        yield 'text with int' => [new class {
+            #[Text('Count')]
+            public int $count = 0;
+        }::class];
+        yield 'number with string' => [new class {
+            #[Number('Count')]
+            public string $count = '';
         }::class];
         yield 'date picker with int' => [new class {
             #[DatePicker('Date')]

@@ -9,6 +9,7 @@ use Redaxo\Core\Form\Field\Choice;
 use Redaxo\Core\Form\Field\DatePicker;
 use Redaxo\Core\Form\Field\DateTimePicker;
 use Redaxo\Core\Form\Field\MediaPicker;
+use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Textarea;
 use Redaxo\Core\Form\Field\TimePicker;
 use Redaxo\Core\MediaPool\Media;
@@ -18,6 +19,12 @@ final class AllFields
 {
     #[Textarea('Text', rows: 3)]
     public string $text = '';
+
+    #[Number('Count', min: 1, max: 10)]
+    public int $count = 1;
+
+    #[Number('Price', step: 0.01)]
+    public ?float $price = null;
 
     #[DatePicker('Date')]
     public ?DateTimeImmutable $date = null;

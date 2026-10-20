@@ -10,6 +10,7 @@ use Redaxo\Core\Form\Field\Choice;
 use Redaxo\Core\Form\Field\DatePicker;
 use Redaxo\Core\Form\Field\DateTimePicker;
 use Redaxo\Core\Form\Field\MediaPicker;
+use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Field\Textarea;
 use Redaxo\Core\Form\Field\TimePicker;
@@ -25,6 +26,12 @@ final class FormFields
 
     #[Textarea('Textarea', rows: 3)]
     public string $textarea = '';
+
+    #[Number('Number', min: 1, max: 99)]
+    public int $number = 1;
+
+    #[Number('Decimal', step: 0.01)]
+    public ?float $decimal = null;
 
     #[Checkbox('Checkbox')]
     public bool $checkbox = false;

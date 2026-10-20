@@ -76,6 +76,7 @@ final class FormTest extends TestCase
     public static function provideInvalidSubmit(): iterable
     {
         yield 'required' => ['title', 'form_required', ['title' => '']];
+        yield 'too long' => ['title', 'form_max_length', ['title' => str_repeat('ä', 21)]];
         yield 'unknown choice' => ['size', 'form_invalid_choice', ['size' => '3']];
         yield 'unknown enum choice' => ['color', 'form_invalid_choice', ['color' => 'green']];
     }
