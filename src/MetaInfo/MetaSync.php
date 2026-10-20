@@ -3,7 +3,6 @@
 namespace Redaxo\Core\MetaInfo;
 
 use Redaxo\Core\Database\Table;
-use Redaxo\Core\MetaInfo\Field\MetaField;
 
 use function array_filter;
 use function str_starts_with;
@@ -12,7 +11,7 @@ use function str_starts_with;
  * Synchronises the database columns backing the meta fields with the current {@see MetaSchema} definitions.
  *
  * Adding and modifying columns happens automatically. Dropping an obsolete column (one carrying the
- * {@see MetaField::COLUMN_PREFIX} but for which no field exists anymore) destroys data, so the decision is delegated
+ * {@see MetaSchema::COLUMN_PREFIX} but for which no field exists anymore) destroys data, so the decision is delegated
  * to the caller via the `$confirmDrop` callback; callers should keep the column (and warn) when running
  * non-interactively.
  *
@@ -42,7 +41,7 @@ final class MetaSync
                 $fieldsByTable[$tableName] ??= [];
             }
             foreach (MetaSchema::getFields($entity) as $field) {
-                $fieldsByTable[$entity->tableForField($field)][] = $field;
+                $fieldsByTable[$field->table()][] = $field;
             }
         }
 
@@ -52,11 +51,7 @@ final class MetaSync
 
             $desired = [];
             foreach ($fields as $field) {
-                $column = $field->column();
-                if (null === $column) {
-                    continue;
-                }
-
+                $column = $field->columnDefinition();
                 $name = $column->name;
                 $existing = $table->getColumn($name);
                 if (null === $existing) {
@@ -71,7 +66,7 @@ final class MetaSync
 
             // Meta columns no longer defined by any field are obsolete.
             foreach ($table->getColumns() as $name => $column) {
-                if (isset($desired[$name]) || !str_starts_with($name, MetaField::COLUMN_PREFIX)) {
+                if (isset($desired[$name]) || !str_starts_with($name, MetaSchema::COLUMN_PREFIX)) {
                     continue;
                 }
 

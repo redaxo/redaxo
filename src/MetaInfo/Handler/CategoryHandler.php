@@ -7,6 +7,7 @@ use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\ExtensionPoint\CategoryAdded;
 use Redaxo\Core\Content\ExtensionPoint\CategoryUpdated;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\AsExtension;
 use Redaxo\Core\ExtensionPoint\ExtensionLevel;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -49,13 +50,17 @@ final class CategoryHandler extends AbstractHandler
                 <td colspan="2"></td>
                 <td colspan="5">
                     <div class="rex-collapse-content">
-                    ' . $this->renderFields($this->createContext($ep->getParams())) . '
+                    ' . $this->renderFields($this->createContext($ep->getParams(), 'CAT_FORM_EDIT' === $ep->name)) . '
                     </div>
                 </td>
             </tr>';
     }
 
-    /** Saves the submitted values together with the category, as only that request is protected by a csrf token. */
+    /**
+     * Saves the submitted values together with the category, as only that request is protected by a csrf token.
+     *
+     * @throws UserMessageException if the submitted values are invalid
+     */
     #[AsExtension(level: ExtensionLevel::Early)]
     public function saveForm(CategoryAdded|CategoryUpdated $ep): void
     {
@@ -63,32 +68,35 @@ final class CategoryHandler extends AbstractHandler
             return;
         }
 
+        if (!$this->submit(new MetaContext(MetaEntity::Category, $ep->category, $ep->category))) {
+            throw $this->invalidValues(MetaEntity::Category);
+        }
+
         // the values of a freshly added category apply to all languages
         $languageIds = $ep instanceof CategoryAdded ? Language::getAllIds() : [$ep->category->languageId];
 
-        $this->save($ep->category->id, $languageIds, new MetaContext(MetaEntity::Category, $ep->category, $ep->category));
+        $this->save($ep->category->id, $languageIds);
     }
 
     /** @param array<string, mixed> $params */
-    private function createContext(array $params): MetaContext
+    private function createContext(array $params, bool $edit): MetaContext
     {
-        /** @var object|null $subject */
-        $subject = $params['category'] ?? null;
         $languageId = isset($params['language']) ? (int) $params['language'] : null;
         // The surrounding category (the edited category, or the parent when adding); null = root.
         $category = isset($params['id']) ? Category::get((int) $params['id'], $languageId) : null;
 
-        return new MetaContext(MetaEntity::Category, $subject, $category);
+        // The `category` param is a row of the article tables, lacking the meta columns of the category tables.
+        return new MetaContext(MetaEntity::Category, $edit ? $category : null, $category);
     }
 
     /** @param list<int> $languageIds */
-    private function save(int $id, array $languageIds, MetaContext $context): void
+    private function save(int $id, array $languageIds): void
     {
         foreach ($languageIds as $languageId) {
             $translation = Sql::factory();
             $translation->setTable('rex_category_translation');
             $translation->setWhere(['category_id' => $id, 'language_id' => $languageId]);
-            $this->saveRequestValues($translation, $context, translatable: true);
+            $this->saveValues($translation, MetaEntity::Category, translated: true);
             if ($translation->hasValues()) {
                 $translation->update();
             }
@@ -97,7 +105,7 @@ final class CategoryHandler extends AbstractHandler
         $shared = Sql::factory();
         $shared->setTable('rex_category');
         $shared->setWhere(['id' => $id]);
-        $this->saveRequestValues($shared, $context, translatable: false);
+        $this->saveValues($shared, MetaEntity::Category, translated: false);
         $shared->addGlobalUpdateFields();
         $shared->update();
 

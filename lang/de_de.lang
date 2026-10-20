@@ -526,6 +526,7 @@ perm_general_media[sync] = Medienpool: Dateien synchronisieren
 
 # metainfo
 minfo_metadata_saved = Die Metadaten wurden gespeichert.
+minfo_metadata_not_saved = Die Metadaten wurden nicht gespeichert:
 minfo_media_in_use_art = Artikel (Metadaten)
 minfo_media_in_use_cat = Kategorien (Metadaten)
 minfo_media_in_use_med = Medien (Metadaten)

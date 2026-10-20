@@ -2,7 +2,10 @@
 
 namespace Redaxo\Core\MetaInfo;
 
-use Redaxo\Core\MetaInfo\Field\MetaField;
+use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\Category;
+use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\Media;
 
 /**
  * The entity a set of meta fields belongs to.
@@ -42,13 +45,14 @@ enum MetaEntity
         };
     }
 
-    /**
-     * The table the given field is stored in.
-     *
-     * @return non-empty-string
-     */
-    public function tableForField(MetaField $field): string
+    /** Whether the given item belongs to this entity, i.e. whether its meta values can be read. */
+    public function accepts(object $subject): bool
     {
-        return $field->translatable ? $this->translationTable() ?? $this->table() : $this->table();
+        return match ($this) {
+            self::Article => $subject instanceof Article,
+            self::Category => $subject instanceof Category,
+            self::Media => $subject instanceof Media,
+            self::Language => $subject instanceof Language,
+        };
     }
 }
