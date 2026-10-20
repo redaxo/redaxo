@@ -7,6 +7,7 @@ use BackedEnum;
 use Closure;
 use Override;
 use Redaxo\Core\Form\BoundField;
+use Redaxo\Core\Form\ChoiceProvider;
 use Redaxo\Core\Form\InvalidValueException;
 use Redaxo\Core\Form\ValueType;
 use Redaxo\Core\Form\Widget\ChoiceList;
@@ -33,10 +34,11 @@ use function is_string;
  * | true     | false    | radio buttons   |
  * | true     | true     | checkboxes      |
  *
- * The choices are given as `value => label`, either directly or by a closure returning them, as attribute arguments
- * have to be constant expressions: a static closure for short code (`choices: static function () { return …; }`; arrow
- * functions are not allowed in constant expressions), a first-class callable to a static method for more logic
- * (`choices: self::choices(...)`). A nested array groups choices, its key being the group label.
+ * The choices are given as `value => label`, either directly, by a {@see ChoiceProvider} (`new CategoryChoices()`), or
+ * by a closure returning them, as attribute arguments have to be constant expressions: a static closure for short code
+ * (`choices: static function () { return …; }`; arrow functions are not allowed in constant expressions), a
+ * first-class callable to a static method for more logic (`choices: self::choices(...)`). A nested array groups
+ * choices, its key being the group label.
  *
  * A single value is cast into the property type, so `int` and backed enum properties work as well. With `multiple`
  * the property is an `array` holding the selected choice keys.
@@ -45,13 +47,13 @@ use function is_string;
 class Choice extends Field
 {
     /**
-     * @param array<int|string, string|Translatable|array<int|string, string|Translatable>>|Closure(): iterable<int|string, string|Translatable|array<int|string, string|Translatable>> $choices
+     * @param array<int|string, string|Translatable|array<int|string, string|Translatable>>|ChoiceProvider|Closure(): iterable<int|string, string|Translatable|array<int|string, string|Translatable>> $choices
      * @param string|Translatable|null $placeholder label of an empty option of a single select; nullable properties get
      *     an empty one by default
      */
     public function __construct(
         string|Renderable $label,
-        private readonly array|Closure $choices,
+        private readonly array|ChoiceProvider|Closure $choices,
         public readonly bool $multiple = false,
         public readonly bool $expanded = false,
         public readonly string|Translatable|null $placeholder = null,
@@ -65,6 +67,10 @@ class Choice extends Field
     /** @return array<int|string, string|Translatable|array<int|string, string|Translatable>> */
     public function choices(): array
     {
+        if ($this->choices instanceof ChoiceProvider) {
+            return $this->choices->choices();
+        }
+
         if (!$this->choices instanceof Closure) {
             return $this->choices;
         }
