@@ -6,7 +6,7 @@ use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
-use Redaxo\Core\Form\Form;
+use Redaxo\Core\Form\DbForm;
 use Redaxo\Core\Translation\I18n;
 
 use function call_user_func;
@@ -24,7 +24,7 @@ class PriorityField extends SelectField
     /** @var string */
     private $optionMsg = 'form_field_after_priority';
     /**
-     * @var Form
+     * @var DbForm
      * @psalm-suppress NonInvariantDocblockPropertyType
      */
     protected $table;
@@ -35,7 +35,7 @@ class PriorityField extends SelectField
      * @param string $tag
      * @param array<string, int|string> $attributes
      */
-    public function __construct($tag, Form $form, array $attributes = [])
+    public function __construct($tag, DbForm $form, array $attributes = [])
     {
         parent::__construct('', $form, $attributes);
         $this->table = $form;

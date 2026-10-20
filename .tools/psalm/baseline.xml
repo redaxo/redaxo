@@ -1158,6 +1158,14 @@
       <code><![CDATA[$this->warning]]></code>
     </PossiblyNullOperand>
   </file>
+  <file src="src/Form/DbForm.php">
+    <MixedArgument>
+      <code><![CDATA[$id]]></code>
+      <code><![CDATA[$this->languageSupport['id']]]></code>
+      <code><![CDATA[$this->languageSupport['id']]]></code>
+      <code><![CDATA[$this->languageSupport['language']]]></code>
+    </MixedArgument>
+  </file>
   <file src="src/Form/Field/AbstractOptionField.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$sql->getArray($query, [], PDO::FETCH_NUM)]]></code>
@@ -1325,14 +1333,6 @@
     <PossiblyNullOperand>
       <code><![CDATA[$this->getAttribute('name')]]></code>
     </PossiblyNullOperand>
-  </file>
-  <file src="src/Form/Form.php">
-    <MixedArgument>
-      <code><![CDATA[$id]]></code>
-      <code><![CDATA[$this->languageSupport['id']]]></code>
-      <code><![CDATA[$this->languageSupport['id']]]></code>
-      <code><![CDATA[$this->languageSupport['language']]]></code>
-    </MixedArgument>
   </file>
   <file src="src/Form/Select/TemplateSelect.php">
     <ArgumentTypeCoercion>
