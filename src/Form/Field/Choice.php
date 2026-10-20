@@ -33,9 +33,10 @@ use function is_string;
  * | true     | false    | radio buttons   |
  * | true     | true     | checkboxes      |
  *
- * The choices are given as `value => label`, either directly or by a callable returning them — typically a
- * first-class callable to a static method (`choices: self::choices(...)`), as attribute arguments have to be
- * constant expressions. A nested array groups choices, its key being the group label.
+ * The choices are given as `value => label`, either directly or by a closure returning them, as attribute arguments
+ * have to be constant expressions: a static closure for short code (`choices: static function () { return …; }`; arrow
+ * functions are not allowed in constant expressions), a first-class callable to a static method for more logic
+ * (`choices: self::choices(...)`). A nested array groups choices, its key being the group label.
  *
  * A single value is cast into the property type, so `int` and backed enum properties work as well. With `multiple`
  * the property is an `array` holding the selected choice keys.

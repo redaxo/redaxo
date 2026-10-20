@@ -10,15 +10,15 @@ use Redaxo\Core\Util\Editor;
 /** @internal */
 final class EditorSettings
 {
-    #[Choice(new Translatable('system_editor_name'), choices: self::editors(...), placeholder: new Translatable('system_editor_no_editor'))]
+    #[Choice(
+        new Translatable('system_editor_name'),
+        choices: static function () {
+            return Editor::factory()->getSupportedEditors();
+        },
+        placeholder: new Translatable('system_editor_no_editor'),
+    )]
     public ?string $name = null;
 
     #[Text(new Translatable('system_editor_basepath'), note: new Translatable('system_editor_basepath_note'))]
     public ?string $basepath = null;
-
-    /** @return array<string, string> */
-    public static function editors(): array
-    {
-        return Editor::factory()->getSupportedEditors();
-    }
 }
