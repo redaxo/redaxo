@@ -2,9 +2,11 @@
 
 namespace Redaxo\Core\Tests\Form;
 
+use BcMath\Number as Decimal;
 use DateTimeImmutable;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\ArticlePicker;
@@ -130,6 +132,34 @@ final class FieldsTest extends TestCase
 
         $html = (string) $form->row('date');
         self::assertStringContainsString('type="date"', $html);
+    }
+
+    #[RequiresPhpExtension('bcmath')]
+    public function testDecimal(): void
+    {
+        $data = new class {
+            #[Number('Price', min: '0.01', max: '99.99', step: '0.01')]
+            public ?Decimal $price = null;
+        };
+
+        $form = new Form($data, name: 'decimal', csrf: false);
+        self::assertStringContainsString('min="0.01" max="99.99" step="0.01"', (string) $form->widget('price'));
+
+        self::assertTrue($form->submit(['price' => '19.90']));
+        self::assertInstanceOf(Decimal::class, $data->price);
+        self::assertSame('19.90', (string) $data->price);
+
+        foreach (['form_max' => '100', 'form_min' => '0.001', 'form_invalid_value' => 'abc'] as $error => $raw) {
+            $form = new Form(clone $data, name: 'decimal', csrf: false);
+            self::assertFalse($form->submit(['price' => $raw]));
+            $message = $form->field('price')->error;
+            self::assertInstanceOf(Translatable::class, $message);
+            self::assertSame($error, $message->key);
+        }
+
+        $field = new Number('Price');
+        self::assertSame('19.90', $field->encode(new Decimal('19.90')));
+        self::assertEquals(new Decimal('19.90'), $field->decode('19.90', FormSchema::of($data::class)->get('price')->type));
     }
 
     public function testMissingDefault(): void
