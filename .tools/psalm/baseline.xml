@@ -1385,7 +1385,6 @@
       <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
       <code><![CDATA[$_SERVER['REQUEST_URI']]]></code>
       <code><![CDATA[$filename]]></code>
-      <code><![CDATA[$raw ? $value : rawurlencode($value)]]></code>
     </PossiblyNullOperand>
     <PossiblyUndefinedArrayOffset>
       <code><![CDATA[$_SERVER['HTTP_HOST']]]></code>
