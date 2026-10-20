@@ -45,6 +45,8 @@ final class Form implements Renderable
 
     private const string SUBMIT_KEY = '_submit';
 
+    private const string APPLY_KEY = '_apply';
+
     /** Name of the request parameter holding the submitted values; defaults to the short class name of the data object. */
     public readonly string $name;
 
@@ -54,6 +56,8 @@ final class Form implements Renderable
     private readonly array $fields;
 
     private bool $submitted = false;
+
+    private bool $applied = false;
 
     /** @var array<string, string|list<string>> */
     private array $raw = [];
@@ -77,6 +81,13 @@ final class Form implements Renderable
         ?array $only = null,
         /** Whether the rows place their labels above the widgets instead of next to them, e.g. in narrow columns. */
         public bool $vertical = false,
+        /**
+         * Label of a second submit button for saving without leaving the form, see {@see self::isApplied()};
+         * `null` for none.
+         */
+        public string|Translatable|null $applyLabel = null,
+        /** Target of a cancel link next to the submit buttons; `null` for none. */
+        public ?string $cancelUrl = null,
     ) {
         $class = new ReflectionClass($data);
         if (null === $name && $class->isAnonymous()) {
@@ -141,6 +152,7 @@ final class Form implements Renderable
     public function submit(array $submitted): bool
     {
         $this->submitted = true;
+        $this->applied = isset($submitted[self::APPLY_KEY]);
 
         $values = [];
         foreach ($this->fields as $name => $definition) {
@@ -173,6 +185,12 @@ final class Form implements Renderable
         }
 
         return true;
+    }
+
+    /** Whether the form was submitted by the apply button, i.e. the user wants to stay on the form after saving. */
+    public function isApplied(): bool
+    {
+        return $this->applied;
     }
 
     /** Whether the form was submitted without errors. */
@@ -337,6 +355,28 @@ final class Form implements Renderable
         $label = Translatable::text($this->submitLabel);
 
         return Html::raw('<button class="btn btn-save rex-form-aligned" type="submit"' . Accesskey::attributes($label, 'save') . '>' . escape($label) . '</button>');
+    }
+
+    /** Renders the apply button, or nothing if there is no {@see self::$applyLabel}. */
+    public function applyButton(): Html
+    {
+        if (null === $this->applyLabel) {
+            return Html::raw('');
+        }
+
+        $label = Translatable::text($this->applyLabel);
+
+        return Html::raw('<button class="btn btn-apply" type="submit" name="' . escape($this->name . '[' . self::APPLY_KEY . ']') . '" value="1"' . Accesskey::attributes($label, 'apply') . '>' . escape($label) . '</button>');
+    }
+
+    /** Renders the cancel link, or nothing if there is no {@see self::$cancelUrl}. */
+    public function cancelLink(): Html
+    {
+        if (null === $this->cancelUrl) {
+            return Html::raw('');
+        }
+
+        return Html::raw('<a class="btn btn-abort" href="' . escape($this->cancelUrl) . '">' . escape(new Translatable('form_abort')->translate()) . '</a>');
     }
 
     /** @return array<array-key, mixed>|null */

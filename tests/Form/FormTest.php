@@ -112,6 +112,23 @@ final class FormTest extends TestCase
         self::assertMatchesRegularExpression('/<input type="checkbox" name="settings\[active\]"[^>]* checked/', $rest);
     }
 
+    public function testApplyAndCancel(): void
+    {
+        $form = new Form(new Settings(), csrf: false);
+        self::assertSame('', (string) $form->applyButton());
+        self::assertSame('', (string) $form->cancelLink());
+
+        $form = new Form(new Settings(), csrf: false, applyLabel: 'Apply', cancelUrl: 'index.php?a=1&b=2');
+        self::assertStringContainsString('name="settings[_apply]" value="1"', (string) $form->applyButton());
+        self::assertStringContainsString('href="index.php?a=1&amp;b=2"', (string) $form->cancelLink());
+
+        self::assertTrue($form->submit(['title' => 'Saved', 'size' => '1']));
+        self::assertFalse($form->isApplied());
+
+        self::assertTrue($form->submit(['title' => 'Applied', 'size' => '1', '_apply' => '1']));
+        self::assertTrue($form->isApplied());
+    }
+
     public function testSubmitEmbedded(): void
     {
         $settings = new Settings();
