@@ -71,6 +71,7 @@ const allPages = {
     'users_role_add.png': START_URL + '?page=users/roles&func=add&default_value=1',
 
     'markdown.png': START_URL + '?page=system/markdown',
+    'form.png': START_URL + '?page=system/form',
 
     'system_settings.png': START_URL + '?page=system/settings',
     'system_lang.png': START_URL + '?page=system/lang',

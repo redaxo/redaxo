@@ -268,6 +268,12 @@ form_applied = Eingaben wurden übernommen!
 form_deleted = Eingaben wurden gelöscht!
 form_delete_error = Fehler beim Löschen!
 form_resetted = Eingaben wurden verworfen!
+form_required = Bitte füllen Sie dieses Feld aus.
+form_invalid_value = Der Wert ist ungültig.
+form_invalid_choice = Bitte wählen Sie eine der angebotenen Optionen.
+form_article_not_found = Der gewählte Artikel existiert nicht.
+form_media_not_found = Das gewählte Medium existiert nicht.
+form_media_invalid_type = Erlaubt sind nur Dateien vom Typ {0}.
 
 # language
 all_languages = Alle Sprachen

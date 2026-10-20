@@ -237,6 +237,12 @@ form_applied = Data has been saved!
 form_deleted = Data has been deleted!
 form_delete_error = Error deleting data!
 form_resetted = Data has been reset!
+form_required = Please fill in this field.
+form_invalid_value = The value is invalid.
+form_invalid_choice = Please select one of the offered options.
+form_article_not_found = The selected article does not exist.
+form_media_not_found = The selected medium does not exist.
+form_media_invalid_type = Only files of type {0} are allowed.
 
 # language
 all_languages = All languages
