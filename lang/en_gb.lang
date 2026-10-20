@@ -237,6 +237,19 @@ form_applied = Data has been saved!
 form_deleted = Data has been deleted!
 form_delete_error = Error deleting data!
 form_resetted = Data has been reset!
+form_required = The field must not be empty.
+form_invalid_value = The value is invalid.
+form_invalid_choice = The selected option is invalid.
+form_invalid_email = The e-mail address is invalid.
+form_invalid_url = The URL is invalid (allowed: {0}).
+form_max_length = The value must be at most {0} characters long.
+form_min = The value must be at least {0}.
+form_max = The value must be at most {0}.
+form_min_date = The value must not be before {0}.
+form_max_date = The value must not be after {0}.
+form_article_not_found = The selected article does not exist.
+form_media_not_found = The selected medium does not exist.
+form_media_invalid_type = Only files of type {0} are allowed.
 
 # language
 all_languages = All languages
@@ -482,9 +495,10 @@ perm_general_media[sync] = Mediapool: Synchronise files
 
 # metainfo
 minfo_metadata_saved = Metainfos have been saved.
+minfo_metadata_not_saved = The metadata has not been saved:
 minfo_media_in_use_art = Article (metadata)
 minfo_media_in_use_cat = Categories (metadata)
-minfo_media_in_use_med = Languages (metadata)
+minfo_media_in_use_med = Media (metadata)
 minfo_media_in_use_language = Languages (metadata)
 
 # bc: labels aus dem core

@@ -268,6 +268,19 @@ form_applied = Eingaben wurden übernommen!
 form_deleted = Eingaben wurden gelöscht!
 form_delete_error = Fehler beim Löschen!
 form_resetted = Eingaben wurden verworfen!
+form_required = Das Feld darf nicht leer sein.
+form_invalid_value = Der Wert ist ungültig.
+form_invalid_choice = Die gewählte Option ist ungültig.
+form_invalid_email = Die E-Mail-Adresse ist ungültig.
+form_invalid_url = Die URL ist ungültig (erlaubt: {0}).
+form_max_length = Der Wert darf höchstens {0} Zeichen lang sein.
+form_min = Der Wert muss mindestens {0} sein.
+form_max = Der Wert darf höchstens {0} sein.
+form_min_date = Der Wert darf nicht vor {0} liegen.
+form_max_date = Der Wert darf nicht nach {0} liegen.
+form_article_not_found = Der gewählte Artikel existiert nicht.
+form_media_not_found = Das gewählte Medium existiert nicht.
+form_media_invalid_type = Nur Dateien vom Typ {0} sind erlaubt.
 
 # language
 all_languages = Alle Sprachen
@@ -513,6 +526,7 @@ perm_general_media[sync] = Medienpool: Dateien synchronisieren
 
 # metainfo
 minfo_metadata_saved = Die Metadaten wurden gespeichert.
+minfo_metadata_not_saved = Die Metadaten wurden nicht gespeichert:
 minfo_media_in_use_art = Artikel (Metadaten)
 minfo_media_in_use_cat = Kategorien (Metadaten)
 minfo_media_in_use_med = Medien (Metadaten)

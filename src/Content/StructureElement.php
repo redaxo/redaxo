@@ -10,7 +10,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\MetaInfo\Field\MetaField;
+use Redaxo\Core\MetaInfo\MetaSchema;
 use Redaxo\Core\Util\Str;
 
 use function array_key_exists;
@@ -161,7 +161,7 @@ abstract class StructureElement
             'updatedate' => $this->updateDate,
             'createuser' => $this->createUser,
             'updateuser' => $this->updateUser,
-            default => $this->additionalData[$key] ?? $this->additionalData[MetaField::COLUMN_PREFIX . $key] ?? null,
+            default => $this->additionalData[$key] ?? $this->additionalData[MetaSchema::COLUMN_PREFIX . $key] ?? null,
         };
     }
 
@@ -175,7 +175,7 @@ abstract class StructureElement
             'createdate', 'updatedate', 'createuser', 'updateuser',
         ], true)
             || array_key_exists($key, $this->additionalData)
-            || array_key_exists(MetaField::COLUMN_PREFIX . $key, $this->additionalData);
+            || array_key_exists(MetaSchema::COLUMN_PREFIX . $key, $this->additionalData);
     }
 
     /**

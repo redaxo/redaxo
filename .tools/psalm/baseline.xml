@@ -773,19 +773,6 @@
       <code><![CDATA[$value]]></code>
     </PossiblyInvalidOperand>
   </file>
-  <file src="pages/system/settings.php">
-    <MixedArgument>
-      <code><![CDATA[Core::getConfig('notfound_article_id', 1)]]></code>
-      <code><![CDATA[Core::getConfig('start_article_id', 1)]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$key]]></code>
-      <code><![CDATA[$key]]></code>
-    </MixedArgumentTypeCoercion>
-    <NullOperand>
-      <code><![CDATA[escape($editor->getBasepath())]]></code>
-    </NullOperand>
-  </file>
   <file src="pages/user/roles.php">
     <MixedArgument>
       <code><![CDATA[$perm]]></code>

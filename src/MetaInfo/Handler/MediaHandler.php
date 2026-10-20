@@ -4,16 +4,17 @@ namespace Redaxo\Core\MetaInfo\Handler;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\AsExtension;
 use Redaxo\Core\ExtensionPoint\ExtensionLevel;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Field\MediaPicker;
 use Redaxo\Core\Http\Session;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\MediaPool\MediaCategory;
-use Redaxo\Core\MetaInfo\Field\MediaField;
 use Redaxo\Core\MetaInfo\MetaContext;
 use Redaxo\Core\MetaInfo\MetaEntity;
 use Redaxo\Core\MetaInfo\MetaSchema;
@@ -52,8 +53,8 @@ final class MediaHandler extends AbstractHandler
         ];
         foreach ($map as [$entity, $key]) {
             foreach (MetaSchema::getFields($entity) as $field) {
-                if ($field instanceof MediaField) {
-                    $where[$key][] = 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($field->columnName()) . ')';
+                if ($field->definition->field instanceof MediaPicker) {
+                    $where[$key][] = 'FIND_IN_SET(' . $escapedFilename . ', ' . $sql->escapeIdentifier($field->column) . ')';
                 }
             }
         }
@@ -130,13 +131,18 @@ final class MediaHandler extends AbstractHandler
         return $ep->subject . $this->renderFields($this->createContext($media));
     }
 
+    /** @throws UserMessageException if the submitted values are invalid */
     #[AsExtension(level: ExtensionLevel::Early)]
     public function saveFields(MediaAdded|MediaUpdated $ep): void
     {
+        if (!$this->submit($this->createContext($ep->media))) {
+            throw $this->invalidValues(MetaEntity::Media);
+        }
+
         // a freshly added medium gets the submitted values in all languages, an edited one only in its language
         $languageIds = $ep instanceof MediaAdded ? Language::getAllIds() : [$ep->media->languageId];
 
-        $this->save($ep->media->id, $this->createContext(null), $languageIds);
+        $this->save($ep->media->id, $languageIds);
     }
 
     private function createContext(?object $media): MetaContext
@@ -147,13 +153,13 @@ final class MediaHandler extends AbstractHandler
     }
 
     /** @param list<int> $languageIds */
-    private function save(int $id, MetaContext $context, array $languageIds): void
+    private function save(int $id, array $languageIds): void
     {
         $sql = Sql::factory();
         $sql->setTable('rex_media');
         $sql->setWhere(['id' => $id]);
 
-        $this->saveRequestValues($sql, $context, translatable: false);
+        $this->saveValues($sql, MetaEntity::Media, translated: false);
 
         if ($sql->hasValues()) {
             $sql->update();
@@ -164,7 +170,7 @@ final class MediaHandler extends AbstractHandler
             $sql->setTable('rex_media_translation');
             $sql->setWhere(['media_id' => $id, 'language_id' => $languageId]);
 
-            $this->saveRequestValues($sql, $context, translatable: true);
+            $this->saveValues($sql, MetaEntity::Media, translated: true);
 
             if ($sql->hasValues()) {
                 $sql->update();
