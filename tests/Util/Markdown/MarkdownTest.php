@@ -1,10 +1,10 @@
 <?php
 
-namespace Redaxo\Core\Tests\Util;
+namespace Redaxo\Core\Tests\Util\Markdown;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\Util\Markdown;
+use Redaxo\Core\Util\Markdown\Markdown;
 use Redaxo\Core\Util\Str;
 
 /** @internal */
@@ -25,8 +25,8 @@ final class MarkdownTest extends TestCase
             ["<p>foo<br />\nbar</p>\n<p>baz</p>", "foo\nbar\n\nbaz"],
             [
                 <<<'HTML'
-
-                    <pre><code class="language-php">    &lt;script&gt;foo()&lt;/script&gt;</code></pre>
+                    <pre><code class="language-php">    &lt;script&gt;foo()&lt;/script&gt;
+                    </code></pre>
                     HTML,
                 <<<'MD'
                     <script> foo() </script>
@@ -38,7 +38,8 @@ final class MarkdownTest extends TestCase
             ],
             [
                 <<<'HTML'
-                    <pre><code class="language-html">&lt;button onclick&#61;&#34;showBox();&#34;&gt;Foo&lt;/button&gt;</code></pre>
+                    <pre><code class="language-html">&lt;button onclick&#61;&#34;showBox();&#34;&gt;Foo&lt;/button&gt;
+                    </code></pre>
                     <p>Events: <code>box-onshow</code>, box-onclose</p>
                     HTML,
                 <<<'MD'
@@ -117,9 +118,11 @@ final class MarkdownTest extends TestCase
             ## <i>Title with HTML</i>
 
             ## Title with "quotes" & 'other' special &lt;chars&gt;
+
+            ## Title with explicit id {#explicit}
             MARKDOWN;
 
-        [$toc] = Markdown::factory()->parseWithToc($input, 2, 4);
+        [$toc, $content] = Markdown::factory()->parseWithToc($input, 2, 4);
 
         $expected = <<<'HTML'
             <ul>
@@ -167,10 +170,31 @@ final class MarkdownTest extends TestCase
             <li>
             <a href="#title-with-quotes-other-special-chars">Title with &quot;quotes&quot; &amp; &#039;other&#039; special &lt;chars&gt;</a>
             </li>
+            <li>
+            <a href="#explicit">Title with explicit id</a>
+            </li>
             </ul>
 
             HTML;
 
         self::assertSame($expected, $toc);
+
+        self::assertStringContainsString('<h2 id="duplicate-test">Duplicate Test</h2>', $content);
+        self::assertStringContainsString('<h2 id="duplicate-test-1">Duplicate Test</h2>', $content);
+        self::assertStringContainsString('<h2 id="explicit">Title with explicit id</h2>', $content);
+    }
+
+    public function testParseWithHighlightPhp(): void
+    {
+        $code = "```php\necho 'foo';\n```";
+
+        $expected = '<pre><code><span style="color: #0000BB"></span><span style="color: #007700">echo </span><span style="color: #DD0000">&#039;foo&#039;</span><span style="color: #007700">;</span></code></pre>';
+
+        self::assertSame($expected, Markdown::factory()->parse($code, highlightPhp: true));
+    }
+
+    public function testParseWithoutSoftLineBreaks(): void
+    {
+        self::assertSame("<p>foo\nbar</p>", Markdown::factory()->parse("foo\nbar", softLineBreaks: false));
     }
 }

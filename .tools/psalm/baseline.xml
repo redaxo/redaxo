@@ -1650,43 +1650,6 @@
       <code><![CDATA[ceil((int) $this->rowCount / $this->rowsPerPage) - 1]]></code>
     </InvalidOperand>
   </file>
-  <file src="src/Util/Parsedown.php">
-    <MixedArgument>
-      <code><![CDATA[$block]]></code>
-      <code><![CDATA[$block]]></code>
-    </MixedArgument>
-    <MixedArrayAccess>
-      <code><![CDATA[$block['element']['attributes']['id']]]></code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment>
-      <code><![CDATA[$block['element']['attributes']['id']]]></code>
-    </MixedArrayAssignment>
-    <MixedArrayOffset>
-      <code><![CDATA[$this->ids[$id]]]></code>
-    </MixedArrayOffset>
-    <MixedAssignment>
-      <code><![CDATA[$block]]></code>
-      <code><![CDATA[$block]]></code>
-      <code><![CDATA[$id]]></code>
-    </MixedAssignment>
-    <MixedPropertyTypeCoercion>
-      <code><![CDATA[$this->ids]]></code>
-    </MixedPropertyTypeCoercion>
-    <MixedReturnStatement>
-      <code><![CDATA[parent::text($text)]]></code>
-    </MixedReturnStatement>
-    <PossiblyNullArgument>
-      <code><![CDATA[$text]]></code>
-      <code><![CDATA[$text]]></code>
-      <code><![CDATA[$text]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$level]]></code>
-    </PossiblyUndefinedArrayOffset>
-    <PropertyTypeCoercion>
-      <code><![CDATA[$this->headers]]></code>
-    </PropertyTypeCoercion>
-  </file>
   <file src="src/Util/SortableIterator.php">
     <PossiblyNullArgument>
       <code><![CDATA[$string]]></code>
