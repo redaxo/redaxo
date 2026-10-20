@@ -9,11 +9,13 @@ use Redaxo\Core\Form\Field\Checkbox;
 use Redaxo\Core\Form\Field\Choice;
 use Redaxo\Core\Form\Field\DatePicker;
 use Redaxo\Core\Form\Field\DateTimePicker;
+use Redaxo\Core\Form\Field\Email;
 use Redaxo\Core\Form\Field\MediaPicker;
 use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Field\Textarea;
 use Redaxo\Core\Form\Field\TimePicker;
+use Redaxo\Core\Form\Field\Url;
 use Redaxo\Core\MediaPool\Media;
 
 /** All form field types, shown on the form page of the test addon. */
@@ -23,6 +25,12 @@ final class FormFields
 
     #[Text('Text', note: 'With a note', required: true, maxLength: 50)]
     public string $text = '';
+
+    #[Email('E-mail')]
+    public string $email = '';
+
+    #[Url('URL')]
+    public ?string $url = null;
 
     #[Textarea('Textarea', rows: 3, maxLength: 200)]
     public string $textarea = '';

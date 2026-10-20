@@ -12,10 +12,12 @@ use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\ArticlePicker;
 use Redaxo\Core\Form\Field\Choice;
 use Redaxo\Core\Form\Field\DatePicker;
+use Redaxo\Core\Form\Field\Email;
 use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Field\Textarea;
 use Redaxo\Core\Form\Field\TimePicker;
+use Redaxo\Core\Form\Field\Url;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\FormSchema;
 use Redaxo\Core\Tests\Form\Fixtures\AllFields;
@@ -198,6 +200,40 @@ final class FieldsTest extends TestCase
             self::assertInstanceOf(Translatable::class, $message);
             self::assertSame($error, $message->key);
         }
+    }
+
+    /** @param array<string, string> $submitted */
+    #[DataProvider('provideEmailAndUrl')]
+    public function testEmailAndUrl(?string $expectedError, array $submitted): void
+    {
+        $data = new class {
+            #[Email('E-mail')]
+            public string $email = '';
+
+            #[Url('Website')]
+            public ?string $website = null;
+        };
+
+        $form = new Form($data, name: 'contact', csrf: false);
+        self::assertStringContainsString('type="email"', (string) $form->widget('email'));
+        self::assertStringContainsString('type="url"', (string) $form->widget('website'));
+
+        self::assertSame(null === $expectedError, $form->submit($submitted + ['email' => '', 'website' => '']));
+
+        $errors = $form->getFieldErrors();
+        $error = reset($errors);
+        self::assertSame($expectedError, $error instanceof Translatable ? $error->key : null);
+    }
+
+    /** @return iterable<string, array{?string, array<string, string>}> */
+    public static function provideEmailAndUrl(): iterable
+    {
+        yield 'empty' => [null, []];
+        yield 'valid' => [null, ['email' => 'info@example.org', 'website' => 'https://example.org/path?query=1']];
+        yield 'invalid email' => ['form_invalid_email', ['email' => 'info@example']];
+        yield 'url without scheme' => ['form_invalid_url', ['website' => 'example.org']];
+        yield 'url with other scheme' => ['form_invalid_url', ['website' => 'ftp://example.org']];
+        yield 'javascript url' => ['form_invalid_url', ['website' => 'javascript://comment%0Aalert(1)']];
     }
 
     public function testMissingDefault(): void

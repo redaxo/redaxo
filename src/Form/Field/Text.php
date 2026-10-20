@@ -51,6 +51,12 @@ class Text extends Field
     #[Override]
     public function widget(BoundField $field): Input
     {
-        return new Input($field->inputName, Type::string($field->raw), $field->id, maxLength: $this->maxLength, required: $this->required);
+        return new Input($field->inputName, Type::string($field->raw), $field->id, $this->inputType(), $this->maxLength, $this->required);
+    }
+
+    /** The `type` of the input element. */
+    protected function inputType(): string
+    {
+        return 'text';
     }
 }
