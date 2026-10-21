@@ -23,9 +23,6 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Http\Session;
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\MetaInfo\Handler\CategoryHandler as MetaInfoCategoryHandler;
-use Redaxo\Core\MetaInfo\Handler\LanguageHandler as MetaInfoLanguageHandler;
-use Redaxo\Core\MetaInfo\Handler\MediaHandler as MetaInfoMediaHandler;
 use Redaxo\Core\Migration\WebRunner;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\CsrfToken;
@@ -368,7 +365,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             echo '<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_language_id = ' . Language::getCurrentId() . ';
-                    var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
+                    var history_content_section_id = ' . Request::request('content_section_id', 'int', 0) . ';
                     var history_article_link = "' . escape($articleLink, 'js') . '";
                     var history_csrf_token = "' . escape(CsrfToken::factory('structure_history')->getValue(), 'js') . '";
                 </script>';
@@ -484,10 +481,10 @@ if (Core::getConfig('article_work_version', false)) {
         $revisions[ArticleRevision::WORK] = I18n::msg('version_workingversion');
 
         $context = new Context([
-            'page' => $params['page'],
+            'page' => 'content/edit',
             'article_id' => $articleId,
             'language' => $languageId,
-            'ctype' => $params['ctype'],
+            'content_section_id' => Type::int($params['content_section_id']),
         ]);
 
         $items = [];
@@ -568,17 +565,6 @@ if (Core::getConfig('article_history', false)) {
 if (Core::getConfig('article_work_version', false)) {
     Permission::register('version[live_version]', null, Permission::OPTIONS);
 }
-
-// Metainfo: register the handler instances backing their non-static #[AsExtension] methods.
-Extension::registerInstance(new MetaInfoCategoryHandler());
-Extension::registerInstance(new MetaInfoMediaHandler());
-Extension::registerInstance(new MetaInfoLanguageHandler());
-
-Extension::register('STRUCTURE_CONTENT_SIDEBAR', function ($ep) {
-    $subject = $ep->subject;
-    $metaSidebar = include Path::core('pages/structure/content.metainfo.php');
-    return $metaSidebar . $subject;
-});
 
 // ----- INCLUDE ADDONS
 include_once Path::core('boot/addons.php');

@@ -6,6 +6,8 @@ use Redaxo\Core\Content\ArticleContent;
 use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
+use Redaxo\Core\Content\ExtensionPoint\ArticleContentRendering;
+use Redaxo\Core\Content\ExtensionPoint\ArticleSlicesQuery;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -22,7 +24,6 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\Log\ErrorReport;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\UserSession;
-use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
 
 if (Core::isDevMode()) {
@@ -90,17 +91,15 @@ if (Core::getConfig('article_history', false)) {
             throw new HttpException('No permission for the slice version.', Response::HTTP_FORBIDDEN);
         }
 
-        Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
+        Extension::register(ArticleContentRendering::class, static function (ArticleContentRendering $ep): void {
             // Render the requested article live from the database instead of the published content cache.
-            Type::instanceOf($ep->subject, ArticleContent::class)->eval = true;
+            $ep->content->eval = true;
         });
 
-        // The article id is not known in ART_INIT yet (that extension point is fired in the constructor, before
-        // the article id is set), so the article specific permissions can only be checked here, where the slices
-        // of the history are about to be fetched.
-        Extension::register('ART_SLICES_QUERY', static function (ExtensionPoint $ep) use ($user) {
+        // The article specific permissions are checked where the slices of the history are about to be fetched.
+        Extension::register(ArticleSlicesQuery::class, static function (ArticleSlicesQuery $ep) use ($user): ?string {
             $historyDate = Request::request('rex_history_date', 'string');
-            $article = $ep->getParam('article');
+            $article = $ep->content;
 
             if ($article instanceof ArticleContent && $article->articleId == Article::getCurrentId()) {
                 $historyArticle = Article::get($article->articleId, $article->languageId);
@@ -142,7 +141,7 @@ if (Core::getConfig('article_history', false)) {
 }
 
 if (Core::getConfig('article_work_version', false)) {
-    Extension::register('ART_INIT', static function (ExtensionPoint $ep) {
+    Extension::register(ArticleContentRendering::class, static function (ArticleContentRendering $ep): void {
         $version = Request::request('rex_version', 'int');
         if (ArticleRevision::WORK != $version) {
             return;
@@ -160,20 +159,17 @@ if (Core::getConfig('article_work_version', false)) {
         }
 
         // Render the working version live from the database instead of the published content cache.
-        $article = Type::instanceOf($ep->subject, ArticleContent::class);
-        $article->sliceRevision = $version;
-        $article->eval = true;
+        $ep->content->sliceRevision = $version;
+        $ep->content->eval = true;
     });
 
-    // The article id is not known in ART_INIT yet (that extension point is fired in the constructor, before
-    // the article id is set), so the article specific permissions can only be checked here, where the slices
-    // of the working version are about to be fetched.
-    Extension::register('ART_SLICES_QUERY', static function (ExtensionPoint $ep) {
+    // The article specific permissions are checked where the slices of the working version are about to be fetched.
+    Extension::register(ArticleSlicesQuery::class, static function (ArticleSlicesQuery $ep): ?string {
         if (ArticleRevision::WORK != Request::request('rex_version', 'int')) {
             return null;
         }
 
-        $article = $ep->getParam('article');
+        $article = $ep->content;
         if (!$article instanceof ArticleContent || $article->articleId !== Article::getCurrentId()) {
             return null;
         }
@@ -214,12 +210,7 @@ try {
     exit;
 }
 
-// ----- EXTENSION POINT: lets extensions configure the requested article content object,
-// e.g. to render the history or working version live from the database instead of the cache.
-Extension::dispatch(new ExtensionPoint('ART_INIT', $article, [
-    'article_id' => Article::getCurrentId(),
-    'language' => Language::getCurrentId(),
-], readonly: true));
+Extension::dispatch(new ArticleContentRendering($article));
 
 try {
     $content .= $article->renderTemplate();

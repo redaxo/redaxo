@@ -88,7 +88,7 @@ final class ArticleSliceTest extends TestCase
             ->setValues([
                 'article_id' => self::FAKE_ID,
                 'language_id' => 1,
-                'ctype_id' => 1,
+                'content_section_id' => 1,
                 'module' => 'test',
                 'revision' => 0,
                 'priority' => $priority,

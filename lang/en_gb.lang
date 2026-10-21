@@ -256,6 +256,13 @@ form_articlelist_move_top = Move selected link to top
 form_articlelist_move_up = Move selected link up
 form_articlelist_move_down = Move selected link down
 form_articlelist_move_bottom = Move selected link to bottom
+form_collection_invalid = At least one item is invalid.
+form_collection_min = There must be at least {0} items.
+form_collection_max = There may be at most {0} items.
+form_collection_add = Add item
+form_collection_remove = Remove item
+form_collection_move_up = Move item up
+form_collection_move_down = Move item down
 
 # language
 all_languages = All languages
@@ -455,7 +462,6 @@ pool_files_deleted = {0} Files have been deleted.
 pool_file_delete_error = File "{0}" cannot be deleted
 pool_object_in_use_by = It is used by following objects:
 pool_kat_delete_error = Category "{0}" cannot be deleted
-pool_file_in_use_articles = Article (Content)
 pool_file_changed = File exchanged!
 pool_file_added = File added!
 pool_file_movefailed = Upload failed.
@@ -494,11 +500,11 @@ perm_general_media[sync] = Mediapool: Synchronise files
 
 # metainfo
 minfo_metadata_saved = Metainfos have been saved.
-minfo_metadata_not_saved = The metadata has not been saved:
-minfo_media_in_use_art = Article (metadata)
-minfo_media_in_use_cat = Categories (metadata)
-minfo_media_in_use_med = Media (metadata)
-minfo_media_in_use_language = Languages (metadata)
+minfo_metadata_invalid = The metadata contains invalid values.
+minfo_usage_articles = Articles (metadata)
+minfo_usage_categories = Categories (metadata)
+minfo_usage_media = Media (metadata)
+minfo_usage_languages = Languages (metadata)
 
 # bc: labels aus dem core
 online_from = Online from
@@ -561,7 +567,8 @@ category_doesnt_exist = Category doesn't exist!
 article_doesnt_exist = Article doesn't exist!
 cant_delete_sitestartarticle = The start article can not be deleted!
 cant_delete_notfoundarticle = Not-found article can not be deleted
-article_still_in_use = The article can not be deleted, it is still used in the following articles: {0}
+article_still_in_use = The article "{0}" can not be deleted, it is used by the following objects:
+usage_articles_content = Articles (content)
 structure_copy = Copy
 category_has_child_elements = Category has child elements
 category_without_child_elements = Category without child elements

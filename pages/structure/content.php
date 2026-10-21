@@ -11,6 +11,8 @@ use Redaxo\Core\Content\ArticleSliceReference;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\ExtensionPoint\SliceAdding;
+use Redaxo\Core\Content\ExtensionPoint\SliceUpdating;
 use Redaxo\Core\Content\Module;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
@@ -18,6 +20,7 @@ use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
@@ -69,7 +72,7 @@ $templateKey = $article->getNullableStringValue('template') ?? '';
 $template = Template::get($templateKey);
 $contentSections = $template?->getContentSections() ?? [];
 
-$ctype = Request::request('ctype', 'int', 1);
+$ctype = Request::request('content_section_id', 'int', 1);
 if ($ctype < 2 || !$template?->hasContentSection($ctype)) {
     $ctype = 1;
 }
@@ -90,7 +93,7 @@ $context = new Context([
     'article_id' => $articleId,
     'category_id' => $categoryId,
     'language' => $languageId,
-    'ctype' => $ctype,
+    'content_section_id' => $ctype,
 ]);
 
 // ----- Titel anzeigen
@@ -109,7 +112,7 @@ echo Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_HEADER', '', [
     'function' => $function,
     'slice_id' => $sliceId,
     'page' => Controller::getCurrentPage(),
-    'ctype' => $ctype,
+    'content_section_id' => $ctype,
     'category_id' => $categoryId,
     'article_revision' => &$articleRevision,
     'slice_revision' => &$sliceRevision,
@@ -154,7 +157,7 @@ if (
             // determine priority value to get the new slice into the right order
             $prevSlice = Sql::factory();
             if (-1 == $sliceId) {
-                $prevSlice->setQuery('SELECT MAX(priority) as priority FROM ' . $sliceTable . ' WHERE article_id=? AND language_id=? AND ctype_id=? AND revision=?', [$articleId, $languageId, $ctype, $sliceRevision]);
+                $prevSlice->setQuery('SELECT MAX(priority) as priority FROM ' . $sliceTable . ' WHERE article_id=? AND language_id=? AND content_section_id=? AND revision=?', [$articleId, $languageId, $ctype, $sliceRevision]);
                 $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
             } else {
                 $prevSlice->setQuery('SELECT priority FROM ' . $sliceTable . ' WHERE id=?', [$sliceId]);
@@ -215,7 +218,7 @@ if (
                             $newsql->setValue('article_id', $articleId);
                             $newsql->setValue('module', $moduleKey);
                             $newsql->setValue('language_id', $languageId);
-                            $newsql->setValue('ctype_id', $ctype);
+                            $newsql->setValue('content_section_id', $ctype);
                             $newsql->setValue('revision', $sliceRevision);
                             $newsql->setValue('priority', $priority);
                         }
@@ -223,12 +226,7 @@ if (
                         if ('edit' == $function) {
                             $newsql->addGlobalUpdateFields();
 
-                            Extension::dispatch(new ExtensionPoint('SLICE_UPDATE', '', [
-                                'slice_id' => $sliceId,
-                                'article_id' => $articleId,
-                                'language_id' => $languageId,
-                                'slice_revision' => $sliceRevision,
-                            ]));
+                            Extension::dispatch(new SliceUpdating(Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision))));
 
                             $newsql->update();
 
@@ -238,11 +236,7 @@ if (
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
 
-                            Extension::dispatch(new ExtensionPoint('SLICE_ADD', '', [
-                                'article_id' => $articleId,
-                                'language_id' => $languageId,
-                                'slice_revision' => $sliceRevision,
-                            ]));
+                            Extension::dispatch(new SliceAdding($OOArt, $ctype, $moduleKey, (int) $sliceRevision));
 
                             $newsql->insert();
                             $sliceId = $newsql->getLastId();
@@ -250,7 +244,7 @@ if (
                             DatabaseUtil::organizePriorities(
                                 'rex_article_slice',
                                 'priority',
-                                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
+                                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
                                 'priority, updatedate DESC',
                             );
 
@@ -294,10 +288,10 @@ if (
     foreach (count($contentSections) > 1 ? $contentSections : [] as $section) {
         $hasSlice = true;
         if ($ctype != $section->id) {
-            $hasSlice = null !== ArticleSlice::getFirstSliceForCtype($section->id, $articleId, $languageId);
+            $hasSlice = null !== ArticleSlice::getFirstSliceForContentSection($section->id, $articleId, $languageId);
         }
-        $editPage->addSubpage(new Page('ctype' . $section->id, $section->name)
-            ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'language' => $languageId, 'ctype' => $section->id])
+        $editPage->addSubpage(new Page('content_section' . $section->id, $section->name)
+            ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'language' => $languageId, 'content_section_id' => $section->id])
             ->setIsActive($ctype == $section->id)
             ->setItemAttr('class', $hasSlice ? '' : 'rex-empty'),
         );
@@ -373,7 +367,7 @@ if (
         'function' => $function,
         'slice_id' => $sliceId,
         'page' => Controller::getCurrentPage(),
-        'ctype' => $ctype,
+        'content_section_id' => $ctype,
         'category_id' => $categoryId,
         'article_revision' => &$articleRevision,
         'slice_revision' => &$sliceRevision,
@@ -390,7 +384,7 @@ if (
         'function' => $function,
         'slice_id' => $sliceId,
         'page' => Controller::getCurrentPage(),
-        'ctype' => $ctype,
+        'content_section_id' => $ctype,
         'category_id' => $categoryId,
         'article_revision' => &$articleRevision,
         'slice_revision' => &$sliceRevision,
@@ -398,14 +392,17 @@ if (
 
     $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">' . $contentMain . '</section>';
 
+    // own scope, the sidebar must not overwrite the variables of this page
+    $metaSidebar = Type::string((static fn (int $articleId, int $languageId, int $ctype): mixed => include Path::core('pages/structure/content.metainfo.php'))($articleId, $languageId, $ctype));
+
     // ----- EXTENSION POINT
-    $contentSidebar = Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_SIDEBAR', '', [
+    $contentSidebar = Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_SIDEBAR', $metaSidebar, [
         'article_id' => $articleId,
         'language' => $languageId,
         'function' => $function,
         'slice_id' => $sliceId,
         'page' => Controller::getCurrentPage(),
-        'ctype' => $ctype,
+        'content_section_id' => $ctype,
         'category_id' => $categoryId,
         'article_revision' => &$articleRevision,
         'slice_revision' => &$sliceRevision,

@@ -8,7 +8,6 @@ use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
@@ -16,14 +15,19 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdding;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListQuery;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Type;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use ValueError;
 
-use function assert;
+use function array_key_exists;
 use function count;
 use function in_array;
 use function is_array;
@@ -34,6 +38,7 @@ use function strlen;
 
 use const PATHINFO_EXTENSION;
 use const UPLOAD_ERR_INI_SIZE;
+use const UPLOAD_ERR_NO_FILE;
 
 final class MediaHandler
 {
@@ -46,35 +51,31 @@ final class MediaHandler
     private function __construct() {}
 
     /**
-     * Holt ein upgeloadetes File und legt es in den Medienpool
-     * Dabei wird kontrolliert ob das File schon vorhanden ist und es
-     * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
+     * Adds a file to the media pool, the file is moved into the media folder.
      *
-     * @param array{category_id: int|null, title: string, file: array{name: string, path?: string, tmp_name?: string, error?: int}} $data `category_id` is `null` for the root level,
-     *     `title` is used for all languages
-     * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
+     * @param array{file: SymfonyFile, category_id: int|null, title?: string} $data Media data, `file` is an
+     *     {@see UploadedFile} for uploads, `category_id` is `null` for the root level, `title` is used for all languages
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     used for all languages
+     * @param bool $subindexing Appends a counter to the filename if a media with that name already exists
      * @param list<string> $types Restrict the allowed file extensions to these types
+     *
      * @throws UserMessageException
      */
-    public static function add(array $data, bool $doSubindexing = true, array $types = []): Media
+    public static function add(array $data, array $meta = [], bool $subindexing = true, array $types = []): Media
     {
-        $error = $data['file']['error'] ?? null;
+        $metaValues = new MetaValues(MetaEntity::Media, $meta);
 
-        if (UPLOAD_ERR_INI_SIZE === $error) {
-            throw new UserMessageException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(Request::getMaxUploadSize())));
-        }
-        if ($error) {
-            throw new UserMessageException(I18n::msg('pool_file_upload_error'));
-        }
+        Type::requireKeys($data, 'file', 'category_id');
 
-        $data['file']['path'] ??= $data['file']['tmp_name'] ?? null;
+        $file = $data['file'];
+        self::checkUpload($file);
 
-        if (empty($data['file']) || empty($data['file']['name']) || empty($data['file']['path'])) {
-            throw new UserMessageException(I18n::msg('pool_file_not_found'));
-        }
+        $originalName = self::originalName($file);
+        $srcFile = $file->getPathname();
 
-        if (!MediaPool::isAllowedExtension($data['file']['name'], $types)) {
-            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape(File::extension($data['file']['name'])) . '</code>';
+        if (!MediaPool::isAllowedExtension($originalName, $types)) {
+            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape(File::extension($originalName)) . '</code>';
             $allowedExtensions = MediaPool::getAllowedExtensions($types);
             $warning .= count($allowedExtensions) > 0
                     ? '<br />' . I18n::msg('pool_file_allowed_mediatypes') . ' <code>' . rtrim(implode('</code>, <code>', escape($allowedExtensions)), ', ') . '</code>'
@@ -83,30 +84,26 @@ final class MediaHandler
             throw new UserMessageException($warning);
         }
 
-        if (!MediaPool::isAllowedMimeType($data['file']['path'], $data['file']['name'])) {
-            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape(File::extension($data['file']['name'])) . '</code> (<code>' . escape(File::mimeType($data['file']['path'], $data['file']['name']) ?? 'unknown mime type') . '</code>)';
+        if (!MediaPool::isAllowedMimeType($srcFile, $originalName)) {
+            $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape(File::extension($originalName)) . '</code> (<code>' . escape(File::mimeType($srcFile, $originalName) ?? 'unknown mime type') . '</code>)';
             throw new UserMessageException($warning);
         }
 
-        $categoryId = $data['category_id'] ?: null;
-        $title = (string) $data['title'];
+        $categoryId = $data['category_id'];
+        $title = $data['title'] ?? '';
 
-        $data['file']['name_new'] = MediaPool::filename($data['file']['name'], $doSubindexing);
-
-        // ----- alter/neuer filename
-        $srcFile = $data['file']['path'];
-        $dstFile = Path::media($data['file']['name_new']);
-
-        $data['file']['type'] = File::mimeType($srcFile, $data['file']['name']);
+        $fileName = MediaPool::filename($originalName, $subindexing);
+        $dstFile = Path::media($fileName);
+        $type = File::mimeType($srcFile, $originalName);
 
         $errorMessage = Extension::dispatch(new MediaAdding(
-            fileName: $data['file']['name_new'],
-            originalFileName: $data['file']['name'],
+            fileName: $fileName,
+            originalFileName: $originalName,
             path: $srcFile,
-            type: $data['file']['type'],
+            type: $type,
             title: $title,
             categoryId: $categoryId,
-            isUpload: '' !== ($data['file']['tmp_name'] ?? ''),
+            isUpload: $file instanceof UploadedFile,
         ));
         if (null !== $errorMessage && '' !== $errorMessage) {
             throw new UserMessageException($errorMessage);
@@ -115,47 +112,47 @@ final class MediaHandler
         // preserve the perms of an existing file, otherwise use the umask-derived default
         $perm = is_file($dstFile) ? fileperms($dstFile) : false;
 
-        self::moveMedia($srcFile, $dstFile, $data['file']['type']);
+        self::moveMedia($srcFile, $dstFile, $type);
 
         // the uploaded temp file may carry restrictive perms (e.g. 0600), restore the preserved or umask-derived perms
         @chmod($dstFile, $perm ?: 0o666 & ~umask());
 
         $size = @getimagesize($dstFile);
-        if ('' == $data['file']['type'] && isset($size['mime'])) {
-            $data['file']['type'] = $size['mime'];
+        if ('' == $type && isset($size['mime'])) {
+            $type = $size['mime'];
         }
 
         $saveObject = Sql::factory();
         $saveObject->setTable('rex_media');
-        $saveObject->setValue('filetype', $data['file']['type']);
-        $saveObject->setValue('filename', $data['file']['name_new']);
-        $saveObject->setValue('originalname', $data['file']['name']);
+        $saveObject->setValue('filetype', $type);
+        $saveObject->setValue('filename', $fileName);
+        $saveObject->setValue('originalname', $originalName);
         $saveObject->setValue('filesize', filesize($dstFile));
 
         if ($size) {
-            $data['width'] = $size[0];
-            $data['height'] = $size[1];
-            $saveObject->setValue('width', $data['width']);
-            $saveObject->setValue('height', $data['height']);
+            $saveObject->setValue('width', $size[0]);
+            $saveObject->setValue('height', $size[1]);
         }
 
         $saveObject->setValue('category_id', $categoryId);
+        $saveObject->setValues($metaValues->forTable('rex_media'));
         $saveObject->addGlobalCreateFields();
         $saveObject->addGlobalUpdateFields();
         $saveObject->insert();
         $mediaId = $saveObject->getLastId();
 
         foreach (Language::getAllIds() as $languageId) {
-            Sql::factory()
+            $translation = Sql::factory()
                 ->setTable('rex_media_translation')
-                ->setValues(['media_id' => $mediaId, 'language_id' => $languageId, 'title' => $title])
-                ->insert();
+                ->setValues(['media_id' => $mediaId, 'language_id' => $languageId, 'title' => $title]);
+            $translation->setValues($metaValues->forTable('rex_media_translation'));
+            $translation->insert();
         }
 
-        Media::clearInstances($data['file']['name_new']);
+        Media::clearInstances($fileName);
         MediaPoolCache::deleteList($categoryId);
 
-        $media = Type::notNull(Media::get($data['file']['name_new']));
+        $media = Type::notNull(Media::get($fileName));
 
         Extension::dispatch(new MediaAdded($media));
 
@@ -163,91 +160,88 @@ final class MediaHandler
     }
 
     /**
-     * Holt ein upgeloadetes File und legt es in den Medienpool
-     * Dabei wird kontrolliert ob das File schon vorhanden ist und es
-     * wird eventuell angepasst, weiterhin werden die Fileinformationen übergeben.
+     * Edits a media: category and file for all languages, the title in the given language.
      *
-     * @param array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}} $data `category_id` is `null` for the root level
-     * @param int|null $languageId the language the title is saved for, defaults to the current language
+     * @param array{category_id?: int|null, title?: string, file?: SymfonyFile} $data Media data, missing keys keep
+     *     their value, `category_id` is `null` for the root level, `file` replaces the file (it is moved into the media
+     *     folder and must have the same extension)
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     the translated ones are saved for the given language
+     *
      * @throws UserMessageException
      */
-    public static function edit(string $filename, array $data, ?int $languageId = null): Media
+    public static function edit(string $filename, int $languageId, array $data, array $meta = []): Media
     {
+        $metaValues = new MetaValues(MetaEntity::Media, $meta);
+
         if ('' === $filename) {
             throw new InvalidArgumentException('Expecting Filename.');
         }
-
-        $languageId ??= Language::getCurrentId();
 
         $previous = Media::get($filename, $languageId);
         if (!$previous) {
             throw new UserMessageException(I18n::msg('pool_file_not_found'));
         }
 
-        Sql::factory()
-            ->setTable('rex_media_translation')
-            ->setWhere(['media_id' => $previous->id, 'language_id' => $languageId])
-            ->setValue('title', $data['title'])
-            ->update();
-
         $saveObject = Sql::factory();
         $saveObject->setTable('rex_media');
         $saveObject->setWhere(['filename' => $filename]);
-        $saveObject->setValue('category_id', $data['category_id'] ?: null);
+        if (array_key_exists('category_id', $data)) {
+            $saveObject->setValue('category_id', $data['category_id']);
+        }
+        $saveObject->setValues($metaValues->forTable('rex_media'));
 
-        $file = $data['file'] ?? null;
+        if (isset($data['file'])) {
+            $file = $data['file'];
+            self::checkUpload($file);
 
-        if ($file && !empty($file['name'])) {
-            $error = $file['error'] ?? null;
-
-            if (UPLOAD_ERR_INI_SIZE === $error) {
-                throw new UserMessageException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(Request::getMaxUploadSize())));
-            }
-            if ($error) {
-                throw new UserMessageException(I18n::msg('pool_file_upload_error'));
-            }
-
-            $file['path'] = $file['tmp_name'] ?? null;
-            if (empty($file['path'])) {
-                throw new UserMessageException(I18n::msg('pool_file_not_found'));
-            }
-
-            $filetype = File::mimeType($file['path'], $file['name']);
-
-            $srcFile = $file['path'];
+            $originalName = self::originalName($file);
+            $srcFile = $file->getPathname();
             $dstFile = Path::media($filename);
+            $filetype = File::mimeType($srcFile, $originalName);
 
-            $extensionNew = mb_strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $extensionNew = mb_strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
             $extensionOld = mb_strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             if (
-                $extensionNew == $extensionOld
-                || in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg'])
+                $extensionNew != $extensionOld
+                && !(in_array($extensionNew, ['jpg', 'jpeg']) && in_array($extensionOld, ['jpg', 'jpeg']))
             ) {
-                if (!MediaPool::isAllowedMimeType($srcFile, $dstFile)) {
-                    $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape($extensionNew) . '</code> (<code>' . escape($filetype ?? 'unknown mime type') . '</code>)';
-                    throw new UserMessageException($warning);
-                }
-
-                // preserve the perms of an existing file, otherwise use the umask-derived default
-                $perm = is_file($dstFile) ? fileperms($dstFile) : false;
-
-                self::moveMedia($srcFile, $dstFile, $filetype);
-
-                // the uploaded temp file may carry restrictive perms (e.g. 0600), restore the preserved or umask-derived perms
-                @chmod($dstFile, $perm ?: 0o666 & ~umask());
-
-                $saveObject->setValue('filetype', $filetype);
-                $saveObject->setValue('filesize', filesize($dstFile));
-                $saveObject->setValue('originalname', $file['name']);
-
-                if ($size = @getimagesize($dstFile)) {
-                    $saveObject->setValue('width', $size[0]);
-                    $saveObject->setValue('height', $size[1]);
-                }
-            } else {
                 throw new UserMessageException(I18n::msg('pool_file_upload_errortype'));
             }
+
+            if (!MediaPool::isAllowedMimeType($srcFile, $dstFile)) {
+                $warning = I18n::msg('pool_file_mediatype_not_allowed') . ' <code>' . escape($extensionNew) . '</code> (<code>' . escape($filetype ?? 'unknown mime type') . '</code>)';
+                throw new UserMessageException($warning);
+            }
+
+            // preserve the perms of an existing file, otherwise use the umask-derived default
+            $perm = is_file($dstFile) ? fileperms($dstFile) : false;
+
+            self::moveMedia($srcFile, $dstFile, $filetype);
+
+            // the uploaded temp file may carry restrictive perms (e.g. 0600), restore the preserved or umask-derived perms
+            @chmod($dstFile, $perm ?: 0o666 & ~umask());
+
+            $saveObject->setValue('filetype', $filetype);
+            $saveObject->setValue('filesize', filesize($dstFile));
+            $saveObject->setValue('originalname', $originalName);
+
+            if ($size = @getimagesize($dstFile)) {
+                $saveObject->setValue('width', $size[0]);
+                $saveObject->setValue('height', $size[1]);
+            }
+        }
+
+        $translation = Sql::factory()
+            ->setTable('rex_media_translation')
+            ->setWhere(['media_id' => $previous->id, 'language_id' => $languageId]);
+        if (array_key_exists('title', $data)) {
+            $translation->setValue('title', $data['title']);
+        }
+        $translation->setValues($metaValues->forTable('rex_media_translation'));
+        if ($translation->hasValues()) {
+            $translation->update();
         }
 
         $saveObject->addGlobalUpdateFields();
@@ -270,8 +264,9 @@ final class MediaHandler
             throw new UserMessageException(I18n::msg('pool_file_not_found', $filename));
         }
 
-        if ($uses = MediaPool::mediaIsInUse($filename)) {
-            throw new UserMessageException(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
+        $usages = MediaPool::findUsages($media);
+        if (!$usages->isEmpty()) {
+            throw new UserMessageException(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $usages->render());
         }
 
         $sql = Sql::factory();
@@ -363,15 +358,10 @@ final class MediaHandler
 
         if ($pager) {
             $countQuery = str_replace('SELECT m.filename', 'SELECT count(*)', $query);
-            $countQueryParams = $queryParams;
+            $ep = new MediaListQuery($countQuery, $queryParams, count: true);
+            $countQuery = Extension::dispatch($ep);
 
-            // EP is called twice, once for count query and once for data query
-            $countQuery = Extension::dispatch(new ExtensionPoint('MEDIA_LIST_QUERY', $countQuery, [
-                'queryParams' => &$countQueryParams,
-            ]));
-            assert(is_array($countQueryParams)); // @phpstan-ignore function.alreadyNarrowedType
-
-            $sql->setQuery($countQuery, $countQueryParams);
+            $sql->setQuery($countQuery, $ep->params);
             $pager->setRowCount($sql->getIntValue('count(*)'));
         }
 
@@ -381,11 +371,9 @@ final class MediaHandler
             $query .= ' LIMIT ' . $pager->getCursor() . ',' . $pager->getRowsPerPage();
         }
 
-        // EP to modify the media list query
-        $query = Extension::dispatch(new ExtensionPoint('MEDIA_LIST_QUERY', $query, [
-            'queryParams' => &$queryParams,
-        ]));
-        assert(is_array($queryParams)); // @phpstan-ignore function.alreadyNarrowedType
+        $ep = new MediaListQuery($query, $queryParams);
+        $query = Extension::dispatch($ep);
+        $queryParams = $ep->params;
 
         $items = [];
 
@@ -399,6 +387,36 @@ final class MediaHandler
         }
 
         return $items;
+    }
+
+    /** @throws UserMessageException */
+    private static function checkUpload(SymfonyFile $file): void
+    {
+        if (!$file instanceof UploadedFile) {
+            return;
+        }
+
+        $error = $file->getError();
+        if (UPLOAD_ERR_INI_SIZE === $error) {
+            throw new UserMessageException(I18n::msg('pool_file_upload_error_size', Formatter::bytes(Request::getMaxUploadSize())));
+        }
+        if (UPLOAD_ERR_NO_FILE === $error) {
+            throw new UserMessageException(I18n::msg('pool_file_not_found'));
+        }
+        if (!$file->isValid()) {
+            throw new UserMessageException(I18n::msg('pool_file_upload_error'));
+        }
+    }
+
+    /** @throws UserMessageException */
+    private static function originalName(SymfonyFile $file): string
+    {
+        $name = $file instanceof UploadedFile ? $file->getClientOriginalName() : $file->getFilename();
+        if ('' === $name) {
+            throw new UserMessageException(I18n::msg('pool_file_not_found'));
+        }
+
+        return $name;
     }
 
     /**

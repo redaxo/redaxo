@@ -4,21 +4,6 @@
     <InvalidOperand>
       <code><![CDATA[strtotime($version['history_date'])]]></code>
     </InvalidOperand>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[
-            'page' => $params['page'],
-            'article_id' => $articleId,
-            'language' => $languageId,
-            'ctype' => $params['ctype'],
-        ]]]></code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$metaSidebar]]></code>
-      <code><![CDATA[$subject]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$metaSidebar]]></code>
-    </MixedOperand>
     <PossiblyFalseArgument>
       <code><![CDATA[$CONTENT]]></code>
     </PossiblyFalseArgument>
@@ -37,21 +22,7 @@
       <code><![CDATA[$_SERVER['PHP_SELF']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="boot/core.php">
-    <MixedArgument>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$languageId]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$languageId]]></code>
-      <code><![CDATA[$sliceRevision]]></code>
-    </MixedAssignment>
-  </file>
   <file src="boot/frontend.php">
-    <MixedAssignment>
-      <code><![CDATA[$article]]></code>
-    </MixedAssignment>
     <PossiblyFalseOperand>
       <code><![CDATA[$content]]></code>
       <code><![CDATA[$content]]></code>
@@ -1024,17 +995,6 @@
       <code><![CDATA[$replace['{' . $key . '}']]]></code>
       <code><![CDATA[$val]]></code>
     </MixedAssignment>
-  </file>
-  <file src="src/MediaPool/MediaHandler.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$countQueryParams]]></code>
-      <code><![CDATA[$queryParams]]></code>
-    </MixedArgumentTypeCoercion>
-  </file>
-  <file src="src/MetaInfo/Handler/MediaHandler.php">
-    <MixedArgument>
-      <code><![CDATA[$params['filename']]]></code>
-    </MixedArgument>
   </file>
   <file src="src/Security/ApiFunction/UserHasSession.php">
     <MixedArgument>

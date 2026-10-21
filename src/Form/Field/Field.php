@@ -54,7 +54,7 @@ abstract class Field
         return new FieldRow($this->widget($field), $this->label, note: $this->note, error: $field->error, required: $this->required);
     }
 
-    /** @return string|list<string> */
+    /** @return string|array<array-key, mixed> */
     public function toRaw(mixed $value): string|array
     {
         return self::scalarToRaw($value);
@@ -75,7 +75,7 @@ abstract class Field
     /**
      * Converts the submitted raw value into the property value.
      *
-     * @param string|list<string>|null $raw `null` if the request did not contain the field at all
+     * @param string|array<array-key, mixed>|null $raw `null` if the request did not contain the field at all
      * @throws InvalidValueException
      * @return string|int|float|bool|array<array-key, mixed>|object|null
      */

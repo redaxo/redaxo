@@ -4,13 +4,16 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\ExtensionPoint\ArticleSlicesCopying;
+use Redaxo\Core\Content\ExtensionPoint\SliceAdding;
+use Redaxo\Core\Content\ExtensionPoint\SliceDeleting;
+use Redaxo\Core\Content\ExtensionPoint\SliceMoving;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
@@ -28,9 +31,9 @@ final class ContentHandler
      * @param array<string, mixed> $values the stored values of the module fields, keyed by storage key
      * @param int|null $priority `null` to append the slice to the content section
      */
-    public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $values = [], ?int $priority = null, int $revision = 0): ArticleSlice
+    public static function addSlice(int $articleId, int $languageId, int $contentSectionId, string $moduleKey, array $values = [], ?int $priority = null, int $revision = 0): ArticleSlice
     {
-        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctypeId . ' AND revision=' . $revision;
+        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $contentSectionId . ' AND revision=' . $revision;
 
         if (null === $priority) {
             $prevSlice = Sql::factory();
@@ -39,11 +42,13 @@ final class ContentHandler
             $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
         }
 
+        Extension::dispatch(new SliceAdding(Article::require($articleId, $languageId), $contentSectionId, $moduleKey, $revision));
+
         $sql = Sql::factory();
         $sql->setTable('rex_article_slice');
         $sql->setValue('article_id', $articleId);
         $sql->setValue('language_id', $languageId);
-        $sql->setValue('ctype_id', $ctypeId);
+        $sql->setValue('content_section_id', $contentSectionId);
         $sql->setValue('module', $moduleKey);
         $sql->setValue('revision', $revision);
         $sql->setValue('priority', max(1, $priority));
@@ -103,16 +108,10 @@ final class ContentHandler
 
         // some vars for later use
         $articleId = $CM->getIntValue('article_id');
-        $ctype = $CM->getIntValue('ctype_id');
+        $ctype = $CM->getIntValue('content_section_id');
         $sliceRevision = $CM->getIntValue('revision');
 
-        Extension::dispatch(new ExtensionPoint('SLICE_MOVE', '', [
-            'direction' => $direction,
-            'slice_id' => $sliceId,
-            'article_id' => $articleId,
-            'language_id' => $languageId,
-            'slice_revision' => $sliceRevision,
-        ]));
+        Extension::dispatch(new SliceMoving(ArticleSlice::fromSql($CM), $direction));
 
         if (SliceMoveDirection::Up === $direction) {
             $upd->setValue('priority', $oldPriority - 1);
@@ -127,7 +126,7 @@ final class ContentHandler
         DatabaseUtil::organizePriorities(
             'rex_article_slice',
             'priority',
-            'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . $sliceRevision,
+            'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctype . ' AND revision=' . $sliceRevision,
             'priority, updatedate ' . $updSort,
         );
 
@@ -162,12 +161,7 @@ final class ContentHandler
 
         $slice = ArticleSlice::fromSql($curr);
 
-        Extension::dispatch(new ExtensionPoint('SLICE_DELETE', '', [
-            'slice_id' => $sliceId,
-            'article_id' => $slice->articleId,
-            'language_id' => $slice->languageId,
-            'slice_revision' => $slice->revision,
-        ]));
+        Extension::dispatch(new SliceDeleting($slice));
 
         $del = Sql::factory();
         $del->setQuery('DELETE FROM rex_article_slice WHERE id=?', [$sliceId]);
@@ -176,7 +170,7 @@ final class ContentHandler
         DatabaseUtil::organizePriorities(
             'rex_article_slice',
             'priority',
-            'article_id=' . $slice->articleId . ' AND language_id=' . $slice->languageId . ' AND ctype_id=' . $slice->contentSectionId . ' AND revision=' . $slice->revision,
+            'article_id=' . $slice->articleId . ' AND language_id=' . $slice->languageId . ' AND content_section_id=' . $slice->contentSectionId . ' AND revision=' . $slice->revision,
             'priority',
         );
 
@@ -235,12 +229,12 @@ final class ContentHandler
             $gc->setQuery('select * from rex_article_slice where article_id=? and language_id=? and revision=?', [$fromId, $fromLanguageId, $revision]);
         }
 
-        Extension::dispatch(new ExtensionPoint('ART_SLICES_COPY', '', [
-            'article_id' => $toId,
-            'language_id' => $toLanguageId,
-            'slice_revision' => $revision,
-            'overwrite' => $overwrite,
-        ]));
+        Extension::dispatch(new ArticleSlicesCopying(
+            Article::require($toId, $toLanguageId),
+            Article::require($fromId, $fromLanguageId),
+            $revision,
+            $overwrite,
+        ));
 
         // Wenn Überschreiben aktiviert ist, lösche zuerst den bestehenden Inhalt
         if ($overwrite) {
@@ -261,12 +255,12 @@ final class ContentHandler
         $cols->setQuery('SHOW COLUMNS FROM rex_article_slice');
 
         $maxPriorityRaw = Sql::factory()->getArray(
-            'SELECT `ctype_id`, `revision`, MAX(`priority`) as max FROM rex_article_slice WHERE `article_id` = :to_id AND `language_id` = :to_language GROUP BY `ctype_id`, `revision`',
+            'SELECT `content_section_id`, `revision`, MAX(`priority`) as max FROM rex_article_slice WHERE `article_id` = :to_id AND `language_id` = :to_language GROUP BY `content_section_id`, `revision`',
             ['to_id' => $toId, 'to_language' => $toLanguageId],
         );
         $maxPriority = [];
         foreach ($maxPriorityRaw as $row) {
-            $maxPriority[(int) $row['ctype_id']][(int) $row['revision']] = (int) $row['max'];
+            $maxPriority[(int) $row['content_section_id']][(int) $row['revision']] = (int) $row['max'];
         }
 
         $user = self::getUser();
@@ -279,14 +273,14 @@ final class ContentHandler
                 } elseif ('article_id' == $colname) {
                     $value = $toId;
                 } elseif ('priority' == $colname) {
-                    $ctypeId = $slice->getIntValue('ctype_id');
-                    $value = $slice->getIntValue($colname) + ($maxPriority[$ctypeId][$slice->getIntValue('revision')] ?? 0);
+                    $contentSectionId = $slice->getIntValue('content_section_id');
+                    $value = $slice->getIntValue($colname) + ($maxPriority[$contentSectionId][$slice->getIntValue('revision')] ?? 0);
                 } else {
                     $value = $slice->getValue($colname);
                 }
 
                 // collect all affected ctypes
-                if ('ctype_id' == $colname) {
+                if ('content_section_id' == $colname) {
                     $ctypes[$value][$slice->getIntValue('revision')] = true;
                 }
 
@@ -309,7 +303,7 @@ final class ContentHandler
                 DatabaseUtil::organizePriorities(
                     'rex_article_slice',
                     'priority',
-                    'article_id=' . $toId . ' AND language_id=' . $toLanguageId . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . $revision,
+                    'article_id=' . $toId . ' AND language_id=' . $toLanguageId . ' AND content_section_id=' . (int) $ctype . ' AND revision=' . $revision,
                     'priority, updatedate',
                 );
             }
@@ -342,13 +336,6 @@ final class ContentHandler
 
             // --------------------------------------------------- Artikelcontent speichern
             $articleContentFile = Path::coreCache('structure/' . $articleId . '.' . $languageId . '.content');
-
-            // ----- EXTENSION POINT
-            $articleContent = Extension::dispatch(new ExtensionPoint('GENERATE_FILTER', $articleContent, [
-                'id' => $articleId,
-                'language' => $languageId,
-                'article' => $CONT,
-            ]));
 
             if (!File::put($articleContentFile, $articleContent)) {
                 throw new RuntimeException(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, Path::coreCache('structure/')));

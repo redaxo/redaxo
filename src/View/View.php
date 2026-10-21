@@ -18,6 +18,7 @@ use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -243,7 +244,7 @@ final class View
      *
      * @internal
      */
-    public static function mediaPoolMediaForm(string $formTitle, string $buttonTitle, int $rexFileCategory, bool $fileChooser, bool $closeForm): string
+    public static function mediaPoolMediaForm(string $formTitle, string $buttonTitle, int $rexFileCategory, bool $fileChooser, bool $closeForm, MetaForm $meta): string
     {
         $s = '';
 
@@ -289,6 +290,7 @@ final class View
         $fragment->setVar('elements', $formElements, false);
         $panel .= $fragment->parse('core/form/form.php');
 
+        $panel .= $meta->render();
         $panel .= Extension::dispatch(new ExtensionPoint('MEDIA_FORM_ADD', ''));
 
         if ($fileChooser) {

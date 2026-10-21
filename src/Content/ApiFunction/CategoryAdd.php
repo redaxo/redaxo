@@ -9,7 +9,11 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -37,9 +41,15 @@ final class CategoryAdd extends ApiFunction
 
         // prepare and validate parameters
         $data = [];
-        $data['catpriority'] = Request::post('category-position', 'int');
-        $data['catname'] = Request::post('category-name', 'string');
-        CategoryHandler::add($parentId ?: null, $data);
+        $data['parent_id'] = $parentId ?: null;
+        $data['priority'] = Request::post('category-position', 'int');
+        $data['name'] = Request::post('category-name', 'string');
+        $meta = new MetaForm(new MetaContext(MetaEntity::Category, category: Category::get($parentId)));
+        if (!$meta->submit()) {
+            throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
+        }
+
+        CategoryHandler::add($data, $meta->values());
 
         return new Result(true, I18n::msg('category_added_and_startarticle_created'));
     }

@@ -14,6 +14,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Fixtures\TestModule1;
 use Redaxo\Core\Tests\Content\Fixtures\TestFieldsModule;
+use Redaxo\Core\Tests\Content\Fixtures\TestNoFieldsModule;
 
 /** @internal */
 final class ModuleTest extends TestCase
@@ -125,8 +126,8 @@ final class ModuleTest extends TestCase
         $module->headline = 'Grüße/1';
         $module->itemCount = 2;
 
-        self::assertSame('{"headline":"Grüße/1","item_count":2,"hl":false,"image":null,"gallery":[],"link":null}', $module->encodeData());
-        self::assertNull(TestModule1::of($this->createSlice('testmodule1'))->encodeData());
+        self::assertSame('{"headline":"Grüße/1","item_count":2,"hl":false,"image":null,"gallery":[],"link":null,"items":[]}', $module->encodeData());
+        self::assertNull(TestNoFieldsModule::of($this->createSlice('test_no_fields'))->encodeData());
     }
 
     /**

@@ -58,8 +58,8 @@ function isRecordedByThisRun(file) {
 const allPages = {
     'structure_category_edit.png': START_URL + '?page=structure&category_id=0&article_id=0&language=1&edit_id=1&function=edit_cat&catstart=0',
     'structure_article_edit.png': START_URL + '?page=content/edit&category_id=1&article_id=1&language=1&mode=edit',
-    'structure_article_functions.png': START_URL + '?page=content/functions&article_id=1&category_id=1&language=1&ctype=1',
-    'structure_slice_edit.png': START_URL + '?page=content/edit&article_id=1&slice_id=3&language=1&ctype=1&function=edit#slice3',
+    'structure_article_functions.png': START_URL + '?page=content/functions&article_id=1&category_id=1&language=1&content_section_id=1',
+    'structure_slice_edit.png': START_URL + '?page=content/edit&article_id=1&slice_id=3&language=1&content_section_id=1&function=edit#slice3',
 
     'mediapool_media.png': START_URL + '?page=mediapool/media',
     'mediapool_media_file.png': START_URL + '?page=mediapool/media&file_id=1&rex_file_category=0',
@@ -109,8 +109,9 @@ async function processScreenshot(page, screenshotName) {
         // hide blinking cursor/icon
         // disable animations / transitions
         // disable box-shadow on navbar to prevent visual noise by https://github.com/redaxo/core/blob/120950020f35e9158030513744835c936e527bc6/assets/js/redaxo.js#L211-L222
+        // render sticky footers in place, a full page screenshot would show them over the content at viewport height
 
-        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;} #rex-js-main-sidebar{opacity: 1 !important;} #rex-js-nav-top{position: absolute; transform: none !important;} #rex-js-ajax-loader{display: none !important;}</style>`);
+        document.body.insertAdjacentHTML('beforeend', `<style type="text/css">input { caret-color: transparent !important; } * { animation: initial !important; transition: none !important; mix-blend-mode: unset !important;} .navbar {box-shadow: none !important; } body {font-family: sans-serif;} #rex-js-main-sidebar{opacity: 1 !important;} #rex-js-nav-top{position: absolute; transform: none !important;} #rex-js-ajax-loader{display: none !important;} .rex-slice .panel-footer, .rex-sticky-table-footer, .rex-sticky-table-footer th, .rex-sticky-table-footer td {position: static !important;}</style>`);
     });
 
     // mask dynamic content, to make it not appear like change (visual noise)

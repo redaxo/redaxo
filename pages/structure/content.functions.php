@@ -31,7 +31,7 @@ $user = Core::requireUser();
 $content = '
         <form id="rex-form-content-metamode" action="' . $context->getUrl() . '" method="post" enctype="multipart/form-data" data-pjax-container="#rex-page-main">
             <input type="hidden" name="save" value="1" />
-            <input type="hidden" name="ctype" value="' . $ctype . '" />
+            <input type="hidden" name="content_section_id" value="' . $ctype . '" />
             ';
 
 $onclickApiFields = static function ($hiddenFields) {

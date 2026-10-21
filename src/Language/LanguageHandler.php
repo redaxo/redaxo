@@ -14,22 +14,38 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\ExtensionPoint\LanguageAdded;
 use Redaxo\Core\Language\ExtensionPoint\LanguageDeleted;
 use Redaxo\Core\Language\ExtensionPoint\LanguageUpdated;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
+
+use function array_key_exists;
 
 final class LanguageHandler
 {
     private function __construct() {}
 
-    /** Creates a language and copies the articles of an existing one into it. */
-    public static function add(string $code, string $name, int $priority, bool $status = false): Language
+    /**
+     * Creates a language and copies the articles of an existing one into it.
+     *
+     * @param array{code: string, name: string, priority?: int, status?: bool} $data Language data, the language is
+     *     appended if `priority` is missing
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues})
+     */
+    public static function add(array $data, array $meta = []): Language
     {
+        $metaValues = new MetaValues(MetaEntity::Language, $meta);
+
+        Type::requireKeys($data, 'code', 'name');
+
         $sql = Sql::factory();
         $sql->setTable('rex_language');
         $sql->setNewId('id');
-        $sql->setValue('code', $code);
-        $sql->setValue('name', $name);
-        $sql->setValue('priority', $priority);
-        $sql->setValue('status', $status);
+        $sql->setValue('code', $data['code']);
+        $sql->setValue('name', $data['name']);
+        $sql->setValue('priority', $data['priority'] ?? Language::count() + 1);
+        $sql->setValue('status', $data['status'] ?? false);
+        $sql->setValues($metaValues->forTable('rex_language'));
         $sql->insert();
         $id = $sql->getLastId();
 
@@ -63,36 +79,47 @@ final class LanguageHandler
     /**
      * Updates a language.
      *
+     * @param array{code?: string, name?: string, priority?: int, status?: bool} $data Language data, missing keys keep
+     *     their value
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues})
+     *
      * @throws UserMessageException
      */
-    public static function edit(int $id, string $code, string $name, int $priority, ?bool $status = null): Language
+    public static function edit(int $id, array $data, array $meta = []): Language
     {
+        $metaValues = new MetaValues(MetaEntity::Language, $meta);
+
         if (!Language::exists($id)) {
             throw new UserMessageException(I18n::msg('language_not_found', $id));
         }
 
-        $oldPriority = Language::require($id)->priority;
+        $previous = Language::require($id);
+        $oldPriority = $previous->priority;
 
         $editLang = Sql::factory();
         $editLang->setTable('rex_language');
         $editLang->setWhere(['id' => $id]);
-        $editLang->setValue('code', $code);
-        $editLang->setValue('name', $name);
-        $editLang->setValue('priority', $priority);
-        if (null !== $status) {
-            $editLang->setValue('status', $status);
+        foreach (['code', 'name', 'priority', 'status'] as $key) {
+            if (array_key_exists($key, $data)) {
+                $editLang->setValue($key, $data[$key]);
+            }
         }
-        $editLang->update();
+        $editLang->setValues($metaValues->forTable('rex_language'));
+        if ($editLang->hasValues()) {
+            $editLang->update();
+        }
 
-        $comparator = $oldPriority < $priority ? '=' : '!=';
-        DatabaseUtil::organizePriorities('rex_language', 'priority', '', 'priority, id' . $comparator . $id);
+        if (isset($data['priority']) && $data['priority'] !== $oldPriority) {
+            $comparator = $oldPriority < $data['priority'] ? '=' : '!=';
+            DatabaseUtil::organizePriorities('rex_language', 'priority', '', 'priority, id' . $comparator . $id);
+        }
 
         Cache::delete();
 
         $language = Language::require($id);
 
         // ----- EXTENSION POINT
-        Extension::dispatch(new LanguageUpdated($language));
+        Extension::dispatch(new LanguageUpdated($language, $previous));
 
         return $language;
     }

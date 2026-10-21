@@ -8,6 +8,7 @@ use Redaxo\Core\Database\Column;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\ArticlePicker;
 use Redaxo\Core\Form\Field\Checkbox;
+use Redaxo\Core\Form\Field\Collection;
 use Redaxo\Core\Form\Field\DatePicker;
 use Redaxo\Core\Form\Field\DateTimePicker;
 use Redaxo\Core\Form\Field\Number;
@@ -59,6 +60,10 @@ final readonly class MetaField
         public MetaEntity $entity,
         public FieldDefinition $definition,
     ) {
+        if ($definition->field instanceof Collection) {
+            throw new LogicException(sprintf('The meta field %s::$%s can not be a collection, as its items can not be stored in a column.', $schema, $definition->name));
+        }
+
         $this->property = $definition->name;
         $this->column = MetaSchema::COLUMN_PREFIX . $definition->key;
         $this->translated = $definition->hasAttribute(Translated::class);

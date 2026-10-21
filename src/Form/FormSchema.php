@@ -4,9 +4,12 @@ namespace Redaxo\Core\Form;
 
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\Field;
+use Redaxo\Core\Form\Field\ReferencesItems;
 use ReflectionAttribute;
 use ReflectionClass;
 
+use function array_key_exists;
+use function array_values;
 use function count;
 use function sprintf;
 
@@ -34,6 +37,62 @@ final class FormSchema
     public function get(string $name): FieldDefinition
     {
         return $this->fields[$name] ?? throw new LogicException(sprintf('Unknown form field "%s".', $name));
+    }
+
+    /**
+     * Writes stored values into the data object; values that are missing or no longer fit the field keep the default.
+     *
+     * @param array<array-key, mixed> $stored keyed by storage key
+     */
+    public function hydrate(object $data, array $stored): void
+    {
+        foreach ($this->fields as $definition) {
+            if (!array_key_exists($definition->key, $stored)) {
+                continue;
+            }
+
+            try {
+                $value = $definition->field->decode($stored[$definition->key], $definition->type);
+            } catch (InvalidValueException) {
+                continue;
+            }
+
+            $definition->setValue($data, $value);
+        }
+    }
+
+    /**
+     * Returns the values of the data object in the representation a storage persists.
+     *
+     * @return array<string, string|int|float|bool|array<array-key, mixed>|null> keyed by storage key
+     */
+    public function encode(object $data): array
+    {
+        $stored = [];
+        foreach ($this->fields as $definition) {
+            $stored[$definition->key] = $definition->field->encode($definition->getValue($data));
+        }
+
+        return $stored;
+    }
+
+    /**
+     * Returns the items the field values of the data object refer to, see {@see ReferencesItems}.
+     *
+     * @return list<Reference>
+     */
+    public function references(object $data): array
+    {
+        $references = [];
+        foreach ($this->fields as $definition) {
+            if ($definition->field instanceof ReferencesItems) {
+                foreach ($definition->field->references($definition->getValue($data)) as $reference) {
+                    $references[$reference->type . ':' . $reference->target] = $reference;
+                }
+            }
+        }
+
+        return array_values($references);
     }
 
     /** @param class-string $class */

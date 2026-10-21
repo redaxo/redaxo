@@ -3,12 +3,12 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
+use Redaxo\Core\Content\ExtensionPoint\ArticleSlicesQuery;
 use Redaxo\Core\Content\ExtensionPoint\SliceOutput;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
@@ -242,10 +242,10 @@ class ArticleContentBase
                 rex_article_slice.revision = {$this->sliceRevision}
                 {$articleLimit}
                 {$sliceLimit}
-            ORDER BY rex_article_slice.ctype_id, rex_article_slice.priority
+            ORDER BY rex_article_slice.content_section_id, rex_article_slice.priority
             SQL;
 
-        $query = Extension::dispatch(new ExtensionPoint('ART_SLICES_QUERY', $query, ['article' => $this]));
+        $query = Extension::dispatch(new ArticleSlicesQuery($this, $query));
 
         $artDataSql = Sql::factory();
         $artDataSql->setDebug($this->debug);
@@ -261,7 +261,7 @@ class ArticleContentBase
         $artDataSql->reset();
         $rows = $artDataSql->getRows();
         for ($i = 0; $i < $rows; ++$i) {
-            $sliceCtypeId = $artDataSql->getIntValue('rex_article_slice.ctype_id');
+            $sliceCtypeId = $artDataSql->getIntValue('rex_article_slice.content_section_id');
 
             if ('edit' !== $this->mode && !$this->eval) {
                 // the cache gets code rendering the slice at runtime, so `SliceOutput` applies to the cached content

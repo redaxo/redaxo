@@ -7,9 +7,12 @@ use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToCategory;
 use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToStartArticle;
 use Redaxo\Core\Content\ExtensionPoint\ArticleCopied;
 use Redaxo\Core\Content\ExtensionPoint\ArticleDeleted;
+use Redaxo\Core\Content\ExtensionPoint\ArticleDeleting;
 use Redaxo\Core\Content\ExtensionPoint\ArticleMoved;
 use Redaxo\Core\Content\ExtensionPoint\ArticleStatusChanged;
+use Redaxo\Core\Content\ExtensionPoint\ArticleStatusTypes;
 use Redaxo\Core\Content\ExtensionPoint\ArticleUpdated;
+use Redaxo\Core\Content\ExtensionPoint\ArticleUsageCheck;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
@@ -17,12 +20,16 @@ use Redaxo\Core\Database\Table;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaUsage;
+use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\UsageList;
 
 use function array_key_exists;
 use function count;
@@ -36,20 +43,19 @@ final class ArticleHandler
     /**
      * Creates a new article.
      *
-     * @param array{category_id: int|null, priority: int, name: string, template?: string} $data Article data,
-     *     `category_id` is `null` for the root level, `name` is used for all languages
+     * @param array{category_id: int|null, name: string, priority?: int, template?: string|null} $data Article data,
+     *     `category_id` is `null` for the root level, `name` is used for all languages, the article is appended if
+     *     `priority` is missing, and `template` falls back to the first one allowed in the category
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     used for all languages
      *
      * @throws UserMessageException
      */
-    public static function add(array $data): Article
+    public static function add(array $data, array $meta = []): Article
     {
-        self::reqKey($data, 'category_id');
-        self::reqKey($data, 'priority');
-        self::reqKey($data, 'name');
+        $metaValues = new MetaValues(MetaEntity::Article, $meta);
 
-        if ($data['priority'] <= 0) {
-            $data['priority'] = 1;
-        }
+        Type::requireKeys($data, 'category_id', 'name');
 
         $categoryId = $data['category_id'];
 
@@ -63,22 +69,17 @@ final class ArticleHandler
             $path = '|';
         }
 
-        $templates = Template::getTemplatesForCategory($categoryId);
-        $data['template'] = isset($data['template']) ? Type::string($data['template']) : null;
-
-        // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-        // oder leer setzen.
-        if (null === $data['template'] || !isset($templates[$data['template']])) {
-            $data['template'] = array_key_first($templates);
-        }
+        $priority = max(1, $data['priority'] ?? self::nextPriority($categoryId));
+        $template = self::allowedTemplate($categoryId, $data['template'] ?? null);
 
         $user = self::getUser();
 
         $AART = Sql::factory();
         $AART->setTable('rex_article');
         $AART->setValue('parent_id', $categoryId);
-        $AART->setValue('priority', $data['priority']);
+        $AART->setValue('priority', $priority);
         $AART->setValue('path', $path);
+        $AART->setValues($metaValues->forTable('rex_article'));
         $AART->addGlobalCreateFields($user);
         $AART->addGlobalUpdateFields($user);
         $AART->insert();
@@ -92,12 +93,13 @@ final class ArticleHandler
                     'language_id' => $languageId,
                     'name' => $data['name'],
                     'status' => 0,
-                    'template' => $data['template'],
+                    'template' => $template,
                 ])
+                ->setValues($metaValues->forTable('rex_article_translation'))
                 ->insert();
         }
 
-        self::updatePriorities($categoryId, 0, $data['priority']);
+        self::updatePriorities($categoryId, 0, $priority);
 
         ArticleCache::delete($id);
 
@@ -112,13 +114,16 @@ final class ArticleHandler
     /**
      * Edits an article: name and template in the given language, the priority for all languages.
      *
-     * @param array{name: string, priority?: int, template?: string|null} $data Article data
+     * @param array{name?: string, priority?: int, template?: string|null} $data Article data, missing keys keep their
+     *     value, `template` falls back to the first one allowed in the category
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     the translated ones are saved for the given language
      *
      * @throws UserMessageException
      */
-    public static function edit(int $articleId, int $languageId, array $data): Article
+    public static function edit(int $articleId, int $languageId, array $data, array $meta = []): Article
     {
-        self::reqKey($data, 'name');
+        $metaValues = new MetaValues(MetaEntity::Article, $meta);
 
         $thisArt = self::select($articleId, $languageId);
 
@@ -127,44 +132,34 @@ final class ArticleHandler
         }
 
         $previous = Article::require($articleId, $languageId);
-        $data['category_id'] = $previous->categoryId;
 
-        $templates = Template::getTemplatesForCategory($data['category_id']);
-        $data['template'] = isset($data['template']) ? Type::string($data['template']) : null;
-
-        // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-        // oder leer setzen.
-        if (null === $data['template'] || !isset($templates[$data['template']])) {
-            $data['template'] = array_key_first($templates);
-        }
-
-        if (isset($data['priority'])) {
-            if ($data['priority'] <= 0) {
-                $data['priority'] = 1;
-            }
-        }
-
-        $data['priority'] ??= $thisArt->getIntValue('priority');
-
-        Sql::factory()
+        $translation = Sql::factory()
             ->setTable('rex_article_translation')
-            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
-            ->setValue('name', $data['name'])
-            ->setValue('template', $data['template'])
-            ->update();
+            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId]);
+        if (array_key_exists('name', $data)) {
+            $translation->setValue('name', $data['name']);
+        }
+        if (array_key_exists('template', $data)) {
+            $translation->setValue('template', self::allowedTemplate($previous->categoryId, $data['template']));
+        }
+        $translation->setValues($metaValues->forTable('rex_article_translation'));
+        if ($translation->hasValues()) {
+            $translation->update();
+        }
+
+        $oldPrio = $thisArt->getIntValue('priority');
+        $priority = isset($data['priority']) ? max(1, $data['priority']) : $oldPrio;
 
         $EA = Sql::factory();
         $EA->setTable('rex_article');
         $EA->setWhere(['id' => $articleId]);
-        $EA->setValue('priority', $data['priority']);
+        $EA->setValue('priority', $priority);
+        $EA->setValues($metaValues->forTable('rex_article'));
         $EA->addGlobalUpdateFields(self::getUser());
         $EA->update();
 
-        // ----- PRIOR
-        $oldPrio = $thisArt->getIntValue('priority');
-
-        if ($oldPrio != $data['priority']) {
-            self::updatePriorities($data['category_id'], $data['priority'], $oldPrio);
+        if ($oldPrio != $priority) {
+            self::updatePriorities($previous->categoryId, $priority, $oldPrio);
         }
 
         ArticleCache::delete($articleId);
@@ -202,6 +197,23 @@ final class ArticleHandler
         Extension::dispatch(new ArticleDeleted($article));
     }
 
+    /** Returns the places using the article, except the article itself and the category it is the start article of. */
+    public static function findUsages(Article $article): UsageList
+    {
+        $usages = new UsageList();
+        foreach (ArticleSliceReference::findArticles(Reference::article($article->id)) as ['articleId' => $articleId, 'languageId' => $languageId]) {
+            if ($articleId !== $article->id) {
+                $usages->add(I18n::rawMsg('usage_articles_content'), Article::get($articleId, $languageId)->name ?? (string) $articleId, Url::backendPage('content', ['article_id' => $articleId, 'mode' => 'edit', 'language' => $languageId]));
+            }
+        }
+
+        MetaUsage::addArticleUsages($usages, $article->id);
+
+        Extension::dispatch(new ArticleUsageCheck($article, $usages));
+
+        return $usages;
+    }
+
     /**
      * Deletes an article, a start article together with all articles of its category, without checking permissions.
      *
@@ -225,23 +237,14 @@ final class ArticleHandler
             throw new UserMessageException(I18n::msg('category_doesnt_exist'));
         }
 
-        $names = [];
-        foreach (ArticleSliceReference::findArticles(Reference::article($id)) as ['articleId' => $articleId, 'languageId' => $languageId]) {
-            if ($articleId !== $id) {
-                $names[$articleId] ??= Article::get($articleId, $languageId)->name ?? (string) $articleId;
-            }
-        }
-        if ($names) {
-            throw new UserMessageException(I18n::msg('article_still_in_use', implode(', ', $names)));
+        $article = Article::require($id);
+        $usages = self::findUsages($article);
+        if (!$usages->isEmpty()) {
+            throw new UserMessageException(I18n::msg('article_still_in_use', $article->name) . $usages->render());
         }
 
         $parentId = $ART->getNullableIntValue('parent_id');
-        Extension::dispatch(new ExtensionPoint('ART_PRE_DELETED', '', [
-            'id' => $id,
-            'parent_id' => $parentId,
-            'priority' => $ART->getValue('priority'),
-            'path' => $ART->getValue('path'),
-        ]));
+        Extension::dispatch(new ArticleDeleting($article));
 
         if ($ART->getBoolValue('startarticle')) {
             $SART = Sql::factory();
@@ -302,9 +305,9 @@ final class ArticleHandler
     }
 
     /**
-     * Gibt alle Stati zurück, die für einen Artikel gültig sind.
+     * Returns the status types of articles, which apply to categories as well.
      *
-     * @return list<array{string, string, string}> Array von Stati
+     * @return list<array{string, string, string}> Label, CSS class and icon, indexed by the status value
      */
     public static function statusTypes(): array
     {
@@ -312,14 +315,10 @@ final class ArticleHandler
         static $artStatusTypes;
 
         if (!$artStatusTypes) {
-            $artStatusTypes = [
-                // Name, CSS-Class
+            $artStatusTypes = Extension::dispatch(new ArticleStatusTypes([
                 [I18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
                 [I18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
-            ];
-
-            // ----- EXTENSION POINT
-            $artStatusTypes = Extension::dispatch(new ExtensionPoint('ART_STATUS_TYPES', $artStatusTypes));
+            ]));
         }
 
         return $artStatusTypes;
@@ -357,15 +356,10 @@ final class ArticleHandler
                 $addsql = 'asc';
             }
 
-            // the start article is listed among the articles of its own category
-            $where = null === $parentId
-                ? 'parent_id IS NULL AND id NOT IN (SELECT id FROM rex_category)'
-                : '(parent_id = ' . $parentId . ' AND id NOT IN (SELECT id FROM rex_category)) OR id = ' . $parentId;
-
             DatabaseUtil::organizePriorities(
                 'rex_article',
                 'priority',
-                $where,
+                self::siblingsWhere($parentId),
                 'priority,updatedate ' . $addsql,
             );
 
@@ -760,6 +754,33 @@ final class ArticleHandler
     }
 
     /** Selects the article together with its translation in the given language. */
+    /** The start article is listed among the articles of its own category. */
+    private static function siblingsWhere(?int $parentId): string
+    {
+        return null === $parentId
+            ? 'parent_id IS NULL AND id NOT IN (SELECT id FROM rex_category)'
+            : '(parent_id = ' . $parentId . ' AND id NOT IN (SELECT id FROM rex_category)) OR id = ' . $parentId;
+    }
+
+    private static function nextPriority(?int $parentId): int
+    {
+        $sql = Sql::factory()->setQuery('SELECT MAX(priority) AS priority FROM rex_article WHERE ' . self::siblingsWhere($parentId));
+
+        return ($sql->getNullableIntValue('priority') ?? 0) + 1;
+    }
+
+    /** Falls back to the first template allowed in the category if the given one is not. */
+    private static function allowedTemplate(?int $categoryId, ?string $template): ?string
+    {
+        $templates = Template::getTemplatesForCategory($categoryId);
+
+        if (null === $template || !isset($templates[$template])) {
+            return array_key_first($templates);
+        }
+
+        return $template;
+    }
+
     private static function select(int $id, int $languageId): Sql
     {
         $sql = Sql::factory();
@@ -782,18 +803,6 @@ final class ArticleHandler
             ->setWhere(['id' => $id])
             ->addGlobalUpdateFields(self::getUser())
             ->update();
-    }
-
-    /**
-     * Checks whether the required array key $keyName isset.
-     *
-     * @param array<string, mixed> $array
-     */
-    private static function reqKey(array $array, string $keyName): void
-    {
-        if (!array_key_exists($keyName, $array)) {
-            throw new InvalidArgumentException('Missing required parameter "' . $keyName . '"!');
-        }
     }
 
     private static function getUser(): string

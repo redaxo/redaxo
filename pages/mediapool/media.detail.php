@@ -16,12 +16,16 @@ use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MediaPool\MediaHandler;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\Message;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use function Redaxo\Core\View\escape;
 
@@ -77,6 +81,8 @@ if (Request::post('btn_delete', 'string')) {
     }
 }
 
+$meta = null;
+
 if (Request::post('btn_update', 'string')) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
@@ -91,26 +97,23 @@ if (Request::post('btn_update', 'string')) {
         } else {
             $filename = $gf->getStringValue('filename');
             $data = [];
-            $data['category_id'] = $rexFileCategory;
+            $data['category_id'] = $rexFileCategory ?: null;
             $data['title'] = Request::request('ftitle', 'string');
 
-            if ($_FILES['file_new'] ?? null) {
-                $data['file'] = Request::files('file_new', [
-                    ['name', 'string'],
-                    ['tmp_name', 'string'],
-                    ['error', 'int'],
-                ]);
+            /** @var mixed $file */
+            $file = Core::getRequest()->files->get('file_new');
+            if ($file instanceof UploadedFile) {
+                $data['file'] = $file;
             }
 
-            try {
-                MediaHandler::edit($filename, $data);
+            $meta = new MetaForm(new MetaContext(MetaEntity::Media, Media::get($filename), mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
 
-                if (($gf->getNullableIntValue('category_id') ?? 0) !== $rexFileCategory) {
-                    Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [
-                        'filename' => $filename,
-                        'category_id' => $rexFileCategory,
-                    ]));
+            try {
+                if (!$meta->submit()) {
+                    throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
                 }
+
+                MediaHandler::edit($filename, Language::getCurrentId(), $data, $meta->values());
                 $success = I18n::msg('pool_file_infos_updated');
             } catch (UserMessageException $e) {
                 $error = $e->getMessage();
@@ -134,7 +137,8 @@ if ($perm->hasCategoryPerm($gf->getNullableIntValue('category_id'))) {
     $TPERM = true;
 }
 
-$ftitle = $gf->getStringValue('title');
+// a failed update shows the submitted title again, like the submitted meta values
+$ftitle = $meta?->hasErrors() ? Request::request('ftitle', 'string') : $gf->getStringValue('title');
 $fname = $gf->getStringValue('filename');
 $ffiletype = $gf->getNullableStringValue('filetype');
 $ffileSize = $gf->getIntValue('filesize');
@@ -238,6 +242,8 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
+    $meta ??= new MetaForm(new MetaContext(MetaEntity::Media, Media::get($fname), mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
+    $panel .= $meta->render();
     $panel .= Extension::dispatch(new ExtensionPoint('MEDIA_FORM_EDIT', '', ['id' => $fileId, 'media' => $gf]));
 
     $panel .= $addExtInfo;

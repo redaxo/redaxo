@@ -7,6 +7,10 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Content\ArticleSlice;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\ExtensionPoint\ArticleSlicesCopying;
+use Redaxo\Core\Content\ExtensionPoint\SliceAdding;
+use Redaxo\Core\Content\ExtensionPoint\SliceDeleting;
+use Redaxo\Core\Content\ExtensionPoint\SliceMoving;
 use Redaxo\Core\Content\SliceMoveDirection;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
@@ -26,18 +30,7 @@ final class ContentHandlerTest extends TestCase
     protected function setUp(): void
     {
         // the slices need an article to hang off, see the foreign key of `rex_article_slice`
-        $this->articleId = Sql::factory()
-            ->setTable('rex_article')
-            ->setValues(['parent_id' => null, 'priority' => 1, 'path' => '|'])
-            ->addGlobalCreateFields()
-            ->addGlobalUpdateFields()
-            ->insert()
-            ->getLastId();
-
-        Sql::factory()
-            ->setTable('rex_article_translation')
-            ->setValues(['article_id' => $this->articleId, 'language_id' => 1, 'name' => 'test', 'status' => 1])
-            ->insert();
+        $this->articleId = self::createArticle();
 
         $this->extensions = new ReflectionProperty(Extension::class, 'extensions')->getValue();
 
@@ -89,5 +82,76 @@ final class ContentHandlerTest extends TestCase
         self::assertSame(0, $status?->status);
         self::assertSame($first->id, $deleted?->id);
         self::assertNull(ArticleSlice::getArticleSliceById($first->id, 1));
+    }
+
+    public function testSliceActionsDispatchEventsBeforehand(): void
+    {
+        $events = [];
+        $listener = static function (SliceAdding|SliceMoving|SliceDeleting|ArticleSlicesCopying $ep) use (&$events): void {
+            $events[] = $ep;
+        };
+        Extension::register([SliceAdding::class, SliceMoving::class, SliceDeleting::class, ArticleSlicesCopying::class], $listener);
+
+        $first = ContentHandler::addSlice($this->articleId, 1, 1, 'test');
+        ContentHandler::addSlice($this->articleId, 1, 1, 'test');
+
+        // moveSlice() resolves equal priorities by updatedate, so the slices must not share the current second
+        Sql::factory()->setQuery('UPDATE rex_article_slice SET updatedate = updatedate - INTERVAL 1 MINUTE WHERE article_id = ?', [$this->articleId]);
+
+        ContentHandler::moveSlice($first->id, 1, SliceMoveDirection::Down);
+        ContentHandler::deleteSlice($first->id);
+
+        $targetId = self::createArticle();
+        try {
+            ContentHandler::copyContent($this->articleId, $targetId);
+        } finally {
+            Sql::factory()->setTable('rex_article')->setWhere(['id' => $targetId])->delete();
+        }
+
+        self::assertSame(
+            [SliceAdding::class, SliceAdding::class, SliceMoving::class, SliceDeleting::class, ArticleSlicesCopying::class],
+            array_map(static fn (object $ep) => $ep::class, $events),
+        );
+
+        $adding = $events[0] ?? null;
+        $moving = $events[2] ?? null;
+        $deleting = $events[3] ?? null;
+        $copying = $events[4] ?? null;
+
+        self::assertInstanceOf(SliceAdding::class, $adding);
+        self::assertSame($this->articleId, $adding->article->id);
+        self::assertSame('test', $adding->moduleKey);
+
+        // the slice is passed in its state before the move
+        self::assertInstanceOf(SliceMoving::class, $moving);
+        self::assertSame($first->id, $moving->slice->id);
+        self::assertSame(1, $moving->slice->priority);
+        self::assertSame(SliceMoveDirection::Down, $moving->direction);
+
+        self::assertInstanceOf(SliceDeleting::class, $deleting);
+        self::assertSame($first->id, $deleting->slice->id);
+
+        self::assertInstanceOf(ArticleSlicesCopying::class, $copying);
+        self::assertSame($targetId, $copying->article->id);
+        self::assertSame($this->articleId, $copying->source->id);
+        self::assertNull($copying->revision);
+    }
+
+    private static function createArticle(): int
+    {
+        $id = Sql::factory()
+            ->setTable('rex_article')
+            ->setValues(['parent_id' => null, 'priority' => 1, 'path' => '|'])
+            ->addGlobalCreateFields()
+            ->addGlobalUpdateFields()
+            ->insert()
+            ->getLastId();
+
+        Sql::factory()
+            ->setTable('rex_article_translation')
+            ->setValues(['article_id' => $id, 'language_id' => 1, 'name' => 'test', 'status' => 1])
+            ->insert();
+
+        return $id;
     }
 }

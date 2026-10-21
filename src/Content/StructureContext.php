@@ -21,7 +21,7 @@ final readonly class StructureContext
         int $categoryId,
         int $articleId,
         int $languageId,
-        public int $ctypeId = 0,
+        public int $contentSectionId = 0,
         public int $artStart = 0,
         public int $catStart = 0,
         public int $editId = 0,

@@ -8,6 +8,7 @@ use Redaxo\Core\Content\AsModule;
 use Redaxo\Core\Content\Module;
 use Redaxo\Core\Form\Field\ArticlePicker;
 use Redaxo\Core\Form\Field\Checkbox;
+use Redaxo\Core\Form\Field\Collection;
 use Redaxo\Core\Form\Field\MediaPicker;
 use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Text;
@@ -40,6 +41,13 @@ final class TestFieldsModule extends Module
 
     #[ArticlePicker('Link')]
     public ?Article $link = null;
+
+    /** @var list<TestFieldsItem> */
+    #[Collection(
+        'Items',
+        item: TestFieldsItem::class,
+    )]
+    public array $items = [];
 
     #[Override]
     public function output(): string

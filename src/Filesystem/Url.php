@@ -5,10 +5,10 @@ namespace Redaxo\Core\Filesystem;
 use Redaxo\Core\AbstractProject;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\Article;
+use Redaxo\Core\Content\ExtensionPoint\ArticleUrl;
 use Redaxo\Core\Core;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Util\Str;
 use Symfony\Component\HttpFoundation\Request;
@@ -155,14 +155,14 @@ final class Url
 
         // Wenn eine rexExtension vorhanden ist, immer die Sprache mitgeben!
         // Die rexExtension muss selbst entscheiden was sie damit macht
-        if (!Language::exists($languageId) && (Language::count() > 1 || Extension::hasExtensions('URL_REWRITE'))) {
+        if (!Language::exists($languageId) && (Language::count() > 1 || Extension::hasExtensions(ArticleUrl::class))) {
             $languageId = Language::getCurrentId();
         }
 
         // ----- EXTENSION POINT
-        $url = Extension::dispatch(new ExtensionPoint('URL_REWRITE', '', ['id' => $id, 'language' => $languageId, 'params' => $params]));
+        $url = Extension::dispatch(new ArticleUrl($id, $languageId, $params));
 
-        if ('' == $url) {
+        if (null === $url) {
             $languageParam = Language::count() > 1 ? '&language=' . $languageId : '';
 
             $params = Str::buildQuery($params);

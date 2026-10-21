@@ -13,7 +13,6 @@ use Redaxo\Core\Content\ApiFunction\CategoryStatusChange;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\Category;
-use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
@@ -23,6 +22,9 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -32,15 +34,23 @@ use Redaxo\Core\View\View;
 
 use function Redaxo\Core\View\escape;
 
+// A failed category submit keeps the form open, showing the submitted values and their errors.
+$categoryApi = ApiFunction::factory();
+$categoryApiFailed = ($categoryApi instanceof CategoryAdd || $categoryApi instanceof CategoryEdit) && false === $categoryApi->result?->succeeded;
+
 $structureContext = new StructureContext(
     categoryId: Request::request('category_id', 'int'),
     articleId: Request::request('article_id', 'int'),
     languageId: Request::request('language', 'int'),
-    ctypeId: Request::request('ctype', 'int'),
+    contentSectionId: Request::request('content_section_id', 'int'),
     artStart: Request::request('artstart', 'int'),
     catStart: Request::request('catstart', 'int'),
     editId: Request::request('edit_id', 'int'),
-    function: Request::request('function', 'string'),
+    function: match (true) {
+        $categoryApiFailed && $categoryApi instanceof CategoryAdd => 'add_cat',
+        $categoryApiFailed => 'edit_cat',
+        default => Request::request('function', 'string'),
+    },
 );
 
 $user = Core::requireUser();
@@ -71,8 +81,7 @@ $languageId = $structureContext->languageId;
 echo View::structureBreadcrumb($categoryId, $structureContext->articleId, $languageId);
 
 // -------------- STATUS_TYPE Map
-$catStatusTypes = CategoryHandler::statusTypes();
-$artStatusTypes = ArticleHandler::statusTypes();
+$statusTypes = ArticleHandler::statusTypes();
 
 // --------------------------------------------- API MESSAGES
 echo ApiFunction::getMessage();
@@ -150,6 +159,17 @@ if ('add_cat' === $structureContext->function || 'edit_cat' === $structureContex
             <input type="hidden" name="edit_id" value="' . $structureContext->editId . '" />';
 }
 
+$categoryMetaToggle = static fn (MetaForm $meta): string => $meta->hasFields()
+    ? '<a class="btn btn-default' . ($meta->hasErrors() ? '' : ' collapsed') . '" data-toggle="collapse" href="#rex-structure-category-metainfo"><i class="rex-icon rex-icon-structure-category-metainfo"></i></a>'
+    : '';
+$categoryMetaRow = static fn (MetaForm $meta): string => $meta->hasFields()
+    ? '
+                <tr id="rex-structure-category-metainfo" class="collapse' . ($meta->hasErrors() ? ' in' : '') . ' mark">
+                    <td colspan="2"></td>
+                    <td colspan="5"><div class="rex-collapse-content">' . $meta->render() . '</div></td>
+                </tr>'
+    : '';
+
 $canEdit = $user->hasPerm('editCategory[]');
 $canDelete = $user->hasPerm('deleteCategory[]');
 $colspan = (int) $canEdit + (int) $canDelete + 1;
@@ -171,7 +191,12 @@ $echo .= '
 // --------------------- KATEGORIE ADD FORM
 
 if ('add_cat' === $structureContext->function && $user->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission()) {
-    $metaButtons = Extension::dispatch(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
+    $meta = new MetaForm(new MetaContext(MetaEntity::Category, category: Category::get($structureContext->categoryId, $structureContext->languageId)));
+    if ($categoryApiFailed) {
+        $meta->submit();
+    }
+
+    $metaButtons = $categoryMetaToggle($meta) . Extension::dispatch(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
         'id' => $structureContext->categoryId,
         'language' => $structureContext->languageId,
     ]));
@@ -185,10 +210,12 @@ if ('add_cat' === $structureContext->function && $user->hasPerm('addCategory[]')
                 <tr class="' . $class . '">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-category"></i></td>
                     <td class="rex-table-id" data-title="' . I18n::msg('header_id') . '">-</td>
-                    <td class="rex-table-category" data-title="' . I18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" class="rex-js-autofocus" required maxlength="255" autofocus /></td>
-                    <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="category-position" value="' . ($catPager->getRowCount() + 1) . '" required min="1" inputmode="numeric" /></td>
+                    <td class="rex-table-category" data-title="' . I18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . escape(Request::post('category-name', 'string')) . '" class="rex-js-autofocus" required maxlength="255" autofocus /></td>
+                    <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="category-position" value="' . ($categoryApiFailed ? Request::post('category-position', 'int') : $catPager->getRowCount() + 1) . '" required min="1" inputmode="numeric" /></td>
                     <td class="rex-table-action" colspan="' . $colspan . '">' . $metaButtons . $addButtons . '</td>
                 </tr>';
+
+    $echo .= $categoryMetaRow($meta);
 
     // ----- EXTENSION POINT
     $echo .= Extension::dispatch(new ExtensionPoint('CAT_FORM_ADD', '', [
@@ -213,19 +240,19 @@ if ($KAT->getRows() > 0) {
         $katIconTd = '<td class="rex-table-icon"><a class="rex-link-expanded" href="' . $katLink . '" title="' . escape($KAT->getStringValue('catname')) . '"><i class="rex-icon ' . $katIconClass . '" title="' . $katIconTitle . '"></i></a></td>';
 
         $status = $KAT->getIntValue('status');
-        $katStatus = $catStatusTypes[$status][0];
-        $statusClass = $catStatusTypes[$status][1];
-        $statusIcon = $catStatusTypes[$status][2];
+        $katStatus = $statusTypes[$status][0];
+        $statusClass = $statusTypes[$status][1];
+        $statusIcon = $statusTypes[$status][2];
         $dataCatStatus = 'data-status="' . $status . '"';
 
         $tdLayoutClass = '';
         if ($structureContext->hasCategoryPermission()) {
             if ($user->hasPerm('publishCategory[]')) {
                 $tdLayoutClass = 'rex-table-action-no-dropdown';
-                if (count($catStatusTypes) > 2) {
+                if (count($statusTypes) > 2) {
                     $tdLayoutClass = 'rex-table-action-dropdown';
                     $katStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $statusClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
-                    foreach ($catStatusTypes as $catStatusKey => $catStatusType) {
+                    foreach ($statusTypes as $catStatusKey => $catStatusType) {
                         $katStatus .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->catStart, 'cat_status' => $catStatusKey] + CategoryStatusChange::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
                     }
                     $katStatus .= '</ul></div>';
@@ -239,8 +266,14 @@ if ($KAT->getRows() > 0) {
             if ($canEdit && $structureContext->editId === $iCategoryId && 'edit_cat' === $structureContext->function) {
                 // --------------------- KATEGORIE EDIT FORM
 
+                $editCategory = Category::get($iCategoryId, $structureContext->languageId);
+                $meta = new MetaForm(new MetaContext(MetaEntity::Category, $editCategory, $editCategory));
+                if ($categoryApiFailed) {
+                    $meta->submit();
+                }
+
                 // ----- EXTENSION POINT
-                $metaButtons = Extension::dispatch(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
+                $metaButtons = $categoryMetaToggle($meta) . Extension::dispatch(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
                     'id' => $structureContext->editId,
                     'language' => $structureContext->languageId,
                 ]));
@@ -258,10 +291,12 @@ if ($KAT->getRows() > 0) {
                     <tr class="' . $class . '" ' . $dataCatStatus . '>
                         ' . $katIconTd . '
                         <td class="rex-table-id" data-title="' . I18n::msg('header_id') . '">' . $iCategoryId . '</td>
-                        <td class="rex-table-category" data-title="' . I18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . escape($KAT->getStringValue('catname')) . '" class="rex-js-autofocus" required maxlength="255" autofocus /></td>
-                        <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="category-position" value="' . $KAT->getIntValue('catpriority') . '" required min="1" inputmode="numeric" /></td>
+                        <td class="rex-table-category" data-title="' . I18n::msg('header_category') . '"><input class="form-control" type="text" name="category-name" value="' . escape($categoryApiFailed ? Request::post('category-name', 'string') : $KAT->getStringValue('catname')) . '" class="rex-js-autofocus" required maxlength="255" autofocus /></td>
+                        <td class="rex-table-priority" data-title="' . I18n::msg('header_priority') . '"><input class="form-control" type="number" name="category-position" value="' . ($categoryApiFailed ? Request::post('category-position', 'int') : $KAT->getIntValue('catpriority')) . '" required min="1" inputmode="numeric" /></td>
                         <td class="rex-table-action" colspan="' . $colspan . '">' . $metaButtons . $addButtons . '</td>
                     </tr>';
+
+                $echo .= $categoryMetaRow($meta);
 
                 // ----- EXTENSION POINT
                 $echo .= Extension::dispatch(new ExtensionPoint('CAT_FORM_EDIT', '', [
@@ -504,9 +539,9 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
             $status = $sql->getIntValue('status');
-            $articleStatus = $artStatusTypes[$status][0];
-            $articleClass = $artStatusTypes[$status][1];
-            $articleIcon = $artStatusTypes[$status][2];
+            $articleStatus = $statusTypes[$status][0];
+            $articleClass = $statusTypes[$status][1];
+            $articleIcon = $statusTypes[$status][2];
             $dataArtStatus = 'data-status="' . $status . '"';
 
             $addExtra = '';
@@ -529,10 +564,10 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
                 if ($user->hasPerm('publishArticle[]')) {
                     $tdLayoutClass = 'rex-table-action-no-dropdown';
 
-                    if (count($artStatusTypes) > 2) {
+                    if (count($statusTypes) > 2) {
                         $tdLayoutClass = 'rex-table-action-dropdown';
                         $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $articleClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
-                        foreach ($artStatusTypes as $artStatusKey => $artStatusType) {
+                        foreach ($statusTypes as $artStatusKey => $artStatusType) {
                             $articleStatus .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getIntValue('id'), 'artstart' => $structureContext->artStart, 'art_status' => $artStatusKey] + ArticleStatusChange::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
                         }
                         $articleStatus .= '</ul></div>';
@@ -567,9 +602,9 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
             // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
             $status = $sql->getIntValue('status');
-            $artStatus = $artStatusTypes[$status][0];
-            $artStatusClass = $artStatusTypes[$status][1];
-            $artStatusIcon = $artStatusTypes[$status][2];
+            $artStatus = $statusTypes[$status][0];
+            $artStatusClass = $statusTypes[$status][1];
+            $artStatusIcon = $statusTypes[$status][2];
 
             $tmplKey = ($sql->getNullableStringValue('template') ?? '');
             $tmpl = escape(null !== ($t = Template::get($tmplKey)) ? I18n::translate($t->name) : '');

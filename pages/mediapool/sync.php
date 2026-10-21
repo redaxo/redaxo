@@ -7,14 +7,19 @@ use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 use function Redaxo\Core\View\escape;
 
@@ -71,11 +76,15 @@ foreach ($dbFiles as $dbFile) {
     }
 }
 
+$meta = new MetaForm(new MetaContext(MetaEntity::Media, mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
+
 $error = [];
 $success = [];
 if (Request::post('save', 'boolean') && Request::post('sync_files', 'boolean')) {
     if (!$csrf->isValid()) {
         $error[] = I18n::msg('csrf_token_invalid');
+    } elseif (!$meta->submit()) {
+        $error[] = I18n::msg('minfo_metadata_invalid');
     } else {
         $syncFiles = Request::post('sync_files', 'array[string]');
         $ftitle = Request::post('ftitle', 'string');
@@ -88,16 +97,14 @@ if (Request::post('save', 'boolean') && Request::post('sync_files', 'boolean')) 
                     continue;
                 }
 
-                $data = [];
-                $data['title'] = $ftitle;
-                $data['category_id'] = $rexFileCategory ?: null;
-                $data['file'] = [
-                    'name' => $filename,
-                    'path' => Path::media($filename),
+                $data = [
+                    'file' => new SymfonyFile(Path::media($filename)),
+                    'category_id' => $rexFileCategory ?: null,
+                    'title' => $ftitle,
                 ];
 
                 try {
-                    MediaHandler::add($data, false);
+                    MediaHandler::add($data, $meta->values(), subindexing: false);
 
                     unset($diffFiles[$key]);
                     if ($first) {
@@ -152,7 +159,7 @@ if ($diffCount > 0) {
 
     $count = count($writable) - 1;
     if ($count) {
-        $content .= View::mediaPoolMediaForm(I18n::msg('pool_sync_title'), I18n::msg('pool_sync_button'), $rexFileCategory, false, false);
+        $content .= View::mediaPoolMediaForm(I18n::msg('pool_sync_title'), I18n::msg('pool_sync_button'), $rexFileCategory, false, false, $meta);
         $content .= '<fieldset>';
 
         $title = I18n::msg('pool_sync_affected_files') . ' (' . $count . ')';

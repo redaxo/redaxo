@@ -11,6 +11,9 @@ use Redaxo\Core\Language\ExtensionPoint\LanguageFormButtons;
 use Redaxo\Core\Language\ExtensionPoint\LanguageFormEdit;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Language\LanguageHandler;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -60,8 +63,7 @@ if ('editstatus' === $func && Language::exists($languageId)) {
         if (!$csrfToken->isValid()) {
             throw new UserMessageException(I18n::msg('csrf_token_invalid'));
         }
-        $language = Language::require($languageId);
-        LanguageHandler::edit($languageId, $language->code, $language->name, $language->priority, $languageStatus);
+        LanguageHandler::edit($languageId, ['status' => $languageStatus]);
         $success = I18n::msg('language_edited');
         $func = '';
         $languageId = 0;
@@ -70,8 +72,13 @@ if ('editstatus' === $func && Language::exists($languageId)) {
     }
 }
 
+$meta = null;
+
 // ----- add language
 if ($addClangSave || $editClangSave) {
+    $meta = new MetaForm(new MetaContext(MetaEntity::Language, $editClangSave ? Language::get($languageId) : null));
+    $metaValid = $meta->submit();
+
     if (!$csrfToken->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
         $func = $addClangSave ? 'add' : 'edit';
@@ -84,14 +91,17 @@ if ($addClangSave || $editClangSave) {
     } elseif (array_any(Language::getAll(), static fn (Language $language): bool => $language->id !== $languageId && $language->code === $languageCode)) {
         $error = I18n::msg('code_exists');
         $func = $addClangSave ? 'add' : 'edit';
+    } elseif (!$metaValid) {
+        $error = I18n::msg('minfo_metadata_invalid');
+        $func = $addClangSave ? 'add' : 'edit';
     } elseif ($addClangSave) {
         $success = I18n::msg('language_created');
-        LanguageHandler::add($languageCode, $languageName, $languagePrio);
+        LanguageHandler::add(['code' => $languageCode, 'name' => $languageName, 'priority' => $languagePrio], $meta->values());
         $languageId = 0;
         $func = '';
     } else {
         if (Language::exists($languageId)) {
-            LanguageHandler::edit($languageId, $languageCode, $languageName, $languagePrio);
+            LanguageHandler::edit($languageId, ['code' => $languageCode, 'name' => $languageName, 'priority' => $languagePrio], $meta->values());
             $success = I18n::msg('language_edited');
             $func = '';
             $languageId = 0;
@@ -106,6 +116,17 @@ if ('' != $success) {
 if ('' != $error) {
     $message .= Message::error($error);
 }
+
+$metaToggle = static fn (MetaForm $meta): string => $meta->hasFields()
+    ? '<a class="btn btn-default' . ($meta->hasErrors() ? '' : ' collapsed') . '" data-toggle="collapse" href="#rex-language-metainfo"><i class="rex-icon rex-icon-structure-category-metainfo"></i></a>'
+    : '';
+$metaRow = static fn (MetaForm $meta): string => $meta->hasFields()
+    ? '
+                <tr id="rex-language-metainfo" class="collapse' . ($meta->hasErrors() ? ' in' : '') . ' mark">
+                    <td colspan="2"></td>
+                    <td colspan="6"><div class="rex-collapse-content">' . $meta->render() . '</div></td>
+                </tr>'
+    : '';
 
 $content .= '
         <table class="table table-striped table-hover">
@@ -124,8 +145,10 @@ $content .= '
 
 // Add form
 if ('add' == $func) {
+    $meta ??= new MetaForm(new MetaContext(MetaEntity::Language));
+
     // ----- EXTENSION POINT
-    $metaButtons = Extension::dispatch(new LanguageFormButtons());
+    $metaButtons = $metaToggle($meta) . Extension::dispatch(new LanguageFormButtons());
 
     // ggf wiederanzeige des add forms, falls ungueltige id uebermittelt
     $content .= '
@@ -139,6 +162,8 @@ if ('add' == $func) {
                     <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="add_language_save"' . Accesskey::attributes(I18n::msg('language_add'), 'save') . ' value="1">' . I18n::msg('language_add') . '</button></td>
                 </tr>
             ';
+
+    $content .= $metaRow($meta);
 
     // ----- EXTENSION POINT
     $content .= Extension::dispatch(new LanguageFormAdd());
@@ -158,8 +183,10 @@ foreach ($sql as $row) {
 
     // Edit form
     if ('edit' == $func && $languageId == $langId) {
+        $meta ??= new MetaForm(new MetaContext(MetaEntity::Language, Language::require($langId)));
+
         // ----- EXTENSION POINT
-        $metaButtons = Extension::dispatch(new LanguageFormButtons(Language::require($langId)));
+        $metaButtons = $metaToggle($meta) . Extension::dispatch(new LanguageFormButtons(Language::require($langId)));
 
         $content .= '
                     <tr class="mark">
@@ -171,6 +198,8 @@ foreach ($sql as $row) {
                         <td class="rex-table-action">' . $metaButtons . '</td>
                         <td class="rex-table-action" colspan="2"><button class="btn btn-save" type="submit" name="edit_language_save"' . Accesskey::attributes(I18n::msg('language_update'), 'save') . ' value="1">' . I18n::msg('language_update') . '</button></td>
                     </tr>';
+
+        $content .= $metaRow($meta);
 
         // ----- EXTENSION POINT
         $content .= Extension::dispatch(new LanguageFormEdit(Language::require($langId)));

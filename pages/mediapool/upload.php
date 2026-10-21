@@ -5,11 +5,16 @@ use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaHandler;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -23,6 +28,7 @@ if (!$PERMALL && !Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(
 }
 
 $mediaMethod = Request::request('media_method', 'string');
+$meta = new MetaForm(new MetaContext(MetaEntity::Media, mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
 $csrf = CsrfToken::factory('mediapool');
 
 $info = '';
@@ -32,19 +38,26 @@ if ('add_file' == $mediaMethod) {
         echo Message::error(I18n::msg('csrf_token_invalid'));
     } else {
         if (Request::post('save', 'boolean') || Request::post('saveandexit', 'boolean')) {
-            $data = [];
-            $data['title'] = Request::request('ftitle', 'string');
-            $data['category_id'] = (int) $rexFileCategory;
-            $data['file'] = Request::files('file_new', [
-                ['name', 'string'],
-                ['tmp_name', 'string'],
-                ['error', 'int'],
-            ]);
-
             $types = Request::post('types', 'string');
 
             try {
-                $media = MediaHandler::add($data, true, '' === $types ? [] : explode(',', $types));
+                /** @var mixed $file */
+                $file = Core::getRequest()->files->get('file_new');
+                if (!$file instanceof UploadedFile) {
+                    throw new UserMessageException(I18n::msg('pool_file_not_found'));
+                }
+
+                if (!$meta->submit()) {
+                    throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
+                }
+
+                $data = [
+                    'file' => $file,
+                    'category_id' => $rexFileCategory ?: null,
+                    'title' => Request::request('ftitle', 'string'),
+                ];
+
+                $media = MediaHandler::add($data, $meta->values(), types: '' === $types ? [] : explode(',', $types));
                 $info = I18n::msg('pool_file_added');
                 if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
@@ -80,4 +93,4 @@ if ('' !== $info) {
     echo Message::success($info);
 }
 
-echo View::mediaPoolMediaForm(I18n::msg('pool_file_insert'), I18n::msg('pool_file_upload'), $rexFileCategory, true, true);
+echo View::mediaPoolMediaForm(I18n::msg('pool_file_insert'), I18n::msg('pool_file_upload'), $rexFileCategory, true, true, $meta);

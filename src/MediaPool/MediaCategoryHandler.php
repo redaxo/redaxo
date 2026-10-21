@@ -5,33 +5,42 @@ namespace Redaxo\Core\MediaPool;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryAdded;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryDeleted;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryUpdated;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryUsageCheck;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\UsageList;
+
+use function array_key_exists;
 
 final class MediaCategoryHandler
 {
     private function __construct() {}
 
     /**
-     * @param string $name The name of the new category
-     * @param MediaCategory|null $parent The category in which the new category should be created, or null for a top/root level category
+     * @param array{parent_id: int|null, name: string} $data Category data, `parent_id` is `null` for the root level
+     *
+     * @throws UserMessageException
      */
-    public static function add(string $name, ?MediaCategory $parent): MediaCategory
+    public static function add(array $data): MediaCategory
     {
-        $db = Sql::factory();
+        Type::requireKeys($data, 'parent_id', 'name');
 
-        $parentId = $parent?->id;
+        $parentId = $data['parent_id'];
         $path = '|';
-        if ($parent) {
-            $path .= implode('|', $parent->path) . '|' . $parent->id . '|';
+        if (null !== $parentId) {
+            $parent = MediaCategory::get($parentId);
+            if (!$parent) {
+                throw new UserMessageException(I18n::msg('pool_kat_not_found'));
+            }
+            $path = '|' . implode('|', [...$parent->path, $parent->id]) . '|';
         }
 
+        $db = Sql::factory();
         $db->setTable('rex_media_category');
-        $db->setValue('name', $name);
+        $db->setValue('name', $data['name']);
         $db->setValue('parent_id', $parentId);
         $db->setValue('path', $path);
         $db->addGlobalCreateFields();
@@ -62,9 +71,10 @@ final class MediaCategoryHandler
         $gd = Sql::factory();
         $gd->setQuery('SELECT * FROM rex_media_category WHERE parent_id=?', [$categoryId]);
         if (0 == $gf->getRows() && 0 == $gd->getRows()) {
-            if ($uses = self::isInUse($categoryId)) {
+            $usages = self::findUsages($category);
+            if (!$usages->isEmpty()) {
                 $name = "{$category->name} [$categoryId]";
-                throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
+                throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong>' . $usages->render());
             }
 
             $gf->setQuery('DELETE FROM rex_media_category WHERE id=?', [$categoryId]);
@@ -77,25 +87,17 @@ final class MediaCategoryHandler
         Extension::dispatch(new MediaCategoryDeleted($category));
     }
 
-    /** @return false|string false or warning message */
-    public static function isInUse(int $categoryId): string|false
+    /** Returns the places using the media category. */
+    public static function findUsages(MediaCategory $category): UsageList
     {
-        /** @var list<string> $warning */
-        $warning = [];
-        $warning = Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_IS_IN_USE', $warning, [
-            'id' => $categoryId,
-        ]));
+        $usages = new UsageList();
+        Extension::dispatch(new MediaCategoryUsageCheck($category, $usages));
 
-        if ($warning) {
-            return implode('<br />', $warning);
-        }
-
-        return false;
+        return $usages;
     }
 
     /**
-     * @param int $categoryId The id of the category to edit
-     * @param array{name: string} $data The category data
+     * @param array{name?: string} $data Category data, missing keys keep their value
      *
      * @throws UserMessageException
      */
@@ -106,12 +108,12 @@ final class MediaCategoryHandler
             throw new UserMessageException(I18n::msg('pool_kat_not_found'));
         }
 
-        $catName = $data['name'];
-
         $db = Sql::factory();
         $db->setTable('rex_media_category');
         $db->setWhere(['id' => $categoryId]);
-        $db->setValue('name', $catName);
+        if (array_key_exists('name', $data)) {
+            $db->setValue('name', $data['name']);
+        }
         $db->addGlobalUpdateFields();
 
         $db->update();
