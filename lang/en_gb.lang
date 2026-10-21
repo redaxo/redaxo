@@ -372,7 +372,7 @@ mailer_log_subject = Subject
 mailer_log_success = Status
 mailer_log_title = Mail log "{0}"
 mailer_log_to = To
-mailer_not_configured = The mailer is not configured, the env var MAILER_DSN is missing.
+mailer_not_configured = The mailer is not configured, the env var MAILER_DSN is not set.
 mailer_transport = Transport
 
 # mediapool

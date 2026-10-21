@@ -39,7 +39,7 @@ final class Env
      */
     public static function require(string $name): string
     {
-        return self::get($name) ?? throw new LogicException(sprintf('The env var "%s" is missing, it must be defined in the ".env" file.', $name));
+        return self::get($name) ?? throw new LogicException(sprintf('The env var "%s" is missing or empty, it must be defined in the ".env" file.', $name));
     }
 
     /**
