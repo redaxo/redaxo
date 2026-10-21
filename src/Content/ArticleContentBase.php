@@ -80,13 +80,11 @@ class ArticleContentBase
         $moduleKey = $artDataSql->getStringValue('rex_article_slice.module');
         $slice = ArticleSlice::fromSql($artDataSql);
 
-        $module = Module::get($moduleKey);
-
-        if (null === $module) {
+        if (!Module::exists($moduleKey)) {
             return '';
         }
 
-        $output = $module->output($slice);
+        $output = Module::of($slice)->output();
 
         $output = Extension::dispatch(new ExtensionPoint(
             'SLICE_OUTPUT',
@@ -282,7 +280,7 @@ class ArticleContentBase
                 }
 
                 $slice = ArticleSlice::fromSql($artDataSql);
-                $articleContent .= 'echo \\' . Module::class . '::get(' . var_export($sliceModuleKey, true) . ')?->output(' . var_export($slice, true) . ') ?? \'\';' . "\n";
+                $articleContent .= 'echo \\' . Module::class . '::exists(' . var_export($sliceModuleKey, true) . ') ? \\' . Module::class . '::of(' . var_export($slice, true) . ')->output() : \'\';' . "\n";
             }
 
             // ------------- EINZELNER SLICE - AUSGABE
