@@ -365,7 +365,7 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             echo '<script nonce="' . Response::getNonce() . '">
                     var history_article_id = ' . Article::getCurrentId() . ';
                     var history_language_id = ' . Language::getCurrentId() . ';
-                    var history_ctype_id = ' . Request::request('ctype', 'int', 0) . ';
+                    var history_content_section_id = ' . Request::request('content_section_id', 'int', 0) . ';
                     var history_article_link = "' . escape($articleLink, 'js') . '";
                     var history_csrf_token = "' . escape(CsrfToken::factory('structure_history')->getValue(), 'js') . '";
                 </script>';
@@ -481,10 +481,10 @@ if (Core::getConfig('article_work_version', false)) {
         $revisions[ArticleRevision::WORK] = I18n::msg('version_workingversion');
 
         $context = new Context([
-            'page' => $params['page'],
+            'page' => 'content/edit',
             'article_id' => $articleId,
             'language' => $languageId,
-            'ctype' => $params['ctype'],
+            'content_section_id' => Type::int($params['content_section_id']),
         ]);
 
         $items = [];

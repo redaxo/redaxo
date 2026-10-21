@@ -49,7 +49,7 @@ final readonly class ArticleSlice
     public static function forNewSlice(
         int $articleId,
         int $languageId,
-        int $ctype,
+        int $contentSectionId,
         string $moduleKey,
         int $priority,
         int $revision,
@@ -58,7 +58,7 @@ final readonly class ArticleSlice
             0,
             $articleId,
             $languageId,
-            $ctype,
+            $contentSectionId,
             $moduleKey,
             $priority,
             1,
@@ -132,8 +132,8 @@ final readonly class ArticleSlice
     {
         $languageId ??= Language::getCurrentId();
 
-        foreach (range(1, 20) as $ctype) {
-            $slice = self::getFirstSliceForCtype($ctype, $articleId, $languageId, $revision, $ignoreOfflines);
+        foreach (range(1, 20) as $contentSectionId) {
+            $slice = self::getFirstSliceForContentSection($contentSectionId, $articleId, $languageId, $revision, $ignoreOfflines);
             if (null !== $slice) {
                 return $slice;
             }
@@ -142,14 +142,14 @@ final readonly class ArticleSlice
         return null;
     }
 
-    /** Returns the first slice of the given ctype of an article. */
-    public static function getFirstSliceForCtype(int $ctype, int $articleId, ?int $languageId = null, int $revision = 0, bool $ignoreOfflines = false): ?self
+    /** Returns the first slice of the given content section of an article. */
+    public static function getFirstSliceForContentSection(int $contentSectionId, int $articleId, ?int $languageId = null, int $revision = 0, bool $ignoreOfflines = false): ?self
     {
         $languageId ??= Language::getCurrentId();
 
         return self::getSliceWhere(
             'article_id=? AND language_id=? AND content_section_id=? AND priority=1 AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
-            [$articleId, $languageId, $ctype, $revision],
+            [$articleId, $languageId, $contentSectionId, $revision],
         );
     }
 

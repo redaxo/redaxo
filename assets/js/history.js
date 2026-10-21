@@ -82,7 +82,7 @@
         // use variables from HTML
         this.articleId = history_article_id;
         this.languageId = history_language_id;
-        this.ctypeId = history_ctype_id;
+        this.contentSectionId = history_content_section_id;
         this.link = history_article_link;
 
         // set up environment ojects
@@ -310,7 +310,7 @@
                 that.remove();
 
                 // reload redaxo page
-                var url = 'index.php?page=content/edit&article_id=' + that.articleId + '&language=' + that.languageId + '&ctype=' + that.ctypeId;
+                var url = 'index.php?page=content/edit&article_id=' + that.articleId + '&language=' + that.languageId + '&content_section_id=' + that.contentSectionId;
                 $.pjax({url: url, container: '#rex-js-page-main-content', fragment: '#rex-js-page-main-content'})
             }));
         },
