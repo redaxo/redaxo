@@ -15,6 +15,7 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaListFunctions;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListThumbnail;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MediaPool\MediaHandler;
@@ -31,9 +32,8 @@ use function Redaxo\Core\View\escape;
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
 assert(isset($argFields) && is_string($argFields));
-assert(isset($rexFileCategoryName) && is_string($rexFileCategoryName));
-/** @psalm-suppress RedundantCondition */
 assert(isset($toolbar) && is_string($toolbar));
+assert(isset($rexFileCategoryName) && is_string($rexFileCategoryName));
 /** @psalm-suppress RedundantCondition */
 assert(isset($csrf) && $csrf instanceof CsrfToken);
 
@@ -313,6 +313,8 @@ foreach ($items as $media) {
             $thumbnail = '<img class="thumbnail" src="' . MediaManager::getUrl('rex_media_small', urlencode($media->fileName), $media->getValue('updatedate')) . '" width="100" alt="' . $alt . '" title="' . $alt . '" loading="lazy" />';
         }
     }
+
+    $thumbnail = Extension::dispatch(new MediaListThumbnail($media, $thumbnail));
 
     if ('' == $media->title) {
         $fileTitle = '[' . I18n::msg('pool_file_notitle') . ']';

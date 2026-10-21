@@ -34,7 +34,6 @@ use function Redaxo\Core\View\escape;
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
 assert(isset($argFields) && is_string($argFields));
-/** @psalm-suppress RedundantCondition */
 assert(isset($toolbar) && is_string($toolbar));
 /** @psalm-suppress RedundantCondition */
 assert(isset($csrf) && $csrf instanceof CsrfToken);

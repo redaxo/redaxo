@@ -728,6 +728,8 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_FORM_EDIT', '\\' . MediaPool\ExtensionPoint\MediaFormEdit::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_DETAIL_SIDEBAR', '\\' . MediaPool\ExtensionPoint\MediaDetailSidebar::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_LIST_FUNCTIONS', '\\' . MediaPool\ExtensionPoint\MediaListFunctions::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_LIST_THUMBNAIL', '\\' . MediaPool\ExtensionPoint\MediaListThumbnail::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_LIST_TOOLBAR', '\\' . MediaPool\ExtensionPoint\MediaListToolbar::class . '::class'),
     ])
     ->withConfiguredRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(ExtensionPoint\Extension::class, 'EARLY', ExtensionPoint\ExtensionLevel::class, 'Early'),

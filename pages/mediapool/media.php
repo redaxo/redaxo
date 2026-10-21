@@ -2,11 +2,14 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
+use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListToolbar;
+use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\View\Fragment;
@@ -86,6 +89,8 @@ $languageSwitch = View::languageSwitchAsButtons(new Context([
 if ('' !== $languageSwitch) {
     echo '<div class="clearfix">' . $languageSwitch . '</div>';
 }
+
+$toolbar = Extension::dispatch(new MediaListToolbar($subpage, $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null, $toolbar));
 
 // *************************************** Subpage: Media
 
