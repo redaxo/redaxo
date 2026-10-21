@@ -7,8 +7,10 @@ use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToCategory;
 use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToStartArticle;
 use Redaxo\Core\Content\ExtensionPoint\ArticleCopied;
 use Redaxo\Core\Content\ExtensionPoint\ArticleDeleted;
+use Redaxo\Core\Content\ExtensionPoint\ArticleDeleting;
 use Redaxo\Core\Content\ExtensionPoint\ArticleMoved;
 use Redaxo\Core\Content\ExtensionPoint\ArticleStatusChanged;
+use Redaxo\Core\Content\ExtensionPoint\ArticleStatusTypes;
 use Redaxo\Core\Content\ExtensionPoint\ArticleUpdated;
 use Redaxo\Core\Content\ExtensionPoint\ArticleUsageCheck;
 use Redaxo\Core\Core;
@@ -18,7 +20,6 @@ use Redaxo\Core\Database\Table;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Language\Language;
@@ -243,12 +244,7 @@ final class ArticleHandler
         }
 
         $parentId = $ART->getNullableIntValue('parent_id');
-        Extension::dispatch(new ExtensionPoint('ART_PRE_DELETED', '', [
-            'id' => $id,
-            'parent_id' => $parentId,
-            'priority' => $ART->getValue('priority'),
-            'path' => $ART->getValue('path'),
-        ]));
+        Extension::dispatch(new ArticleDeleting($article));
 
         if ($ART->getBoolValue('startarticle')) {
             $SART = Sql::factory();
@@ -309,9 +305,9 @@ final class ArticleHandler
     }
 
     /**
-     * Gibt alle Stati zurück, die für einen Artikel gültig sind.
+     * Returns the status types of articles, which apply to categories as well.
      *
-     * @return list<array{string, string, string}> Array von Stati
+     * @return list<array{string, string, string}> Label, CSS class and icon, indexed by the status value
      */
     public static function statusTypes(): array
     {
@@ -319,14 +315,10 @@ final class ArticleHandler
         static $artStatusTypes;
 
         if (!$artStatusTypes) {
-            $artStatusTypes = [
-                // Name, CSS-Class
+            $artStatusTypes = Extension::dispatch(new ArticleStatusTypes([
                 [I18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
                 [I18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
-            ];
-
-            // ----- EXTENSION POINT
-            $artStatusTypes = Extension::dispatch(new ExtensionPoint('ART_STATUS_TYPES', $artStatusTypes));
+            ]));
         }
 
         return $artStatusTypes;

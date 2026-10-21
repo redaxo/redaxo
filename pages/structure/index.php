@@ -13,7 +13,6 @@ use Redaxo\Core\Content\ApiFunction\CategoryStatusChange;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\Category;
-use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
@@ -82,8 +81,7 @@ $languageId = $structureContext->languageId;
 echo View::structureBreadcrumb($categoryId, $structureContext->articleId, $languageId);
 
 // -------------- STATUS_TYPE Map
-$catStatusTypes = CategoryHandler::statusTypes();
-$artStatusTypes = ArticleHandler::statusTypes();
+$statusTypes = ArticleHandler::statusTypes();
 
 // --------------------------------------------- API MESSAGES
 echo ApiFunction::getMessage();
@@ -242,19 +240,19 @@ if ($KAT->getRows() > 0) {
         $katIconTd = '<td class="rex-table-icon"><a class="rex-link-expanded" href="' . $katLink . '" title="' . escape($KAT->getStringValue('catname')) . '"><i class="rex-icon ' . $katIconClass . '" title="' . $katIconTitle . '"></i></a></td>';
 
         $status = $KAT->getIntValue('status');
-        $katStatus = $catStatusTypes[$status][0];
-        $statusClass = $catStatusTypes[$status][1];
-        $statusIcon = $catStatusTypes[$status][2];
+        $katStatus = $statusTypes[$status][0];
+        $statusClass = $statusTypes[$status][1];
+        $statusIcon = $statusTypes[$status][2];
         $dataCatStatus = 'data-status="' . $status . '"';
 
         $tdLayoutClass = '';
         if ($structureContext->hasCategoryPermission()) {
             if ($user->hasPerm('publishCategory[]')) {
                 $tdLayoutClass = 'rex-table-action-no-dropdown';
-                if (count($catStatusTypes) > 2) {
+                if (count($statusTypes) > 2) {
                     $tdLayoutClass = 'rex-table-action-dropdown';
                     $katStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $statusClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $statusIcon . '"></i>&nbsp;' . $katStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
-                    foreach ($catStatusTypes as $catStatusKey => $catStatusType) {
+                    foreach ($statusTypes as $catStatusKey => $catStatusType) {
                         $katStatus .= '<li><a class="' . $catStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['category-id' => $iCategoryId, 'catstart' => $structureContext->catStart, 'cat_status' => $catStatusKey] + CategoryStatusChange::getUrlParams()) . '">' . $catStatusType[0] . '</a></li>';
                     }
                     $katStatus .= '</ul></div>';
@@ -541,9 +539,9 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
             // --------------------- ARTIKEL NORMAL VIEW | EDIT AND ENTER
 
             $status = $sql->getIntValue('status');
-            $articleStatus = $artStatusTypes[$status][0];
-            $articleClass = $artStatusTypes[$status][1];
-            $articleIcon = $artStatusTypes[$status][2];
+            $articleStatus = $statusTypes[$status][0];
+            $articleClass = $statusTypes[$status][1];
+            $articleIcon = $statusTypes[$status][2];
             $dataArtStatus = 'data-status="' . $status . '"';
 
             $addExtra = '';
@@ -566,10 +564,10 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
                 if ($user->hasPerm('publishArticle[]')) {
                     $tdLayoutClass = 'rex-table-action-no-dropdown';
 
-                    if (count($artStatusTypes) > 2) {
+                    if (count($statusTypes) > 2) {
                         $tdLayoutClass = 'rex-table-action-dropdown';
                         $articleStatus = '<div class="dropdown"><a href="#" class="dropdown-toggle ' . $articleClass . '" type="button" data-toggle="dropdown"><i class="rex-icon ' . $articleIcon . '"></i>&nbsp;' . $articleStatus . '&nbsp;<span class="caret"></span></a><ul class="dropdown-menu dropdown-menu-right">';
-                        foreach ($artStatusTypes as $artStatusKey => $artStatusType) {
+                        foreach ($statusTypes as $artStatusKey => $artStatusType) {
                             $articleStatus .= '<li><a  class="' . $artStatusType[1] . '" href="' . $structureContext->getContext()->getUrl(['article_id' => $sql->getIntValue('id'), 'artstart' => $structureContext->artStart, 'art_status' => $artStatusKey] + ArticleStatusChange::getUrlParams()) . '">' . $artStatusType[0] . '</a></li>';
                         }
                         $articleStatus .= '</ul></div>';
@@ -604,9 +602,9 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
             // --------------------- ARTIKEL NORMAL VIEW | NO EDIT NO ENTER
 
             $status = $sql->getIntValue('status');
-            $artStatus = $artStatusTypes[$status][0];
-            $artStatusClass = $artStatusTypes[$status][1];
-            $artStatusIcon = $artStatusTypes[$status][2];
+            $artStatus = $statusTypes[$status][0];
+            $artStatusClass = $statusTypes[$status][1];
+            $artStatusIcon = $statusTypes[$status][2];
 
             $tmplKey = ($sql->getNullableStringValue('template') ?? '');
             $tmpl = escape(null !== ($t = Template::get($tmplKey)) ? I18n::translate($t->name) : '');

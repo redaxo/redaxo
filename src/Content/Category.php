@@ -3,8 +3,8 @@
 namespace Redaxo\Core\Content;
 
 use Override;
+use Redaxo\Core\Content\ExtensionPoint\CategoryPermissionCheck;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 
 use function in_array;
 
@@ -152,6 +152,6 @@ final class Category extends StructureElement
     #[Override]
     public function isPermitted(): bool
     {
-        return (bool) Extension::dispatch(new ExtensionPoint('CAT_IS_PERMITTED', true, ['element' => $this]));
+        return Extension::dispatch(new CategoryPermissionCheck($this));
     }
 }
