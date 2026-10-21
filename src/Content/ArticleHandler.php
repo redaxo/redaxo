@@ -40,11 +40,15 @@ final class ArticleHandler
      *
      * @param array{category_id: int|null, priority: int, name: string, template?: string} $data Article data,
      *     `category_id` is `null` for the root level, `name` is used for all languages
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     used for all languages
      *
      * @throws UserMessageException
      */
-    public static function add(array $data): Article
+    public static function add(array $data, array $meta = []): Article
     {
+        $metaValues = new MetaValues(MetaEntity::Article, $meta);
+
         self::reqKey($data, 'category_id');
         self::reqKey($data, 'priority');
         self::reqKey($data, 'name');
@@ -81,6 +85,7 @@ final class ArticleHandler
         $AART->setValue('parent_id', $categoryId);
         $AART->setValue('priority', $data['priority']);
         $AART->setValue('path', $path);
+        $AART->setValues($metaValues->forTable('rex_article'));
         $AART->addGlobalCreateFields($user);
         $AART->addGlobalUpdateFields($user);
         $AART->insert();
@@ -96,6 +101,7 @@ final class ArticleHandler
                     'status' => 0,
                     'template' => $data['template'],
                 ])
+                ->setValues($metaValues->forTable('rex_article_translation'))
                 ->insert();
         }
 
