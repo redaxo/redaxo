@@ -6,11 +6,12 @@ use Redaxo\Core\Base\InstanceListPoolTrait;
 use Redaxo\Core\Base\InstancePoolTrait;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaPermissionCheck;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaUrl;
 use Redaxo\Core\MetaInfo\MetaSchema;
 use Redaxo\Core\Util\Formatter;
 
@@ -151,8 +152,7 @@ final class Media
 
     public function getUrl(): string
     {
-        $url = Extension::dispatch(new ExtensionPoint('MEDIA_URL_REWRITE', '', ['media' => $this]));
-        return $url ?: Url::media($this->fileName);
+        return Extension::dispatch(new MediaUrl($this)) ?? Url::media($this->fileName);
     }
 
     public function getFormattedSize(): string
@@ -199,8 +199,8 @@ final class Media
     }
 
     /** Returns whether the element is permitted. */
-    public function isPermitted(): bool // @phpstan-ignore return.tooWideBool
+    public function isPermitted(): bool
     {
-        return (bool) Extension::dispatch(new ExtensionPoint('MEDIA_IS_PERMITTED', true, ['element' => $this]));
+        return Extension::dispatch(new MediaPermissionCheck($this));
     }
 }

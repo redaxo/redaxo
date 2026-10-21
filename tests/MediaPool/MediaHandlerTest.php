@@ -12,12 +12,14 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Fixtures\TestMediaMetaSchema;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdding;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListQuery;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPool;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
+use Redaxo\Core\Util\Pager;
 use Redaxo\Core\Util\Type;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -212,6 +214,45 @@ final class MediaHandlerTest extends TestCase
             self::assertFileDoesNotExist(Path::media($filename));
         } finally {
             new ReflectionProperty(Extension::class, 'extensions')->setValue(null, $extensions);
+        }
+    }
+
+    public function testMediaListQueryCanBeExtended(): void
+    {
+        $filenames = [];
+        foreach (['a', 'b'] as $suffix) {
+            $srcFile = self::getPath('media_list_query_' . $suffix . '.txt');
+            File::put($srcFile, 'test');
+            $filenames[] = MediaHandler::add([
+                'category_id' => null,
+                'title' => 'test',
+                'file' => new SymfonyFile($srcFile),
+            ], subindexing: false)->fileName;
+        }
+
+        $extensions = Type::array(new ReflectionProperty(Extension::class, 'extensions')->getValue());
+
+        try {
+            $counted = [];
+            Extension::register(MediaListQuery::class, static function (MediaListQuery $ep) use ($filenames, &$counted): string {
+                $counted[] = $ep->count;
+                $ep->params['only'] = $filenames[0];
+
+                // the data query already ends with ORDER BY and LIMIT, so the condition is added to the WHERE clause
+                return str_replace(' WHERE ', ' WHERE m.filename = :only AND ', $ep->subject);
+            });
+
+            $pager = new Pager(10);
+            $items = MediaHandler::getList(['term' => 'media_list_query'], pager: $pager);
+
+            self::assertSame([true, false], $counted);
+            self::assertSame(1, $pager->getRowCount());
+            self::assertSame([$filenames[0]], array_map(static fn (Media $media) => $media->fileName, $items));
+        } finally {
+            new ReflectionProperty(Extension::class, 'extensions')->setValue(null, $extensions);
+            foreach ($filenames as $filename) {
+                MediaHandler::delete($filename);
+            }
         }
     }
 

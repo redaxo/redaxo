@@ -3,9 +3,9 @@
 namespace Redaxo\Core\Content;
 
 use Override;
+use Redaxo\Core\Content\ExtensionPoint\ArticlePermissionCheck;
 use Redaxo\Core\Core;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Util\Type;
 
@@ -211,6 +211,6 @@ final class Article extends StructureElement
     #[Override]
     public function isPermitted(): bool
     {
-        return (bool) Extension::dispatch(new ExtensionPoint('ART_IS_PERMITTED', true, ['element' => $this]));
+        return Extension::dispatch(new ArticlePermissionCheck($this));
     }
 }

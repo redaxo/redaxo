@@ -3,9 +3,9 @@
 namespace Redaxo\Core\Content;
 
 use Override;
+use Redaxo\Core\Content\ExtensionPoint\ArticleContentOutput;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 
 use function assert;
@@ -50,9 +50,6 @@ final class ArticleContent extends ArticleContentBase
             $CONTENT = parent::renderContent($contentSectionId);
         }
 
-        return Extension::dispatch(new ExtensionPoint('ART_CONTENT', $CONTENT, [
-            'ctype' => $contentSectionId,
-            'article' => $this,
-        ]));
+        return Extension::dispatch(new ArticleContentOutput($this, $contentSectionId, $CONTENT));
     }
 }

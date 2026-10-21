@@ -8,7 +8,6 @@ use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
@@ -16,6 +15,7 @@ use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdding;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListQuery;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\MetaInfo\MetaEntity;
 use Redaxo\Core\MetaInfo\MetaValues;
@@ -28,7 +28,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use ValueError;
 
 use function array_key_exists;
-use function assert;
 use function count;
 use function in_array;
 use function is_array;
@@ -359,15 +358,10 @@ final class MediaHandler
 
         if ($pager) {
             $countQuery = str_replace('SELECT m.filename', 'SELECT count(*)', $query);
-            $countQueryParams = $queryParams;
+            $ep = new MediaListQuery($countQuery, $queryParams, count: true);
+            $countQuery = Extension::dispatch($ep);
 
-            // EP is called twice, once for count query and once for data query
-            $countQuery = Extension::dispatch(new ExtensionPoint('MEDIA_LIST_QUERY', $countQuery, [
-                'queryParams' => &$countQueryParams,
-            ]));
-            assert(is_array($countQueryParams)); // @phpstan-ignore function.alreadyNarrowedType
-
-            $sql->setQuery($countQuery, $countQueryParams);
+            $sql->setQuery($countQuery, $ep->params);
             $pager->setRowCount($sql->getIntValue('count(*)'));
         }
 
@@ -377,11 +371,9 @@ final class MediaHandler
             $query .= ' LIMIT ' . $pager->getCursor() . ',' . $pager->getRowsPerPage();
         }
 
-        // EP to modify the media list query
-        $query = Extension::dispatch(new ExtensionPoint('MEDIA_LIST_QUERY', $query, [
-            'queryParams' => &$queryParams,
-        ]));
-        assert(is_array($queryParams)); // @phpstan-ignore function.alreadyNarrowedType
+        $ep = new MediaListQuery($query, $queryParams);
+        $query = Extension::dispatch($ep);
+        $queryParams = $ep->params;
 
         $items = [];
 
