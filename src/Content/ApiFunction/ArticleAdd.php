@@ -40,7 +40,7 @@ final class ArticleAdd extends ApiFunction
         $data['priority'] = Request::post('article-position', 'int');
         $data['template'] = Request::post('template', 'string');
         $data['category_id'] = $categoryId ?: null;
-        ArticleHandler::addArticle($data);
+        ArticleHandler::add($data);
 
         return new Result(true, I18n::msg('article_added'));
     }

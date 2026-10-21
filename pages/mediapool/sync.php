@@ -97,7 +97,7 @@ if (Request::post('save', 'boolean') && Request::post('sync_files', 'boolean')) 
                 ];
 
                 try {
-                    MediaHandler::addMedia($data, false);
+                    MediaHandler::add($data, false);
 
                     unset($diffFiles[$key]);
                     if ($first) {

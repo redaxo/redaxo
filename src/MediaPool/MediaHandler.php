@@ -14,6 +14,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdding;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\Translation\I18n;
@@ -55,7 +56,7 @@ final class MediaHandler
      * @param list<string> $types Restrict the allowed file extensions to these types
      * @throws UserMessageException
      */
-    public static function addMedia(array $data, bool $doSubindexing = true, array $types = []): Media
+    public static function add(array $data, bool $doSubindexing = true, array $types = []): Media
     {
         $error = $data['file']['error'] ?? null;
 
@@ -98,24 +99,16 @@ final class MediaHandler
 
         $data['file']['type'] = File::mimeType($srcFile, $data['file']['name']);
 
-        // Bevor die Datei engueltig in den Medienpool uebernommen wird, koennen
-        // Addons ueber einen Extension-Point ein Veto einlegen.
-        // Sobald ein Addon eine negative Entscheidung getroffen hat, sollten
-        // Addons, fuer die der Extension-Point spaeter ausgefuehrt wird, diese
-        // Entscheidung respektieren
-        /** @var string|null $errorMessage */
-        $errorMessage = null;
-        $errorMessage = Extension::dispatch(new ExtensionPoint('MEDIA_ADD', $errorMessage, [
-            'file' => $data['file'],
-            'title' => $title,
-            'filename' => $data['file']['name_new'],
-            'old_filename' => $data['file']['name'],
-            'is_upload' => !empty($data['file']['tmp_name']), // wir gehen davon aus, dass aus BC Gründen das tmp_name vorhanden sein muss wenn es ein upload ist.
-            'category_id' => $categoryId,
-            'type' => $data['file']['type'],
-        ]));
-        if ($errorMessage) {
-            // ein Addon hat die Fehlermeldung gesetzt, dem Upload also faktisch widersprochen
+        $errorMessage = Extension::dispatch(new MediaAdding(
+            fileName: $data['file']['name_new'],
+            originalFileName: $data['file']['name'],
+            path: $srcFile,
+            type: $data['file']['type'],
+            title: $title,
+            categoryId: $categoryId,
+            isUpload: '' !== ($data['file']['tmp_name'] ?? ''),
+        ));
+        if (null !== $errorMessage && '' !== $errorMessage) {
             throw new UserMessageException($errorMessage);
         }
 
@@ -178,7 +171,7 @@ final class MediaHandler
      * @param int|null $languageId the language the title is saved for, defaults to the current language
      * @throws UserMessageException
      */
-    public static function updateMedia(string $filename, array $data, ?int $languageId = null): Media
+    public static function edit(string $filename, array $data, ?int $languageId = null): Media
     {
         if ('' === $filename) {
             throw new InvalidArgumentException('Expecting Filename.');
@@ -270,7 +263,7 @@ final class MediaHandler
     }
 
     /** @throws UserMessageException */
-    public static function deleteMedia(string $filename): void
+    public static function delete(string $filename): void
     {
         $media = Media::get($filename);
         if (!$media) {

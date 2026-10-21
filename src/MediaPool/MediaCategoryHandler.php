@@ -20,7 +20,7 @@ final class MediaCategoryHandler
      * @param string $name The name of the new category
      * @param MediaCategory|null $parent The category in which the new category should be created, or null for a top/root level category
      */
-    public static function addCategory(string $name, ?MediaCategory $parent): MediaCategory
+    public static function add(string $name, ?MediaCategory $parent): MediaCategory
     {
         $db = Sql::factory();
 
@@ -50,7 +50,7 @@ final class MediaCategoryHandler
     }
 
     /** @throws UserMessageException */
-    public static function deleteCategory(int $categoryId): void
+    public static function delete(int $categoryId): void
     {
         $category = MediaCategory::get($categoryId);
         if (!$category) {
@@ -62,7 +62,7 @@ final class MediaCategoryHandler
         $gd = Sql::factory();
         $gd->setQuery('SELECT * FROM rex_media_category WHERE parent_id=?', [$categoryId]);
         if (0 == $gf->getRows() && 0 == $gd->getRows()) {
-            if ($uses = self::categoryIsInUse($categoryId)) {
+            if ($uses = self::isInUse($categoryId)) {
                 $name = "{$category->name} [$categoryId]";
                 throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
@@ -78,7 +78,7 @@ final class MediaCategoryHandler
     }
 
     /** @return false|string false or warning message */
-    public static function categoryIsInUse(int $categoryId): string|false
+    public static function isInUse(int $categoryId): string|false
     {
         /** @var list<string> $warning */
         $warning = [];
@@ -99,7 +99,7 @@ final class MediaCategoryHandler
      *
      * @throws UserMessageException
      */
-    public static function editCategory(int $categoryId, array $data): MediaCategory
+    public static function edit(int $categoryId, array $data): MediaCategory
     {
         $previous = MediaCategory::get($categoryId);
         if (!$previous) {

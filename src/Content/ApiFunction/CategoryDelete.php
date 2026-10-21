@@ -35,7 +35,7 @@ final class CategoryDelete extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        CategoryHandler::deleteCategory($catId);
+        CategoryHandler::delete($catId);
 
         return new Result(true, I18n::msg('category_deleted'));
     }

@@ -117,7 +117,7 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
                 if ($media) {
                     if ($perm->hasCategoryPerm($media->categoryId)) {
                         try {
-                            MediaHandler::deleteMedia($filename);
+                            MediaHandler::delete($filename);
                             ++$countDeleted;
                         } catch (UserMessageException $e) {
                             $error[] = $e->getMessage();

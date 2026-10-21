@@ -72,7 +72,7 @@ final class ContentHandlerTest extends TestCase
         Sql::factory()->setQuery('UPDATE rex_article_slice SET updatedate = updatedate - INTERVAL 1 MINUTE WHERE article_id = ?', [$this->articleId]);
 
         ContentHandler::moveSlice($first->id, 1, SliceMoveDirection::Down);
-        ContentHandler::sliceStatus($first->id, 0);
+        ContentHandler::changeSliceStatus($first->id, 0);
         ContentHandler::deleteSlice($first->id);
 
         self::assertSame(
