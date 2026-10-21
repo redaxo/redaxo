@@ -567,18 +567,6 @@
       <code><![CDATA[escape($id)]]></code>
     </InvalidOperand>
   </file>
-  <file src="pages/profile/index.php">
-    <InvalidOperand>
-      <code><![CDATA[escape($userdesc)]]></code>
-    </InvalidOperand>
-    <NullOperand>
-      <code><![CDATA[escape($useremail)]]></code>
-      <code><![CDATA[escape($username)]]></code>
-    </NullOperand>
-    <PossiblyNullOperand>
-      <code><![CDATA[escape($userdesc)]]></code>
-    </PossiblyNullOperand>
-  </file>
   <file src="pages/structure/content.edit.php">
     <PossiblyNullPropertyAssignmentValue>
       <code><![CDATA[$info]]></code>
@@ -674,9 +662,6 @@
     <NullOperand>
       <code><![CDATA[$login]]></code>
     </NullOperand>
-    <PossiblyNullReference>
-      <code><![CDATA[getValue]]></code>
-    </PossiblyNullReference>
   </file>
   <file src="src/Addon/Addon.php">
     <PossiblyFalseArgument>

@@ -52,7 +52,6 @@ use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\Exception;
 use Redaxo\Core\ExtensionPoint;
 use Redaxo\Core\Filesystem;
-use Redaxo\Core\Form;
 use Redaxo\Core\Http;
 use Redaxo\Core\Language;
 use Redaxo\Core\Log;
@@ -214,7 +213,6 @@ return RectorConfig::configure()
         'rex_extension_point_slice_menu' => Content\ExtensionPoint\SliceMenu::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
-        'rex_select' => Form\Select\Select::class,
         'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
         'rex_log_entry' => Log\LogEntry::class,
