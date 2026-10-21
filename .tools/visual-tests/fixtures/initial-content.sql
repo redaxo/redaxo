@@ -19,7 +19,7 @@ INSERT IGNORE INTO `rex_category_translation` (`category_id`, `language_id`, `na
 (1,1,'test category'),
 (1,2,'test category');
 
-INSERT IGNORE INTO `rex_article_slice` (`id`, `article_id`, `language_id`, `ctype_id`, `module`, `revision`, `priority`, `status`, `data`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
+INSERT IGNORE INTO `rex_article_slice` (`id`, `article_id`, `language_id`, `content_section_id`, `module`, `revision`, `priority`, `status`, `data`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
 (1,1,1,1,'testmodule1',0,1,1,'{"headline":"Welcome","text":"Some text for the slice.","layout":"narrow","image":"redaxo_2018_berlin_sticker.jpg","caption":true,"teasers":[{"title":"First teaser","link":2},{"title":"Second teaser","link":null}]}','2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername'),
 (2,2,1,1,'testmodule1',0,1,1,NULL,'2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername'),
 (3,1,1,1,'testmodule1',1,1,1,'{"headline":"Welcome","text":"Some text for the slice.","layout":"narrow","image":"redaxo_2018_berlin_sticker.jpg","caption":true,"teasers":[{"title":"First teaser","link":2},{"title":"Second teaser","link":null}]}','2021-01-01 11:37:20','myusername','2021-01-01 11:37:20','myusername');

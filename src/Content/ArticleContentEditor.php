@@ -53,7 +53,7 @@ final class ArticleContentEditor extends ArticleContentBase
             );
         } else {
             $sliceId = $artDataSql->getIntValue('rex_article_slice.id');
-            $sliceCtype = $artDataSql->getIntValue('rex_article_slice.ctype_id');
+            $sliceCtype = $artDataSql->getIntValue('rex_article_slice.content_section_id');
             $sliceStatus = $artDataSql->getIntValue('rex_article_slice.status');
             $sliceRevision = $artDataSql->getIntValue('rex_article_slice.revision');
 
@@ -139,7 +139,7 @@ final class ArticleContentEditor extends ArticleContentBase
         assert($this->contentSectionId > 0);
 
         $sliceId = $artDataSql->getIntValue('rex_article_slice.id');
-        $sliceCtype = $artDataSql->getIntValue('rex_article_slice.ctype_id');
+        $sliceCtype = $artDataSql->getIntValue('rex_article_slice.content_section_id');
         $sliceStatus = $artDataSql->getIntValue('rex_article_slice.status');
 
         $moduleKey = $artDataSql->getStringValue('rex_article_slice.module');

@@ -80,7 +80,7 @@ final readonly class ArticleSlice
             $sql->getIntValue($table . '.id'),
             $sql->getIntValue($table . '.article_id'),
             $sql->getIntValue($table . '.language_id'),
-            $sql->getIntValue($table . '.ctype_id'),
+            $sql->getIntValue($table . '.content_section_id'),
             $sql->getStringValue($table . '.module'),
             $sql->getIntValue($table . '.priority'),
             $sql->getIntValue($table . '.status'),
@@ -148,7 +148,7 @@ final readonly class ArticleSlice
         $languageId ??= Language::getCurrentId();
 
         return self::getSliceWhere(
-            'article_id=? AND language_id=? AND ctype_id=? AND priority=1 AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
+            'article_id=? AND language_id=? AND content_section_id=? AND priority=1 AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$articleId, $languageId, $ctype, $revision],
         );
     }
@@ -187,7 +187,7 @@ final readonly class ArticleSlice
     public function getNextSlice(bool $ignoreOfflines = false): ?self
     {
         return self::getSliceWhere(
-            'priority ' . ($ignoreOfflines ? '>=' : '=') . ' ? AND article_id=? AND language_id = ? AND ctype_id = ? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
+            'priority ' . ($ignoreOfflines ? '>=' : '=') . ' ? AND article_id=? AND language_id = ? AND content_section_id = ? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->priority + 1, $this->articleId, $this->languageId, $this->contentSectionId, $this->revision],
         );
     }
@@ -195,7 +195,7 @@ final readonly class ArticleSlice
     public function getPreviousSlice(bool $ignoreOfflines = false): ?self
     {
         return self::getSliceWhere(
-            'priority ' . ($ignoreOfflines ? '<=' : '=') . ' ? AND article_id=? AND language_id = ? AND ctype_id = ? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
+            'priority ' . ($ignoreOfflines ? '<=' : '=') . ' ? AND article_id=? AND language_id = ? AND content_section_id = ? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$this->priority - 1, $this->articleId, $this->languageId, $this->contentSectionId, $this->revision],
             self::ORDER_DESC,
         );
@@ -241,7 +241,7 @@ final readonly class ArticleSlice
             SELECT *
             FROM rex_article_slice
             WHERE ' . $where . '
-            ORDER BY ctype_id ' . $orderDirection . ', priority ' . $orderDirection;
+            ORDER BY content_section_id ' . $orderDirection . ', priority ' . $orderDirection;
 
         if (null !== $limit) {
             $query .= ' LIMIT ' . $limit;

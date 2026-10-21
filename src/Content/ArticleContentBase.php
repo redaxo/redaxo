@@ -242,7 +242,7 @@ class ArticleContentBase
                 rex_article_slice.revision = {$this->sliceRevision}
                 {$articleLimit}
                 {$sliceLimit}
-            ORDER BY rex_article_slice.ctype_id, rex_article_slice.priority
+            ORDER BY rex_article_slice.content_section_id, rex_article_slice.priority
             SQL;
 
         $query = Extension::dispatch(new ExtensionPoint('ART_SLICES_QUERY', $query, ['article' => $this]));
@@ -261,7 +261,7 @@ class ArticleContentBase
         $artDataSql->reset();
         $rows = $artDataSql->getRows();
         for ($i = 0; $i < $rows; ++$i) {
-            $sliceCtypeId = $artDataSql->getIntValue('rex_article_slice.ctype_id');
+            $sliceCtypeId = $artDataSql->getIntValue('rex_article_slice.content_section_id');
 
             if ('edit' !== $this->mode && !$this->eval) {
                 // the cache gets code rendering the slice at runtime, so `SliceOutput` applies to the cached content
