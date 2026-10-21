@@ -6,6 +6,7 @@ use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Form\ButtonStyle;
 use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\SubmitButton;
@@ -116,17 +117,18 @@ final class FormTest extends TestCase
     public function testButtons(): void
     {
         $form = new Form(new Settings(), csrf: false);
-        self::assertSame('<button class="btn btn-save rex-form-aligned" type="submit" name="settings[_button]" value="save" accesskey="s" title="Save [s]">Save</button>', (string) $form->buttons());
+        self::assertStringContainsString('<button class="btn btn-save rex-form-aligned" type="submit" name="settings[_button]" value="save" accesskey="s" title="Save [s]">Save</button>', (string) $form->buttons());
+        self::assertStringContainsString('<button class="btn btn-save foo" type="submit"', (string) $form->button('save', ['class' => ['foo']]));
 
         $form = new Form(
             new Settings(),
             csrf: false,
-            buttons: [new SubmitButton('reset', 'Reset <all>', class: 'btn-delete'), SubmitButton::save('Store')],
+            buttons: [new SubmitButton('reset', 'Reset <all>', style: ButtonStyle::Danger), SubmitButton::save('Store')],
             cancelUrl: 'index.php?a=1&b=2',
         );
 
         $html = (string) $form->buttons();
-        self::assertMatchesRegularExpression('/^<button class="btn btn-delete rex-form-aligned" type="submit" name="settings\[_button\]" value="reset" title="Reset &lt;all&gt;">Reset &lt;all&gt;<\/button><button class="btn btn-save" [^>]*value="save"[^>]*>Store<\/button><a class="btn btn-abort" href="index.php\?a=1&amp;b=2">/', $html);
+        self::assertMatchesRegularExpression('/<button class="btn btn-delete rex-form-aligned" type="submit" name="settings\[_button\]" value="reset" title="Reset &lt;all&gt;">Reset &lt;all&gt;<\/button>\s*<button class="btn btn-save" [^>]*value="save"[^>]*>Store<\/button>\s*<a class="btn btn-abort" href="index.php\?a=1&amp;b=2">/', $html);
 
         self::assertTrue($form->submit(['title' => 'Saved', 'size' => '1']));
         self::assertFalse($form->isSubmittedBy('save'), 'no button when submitted without one, e.g. by script');
