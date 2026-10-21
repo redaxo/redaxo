@@ -7,7 +7,6 @@ use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\ExtensionPoint\AsExtension;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionLevel;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
@@ -16,6 +15,7 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Http\Session;
 use Redaxo\Core\MediaManager\Exception\MediaNotFoundException;
+use Redaxo\Core\MediaManager\ExtensionPoint\MediaManagerUrl;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\MediaPool\Media;
@@ -111,11 +111,7 @@ final class MediaManager
 
         $url = Url::frontendController($params);
 
-        return Extension::dispatch(new ExtensionPoint('MEDIA_MANAGER_URL', $url, [
-            'type' => $type,
-            'file' => $file,
-            'buster' => $params['buster'] ?? null,
-        ]));
+        return Extension::dispatch(new MediaManagerUrl($url, $type, $file, $params['buster'] ?? null));
     }
 
     /**

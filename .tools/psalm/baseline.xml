@@ -31,9 +31,6 @@
     </PossiblyUndefinedArrayOffset>
   </file>
   <file src="boot/frontend.php">
-    <MixedAssignment>
-      <code><![CDATA[$article]]></code>
-    </MixedAssignment>
     <PossiblyFalseOperand>
       <code><![CDATA[$content]]></code>
       <code><![CDATA[$content]]></code>
@@ -1006,12 +1003,6 @@
       <code><![CDATA[$replace['{' . $key . '}']]]></code>
       <code><![CDATA[$val]]></code>
     </MixedAssignment>
-  </file>
-  <file src="src/MediaPool/MediaHandler.php">
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[$countQueryParams]]></code>
-      <code><![CDATA[$queryParams]]></code>
-    </MixedArgumentTypeCoercion>
   </file>
   <file src="src/Security/ApiFunction/UserHasSession.php">
     <MixedArgument>

@@ -13,7 +13,6 @@ use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MetaInfo\MetaEntity;
 use Redaxo\Core\MetaInfo\MetaValues;
@@ -22,7 +21,6 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
 
 use function array_key_exists;
-use function count;
 use function in_array;
 
 /**
@@ -256,7 +254,7 @@ final class CategoryHandler
         // Status wurde nicht von außen vorgegeben,
         // => zyklisch auf den nächsten Weiterschalten
         if (null === $status) {
-            $newstatus = self::nextStatus($KAT->getIntValue('status'));
+            $newstatus = ArticleHandler::nextStatus($KAT->getIntValue('status'));
         } else {
             $newstatus = $status;
         }
@@ -281,46 +279,6 @@ final class CategoryHandler
         Extension::dispatch(new CategoryStatusChanged($category, $previous));
 
         return $category;
-    }
-
-    /**
-     * Gibt alle Stati zurück, die für eine Kategorie gültig sind.
-     *
-     * @return list<array{string, string, string}> Array von Stati
-     */
-    public static function statusTypes(): array
-    {
-        /** @var list<array{string, string, string}> $catStatusTypes */
-        static $catStatusTypes;
-
-        if (!$catStatusTypes) {
-            $catStatusTypes = [
-                // Name, CSS-Class, Icon
-                [I18n::msg('status_offline'), 'rex-offline', 'rex-icon-offline'],
-                [I18n::msg('status_online'), 'rex-online', 'rex-icon-online'],
-            ];
-
-            // ----- EXTENSION POINT
-            $catStatusTypes = Extension::dispatch(new ExtensionPoint('CAT_STATUS_TYPES', $catStatusTypes));
-        }
-
-        return $catStatusTypes;
-    }
-
-    public static function nextStatus(int $currentStatus): int
-    {
-        $catStatusTypes = self::statusTypes();
-        return ($currentStatus + 1) % count($catStatusTypes);
-    }
-
-    public static function prevStatus(int $currentStatus): int
-    {
-        $catStatusTypes = self::statusTypes();
-        if (($currentStatus - 1) < 0) {
-            return count($catStatusTypes) - 1;
-        }
-
-        return ($currentStatus - 1) % count($catStatusTypes);
     }
 
     /**

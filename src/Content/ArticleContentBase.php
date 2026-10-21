@@ -3,12 +3,12 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
+use Redaxo\Core\Content\ExtensionPoint\ArticleSlicesQuery;
 use Redaxo\Core\Content\ExtensionPoint\SliceOutput;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
@@ -245,7 +245,7 @@ class ArticleContentBase
             ORDER BY rex_article_slice.content_section_id, rex_article_slice.priority
             SQL;
 
-        $query = Extension::dispatch(new ExtensionPoint('ART_SLICES_QUERY', $query, ['article' => $this]));
+        $query = Extension::dispatch(new ArticleSlicesQuery($this, $query));
 
         $artDataSql = Sql::factory();
         $artDataSql->setDebug($this->debug);
