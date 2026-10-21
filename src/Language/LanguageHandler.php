@@ -84,7 +84,8 @@ final class LanguageHandler
             throw new UserMessageException(I18n::msg('language_not_found', $id));
         }
 
-        $oldPriority = Language::require($id)->priority;
+        $previous = Language::require($id);
+        $oldPriority = $previous->priority;
 
         $editLang = Sql::factory();
         $editLang->setTable('rex_language');
@@ -106,7 +107,7 @@ final class LanguageHandler
         $language = Language::require($id);
 
         // ----- EXTENSION POINT
-        Extension::dispatch(new LanguageUpdated($language));
+        Extension::dispatch(new LanguageUpdated($language, $previous));
 
         return $language;
     }
