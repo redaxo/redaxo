@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MediaPool\MediaPool;
+use Redaxo\Core\MediaPool\MediaPoolCache;
 
 /** @internal */
 final class MediaPoolTest extends TestCase
@@ -74,9 +75,10 @@ final class MediaPoolTest extends TestCase
 
     /** @param array<string, mixed> $values */
     #[DataProvider('provideMediaIsInUse')]
-    public function testMediaIsInUse(bool $expected, array $values): void
+    public function testMediaIsInUse(bool $expected, string $moduleKey, array $values): void
     {
         $articleId = 2_147_483_647;
+        $fileNames = ['rex-test-in-use.jpg', 'rex-test-other.jpg'];
 
         // the slice needs an article to hang off, see the foreign key of `rex_article_slice`
         Sql::factory()
@@ -92,26 +94,35 @@ final class MediaPoolTest extends TestCase
                 ->setValues(['article_id' => $articleId, 'language_id' => 1, 'name' => 'test', 'status' => 1])
                 ->insert();
 
-            ContentHandler::addSlice($articleId, 1, 1, 'test', $values);
+            foreach ($fileNames as $fileName) {
+                Sql::factory()
+                    ->setTable('rex_media')
+                    ->setValues(['filename' => $fileName, 'originalname' => $fileName, 'filesize' => 0])
+                    ->addGlobalCreateFields()
+                    ->addGlobalUpdateFields()
+                    ->insert();
+            }
 
-            self::assertSame($expected, false !== MediaPool::mediaIsInUse('rex-test(1).jpg'));
+            ContentHandler::addSlice($articleId, 1, 1, $moduleKey, $values);
+
+            self::assertSame($expected, false !== MediaPool::mediaIsInUse($fileNames[0]));
         } finally {
-            // the translation and the slice are removed by the foreign keys
-            Sql::factory()
-                ->setTable('rex_article')
-                ->setWhere(['id' => $articleId])
-                ->delete();
+            // the translation, the slice and its references are removed by the foreign keys
+            Sql::factory()->setQuery('DELETE FROM rex_article WHERE id = ?', [$articleId]);
+            Sql::factory()->setQuery('DELETE FROM rex_media WHERE filename IN (?, ?)', $fileNames);
+            foreach ($fileNames as $fileName) {
+                MediaPoolCache::delete($fileName);
+            }
         }
     }
 
-    /** @return iterable<string, array{bool, array<string, mixed>}> */
+    /** @return iterable<string, array{bool, string, array<string, mixed>}> */
     public static function provideMediaIsInUse(): iterable
     {
-        yield 'media field' => [true, ['image' => 'rex-test(1).jpg']];
-        yield 'media list field' => [true, ['images' => ['other.jpg', 'rex-test(1).jpg']]];
-        yield 'embedded in a text' => [true, ['text' => '<img src="/media/rex-test(1).jpg">']];
-        yield 'other media' => [false, ['image' => 'other.jpg']];
-        yield 'longer name' => [false, ['image' => 'my-rex-test(1).jpg']];
-        yield 'no values' => [false, []];
+        yield 'media field' => [true, 'test_fields', ['image' => 'rex-test-in-use.jpg']];
+        yield 'media list field' => [true, 'test_fields', ['gallery' => ['rex-test-other.jpg', 'rex-test-in-use.jpg']]];
+        yield 'other media' => [false, 'test_fields', ['image' => 'rex-test-other.jpg']];
+        yield 'file name in a text field' => [false, 'test_fields', ['headline' => 'rex-test-in-use.jpg']];
+        yield 'unknown module' => [false, 'unknown', ['image' => 'rex-test-in-use.jpg']];
     }
 }
