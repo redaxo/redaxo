@@ -284,8 +284,9 @@ final class MediaHandler
             throw new UserMessageException(I18n::msg('pool_file_not_found', $filename));
         }
 
-        if ($uses = MediaPool::mediaIsInUse($filename)) {
-            throw new UserMessageException(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $uses);
+        $usages = MediaPool::findUsages($media);
+        if (!$usages->isEmpty()) {
+            throw new UserMessageException(I18n::msg('pool_file_delete_error', $filename) . ' ' . I18n::msg('pool_object_in_use_by') . $usages->render());
         }
 
         $sql = Sql::factory();

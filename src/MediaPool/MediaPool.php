@@ -5,18 +5,18 @@ namespace Redaxo\Core\MediaPool;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleSliceReference;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Reference;
-use Redaxo\Core\MetaInfo\MediaUsage;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaUsageCheck;
+use Redaxo\Core\MetaInfo\MetaUsage;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
+use Redaxo\Core\Util\UsageList;
 
 use function count;
 use function in_array;
-use function Redaxo\Core\View\escape;
 use function strlen;
 
 final class MediaPool
@@ -144,32 +144,19 @@ final class MediaPool
         return $newMediaName;
     }
 
-    /** @return false|string false or warning message */
-    public static function mediaIsInUse(string $filename): string|false
+    /** Returns the places using the medium. */
+    public static function findUsages(Media $media): UsageList
     {
-        $warning = [];
-        if ($articles = ArticleSliceReference::findArticles(Reference::media($filename))) {
-            $warning[0] = I18n::msg('pool_file_in_use_articles') . '<ul>';
-            foreach ($articles as ['articleId' => $articleId, 'languageId' => $languageId]) {
-                $article = Article::get($articleId, $languageId);
-                $name = $article ? escape($article->name) : '';
-                $warning[0] .= '<li><a href="javascript:openPage(\'' . Url::backendPage('content', ['article_id' => $articleId, 'mode' => 'edit', 'language' => $languageId]) . '\')">' . $name . '</a></li>';
-            }
-            $warning[0] .= '</ul>';
+        $usages = new UsageList();
+        foreach (ArticleSliceReference::findArticles(Reference::media($media->fileName)) as ['articleId' => $articleId, 'languageId' => $languageId]) {
+            $usages->add(I18n::rawMsg('usage_articles_content'), Article::get($articleId, $languageId)->name ?? (string) $articleId, Url::backendPage('content', ['article_id' => $articleId, 'mode' => 'edit', 'language' => $languageId]));
         }
 
-        $warning = [...$warning, ...MediaUsage::getWarnings($filename)];
+        MetaUsage::addMediaUsages($usages, $media->fileName);
 
-        // ----- EXTENSION POINT
-        $warning = Extension::dispatch(new ExtensionPoint('MEDIA_IS_IN_USE', $warning, [
-            'filename' => $filename,
-        ]));
+        Extension::dispatch(new MediaUsageCheck($media, $usages));
 
-        if (!empty($warning)) {
-            return '<br /><br />' . implode('', $warning);
-        }
-
-        return false;
+        return $usages;
     }
 
     /**

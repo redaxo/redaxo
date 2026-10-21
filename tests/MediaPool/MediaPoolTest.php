@@ -6,6 +6,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaPool;
 use Redaxo\Core\MediaPool\MediaPoolCache;
 
@@ -74,8 +75,8 @@ final class MediaPoolTest extends TestCase
     }
 
     /** @param array<string, mixed> $values */
-    #[DataProvider('provideMediaIsInUse')]
-    public function testMediaIsInUse(bool $expected, string $moduleKey, array $values): void
+    #[DataProvider('provideFindUsages')]
+    public function testFindUsages(bool $expected, string $moduleKey, array $values): void
     {
         $articleId = 2_147_483_647;
         $fileNames = ['rex-test-in-use.jpg', 'rex-test-other.jpg'];
@@ -105,7 +106,9 @@ final class MediaPoolTest extends TestCase
 
             ContentHandler::addSlice($articleId, 1, 1, $moduleKey, $values);
 
-            self::assertSame($expected, false !== MediaPool::mediaIsInUse($fileNames[0]));
+            $media = Media::get($fileNames[0]);
+            self::assertNotNull($media);
+            self::assertSame($expected, !MediaPool::findUsages($media)->isEmpty());
         } finally {
             // the translation, the slice and its references are removed by the foreign keys
             Sql::factory()->setQuery('DELETE FROM rex_article WHERE id = ?', [$articleId]);
@@ -117,7 +120,7 @@ final class MediaPoolTest extends TestCase
     }
 
     /** @return iterable<string, array{bool, string, array<string, mixed>}> */
-    public static function provideMediaIsInUse(): iterable
+    public static function provideFindUsages(): iterable
     {
         yield 'media field' => [true, 'test_fields', ['image' => 'rex-test-in-use.jpg']];
         yield 'media list field' => [true, 'test_fields', ['gallery' => ['rex-test-other.jpg', 'rex-test-in-use.jpg']]];

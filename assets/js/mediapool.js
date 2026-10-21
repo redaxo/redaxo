@@ -300,3 +300,12 @@ function openPage(src)
     window.opener.location.href = src;
     self.close();
 }
+
+// In the media pool popup, usage links leading out of the media pool open in the main window
+document.addEventListener('click', function (event) {
+    var link = event.target.closest('.rex-usage-list a');
+    if (link && window.opener && !(new URL(link.href).searchParams.get('page') || '').startsWith('mediapool')) {
+        event.preventDefault();
+        openPage(link.href);
+    }
+});
