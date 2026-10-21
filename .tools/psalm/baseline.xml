@@ -4,14 +4,6 @@
     <InvalidOperand>
       <code><![CDATA[strtotime($version['history_date'])]]></code>
     </InvalidOperand>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[
-            'page' => $params['page'],
-            'article_id' => $articleId,
-            'language' => $languageId,
-            'ctype' => $params['ctype'],
-        ]]]></code>
-    </MixedArgumentTypeCoercion>
     <PossiblyFalseArgument>
       <code><![CDATA[$CONTENT]]></code>
     </PossiblyFalseArgument>
@@ -571,12 +563,6 @@
     </PossiblyNullReference>
   </file>
   <file src="pages/structure/content.php">
-    <MixedArgument>
-      <code><![CDATA[$sliceRevision]]></code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion>
-      <code><![CDATA[[$articleId, $languageId, $ctype, $sliceRevision]]]></code>
-    </MixedArgumentTypeCoercion>
     <MixedOperand>
       <code><![CDATA[Controller::includeCurrentPageSubPath(compact('info', 'warning', 'invalidSliceForm', 'article', 'articleId', 'categoryId', 'languageId', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))]]></code>
     </MixedOperand>

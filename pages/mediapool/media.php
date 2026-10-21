@@ -2,8 +2,6 @@
 
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
-use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
@@ -43,12 +41,6 @@ $selMedia = new SelectInput(
     'rex_file_category',
     attributes: new HtmlAttributes(['onchange' => 'this.form.submit();', 'data-live-search' => 'true']),
 );
-
-// ----- EXTENSION POINT
-echo Extension::dispatch(new ExtensionPoint('PAGE_MEDIAPOOL_HEADER', '', [
-    'subpage' => $subpage,
-    'category_id' => $rexFileCategory,
-]));
 
 $formElements = [];
 $n = [];
@@ -94,12 +86,6 @@ $languageSwitch = View::languageSwitchAsButtons(new Context([
 if ('' !== $languageSwitch) {
     echo '<div class="clearfix">' . $languageSwitch . '</div>';
 }
-
-// ----- EXTENSION POINT
-$toolbar = Extension::dispatch(new ExtensionPoint('MEDIA_LIST_TOOLBAR', $toolbar, [
-    'subpage' => $subpage,
-    'category_id' => $rexFileCategory,
-]));
 
 // *************************************** Subpage: Media
 

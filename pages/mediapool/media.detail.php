@@ -2,9 +2,9 @@
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -12,6 +12,8 @@ use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaManager\MediaManager;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaDetailSidebar;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaFormEdit;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
@@ -32,6 +34,7 @@ use function Redaxo\Core\View\escape;
 assert(isset($rexFileCategory) && is_int($rexFileCategory));
 assert(isset($openerInputField) && is_string($openerInputField));
 assert(isset($argFields) && is_string($argFields));
+/** @psalm-suppress RedundantCondition */
 assert(isset($toolbar) && is_string($toolbar));
 /** @psalm-suppress RedundantCondition */
 assert(isset($csrf) && $csrf instanceof CsrfToken);
@@ -140,6 +143,7 @@ if ($perm->hasCategoryPerm($gf->getNullableIntValue('category_id'))) {
 // a failed update shows the submitted title again, like the submitted meta values
 $ftitle = $meta?->hasErrors() ? Request::request('ftitle', 'string') : $gf->getStringValue('title');
 $fname = $gf->getStringValue('filename');
+$media = Media::get($fname) ?? throw new LogicException(sprintf('Media "%s" does not exist.', $fname));
 $ffiletype = $gf->getNullableStringValue('filetype');
 $ffileSize = $gf->getIntValue('filesize');
 $ffileSize = Formatter::bytes($ffileSize);
@@ -208,12 +212,7 @@ if ('' != $openerInputField) {
     $openerLink = ' | ' . $openerLink;
 }
 
-// ----- EXTENSION POINT
-$sidebar = Extension::dispatch(new ExtensionPoint('MEDIA_DETAIL_SIDEBAR', $sidebar, [
-    'id' => $fileId,
-    'filename' => $fname,
-    'media' => $gf,
-]));
+$sidebar = Extension::dispatch(new MediaDetailSidebar($media, $sidebar));
 
 if ($TPERM) {
     $panel = '';
@@ -242,9 +241,9 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
-    $meta ??= new MetaForm(new MetaContext(MetaEntity::Media, Media::get($fname), mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
+    $meta ??= new MetaForm(new MetaContext(MetaEntity::Media, $media, mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
     $panel .= $meta->render();
-    $panel .= Extension::dispatch(new ExtensionPoint('MEDIA_FORM_EDIT', '', ['id' => $fileId, 'media' => $gf]));
+    $panel .= Extension::dispatch(new MediaFormEdit($media));
 
     $panel .= $addExtInfo;
 
