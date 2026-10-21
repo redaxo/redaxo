@@ -55,7 +55,7 @@ final class MediaCategory
                 $cache['id'],
                 $cache['name'],
                 $cache['parent_id'],
-                array_map('intval', explode('|', trim($cache['path'], '|'))),
+                array_values(array_map('intval', array_filter(explode('|', $cache['path'])))),
                 $cache['createdate'],
                 $cache['updatedate'],
                 $cache['createuser'],

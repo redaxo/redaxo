@@ -41,14 +41,15 @@ final class CategoryAdd extends ApiFunction
 
         // prepare and validate parameters
         $data = [];
-        $data['catpriority'] = Request::post('category-position', 'int');
-        $data['catname'] = Request::post('category-name', 'string');
+        $data['parent_id'] = $parentId ?: null;
+        $data['priority'] = Request::post('category-position', 'int');
+        $data['name'] = Request::post('category-name', 'string');
         $meta = new MetaForm(new MetaContext(MetaEntity::Category, category: Category::get($parentId)));
         if (!$meta->submit()) {
             throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
         }
 
-        CategoryHandler::add($parentId ?: null, $data, $meta->values());
+        CategoryHandler::add($data, $meta->values());
 
         return new Result(true, I18n::msg('category_added_and_startarticle_created'));
     }

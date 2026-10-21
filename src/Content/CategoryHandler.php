@@ -11,7 +11,6 @@ use Redaxo\Core\Content\ExtensionPoint\CategoryUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
@@ -20,7 +19,9 @@ use Redaxo\Core\MetaInfo\MetaEntity;
 use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
+use function array_key_exists;
 use function count;
 use function in_array;
 
@@ -34,20 +35,21 @@ final class CategoryHandler
     /**
      * Creates a new category together with its start article.
      *
-     * @param int|null $categoryId Id of the parent category, `null` for the root level
-     * @param array{catpriority: int, catname: string, name?: string, status?: int} $data Category data, the names
-     *     are used for all languages
+     * @param array{parent_id: int|null, name: string, priority?: int, status?: int} $data Category data,
+     *     `parent_id` is `null` for the root level, `name` is used for all languages and for the start article, the
+     *     category is appended if `priority` is missing
      * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
      *     used for all languages
      *
      * @throws UserMessageException
      */
-    public static function add(?int $categoryId, array $data, array $meta = []): Category
+    public static function add(array $data, array $meta = []): Category
     {
         $metaValues = new MetaValues(MetaEntity::Category, $meta);
 
-        self::reqKey($data, 'catpriority');
-        self::reqKey($data, 'catname');
+        Type::requireKeys($data, 'parent_id', 'name');
+
+        $categoryId = $data['parent_id'];
 
         if (null !== $categoryId) {
             $parent = Category::get($categoryId);
@@ -59,17 +61,7 @@ final class CategoryHandler
             $path = '|';
         }
 
-        if ($data['catpriority'] <= 0) {
-            $data['catpriority'] = 1;
-        }
-
-        if (!isset($data['name'])) {
-            $data['name'] = $data['catname'];
-        }
-
-        if (!isset($data['status'])) {
-            $data['status'] = 0;
-        }
+        $priority = max(1, $data['priority'] ?? self::nextPriority($categoryId));
 
         $startpageTemplates = [];
         if (null !== $categoryId) {
@@ -101,7 +93,7 @@ final class CategoryHandler
 
         $shared = Sql::factory()
             ->setTable('rex_category')
-            ->setValues(['id' => $id, 'priority' => $data['catpriority']])
+            ->setValues(['id' => $id, 'priority' => $priority])
             ->addGlobalCreateFields($user)
             ->addGlobalUpdateFields($user);
         $shared->setValues($metaValues->forTable('rex_category'));
@@ -122,7 +114,7 @@ final class CategoryHandler
                     'article_id' => $id,
                     'language_id' => $languageId,
                     'name' => $data['name'],
-                    'status' => $data['status'],
+                    'status' => $data['status'] ?? 0,
                     'template' => $templateKey,
                 ])
                 ->insert();
@@ -132,14 +124,14 @@ final class CategoryHandler
                 ->setValues([
                     'category_id' => $id,
                     'language_id' => $languageId,
-                    'name' => $data['catname'],
+                    'name' => $data['name'],
                 ]);
             $translation->setValues($metaValues->forTable('rex_category_translation'));
             $translation->insert();
         }
 
         // ----- PRIOR
-        self::updatePriorities($categoryId, 0, $data['catpriority']);
+        self::updatePriorities($categoryId, 0, $priority);
 
         ArticleCache::delete($id);
 
@@ -154,7 +146,7 @@ final class CategoryHandler
     /**
      * Edits a category: the name in the given language, the priority for all languages.
      *
-     * @param array{catname?: string, catpriority?: int} $data Category data
+     * @param array{name?: string, priority?: int} $data Category data, missing keys keep their value
      * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
      *     the translated ones are saved for the given language
      *
@@ -176,34 +168,27 @@ final class CategoryHandler
         $translation = Sql::factory()
             ->setTable('rex_category_translation')
             ->setWhere(['category_id' => $categoryId, 'language_id' => $languageId]);
-        if (isset($data['catname'])) {
-            $translation->setValue('name', $data['catname']);
+        if (array_key_exists('name', $data)) {
+            $translation->setValue('name', $data['name']);
         }
         $translation->setValues($metaValues->forTable('rex_category_translation'));
         if ($translation->hasValues()) {
             $translation->update();
         }
 
+        $oldPrio = $thisCat->getIntValue('catpriority');
+        $priority = isset($data['priority']) ? max(1, $data['priority']) : $oldPrio;
+
         $category = Sql::factory();
         $category->setTable('rex_category');
         $category->setWhere(['id' => $categoryId]);
-        if (isset($data['catpriority'])) {
-            if ($data['catpriority'] <= 0) {
-                $data['catpriority'] = 1;
-            }
-            $category->setValue('priority', $data['catpriority']);
-        }
+        $category->setValue('priority', $priority);
         $category->setValues($metaValues->forTable('rex_category'));
         $category->addGlobalUpdateFields(self::getUser());
         $category->update();
 
-        // ----- PRIOR
-        if (isset($data['catpriority'])) {
-            $oldPrio = $thisCat->getIntValue('catpriority');
-
-            if ($oldPrio != $data['catpriority']) {
-                self::updatePriorities($thisCat->getNullableIntValue('parent_id'), $data['catpriority'], $oldPrio);
-            }
+        if ($oldPrio != $priority) {
+            self::updatePriorities($thisCat->getNullableIntValue('parent_id'), $priority, $oldPrio);
         }
 
         ArticleCache::delete($categoryId);
@@ -357,7 +342,7 @@ final class CategoryHandler
             DatabaseUtil::organizePriorities(
                 'rex_category',
                 'priority',
-                'id IN (SELECT id FROM rex_article WHERE parent_id ' . (null === $parentId ? 'IS NULL' : '= ' . $parentId) . ')',
+                self::siblingsWhere($parentId),
                 'priority, updatedate ' . $addsql,
             );
 
@@ -531,16 +516,16 @@ final class CategoryHandler
         return $sql;
     }
 
-    /**
-     * Checks whether the required array key $keyName isset.
-     *
-     * @param array<string, mixed> $array
-     */
-    private static function reqKey(array $array, string $keyName): void
+    private static function siblingsWhere(?int $parentId): string
     {
-        if (!isset($array[$keyName])) {
-            throw new InvalidArgumentException('Missing required parameter "' . $keyName . '"!');
-        }
+        return 'id IN (SELECT id FROM rex_article WHERE parent_id ' . (null === $parentId ? 'IS NULL' : '= ' . $parentId) . ')';
+    }
+
+    private static function nextPriority(?int $parentId): int
+    {
+        $sql = Sql::factory()->setQuery('SELECT MAX(priority) AS priority FROM rex_category WHERE ' . self::siblingsWhere($parentId));
+
+        return ($sql->getNullableIntValue('priority') ?? 0) + 1;
     }
 
     private static function getUser(): string

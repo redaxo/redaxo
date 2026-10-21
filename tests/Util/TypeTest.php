@@ -98,6 +98,21 @@ final class TypeTest extends TestCase
         /** @psalm-suppress MixedArgument */
         Type::cast(1, $type);
     }
+
+    public function testRequireKeys(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        Type::requireKeys(['foo' => 1, 'bar' => null], 'foo', 'bar');
+    }
+
+    public function testRequireKeysThrowsForMissingKey(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing required key "baz".');
+
+        Type::requireKeys(['foo' => 1, 'bar' => null], 'foo', 'baz');
+    }
 }
 
 enum TypeTestEnumString: string

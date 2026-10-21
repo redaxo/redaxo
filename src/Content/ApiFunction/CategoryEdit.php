@@ -46,8 +46,8 @@ final class CategoryEdit extends ApiFunction
 
         // prepare and validate parameters
         $data = [];
-        $data['catpriority'] = Request::post('category-position', 'int');
-        $data['catname'] = Request::post('category-name', 'string');
+        $data['priority'] = Request::post('category-position', 'int');
+        $data['name'] = Request::post('category-name', 'string');
         $meta = new MetaForm(new MetaContext(MetaEntity::Category, $category, $category));
         if (!$meta->submit()) {
             throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));

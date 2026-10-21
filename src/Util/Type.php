@@ -198,6 +198,22 @@ final class Type
     }
 
     /**
+     * Checks that the keys exist in the array, `null` values count as existing.
+     *
+     * @internal
+     *
+     * @param array<mixed> $array
+     */
+    public static function requireKeys(array $array, string ...$keys): void
+    {
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $array)) {
+                throw new InvalidArgumentException('Missing required key "' . $key . '".');
+            }
+        }
+    }
+
+    /**
      * @psalm-assert bool $value
      * @psalm-pure
      */
