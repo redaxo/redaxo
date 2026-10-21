@@ -4,6 +4,7 @@ namespace Redaxo\Core\Mailer\Command;
 
 use Redaxo\Core\Console\AbstractCommand;
 use Redaxo\Core\Core;
+use Redaxo\Core\Mailer\Mailer;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,8 +24,12 @@ final class MailerTestCommand extends AbstractCommand
         SymfonyStyle $io,
         #[Argument('Recipient of the test mail')] string $recipient,
     ): int {
-        $mailer = Core::getMailer();
+        return self::sendTestMail(Core::getMailer(), $recipient, $io) ? Command::SUCCESS : Command::FAILURE;
+    }
 
+    /** Sends a test mail via the given mailer and reports the result. */
+    public static function sendTestMail(Mailer $mailer, string $recipient, SymfonyStyle $io): bool
+    {
         $email = new Email()
             ->to($recipient)
             ->subject('Test mail | ' . Core::getProject()->instanceName . ' | ' . date('Y-m-d H:i:s'))
@@ -38,7 +43,7 @@ final class MailerTestCommand extends AbstractCommand
                 $io->block($exception->getDebug());
             }
 
-            return Command::FAILURE;
+            return false;
         }
 
         $io->success(sprintf('The test mail was sent to "%s" via "%s".', $recipient, $mailer->transport));
@@ -46,6 +51,6 @@ final class MailerTestCommand extends AbstractCommand
             $io->note(sprintf('The mail was delivered to the detour recipients: %s', implode(', ', array_map(static fn ($address) => $address->toString(), $mailer->detourRecipients))));
         }
 
-        return Command::SUCCESS;
+        return true;
     }
 }
