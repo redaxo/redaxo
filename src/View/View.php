@@ -13,10 +13,11 @@ use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -246,19 +247,13 @@ final class View
     {
         $s = '';
 
-        $catsSel = new MediaCategorySelect();
-        $catsSel->setStyle('class="form-control"');
-        $catsSel->setSize(1);
-        $catsSel->setName('rex_file_category');
-        $catsSel->setId('rex-mediapool-category');
-        $catsSel->setAttribute('class', 'selectpicker form-control');
-        $catsSel->setAttribute('data-live-search', 'true');
-        $catsSel->setAttribute('onchange', 'this.form.submit()');
-        $catsSel->setSelected($rexFileCategory);
-
-        if (Core::requireUser()->getComplexPerm('media')->hasAll()) {
-            $catsSel->addOption(I18n::msg('pool_kats_no'), '0');
-        }
+        $catsSel = new SelectInput(
+            'rex_file_category',
+            new MediaCategoryChoices(root: true)->choices(),
+            (string) $rexFileCategory,
+            'rex-mediapool-category',
+            attributes: new HtmlAttributes(['onchange' => 'this.form.submit()', 'data-live-search' => 'true']),
+        );
 
         $argFields = '';
         $types = Request::request('types', 'string');
@@ -282,7 +277,7 @@ final class View
 
         $e = [];
         $e['label'] = '<label for="rex-mediapool-category">' . I18n::msg('pool_file_category') . '</label>';
-        $e['field'] = $catsSel->get();
+        $e['field'] = $catsSel->render();
         $formElements[] = $e;
 
         $e = [];
