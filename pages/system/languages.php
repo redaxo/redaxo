@@ -63,8 +63,7 @@ if ('editstatus' === $func && Language::exists($languageId)) {
         if (!$csrfToken->isValid()) {
             throw new UserMessageException(I18n::msg('csrf_token_invalid'));
         }
-        $language = Language::require($languageId);
-        LanguageHandler::edit($languageId, $language->code, $language->name, $language->priority, $languageStatus);
+        LanguageHandler::edit($languageId, ['status' => $languageStatus]);
         $success = I18n::msg('language_edited');
         $func = '';
         $languageId = 0;
@@ -97,12 +96,12 @@ if ($addClangSave || $editClangSave) {
         $func = $addClangSave ? 'add' : 'edit';
     } elseif ($addClangSave) {
         $success = I18n::msg('language_created');
-        LanguageHandler::add($languageCode, $languageName, $languagePrio, meta: $meta->values());
+        LanguageHandler::add(['code' => $languageCode, 'name' => $languageName, 'priority' => $languagePrio], $meta->values());
         $languageId = 0;
         $func = '';
     } else {
         if (Language::exists($languageId)) {
-            LanguageHandler::edit($languageId, $languageCode, $languageName, $languagePrio, meta: $meta->values());
+            LanguageHandler::edit($languageId, ['code' => $languageCode, 'name' => $languageName, 'priority' => $languagePrio], $meta->values());
             $success = I18n::msg('language_edited');
             $func = '';
             $languageId = 0;

@@ -42,8 +42,9 @@ final class ArticleHandler
     /**
      * Creates a new article.
      *
-     * @param array{category_id: int|null, priority: int, name: string, template?: string} $data Article data,
-     *     `category_id` is `null` for the root level, `name` is used for all languages
+     * @param array{category_id: int|null, name: string, priority?: int, template?: string|null} $data Article data,
+     *     `category_id` is `null` for the root level, `name` is used for all languages, the article is appended if
+     *     `priority` is missing, and `template` falls back to the first one allowed in the category
      * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
      *     used for all languages
      *
@@ -53,13 +54,7 @@ final class ArticleHandler
     {
         $metaValues = new MetaValues(MetaEntity::Article, $meta);
 
-        self::reqKey($data, 'category_id');
-        self::reqKey($data, 'priority');
-        self::reqKey($data, 'name');
-
-        if ($data['priority'] <= 0) {
-            $data['priority'] = 1;
-        }
+        Type::requireKeys($data, 'category_id', 'name');
 
         $categoryId = $data['category_id'];
 
@@ -73,21 +68,15 @@ final class ArticleHandler
             $path = '|';
         }
 
-        $templates = Template::getTemplatesForCategory($categoryId);
-        $data['template'] = isset($data['template']) ? Type::string($data['template']) : null;
-
-        // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-        // oder leer setzen.
-        if (null === $data['template'] || !isset($templates[$data['template']])) {
-            $data['template'] = array_key_first($templates);
-        }
+        $priority = max(1, $data['priority'] ?? self::nextPriority($categoryId));
+        $template = self::allowedTemplate($categoryId, $data['template'] ?? null);
 
         $user = self::getUser();
 
         $AART = Sql::factory();
         $AART->setTable('rex_article');
         $AART->setValue('parent_id', $categoryId);
-        $AART->setValue('priority', $data['priority']);
+        $AART->setValue('priority', $priority);
         $AART->setValue('path', $path);
         $AART->setValues($metaValues->forTable('rex_article'));
         $AART->addGlobalCreateFields($user);
@@ -103,13 +92,13 @@ final class ArticleHandler
                     'language_id' => $languageId,
                     'name' => $data['name'],
                     'status' => 0,
-                    'template' => $data['template'],
+                    'template' => $template,
                 ])
                 ->setValues($metaValues->forTable('rex_article_translation'))
                 ->insert();
         }
 
-        self::updatePriorities($categoryId, 0, $data['priority']);
+        self::updatePriorities($categoryId, 0, $priority);
 
         ArticleCache::delete($id);
 
@@ -124,8 +113,8 @@ final class ArticleHandler
     /**
      * Edits an article: name and template in the given language, the priority for all languages.
      *
-     * @param array{name: string, priority?: int, template?: string|null} $data Article data, the template is kept if
-     *     the key is missing
+     * @param array{name?: string, priority?: int, template?: string|null} $data Article data, missing keys keep their
+     *     value, `template` falls back to the first one allowed in the category
      * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
      *     the translated ones are saved for the given language
      *
@@ -135,8 +124,6 @@ final class ArticleHandler
     {
         $metaValues = new MetaValues(MetaEntity::Article, $meta);
 
-        self::reqKey($data, 'name');
-
         $thisArt = self::select($articleId, $languageId);
 
         if (1 != $thisArt->getRows()) {
@@ -144,49 +131,34 @@ final class ArticleHandler
         }
 
         $previous = Article::require($articleId, $languageId);
-        $data['category_id'] = $previous->categoryId;
 
         $translation = Sql::factory()
             ->setTable('rex_article_translation')
-            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
-            ->setValue('name', $data['name']);
-
+            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId]);
+        if (array_key_exists('name', $data)) {
+            $translation->setValue('name', $data['name']);
+        }
         if (array_key_exists('template', $data)) {
-            $templates = Template::getTemplatesForCategory($data['category_id']);
-            $template = null === $data['template'] ? null : Type::string($data['template']);
-
-            // Fall back to the first allowed template if the chosen one is not available in this category
-            if (null === $template || !isset($templates[$template])) {
-                $template = array_key_first($templates);
-            }
-
-            $translation->setValue('template', $template);
+            $translation->setValue('template', self::allowedTemplate($previous->categoryId, $data['template']));
         }
-
         $translation->setValues($metaValues->forTable('rex_article_translation'));
-        $translation->update();
-
-        if (isset($data['priority'])) {
-            if ($data['priority'] <= 0) {
-                $data['priority'] = 1;
-            }
+        if ($translation->hasValues()) {
+            $translation->update();
         }
 
-        $data['priority'] ??= $thisArt->getIntValue('priority');
+        $oldPrio = $thisArt->getIntValue('priority');
+        $priority = isset($data['priority']) ? max(1, $data['priority']) : $oldPrio;
 
         $EA = Sql::factory();
         $EA->setTable('rex_article');
         $EA->setWhere(['id' => $articleId]);
-        $EA->setValue('priority', $data['priority']);
+        $EA->setValue('priority', $priority);
         $EA->setValues($metaValues->forTable('rex_article'));
         $EA->addGlobalUpdateFields(self::getUser());
         $EA->update();
 
-        // ----- PRIOR
-        $oldPrio = $thisArt->getIntValue('priority');
-
-        if ($oldPrio != $data['priority']) {
-            self::updatePriorities($data['category_id'], $data['priority'], $oldPrio);
+        if ($oldPrio != $priority) {
+            self::updatePriorities($previous->categoryId, $priority, $oldPrio);
         }
 
         ArticleCache::delete($articleId);
@@ -392,15 +364,10 @@ final class ArticleHandler
                 $addsql = 'asc';
             }
 
-            // the start article is listed among the articles of its own category
-            $where = null === $parentId
-                ? 'parent_id IS NULL AND id NOT IN (SELECT id FROM rex_category)'
-                : '(parent_id = ' . $parentId . ' AND id NOT IN (SELECT id FROM rex_category)) OR id = ' . $parentId;
-
             DatabaseUtil::organizePriorities(
                 'rex_article',
                 'priority',
-                $where,
+                self::siblingsWhere($parentId),
                 'priority,updatedate ' . $addsql,
             );
 
@@ -795,6 +762,33 @@ final class ArticleHandler
     }
 
     /** Selects the article together with its translation in the given language. */
+    /** The start article is listed among the articles of its own category. */
+    private static function siblingsWhere(?int $parentId): string
+    {
+        return null === $parentId
+            ? 'parent_id IS NULL AND id NOT IN (SELECT id FROM rex_category)'
+            : '(parent_id = ' . $parentId . ' AND id NOT IN (SELECT id FROM rex_category)) OR id = ' . $parentId;
+    }
+
+    private static function nextPriority(?int $parentId): int
+    {
+        $sql = Sql::factory()->setQuery('SELECT MAX(priority) AS priority FROM rex_article WHERE ' . self::siblingsWhere($parentId));
+
+        return ($sql->getNullableIntValue('priority') ?? 0) + 1;
+    }
+
+    /** Falls back to the first template allowed in the category if the given one is not. */
+    private static function allowedTemplate(?int $categoryId, ?string $template): ?string
+    {
+        $templates = Template::getTemplatesForCategory($categoryId);
+
+        if (null === $template || !isset($templates[$template])) {
+            return array_key_first($templates);
+        }
+
+        return $template;
+    }
+
     private static function select(int $id, int $languageId): Sql
     {
         $sql = Sql::factory();
@@ -817,18 +811,6 @@ final class ArticleHandler
             ->setWhere(['id' => $id])
             ->addGlobalUpdateFields(self::getUser())
             ->update();
-    }
-
-    /**
-     * Checks whether the required array key $keyName isset.
-     *
-     * @param array<string, mixed> $array
-     */
-    private static function reqKey(array $array, string $keyName): void
-    {
-        if (!array_key_exists($keyName, $array)) {
-            throw new InvalidArgumentException('Missing required parameter "' . $keyName . '"!');
-        }
     }
 
     private static function getUser(): string
