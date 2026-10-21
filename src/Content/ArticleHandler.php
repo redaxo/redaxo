@@ -10,6 +10,7 @@ use Redaxo\Core\Content\ExtensionPoint\ArticleDeleted;
 use Redaxo\Core\Content\ExtensionPoint\ArticleMoved;
 use Redaxo\Core\Content\ExtensionPoint\ArticleStatusChanged;
 use Redaxo\Core\Content\ExtensionPoint\ArticleUpdated;
+use Redaxo\Core\Content\ExtensionPoint\ArticleUsageCheck;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
@@ -18,13 +19,16 @@ use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaUsage;
 use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\UsageList;
 
 use function array_key_exists;
 use function count;
@@ -220,6 +224,23 @@ final class ArticleHandler
         Extension::dispatch(new ArticleDeleted($article));
     }
 
+    /** Returns the places using the article, except the article itself and the category it is the start article of. */
+    public static function findUsages(Article $article): UsageList
+    {
+        $usages = new UsageList();
+        foreach (ArticleSliceReference::findArticles(Reference::article($article->id)) as ['articleId' => $articleId, 'languageId' => $languageId]) {
+            if ($articleId !== $article->id) {
+                $usages->add(I18n::rawMsg('usage_articles_content'), Article::get($articleId, $languageId)->name ?? (string) $articleId, Url::backendPage('content', ['article_id' => $articleId, 'mode' => 'edit', 'language' => $languageId]));
+            }
+        }
+
+        MetaUsage::addArticleUsages($usages, $article->id);
+
+        Extension::dispatch(new ArticleUsageCheck($article, $usages));
+
+        return $usages;
+    }
+
     /**
      * Deletes an article, a start article together with all articles of its category, without checking permissions.
      *
@@ -243,14 +264,10 @@ final class ArticleHandler
             throw new UserMessageException(I18n::msg('category_doesnt_exist'));
         }
 
-        $names = [];
-        foreach (ArticleSliceReference::findArticles(Reference::article($id)) as ['articleId' => $articleId, 'languageId' => $languageId]) {
-            if ($articleId !== $id) {
-                $names[$articleId] ??= Article::get($articleId, $languageId)->name ?? (string) $articleId;
-            }
-        }
-        if ($names) {
-            throw new UserMessageException(I18n::msg('article_still_in_use', implode(', ', $names)));
+        $article = Article::require($id);
+        $usages = self::findUsages($article);
+        if (!$usages->isEmpty()) {
+            throw new UserMessageException(I18n::msg('article_still_in_use', $article->name) . $usages->render());
         }
 
         $parentId = $ART->getNullableIntValue('parent_id');

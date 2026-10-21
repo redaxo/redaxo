@@ -5,12 +5,13 @@ namespace Redaxo\Core\MediaPool;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryAdded;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryDeleted;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryUpdated;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryUsageCheck;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
+use Redaxo\Core\Util\UsageList;
 
 final class MediaCategoryHandler
 {
@@ -62,9 +63,10 @@ final class MediaCategoryHandler
         $gd = Sql::factory();
         $gd->setQuery('SELECT * FROM rex_media_category WHERE parent_id=?', [$categoryId]);
         if (0 == $gf->getRows() && 0 == $gd->getRows()) {
-            if ($uses = self::isInUse($categoryId)) {
+            $usages = self::findUsages($category);
+            if (!$usages->isEmpty()) {
                 $name = "{$category->name} [$categoryId]";
-                throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
+                throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong>' . $usages->render());
             }
 
             $gf->setQuery('DELETE FROM rex_media_category WHERE id=?', [$categoryId]);
@@ -77,20 +79,13 @@ final class MediaCategoryHandler
         Extension::dispatch(new MediaCategoryDeleted($category));
     }
 
-    /** @return false|string false or warning message */
-    public static function isInUse(int $categoryId): string|false
+    /** Returns the places using the media category. */
+    public static function findUsages(MediaCategory $category): UsageList
     {
-        /** @var list<string> $warning */
-        $warning = [];
-        $warning = Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_IS_IN_USE', $warning, [
-            'id' => $categoryId,
-        ]));
+        $usages = new UsageList();
+        Extension::dispatch(new MediaCategoryUsageCheck($category, $usages));
 
-        if ($warning) {
-            return implode('<br />', $warning);
-        }
-
-        return false;
+        return $usages;
     }
 
     /**

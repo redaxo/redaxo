@@ -8,9 +8,13 @@ use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceReference;
 use Redaxo\Core\Content\ContentHandler;
+use Redaxo\Core\Content\ExtensionPoint\ArticleUsageCheck;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\UserMessageException;
+use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Form\Reference;
+use Redaxo\Core\Util\Type;
+use ReflectionProperty;
 
 /** @internal */
 final class ArticleSliceReferenceTest extends TestCase
@@ -100,6 +104,24 @@ final class ArticleSliceReferenceTest extends TestCase
         ArticleHandler::delete(self::LINKED);
 
         self::assertSame([], $this->findLinkingArticles());
+    }
+
+    public function testExtensionsCanReportUsages(): void
+    {
+        $extensions = Type::array(new ReflectionProperty(Extension::class, 'extensions')->getValue());
+
+        try {
+            Extension::register(ArticleUsageCheck::class, static function (ArticleUsageCheck $ep): void {
+                $ep->usages->add('Foo', 'used by foo ' . $ep->article->id);
+            });
+
+            $this->expectException(UserMessageException::class);
+            $this->expectExceptionMessage('used by foo ' . self::LINKED);
+
+            ArticleHandler::delete(self::LINKED);
+        } finally {
+            new ReflectionProperty(Extension::class, 'extensions')->setValue(null, $extensions);
+        }
     }
 
     /** @return list<int> */

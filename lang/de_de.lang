@@ -493,7 +493,6 @@ pool_files_deleted = {0} Dateien wurden gelöscht.
 pool_file_delete_error = Die Datei "{0}" kann nicht gelöscht werden!
 pool_kat_delete_error = Die Kategorie "{0}" kann nicht gelöscht werden!
 pool_object_in_use_by = Sie wird derzeit von folgenden Objekten verwendet:
-pool_file_in_use_articles = Artikel (Inhalt)
 pool_file_changed = Die Datei wurde ausgetauscht!
 pool_file_added = Datei wurde hinzugefügt.
 pool_file_movefailed = Dateiupload ist fehlgeschlagen.
@@ -533,10 +532,10 @@ perm_general_media[sync] = Medienpool: Dateien synchronisieren
 # metainfo
 minfo_metadata_saved = Die Metadaten wurden gespeichert.
 minfo_metadata_invalid = Die Metadaten enthalten ungültige Werte.
-minfo_media_in_use_art = Artikel (Metadaten)
-minfo_media_in_use_cat = Kategorien (Metadaten)
-minfo_media_in_use_med = Medien (Metadaten)
-minfo_media_in_use_language = Sprachen (Metadaten)
+minfo_usage_articles = Artikel (Metadaten)
+minfo_usage_categories = Kategorien (Metadaten)
+minfo_usage_media = Medien (Metadaten)
+minfo_usage_languages = Sprachen (Metadaten)
 
 # bc: labels aus dem core
 online_from = Online vom
@@ -599,7 +598,8 @@ category_doesnt_exist = Kategorie existiert nicht!
 article_doesnt_exist = Artikel existiert nicht!
 cant_delete_sitestartarticle = Der Webseiten-Startartikel kann nicht gelöscht werden!
 cant_delete_notfoundarticle = Der "Nicht-gefunden" Artikel kann nicht gelöscht werden!
-article_still_in_use = Der Artikel kann nicht gelöscht werden, er wird noch in folgenden Artikeln verwendet: {0}
+article_still_in_use = Der Artikel "{0}" kann nicht gelöscht werden, er wird derzeit von folgenden Objekten verwendet:
+usage_articles_content = Artikel (Inhalt)
 structure_copy = Kopie
 category_has_child_elements = Kategorie enthält Kindelemente
 category_without_child_elements = Kategorie ohne Kindelemente
