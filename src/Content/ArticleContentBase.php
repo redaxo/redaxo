@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
+use Redaxo\Core\Content\ExtensionPoint\SliceOutput;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\LogicException;
@@ -77,26 +78,19 @@ class ArticleContentBase
      */
     protected function outputSlice(Sql $artDataSql, string $moduleKeyToAdd): string
     {
-        $moduleKey = $artDataSql->getStringValue('rex_article_slice.module');
-        $slice = ArticleSlice::fromSql($artDataSql);
+        return self::renderModuleOutput(ArticleSlice::fromSql($artDataSql));
+    }
 
-        if (!Module::exists($moduleKey)) {
-            return '';
-        }
-
-        $output = Module::of($slice)->output();
-
-        $output = Extension::dispatch(new ExtensionPoint(
-            'SLICE_OUTPUT',
-            $output,
-            [
-                'article_id' => $this->articleId,
-                'language' => $this->languageId,
-                'slice_data' => $artDataSql,
-            ],
-        ));
-
-        return $output;
+    /**
+     * Renders a slice from the generated content cache, see {@see renderSlices()}.
+     *
+     * @internal
+     *
+     * @throws ArticleNotFoundException
+     */
+    final protected function renderCachedSlice(ArticleSlice $slice): string
+    {
+        return Extension::dispatch(new SliceOutput($slice, self::renderModuleOutput($slice), $this));
     }
 
     /**
@@ -226,6 +220,12 @@ class ArticleContentBase
     }
 
     /** @throws ArticleNotFoundException */
+    private static function renderModuleOutput(ArticleSlice $slice): string
+    {
+        return Module::exists($slice->moduleKey) ? Module::of($slice)->output() : '';
+    }
+
+    /** @throws ArticleNotFoundException */
     private function renderSlices(string $articleLimit, string $sliceLimit): void
     {
         $moduleKey = Request::request('module', 'string', '');
@@ -261,60 +261,20 @@ class ArticleContentBase
         $artDataSql->reset();
         $rows = $artDataSql->getRows();
         for ($i = 0; $i < $rows; ++$i) {
-            $sliceId = $artDataSql->getIntValue('rex_article_slice.id');
             $sliceCtypeId = $artDataSql->getIntValue('rex_article_slice.ctype_id');
-            /**
-             * Module key from internal DB table, safe to embed in generated cache code.
-             * @psalm-taint-escape html
-             * @psalm-taint-escape has_quotes
-             */
-            $sliceModuleKey = $artDataSql->getStringValue('rex_article_slice.module');
 
-            // ----- ctype unterscheidung
             if ('edit' !== $this->mode && !$this->eval) {
+                // the cache gets code rendering the slice at runtime, so `SliceOutput` applies to the cached content
                 if (0 === $i) {
                     $articleContent = "<?php\n\nif (null === \$this->contentSectionId || " . $sliceCtypeId . " === \$this->contentSectionId) {\n";
                 } elseif (null !== $prevCtype && $sliceCtypeId !== $prevCtype) {
-                    // ----- zwischenstand: content section .. wenn neu dann if
                     $articleContent .= "}\n\nif (null === \$this->contentSectionId || " . $sliceCtypeId . " === \$this->contentSectionId) {\n";
                 }
 
-                $slice = ArticleSlice::fromSql($artDataSql);
-                $articleContent .= 'echo \\' . Module::class . '::exists(' . var_export($sliceModuleKey, true) . ') ? \\' . Module::class . '::of(' . var_export($slice, true) . ')->output() : \'\';' . "\n";
-            }
-
-            // ------------- EINZELNER SLICE - AUSGABE
-            if ('edit' === $this->mode || $this->eval) {
-                $sliceContent = $this->outputSlice(
-                    $artDataSql,
-                    $moduleKey,
-                );
-            } else {
-                $sliceContent = '';
-            }
-            // --------------- ENDE EINZELNER SLICE
-
-            // --------------- EP: SLICE_SHOW
-            $sliceContent = Extension::dispatch(
-                new ExtensionPoint(
-                    'SLICE_SHOW',
-                    $sliceContent,
-                    [
-                        'article_id' => $this->articleId,
-                        'language' => $this->languageId,
-                        'ctype' => $sliceCtypeId,
-                        'module_key' => $sliceModuleKey,
-                        'slice_id' => $sliceId,
-                        'function' => $this->function,
-                        'function_slice_id' => $this->sliceId,
-                        'sql' => $artDataSql,
-                    ],
-                ),
-            );
-
-            // ---------- slice in ausgabe speichern wenn content section richtig
-            if (null === $this->contentSectionId || $sliceCtypeId === $this->contentSectionId) {
-                $articleContent .= $sliceContent;
+                $articleContent .= 'echo $this->renderCachedSlice(' . var_export(ArticleSlice::fromSql($artDataSql), true) . ");\n";
+            } elseif (null === $this->contentSectionId || $sliceCtypeId === $this->contentSectionId) {
+                $sliceContent = $this->outputSlice($artDataSql, $moduleKey);
+                $articleContent .= Extension::dispatch(new SliceOutput(ArticleSlice::fromSql($artDataSql), $sliceContent, $this));
             }
 
             $prevCtype = $sliceCtypeId;

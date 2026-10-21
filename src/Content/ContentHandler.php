@@ -66,6 +66,7 @@ final class ContentHandler
 
         $article = Article::require($articleId, $languageId);
         $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, $revision));
+        ArticleSliceReference::update($slice);
 
         Extension::dispatch(new ArticleContentUpdated($article, 'slice_added', $slice));
 
@@ -298,6 +299,8 @@ final class ContentHandler
             $ins->addGlobalCreateFields($user);
             $ins->setTable('rex_article_slice');
             $ins->insert();
+
+            ArticleSliceReference::copy($slice->getIntValue('id'), $ins->getLastId());
         }
 
         foreach ($ctypes as $ctype => $revisions) {

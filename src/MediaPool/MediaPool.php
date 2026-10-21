@@ -3,12 +3,13 @@
 namespace Redaxo\Core\MediaPool;
 
 use Redaxo\Core\Content\Article;
-use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Content\ArticleSliceReference;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -145,22 +146,13 @@ final class MediaPool
     /** @return false|string false or warning message */
     public static function mediaIsInUse(string $filename): string|false
     {
-        $sql = Sql::factory();
-
-        // matches the file name stored by a media field as well as embedded in a text, e.g. in a link
-        $query = 'SELECT DISTINCT article_id, language_id FROM rex_article_slice WHERE CAST(data AS CHAR) REGEXP ?';
-        $params = ['(^|[^[:alnum:]+_-])' . preg_quote($filename)];
-
         $warning = [];
-        $res = $sql->getArray($query, $params);
-        if ($sql->getRows() > 0) {
+        if ($articles = ArticleSliceReference::findArticles(Reference::media($filename))) {
             $warning[0] = I18n::msg('pool_file_in_use_articles') . '<ul>';
-            foreach ($res as $artArr) {
-                $aid = (int) $artArr['article_id'];
-                $languageId = (int) $artArr['language_id'];
-                $article = Article::get($aid, $languageId);
+            foreach ($articles as ['articleId' => $articleId, 'languageId' => $languageId]) {
+                $article = Article::get($articleId, $languageId);
                 $name = $article ? escape($article->name) : '';
-                $warning[0] .= '<li><a href="javascript:openPage(\'' . Url::backendPage('content', ['article_id' => $aid, 'mode' => 'edit', 'language' => $languageId]) . '\')">' . $name . '</a></li>';
+                $warning[0] .= '<li><a href="javascript:openPage(\'' . Url::backendPage('content', ['article_id' => $articleId, 'mode' => 'edit', 'language' => $languageId]) . '\')">' . $name . '</a></li>';
             }
             $warning[0] .= '</ul>';
         }

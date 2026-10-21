@@ -102,6 +102,10 @@ final class ArticleSliceHistory
             }
 
             $sql->insert();
+
+            if ($slice = ArticleSlice::getArticleSliceById($sql->getLastId(), $languageId)) {
+                ArticleSliceReference::update($slice);
+            }
         }
         ArticleCache::delete($articleId, $languageId);
         return true;

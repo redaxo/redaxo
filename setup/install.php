@@ -107,6 +107,15 @@ Table::get('rex_article_slice')
     ->ensureForeignKeyTo('rex_article_translation', ['article_id' => 'article_id', 'language_id' => 'language_id'], onDelete: ForeignKey::CASCADE)
     ->ensure();
 
+// which media and articles the slices reference, written from the module fields on every save of a slice
+Table::get('rex_article_slice_reference')
+    ->ensureForeignIdColumn('slice_id', 'rex_article_slice', onDelete: ForeignKey::CASCADE)
+    ->ensureColumn(Column::varchar('type', 50))
+    ->ensureColumn(Column::varchar('target', 255))
+    ->setPrimaryKey(['slice_id', 'type', 'target'])
+    ->ensureIndex(new Index('target', ['type', 'target']))
+    ->ensure();
+
 Table::get('rex_article_slice_history')
     ->ensurePrimaryIdColumn()
     ->ensureColumn(Column::int('slice_id', unsigned: true))

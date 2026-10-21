@@ -7,6 +7,7 @@ use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\ArticleSlice;
+use Redaxo\Core\Content\ArticleSliceReference;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
@@ -258,6 +259,7 @@ if (
                             $info = Extension::dispatch(new ArticleContentUpdated($OOArt, 'slice_added', $slice, I18n::msg('block_added')));
                         }
 
+                        ArticleSliceReference::update($slice);
                         Module::of($slice)->afterSave();
                     } else {
                         // make delete

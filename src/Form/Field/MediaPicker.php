@@ -6,6 +6,7 @@ use Attribute;
 use Override;
 use Redaxo\Core\Form\BoundField;
 use Redaxo\Core\Form\InvalidValueException;
+use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Form\ValueType;
 use Redaxo\Core\Form\Widget\MediaInput;
 use Redaxo\Core\Form\Widget\MediaListInput;
@@ -31,7 +32,7 @@ use const PATHINFO_EXTENSION;
  * Storages persist the file name, or the list of file names.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class MediaPicker extends Field
+class MediaPicker extends Field implements ReferencesItems
 {
     /** @param list<string> $types allowed file extensions, e.g. `['jpg', 'png']`; empty allows all */
     public function __construct(
@@ -117,6 +118,21 @@ class MediaPicker extends Field
         }
 
         return null === $stored || '' === $stored ? null : $this->media($stored);
+    }
+
+    /** @return list<Reference> */
+    #[Override]
+    public function references(mixed $value): array
+    {
+        $references = [];
+        foreach ((array) $this->toRaw($value) as $fileName) {
+            if ('' === $fileName) {
+                continue;
+            }
+            $references[] = Reference::media($fileName);
+        }
+
+        return $references;
     }
 
     private function media(mixed $fileName): Media
