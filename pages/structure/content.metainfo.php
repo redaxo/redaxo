@@ -98,7 +98,7 @@ $article->setQuery('
 if (1 == $article->getRows()) {
     $template = Template::get($article->getNullableStringValue('template') ?? '');
 
-    $ctype = Request::request('ctype', 'int', 1);
+    $ctype = Request::request('content_section_id', 'int', 1);
     if ($ctype < 1 || !$template?->hasContentSection($ctype)) {
         $ctype = 1;
     }
@@ -107,7 +107,7 @@ if (1 == $article->getRows()) {
         'page' => Controller::getCurrentPage(),
         'article_id' => $articleId,
         'language' => $languageId,
-        'ctype' => $ctype,
+        'content_section_id' => $ctype,
     ]);
 
     $editedArticle = Article::require($articleId, $languageId);
@@ -149,7 +149,7 @@ if (1 == $article->getRows()) {
                     ' . $message . '
                     <fieldset>
                         <input type="hidden" name="save" value="1" />
-                        <input type="hidden" name="ctype" value="' . $ctype . '" />
+                        <input type="hidden" name="content_section_id" value="' . $ctype . '" />
                         ' . $csrfToken->getHiddenField() . '
                         ' . $form . '
                         <button class="btn btn-primary pull-left" type="submit" name="savemeta"' . Accesskey::attributes(I18n::msg('update_metadata'), 'save') . ' value="1">' . I18n::msg('update_metadata') . '</button>
