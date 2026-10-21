@@ -14,14 +14,19 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\ExtensionPoint\LanguageAdded;
 use Redaxo\Core\Language\ExtensionPoint\LanguageDeleted;
 use Redaxo\Core\Language\ExtensionPoint\LanguageUpdated;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Translation\I18n;
 
 final class LanguageHandler
 {
     private function __construct() {}
 
-    /** Creates a language and copies the articles of an existing one into it. */
-    public static function add(string $code, string $name, int $priority, bool $status = false): Language
+    /**
+     * Creates a language and copies the articles of an existing one into it.
+     *
+     * @param MetaForm|null $meta validly submitted meta values
+     */
+    public static function add(string $code, string $name, int $priority, bool $status = false, ?MetaForm $meta = null): Language
     {
         $sql = Sql::factory();
         $sql->setTable('rex_language');
@@ -30,6 +35,7 @@ final class LanguageHandler
         $sql->setValue('name', $name);
         $sql->setValue('priority', $priority);
         $sql->setValue('status', $status);
+        $meta?->apply($sql, 'rex_language');
         $sql->insert();
         $id = $sql->getLastId();
 
@@ -63,9 +69,11 @@ final class LanguageHandler
     /**
      * Updates a language.
      *
+     * @param MetaForm|null $meta validly submitted meta values
+     *
      * @throws UserMessageException
      */
-    public static function edit(int $id, string $code, string $name, int $priority, ?bool $status = null): Language
+    public static function edit(int $id, string $code, string $name, int $priority, ?bool $status = null, ?MetaForm $meta = null): Language
     {
         if (!Language::exists($id)) {
             throw new UserMessageException(I18n::msg('language_not_found', $id));
@@ -82,6 +90,7 @@ final class LanguageHandler
         if (null !== $status) {
             $editLang->setValue('status', $status);
         }
+        $meta?->apply($editLang, 'rex_language');
         $editLang->update();
 
         $comparator = $oldPriority < $priority ? '=' : '!=';

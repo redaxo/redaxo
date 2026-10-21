@@ -494,7 +494,7 @@ perm_general_media[sync] = Mediapool: Synchronise files
 
 # metainfo
 minfo_metadata_saved = Metainfos have been saved.
-minfo_metadata_not_saved = The metadata has not been saved:
+minfo_metadata_invalid = The metadata contains invalid values.
 minfo_media_in_use_art = Article (metadata)
 minfo_media_in_use_cat = Categories (metadata)
 minfo_media_in_use_med = Media (metadata)

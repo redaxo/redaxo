@@ -5,17 +5,20 @@ use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ApiFunction\ArticleStatusChange;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
+use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Form\FieldRow;
 use Redaxo\Core\Form\Widget\Input;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
-use Redaxo\Core\MetaInfo\Handler\AbstractHandler as MetaInfoHandler;
-use Redaxo\Core\MetaInfo\Handler\ArticleHandler as MetaInfoArticleHandler;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
+use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
@@ -23,12 +26,9 @@ use Redaxo\Core\View\Message;
 
 use function Redaxo\Core\View\escape;
 
-assert(isset($ep) && $ep instanceof ExtensionPoint);
-
-$params = $ep->getParams();
-
-$articleId = (int) $params['article_id'];
-$languageId = (int) $params['language'];
+assert(isset($articleId) && is_int($articleId));
+assert(isset($languageId) && is_int($languageId));
+assert(isset($ctype) && is_int($ctype));
 
 $content = [];
 
@@ -110,31 +110,38 @@ if (1 == $article->getRows()) {
         'ctype' => $ctype,
     ]);
 
-    $metainfoHandler = new MetaInfoArticleHandler();
-    $form = $metainfoHandler->getForm([
-        'id' => $articleId,
-        'language' => $languageId,
-        'article' => $article,
-    ]);
+    $editedArticle = Article::require($articleId, $languageId);
+    $categoryId = $editedArticle->categoryId ?? 0;
+    $meta = new MetaForm(new MetaContext(MetaEntity::Article, $editedArticle, $categoryId > 0 ? Category::get($categoryId, $languageId) : null));
+    $articleName = $editedArticle->name;
 
-    // The article name is not a meta field, but it is offered in the same form, with the same markup.
-    $articleName = new FieldRow(
-        new Input('meta_article_name', Article::require($articleId, $languageId)->name, 'rex-id-meta-article-name'),
-        I18n::msg('header_article_name'),
-        vertical: true,
-    )->render();
-    $form = (string) $articleName . $form;
-
-    $csrfToken = MetaInfoHandler::getCsrfToken();
+    $csrfToken = CsrfToken::factory('metainfo');
 
     $message = '';
     if (Request::post('savemeta', 'boolean')) {
-        $message = match (true) {
-            !$csrfToken->isValid() => Message::error(I18n::msg('csrf_token_invalid')),
-            $metainfoHandler->saved => Message::success(I18n::msg('minfo_metadata_saved')),
-            default => Message::error(I18n::msg('form_save_error')),
-        };
+        $articleName = Request::post('meta_article_name', 'string');
+
+        if (!$csrfToken->isValid()) {
+            $message = Message::error(I18n::msg('csrf_token_invalid'));
+        } elseif (!$meta->submit()) {
+            $message = Message::error(I18n::msg('minfo_metadata_invalid'));
+        } else {
+            try {
+                ArticleHandler::edit($articleId, $languageId, ['name' => $articleName], $meta);
+                $message = Message::success(I18n::msg('minfo_metadata_saved'));
+            } catch (UserMessageException $e) {
+                $message = Message::error($e->getMessage());
+            }
+        }
     }
+
+    // The article name is not a meta field, but it is offered in the same form, with the same markup.
+    $form = (string) new FieldRow(
+        new Input('meta_article_name', $articleName, 'rex-id-meta-article-name'),
+        I18n::msg('header_article_name'),
+        vertical: true,
+    )->render();
+    $form .= $meta->render(vertical: true);
 
     $content[] = '
               <div id="rex-page-sidebar-metainfo" data-pjax-container="#rex-page-sidebar-metainfo">
@@ -157,9 +164,9 @@ if (1 == $article->getRows()) {
 $fragment = new Fragment();
 $fragment->setVar('title', '<i class="rex-icon rex-icon-info"></i> ' . I18n::msg('metadata'), false);
 $fragment->setVar('body', implode('', $content), false);
-$fragment->setVar('article_id', $params['article_id'], false);
-$fragment->setVar('language', $params['language'], false);
-$fragment->setVar('ctype', $params['ctype'], false);
+$fragment->setVar('article_id', $articleId, false);
+$fragment->setVar('language', $languageId, false);
+$fragment->setVar('ctype', $ctype, false);
 $fragment->setVar('collapse', true);
 $fragment->setVar('collapsed', false);
 return $fragment->parse('core/page/section.php');

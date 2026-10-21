@@ -10,6 +10,7 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Reference;
+use Redaxo\Core\MetaInfo\MediaUsage;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Str;
 
@@ -156,6 +157,8 @@ final class MediaPool
             }
             $warning[0] .= '</ul>';
         }
+
+        $warning = [...$warning, ...MediaUsage::getWarnings($filename)];
 
         // ----- EXTENSION POINT
         $warning = Extension::dispatch(new ExtensionPoint('MEDIA_IS_IN_USE', $warning, [

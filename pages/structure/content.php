@@ -18,6 +18,7 @@ use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
@@ -398,8 +399,11 @@ if (
 
     $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">' . $contentMain . '</section>';
 
+    // own scope, the sidebar must not overwrite the variables of this page
+    $metaSidebar = Type::string((static fn (int $articleId, int $languageId, int $ctype): mixed => include Path::core('pages/structure/content.metainfo.php'))($articleId, $languageId, $ctype));
+
     // ----- EXTENSION POINT
-    $contentSidebar = Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_SIDEBAR', '', [
+    $contentSidebar = Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_SIDEBAR', $metaSidebar, [
         'article_id' => $articleId,
         'language' => $languageId,
         'function' => $function,

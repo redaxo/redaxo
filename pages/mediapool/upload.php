@@ -5,7 +5,11 @@ use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
+use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaHandler;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Message;
@@ -23,6 +27,7 @@ if (!$PERMALL && !Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(
 }
 
 $mediaMethod = Request::request('media_method', 'string');
+$meta = new MetaForm(new MetaContext(MetaEntity::Media, mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
 $csrf = CsrfToken::factory('mediapool');
 
 $info = '';
@@ -44,7 +49,11 @@ if ('add_file' == $mediaMethod) {
             $types = Request::post('types', 'string');
 
             try {
-                $media = MediaHandler::add($data, true, '' === $types ? [] : explode(',', $types));
+                if (!$meta->submit()) {
+                    throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
+                }
+
+                $media = MediaHandler::add($data, true, '' === $types ? [] : explode(',', $types), $meta);
                 $info = I18n::msg('pool_file_added');
                 if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
@@ -80,4 +89,4 @@ if ('' !== $info) {
     echo Message::success($info);
 }
 
-echo View::mediaPoolMediaForm(I18n::msg('pool_file_insert'), I18n::msg('pool_file_upload'), $rexFileCategory, true, true);
+echo View::mediaPoolMediaForm(I18n::msg('pool_file_insert'), I18n::msg('pool_file_upload'), $rexFileCategory, true, true, $meta);

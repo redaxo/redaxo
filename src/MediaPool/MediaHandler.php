@@ -17,6 +17,7 @@ use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdding;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaDeleted;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
@@ -54,9 +55,10 @@ final class MediaHandler
      *     `title` is used for all languages
      * @param bool $doSubindexing // echte Dateinamen anpassen, falls schon vorhanden
      * @param list<string> $types Restrict the allowed file extensions to these types
+     * @param MetaForm|null $meta validly submitted meta values, used for all languages
      * @throws UserMessageException
      */
-    public static function add(array $data, bool $doSubindexing = true, array $types = []): Media
+    public static function add(array $data, bool $doSubindexing = true, array $types = [], ?MetaForm $meta = null): Media
     {
         $error = $data['file']['error'] ?? null;
 
@@ -140,16 +142,18 @@ final class MediaHandler
         }
 
         $saveObject->setValue('category_id', $categoryId);
+        $meta?->apply($saveObject, 'rex_media');
         $saveObject->addGlobalCreateFields();
         $saveObject->addGlobalUpdateFields();
         $saveObject->insert();
         $mediaId = $saveObject->getLastId();
 
         foreach (Language::getAllIds() as $languageId) {
-            Sql::factory()
+            $translation = Sql::factory()
                 ->setTable('rex_media_translation')
-                ->setValues(['media_id' => $mediaId, 'language_id' => $languageId, 'title' => $title])
-                ->insert();
+                ->setValues(['media_id' => $mediaId, 'language_id' => $languageId, 'title' => $title]);
+            $meta?->apply($translation, 'rex_media_translation');
+            $translation->insert();
         }
 
         Media::clearInstances($data['file']['name_new']);
@@ -169,9 +173,10 @@ final class MediaHandler
      *
      * @param array{category_id: int|null, title: string, file?: array{name: string, path?: string, tmp_name?: string, error?: int}} $data `category_id` is `null` for the root level
      * @param int|null $languageId the language the title is saved for, defaults to the current language
+     * @param MetaForm|null $meta validly submitted meta values, the translated ones are saved for the given language
      * @throws UserMessageException
      */
-    public static function edit(string $filename, array $data, ?int $languageId = null): Media
+    public static function edit(string $filename, array $data, ?int $languageId = null, ?MetaForm $meta = null): Media
     {
         if ('' === $filename) {
             throw new InvalidArgumentException('Expecting Filename.');
@@ -184,16 +189,11 @@ final class MediaHandler
             throw new UserMessageException(I18n::msg('pool_file_not_found'));
         }
 
-        Sql::factory()
-            ->setTable('rex_media_translation')
-            ->setWhere(['media_id' => $previous->id, 'language_id' => $languageId])
-            ->setValue('title', $data['title'])
-            ->update();
-
         $saveObject = Sql::factory();
         $saveObject->setTable('rex_media');
         $saveObject->setWhere(['filename' => $filename]);
         $saveObject->setValue('category_id', $data['category_id'] ?: null);
+        $meta?->apply($saveObject, 'rex_media');
 
         $file = $data['file'] ?? null;
 
@@ -249,6 +249,13 @@ final class MediaHandler
                 throw new UserMessageException(I18n::msg('pool_file_upload_errortype'));
             }
         }
+
+        $translation = Sql::factory()
+            ->setTable('rex_media_translation')
+            ->setWhere(['media_id' => $previous->id, 'language_id' => $languageId])
+            ->setValue('title', $data['title']);
+        $meta?->apply($translation, 'rex_media_translation');
+        $translation->update();
 
         $saveObject->addGlobalUpdateFields();
         $saveObject->update();
