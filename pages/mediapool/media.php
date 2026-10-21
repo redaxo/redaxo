@@ -5,13 +5,14 @@ use Redaxo\Core\Core;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\Security\CsrfToken;
-use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\View;
 
 use function Redaxo\Core\View\escape;
@@ -30,18 +31,18 @@ $csrf = CsrfToken::factory('mediapool');
 
 // *************************************** KATEGORIEN CHECK UND AUSWAHL
 
-$selMedia = new MediaCategorySelect($checkPerm = false);
-$selMedia->setId('rex_file_category');
-$selMedia->setName('rex_file_category');
-$selMedia->setSize(1);
-$selMedia->setSelected($rexFileCategory);
-$selMedia->setAttribute('onchange', 'this.form.submit();');
-$selMedia->setAttribute('class', 'selectpicker');
-$selMedia->setAttribute('data-live-search', 'true');
-
-if (Core::requireUser()->getComplexPerm('media')->hasAll()) {
-    $selMedia->addOption(I18n::msg('pool_kats_no'), '0');
-}
+// all categories are offered for browsing, permissions only restrict editing
+$categoryChoices = new MediaCategoryChoices(
+    checkPerms: false,
+    root: Core::requireUser()->getComplexPerm('media')->hasCategoryPerm(null),
+);
+$selMedia = new SelectInput(
+    'rex_file_category',
+    $categoryChoices->choices(),
+    (string) $rexFileCategory,
+    'rex_file_category',
+    attributes: new HtmlAttributes(['onchange' => 'this.form.submit();', 'data-live-search' => 'true']),
+);
 
 // ----- EXTENSION POINT
 echo Extension::dispatch(new ExtensionPoint('PAGE_MEDIAPOOL_HEADER', '', [
@@ -59,7 +60,7 @@ $fragment->setVar('elements', $formElements, false);
 
 $formElements = [];
 $n = [];
-$n['before'] = $selMedia->get();
+$n['before'] = $selMedia->render();
 $n['after'] = '<search role="search">' . $fragment->parse('core/form/input_group.php') . '</search>';
 $formElements[] = $n;
 

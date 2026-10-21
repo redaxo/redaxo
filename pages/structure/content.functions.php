@@ -7,15 +7,16 @@ use Redaxo\Core\Content\ApiFunction\ArticleToStartArticle;
 use Redaxo\Core\Content\ApiFunction\CategoryMove;
 use Redaxo\Core\Content\ApiFunction\CategoryToArticle;
 use Redaxo\Core\Content\ApiFunction\ContentCopy;
+use Redaxo\Core\Content\CategoryChoices;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Form\Select\CategorySelect;
-use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\HtmlAttributes;
 
 use function Redaxo\Core\View\escape;
 
@@ -186,28 +187,13 @@ if ($isStartpage && $user->hasPerm('article2category[]') && $user->getComplexPer
 if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('language')->count() > 1) {
     $languagePerm = $user->getComplexPerm('language')->getLanguageIds();
 
-    $langA = new Select();
-    $langA->setId('language_a');
-    $langA->setName('language_a');
-    $langA->setSize('1');
-    $langA->setAttribute('class', 'form-control selectpicker');
+    $languageChoices = [];
     foreach ($languagePerm as $key) {
-        $val = I18n::translate(Language::require($key)->name);
-        $langA->addOption($val, $key);
+        $languageChoices[$key] = I18n::translate(Language::require($key)->name);
     }
 
-    $langB = new Select();
-    $langB->setId('language_b');
-    $langB->setName('language_b');
-    $langB->setSize('1');
-    $langB->setAttribute('class', 'form-control selectpicker');
-    foreach ($languagePerm as $key) {
-        $val = I18n::translate(Language::require($key)->name);
-        $langB->addOption($val, $key);
-    }
-
-    $langA->setSelected(Request::request('language_a', 'int', null));
-    $langB->setSelected(Request::request('language_b', 'int', null));
+    $langA = new SelectInput('language_a', $languageChoices, Request::request('language_a', 'string'), 'language_a');
+    $langB = new SelectInput('language_b', $languageChoices, Request::request('language_b', 'string'), 'language_b');
 
     $panel = '<fieldset>';
 
@@ -216,7 +202,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('language')->count(
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="language_a">' . I18n::msg('content_contentoflang') . '</label>';
-    $n['field'] = $langA->get();
+    $n['field'] = $langA->render();
     $formElements[] = $n;
 
     $fragment = new Fragment();
@@ -227,7 +213,7 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('language')->count(
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="language_b">' . I18n::msg('content_to') . '</label>';
-    $n['field'] = $langB->get();
+    $n['field'] = $langB->render();
     $formElements[] = $n;
 
     $fragment = new Fragment();
@@ -263,23 +249,25 @@ if ($user->hasPerm('copyContent[]') && $user->getComplexPerm('language')->count(
 }
 // --------------------------------------------------- INHALTE KOPIEREN ENDE
 
+$categoryInput = static fn (string $name, int $selected): SelectInput => new SelectInput(
+    $name,
+    new CategoryChoices(root: true)->choices(),
+    (string) $selected,
+    $name,
+    attributes: new HtmlAttributes(['data-live-search' => 'true']),
+);
+
 // --------------------------------------------------- ARTIKEL VERSCHIEBEN START
 if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
     // Wenn Artikel kein Startartikel dann Selectliste darstellen, sonst...
-    $moveA = new CategorySelect(false, null, true, !$user->getComplexPerm('structure')->hasMountPoints());
-    $moveA->setId('category_id_new');
-    $moveA->setName('category_id_new');
-    $moveA->setSize('1');
-    $moveA->setAttribute('class', 'form-control selectpicker');
-    $moveA->setAttribute('data-live-search', 'true');
-    $moveA->setSelected($categoryId);
+    $moveA = $categoryInput('category_id_new', $categoryId);
 
     $panel = '<fieldset>';
 
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="category_id_new">' . I18n::msg('move_article') . '</label>';
-    $n['field'] = $moveA->get();
+    $n['field'] = $moveA->render();
     $formElements[] = $n;
 
     $fragment = new Fragment();
@@ -307,20 +295,14 @@ if (!$isStartpage && $user->hasPerm('moveArticle[]')) {
 
 // -------------------------------------------------- ARTIKEL KOPIEREN START
 if ($user->hasPerm('copyArticle[]')) {
-    $moveA = new CategorySelect(false, null, true, !$user->getComplexPerm('structure')->hasMountPoints());
-    $moveA->setName('category_copy_id_new');
-    $moveA->setId('category_copy_id_new');
-    $moveA->setSize('1');
-    $moveA->setAttribute('class', 'form-control selectpicker');
-    $moveA->setAttribute('data-live-search', 'true');
-    $moveA->setSelected($categoryId);
+    $moveA = $categoryInput('category_copy_id_new', $categoryId);
 
     $panel = '<fieldset>';
 
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="category_copy_id_new">' . I18n::msg('copy_article') . '</label>';
-    $n['field'] = $moveA->get();
+    $n['field'] = $moveA->render();
     $formElements[] = $n;
 
     $fragment = new Fragment();
@@ -348,20 +330,14 @@ if ($user->hasPerm('copyArticle[]')) {
 
 // --------------------------------------------------- KATEGORIE/STARTARTIKEL VERSCHIEBEN START
 if ($isStartpage && $user->hasPerm('moveCategory[]') && $user->getComplexPerm('structure')->hasCategoryPerm($article->getNullableIntValue('parent_id'))) {
-    $moveA = new CategorySelect(false, null, true, !$user->getComplexPerm('structure')->hasMountPoints());
-    $moveA->setId('category_id_new');
-    $moveA->setName('category_id_new');
-    $moveA->setSize('1');
-    $moveA->setAttribute('class', 'form-control selectpicker');
-    $moveA->setAttribute('data-live-search', 'true');
-    $moveA->setSelected($articleId);
+    $moveA = $categoryInput('category_id_new', $articleId);
 
     $panel = '<fieldset>';
 
     $formElements = [];
     $n = [];
     $n['label'] = '<label for="category_id_new">' . I18n::msg('move_category') . '</label>';
-    $n['field'] = $moveA->get();
+    $n['field'] = $moveA->render();
     $formElements[] = $n;
 
     $fragment = new Fragment();

@@ -215,9 +215,6 @@ return RectorConfig::configure()
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
         'rex_select' => Form\Select\Select::class,
-        'rex_category_select' => Form\Select\CategorySelect::class,
-        'rex_media_category_select' => Form\Select\MediaCategorySelect::class,
-        'rex_template_select' => Form\Select\TemplateSelect::class,
         'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
         'rex_log_entry' => Log\LogEntry::class,
@@ -707,8 +704,6 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_TO_ART', '\\' . Content\ExtensionPoint\CategoryConvertedToArticle::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_TO_STARTARTICLE', '\\' . Content\ExtensionPoint\ArticleConvertedToStartArticle::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_ADD', '\\' . MediaPool\ExtensionPoint\MediaAdding::class . '::class'),
-
-        new ReplaceArgumentDefaultValue(Form\Select\CategorySelect::class, '__construct', 1, false, null),
     ])
     ->withConfiguredRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(ExtensionPoint\Extension::class, 'EARLY', ExtensionPoint\ExtensionLevel::class, 'Early'),

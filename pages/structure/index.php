@@ -20,7 +20,7 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
-use Redaxo\Core\Form\Select\TemplateSelect;
+use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Translation\I18n;
@@ -353,12 +353,13 @@ $echo = '';
 
 // --------------------- READ TEMPLATES
 
-$templateSelect = new TemplateSelect($categoryId, $languageId);
-if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId && !$user->getComplexPerm('structure')->hasMountpoints())) {
-    $templateSelect->setName('template');
-    $templateSelect->setSize(1);
-    $templateSelect->setStyle('class="form-control selectpicker"');
+$templates = Template::getTemplatesForCategory($structureContext->categoryId);
+$templateChoices = array_map(static fn (Template $template) => I18n::translate($template->name), $templates);
+new Collator(Locale::getDefault())->asort($templateChoices);
+/** @var array<string, string> $templateChoices */
+$templateChoices = $templateChoices ?: ['' => I18n::msg('option_no_template')];
 
+if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId && !$user->getComplexPerm('structure')->hasMountpoints())) {
     // --------------------- ARTIKEL LIST
     $artAddLink = '';
     if ($user->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
@@ -441,8 +442,10 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
 
     // --------------------- ARTIKEL ADD FORM
     if ('add_art' === $structureContext->function && $user->hasPerm('addArticle[]') && $structureContext->hasCategoryPermission()) {
-        $templateSelect->setSelectedFromStartArticle();
-        $tmplTd = '<td class="rex-table-template" data-title="' . I18n::msg('header_template') . '">' . $templateSelect->get() . '</td>';
+        // new articles inherit the template of the start article
+        $template = Article::get($structureContext->categoryId, $structureContext->languageId)?->templateKey;
+        $template = isset($templates[$template ?? '']) ? $template : Template::getDefaultKey();
+        $tmplTd = '<td class="rex-table-template" data-title="' . I18n::msg('header_template') . '">' . (string) new SelectInput('template', $templateChoices, $template)->render() . '</td>';
 
         $echo .= '<tr class="mark">
                     <td class="rex-table-icon"><i class="rex-icon rex-icon-article"></i></td>
@@ -486,8 +489,7 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
         // --------------------- ARTIKEL EDIT FORM
 
         if ($canEdit && 'edit_art' === $structureContext->function && $sql->getIntValue('id') === $structureContext->articleId && $structureContext->hasCategoryPermission()) {
-            $templateSelect->setSelected($sql->getNullableStringValue('template') ?? '');
-            $tmplTd = '<td class="rex-table-template" data-title="' . I18n::msg('header_template') . '">' . $templateSelect->get() . '</td>';
+            $tmplTd = '<td class="rex-table-template" data-title="' . I18n::msg('header_template') . '">' . (string) new SelectInput('template', $templateChoices, $sql->getNullableStringValue('template'))->render() . '</td>';
 
             $echo .= '<tr class="mark' . $classStartarticle . ' ' . $trStatusClass . '">
                             <td class="rex-table-icon"><a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['page' => 'content/edit', 'article_id' => $sql->getIntValue('id')]) . '" title="' . escape($sql->getStringValue('name')) . '"><i class="rex-icon' . $class . '"></i></a></td>
