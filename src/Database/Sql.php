@@ -20,6 +20,7 @@ use Redaxo\Core\Util\Type;
 use SensitiveParameter;
 use Throwable;
 
+use function array_column;
 use function array_key_exists;
 use function assert;
 use function date_default_timezone_get;
@@ -1816,14 +1817,30 @@ class Sql implements Iterator
         $sql->setQuery('SHOW FULL COLUMNS FROM ' . $sql->escapeIdentifier($table));
 
         $columns = [];
+        $checks = null;
         foreach ($sql as $col) {
             $null = $col->getStringValue('Null');
             assert('YES' === $null || 'NO' === $null);
 
+            $type = $col->getStringValue('Type');
+
+            // MariaDB stores a json column as longtext with a json_valid() check and reports it as such.
+            if ('longtext' === $type && self::MARIADB === $sql->getDbType()) {
+                $checks ??= array_column(self::factory($db)->getArray('
+                    SELECT CONSTRAINT_NAME, CHECK_CLAUSE
+                    FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS
+                    WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = ?', [$table]), 'CHECK_CLAUSE', 'CONSTRAINT_NAME');
+
+                $name = $col->getStringValue('Field');
+                if (($checks[$name] ?? null) === 'json_valid(' . $sql->escapeIdentifier($name) . ')') {
+                    $type = 'json';
+                }
+            }
+
             /** @psalm-taint-escape sql */
             $column = [
                 'name' => $col->getStringValue('Field'),
-                'type' => $col->getStringValue('Type'),
+                'type' => $type,
                 'null' => $null,
                 'key' => $col->getStringValue('Key'),
                 'default' => $col->getNullableStringValue('Default'),
