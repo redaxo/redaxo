@@ -8,17 +8,19 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategory;
+use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\Message;
 
 use function Redaxo\Core\View\escape;
@@ -212,18 +214,13 @@ $sidebar = Extension::dispatch(new ExtensionPoint('MEDIA_DETAIL_SIDEBAR', $sideb
 if ($TPERM) {
     $panel = '';
 
-    $catsSel = new MediaCategorySelect();
-    $catsSel->setStyle('class="form-control"');
-    $catsSel->setSize(1);
-    $catsSel->setName('rex_file_category');
-    $catsSel->setId('rex-mediapool-category');
-    $catsSel->setAttribute('class', 'selectpicker form-control');
-    $catsSel->setAttribute('data-live-search', 'true');
-    $catsSel->setSelected($rexFileCategory);
-
-    if ($perm->hasAll()) {
-        $catsSel->addOption(I18n::msg('pool_kats_no'), '0');
-    }
+    $catsSel = new SelectInput(
+        'rex_file_category',
+        new MediaCategoryChoices(root: true)->choices(),
+        (string) $rexFileCategory,
+        'rex-mediapool-category',
+        attributes: new HtmlAttributes(['data-live-search' => 'true']),
+    );
 
     $formElements = [];
 
@@ -234,7 +231,7 @@ if ($TPERM) {
 
     $e = [];
     $e['label'] = '<label for="rex-mediapool-category">' . I18n::msg('pool_file_category') . '</label>';
-    $e['field'] = $catsSel->get();
+    $e['field'] = $catsSel->render();
     $formElements[] = $e;
 
     $fragment = new Fragment();

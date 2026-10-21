@@ -12,6 +12,8 @@ use Redaxo\Core\Env;
 use Redaxo\Core\Environment;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Mailer\Command\MailerTestCommand;
+use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Migration\Command\MigrateCommand;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Setup\Setup;
@@ -27,6 +29,11 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Mailer\Exception\ExceptionInterface as MailerExceptionInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 
 use function array_key_exists;
 use function in_array;
@@ -73,7 +80,7 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         };
 
         // ---------------------------------- Step 1 . Language
-        $io->title('Step 1 of 4 / Language');
+        $io->title('Step 1 of 5 / Language');
         $langs = [];
         foreach (I18n::getLocales() as $locale) {
             $langs[$locale] = I18n::msgInLocale('lang', $locale);
@@ -94,7 +101,7 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         ));
 
         // ---------------------------------- Step 2 . Database
-        $io->title('Step 2 of 4 / Database');
+        $io->title('Step 2 of 5 / Database');
 
         // a url the environment already provides seeds the questions, so that a re-run can keep or adjust it
         $envUrl = Env::get('DATABASE_URL');
@@ -222,7 +229,7 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         }
 
         // ---------------------------------- Step 3 . Migration
-        $io->title('Step 3 of 4 / Migration');
+        $io->title('Step 3 of 5 / Migration');
 
         $sql = Sql::factory();
         $io->block('Database version: ' . $sql->getDbType() . ' ' . $sql->getDbVersion());
@@ -238,7 +245,7 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
         Core::setConfig('lang', $lang);
 
         // ---------------------------------- Step 4 . Create User
-        $io->title('Step 4 of 4 / User');
+        $io->title('Step 4 of 5 / User');
 
         $user = Sql::factory();
         $user
@@ -322,8 +329,125 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
             $io->success('No additional admin user created');
         }
 
+        // ---------------------------------- Step 5 . Mailer
+        $io->title('Step 5 of 5 / Mailer');
+
+        if (!$this->setupMailer()) {
+            $io->error('Unable to write "' . Path::base('.env.local') . '".');
+
+            return Command::FAILURE;
+        }
+
         $io->success('Congratulations! REDAXO has successfully been installed.');
         return Command::SUCCESS;
+    }
+
+    /**
+     * Asks for the transport and the default sender of the mailer, which is optional, as not every website sends mails.
+     *
+     * @return bool `false` if the configuration could not be written
+     */
+    private function setupMailer(): bool
+    {
+        $io = $this->io;
+        $envDsn = Env::get('MAILER_DSN');
+        $envFrom = Env::get('REX_MAILER_FROM');
+        $hint = 'Mails can\'t be sent yet: if the website sends mails, set MAILER_DSN and REX_MAILER_FROM in ".env.local" and check them with "console mailer:test".';
+
+        try {
+            $transport = null === $envDsn ? null : self::createTransport($envDsn);
+        } catch (InvalidArgumentException) {
+            $transport = null;
+        }
+
+        if (!$this->input->isInteractive()) {
+            if (null === $envDsn) {
+                $io->note($hint);
+            }
+
+            return true;
+        }
+
+        $question = match (true) {
+            null === $envDsn => 'Configure the mailer now? It is only needed if the website sends mails.',
+            null === $transport => 'The configured mailer DSN is invalid. Change the mailer configuration?',
+            default => sprintf('The mailer uses "%s". Change the mailer configuration?', $transport),
+        };
+
+        if (!$io->confirm($question, null !== $envDsn && null === $transport)) {
+            if (null === $envDsn) {
+                $io->note($hint);
+            }
+
+            return true;
+        }
+
+        $dsn = $envDsn;
+        $from = $envFrom;
+
+        do {
+            $dsn = Type::string($io->ask(
+                'Mailer DSN, e.g. "smtp://<login>:<password>@<host>:587" (special characters in login and password must be percent-encoded)',
+                $dsn,
+                static function (mixed $value): string {
+                    if (!is_string($value) || '' === $value) {
+                        throw new InvalidArgumentException('Value required');
+                    }
+                    self::createTransport($value);
+
+                    return $value;
+                },
+            ));
+
+            $from = Type::nullOrString($io->ask(
+                'Default sender, e.g. "Example <mail@example.org>" (leave empty if every mail sets its own)',
+                $from,
+                self::validateAddress(...),
+            ));
+
+            // the mailer reads its configuration from the env vars
+            $_SERVER['MAILER_DSN'] = $dsn;
+            $_SERVER['REX_MAILER_FROM'] = $from ?? '';
+
+            $retry = false;
+            if (null === $from) {
+                $io->note('Without a default sender no test mail can be sent, check the mailer later with "console mailer:test".');
+            } elseif (null !== $recipient = Type::nullOrString($io->ask('Send a test mail to (leave empty to skip)', null, self::validateAddress(...)))) {
+                $retry = !MailerTestCommand::sendTestMail(Mailer::fromEnv(), $recipient, $io)
+                    && $io->confirm('Change the mailer configuration?', true);
+            }
+        } while ($retry);
+
+        if ($dsn !== $envDsn && !self::persistEnvVar('MAILER_DSN', $dsn)) {
+            return false;
+        }
+
+        return $from === $envFrom || self::persistEnvVar('REX_MAILER_FROM', $from ?? '');
+    }
+
+    /** Validates an optional mail address, also accepted with a name, e.g. "Example <mail@example.org>". */
+    private static function validateAddress(mixed $value): ?string
+    {
+        if (!is_string($value) || '' === $value) {
+            return null;
+        }
+
+        try {
+            Address::create($value);
+        } catch (RfcComplianceException $exception) {
+            throw new InvalidArgumentException($exception->getMessage(), previous: $exception);
+        }
+
+        return $value;
+    }
+
+    private static function createTransport(string $dsn): TransportInterface
+    {
+        try {
+            return Transport::fromDsn($dsn, client: Core::getHttpClient());
+        } catch (MailerExceptionInterface $exception) {
+            throw new InvalidArgumentException($exception->getMessage(), previous: $exception);
+        }
     }
 
     /**
@@ -468,10 +592,10 @@ final class SetupCommand extends AbstractCommand implements StandaloneInterface
     private static function persistEnvVar(string $name, string $value): bool
     {
         $file = Path::base('.env.local');
-        $line = $name . "='" . $value . "'";
+        $line = $name . "='" . str_replace("'", "'\\''", $value) . "'";
         $content = is_file($file) ? (string) File::get($file) : '';
 
-        $replaced = Type::string(preg_replace('/^' . preg_quote($name, '/') . '=.*$/m', $line, $content, -1, $count));
+        $replaced = Type::string(preg_replace_callback('/^' . preg_quote($name, '/') . '=.*$/m', static fn () => $line, $content, -1, $count));
 
         if ($count) {
             return File::put($file, $replaced);

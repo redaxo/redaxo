@@ -951,21 +951,6 @@
       <code><![CDATA[non-empty-string|null]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="src/Form/Select/TemplateSelect.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$selected]]></code>
-    </ArgumentTypeCoercion>
-    <InvalidArrayOffset>
-      <code><![CDATA[$templates[$selected]]]></code>
-      <code><![CDATA[$templates[$selected]]]></code>
-    </InvalidArrayOffset>
-    <MixedArgument>
-      <code><![CDATA[$templateName]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$templateName]]></code>
-    </MixedAssignment>
-  </file>
   <file src="src/Http/Context.php">
     <InvalidOperand>
       <code><![CDATA[escape($valVal ?? '')]]></code>

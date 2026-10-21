@@ -10,11 +10,12 @@ use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
+use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPoolCache;
 use Redaxo\Core\Security\CsrfToken;
@@ -22,6 +23,7 @@ use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\Util\Pager;
 use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\Message;
 
 use function Redaxo\Core\View\escape;
@@ -138,17 +140,13 @@ if ($hasCategoryPerm && 'delete_selectedmedia' == $mediaMethod) {
     }
 }
 
-$catsSel = new MediaCategorySelect();
-$catsSel->setSize(1);
-$catsSel->setStyle('class="form-control selectpicker"');
-$catsSel->setAttribute('data-live-search', 'true');
-$catsSel->setName('rex_file_category');
-$catsSel->setId('rex_file_category');
-$catsSel->setSelected($rexFileCategory);
-
-if ($perm->hasAll()) {
-    $catsSel->addOption(I18n::msg('pool_kats_no'), '0');
-}
+$catsSel = new SelectInput(
+    'rex_file_category',
+    new MediaCategoryChoices(root: true)->choices(),
+    (string) $rexFileCategory,
+    'rex_file_category',
+    attributes: new HtmlAttributes(['data-live-search' => 'true']),
+);
 
 if ($error) {
     if (is_array($error)) {
@@ -242,7 +240,7 @@ if ($hasCategoryPerm) {
     $field = '';
     if ($filecat->getRows() > 0) {
         $e = [];
-        $e['field'] = $catsSel->get();
+        $e['field'] = $catsSel->render();
         $e['left'] = I18n::msg('pool_changecat_selectedmedia_prefix');
         $e['right'] = '<button class="btn btn-update" type="submit" onclick="var needle=new getObj(\'media_method\');needle.obj.value=\'updatecat_selectedmedia\';">' . I18n::msg('pool_changecat_selectedmedia_suffix') . '</button>';
 
