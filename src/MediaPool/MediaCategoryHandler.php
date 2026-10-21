@@ -6,7 +6,11 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryAdded;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryDeleted;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaCategoryUpdated;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 
 final class MediaCategoryHandler
 {
@@ -15,10 +19,8 @@ final class MediaCategoryHandler
     /**
      * @param string $name The name of the new category
      * @param MediaCategory|null $parent The category in which the new category should be created, or null for a top/root level category
-     *
-     * @return string A success message
      */
-    public static function addCategory(string $name, ?MediaCategory $parent): string
+    public static function add(string $name, ?MediaCategory $parent): MediaCategory
     {
         $db = Sql::factory();
 
@@ -36,32 +38,32 @@ final class MediaCategoryHandler
         $db->addGlobalUpdateFields();
 
         $db->insert();
+        $id = $db->getLastId();
 
         MediaPoolCache::deleteCategoryList($parentId);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_ADDED', [
-            'id' => $db->getLastId(),
-            'parent_id' => $parentId,
-            'name' => $name,
-        ]));
+        $category = Type::notNull(MediaCategory::get($id));
 
-        return I18n::msg('pool_kat_saved', $name);
+        Extension::dispatch(new MediaCategoryAdded($category));
+
+        return $category;
     }
 
-    /**
-     * @throws UserMessageException
-     * @return string A success message
-     */
-    public static function deleteCategory(int $categoryId): string
+    /** @throws UserMessageException */
+    public static function delete(int $categoryId): void
     {
+        $category = MediaCategory::get($categoryId);
+        if (!$category) {
+            throw new UserMessageException(I18n::msg('pool_kat_not_found'));
+        }
+
         $gf = Sql::factory();
         $gf->setQuery('SELECT * FROM rex_media WHERE category_id=?', [$categoryId]);
         $gd = Sql::factory();
         $gd->setQuery('SELECT * FROM rex_media_category WHERE parent_id=?', [$categoryId]);
         if (0 == $gf->getRows() && 0 == $gd->getRows()) {
-            if ($uses = self::categoryIsInUse($categoryId)) {
-                $gf->setQuery('SELECT name FROM rex_media_category WHERE id=?', [$categoryId]);
-                $name = "{$gf->getValue('name')} [$categoryId]";
+            if ($uses = self::isInUse($categoryId)) {
+                $name = "{$category->name} [$categoryId]";
                 throw new UserMessageException('<strong>' . I18n::msg('pool_kat_delete_error', $name) . ' ' . I18n::msg('pool_object_in_use_by') . '</strong><br />' . $uses);
             }
 
@@ -72,13 +74,11 @@ final class MediaCategoryHandler
             throw new UserMessageException(I18n::msg('pool_kat_not_deleted'));
         }
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_DELETED', ['id' => $categoryId]));
-
-        return I18n::msg('pool_kat_deleted');
+        Extension::dispatch(new MediaCategoryDeleted($category));
     }
 
     /** @return false|string false or warning message */
-    public static function categoryIsInUse(int $categoryId): string|false
+    public static function isInUse(int $categoryId): string|false
     {
         /** @var list<string> $warning */
         $warning = [];
@@ -97,10 +97,15 @@ final class MediaCategoryHandler
      * @param int $categoryId The id of the category to edit
      * @param array{name: string} $data The category data
      *
-     * @return string A success message
+     * @throws UserMessageException
      */
-    public static function editCategory(int $categoryId, array $data): string
+    public static function edit(int $categoryId, array $data): MediaCategory
     {
+        $previous = MediaCategory::get($categoryId);
+        if (!$previous) {
+            throw new UserMessageException(I18n::msg('pool_kat_not_found'));
+        }
+
         $catName = $data['name'];
 
         $db = Sql::factory();
@@ -113,11 +118,10 @@ final class MediaCategoryHandler
 
         MediaPoolCache::deleteCategory($categoryId);
 
-        Extension::dispatch(new ExtensionPoint('MEDIA_CATEGORY_UPDATED', [
-            'id' => $categoryId,
-            'name' => $catName,
-        ]));
+        $category = Type::notNull(MediaCategory::get($categoryId));
 
-        return I18n::msg('pool_kat_updated', $catName);
+        Extension::dispatch(new MediaCategoryUpdated($category, $previous));
+
+        return $category;
     }
 }

@@ -2,10 +2,17 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\Content\ExtensionPoint\CategoryAdded;
+use Redaxo\Core\Content\ExtensionPoint\CategoryConvertedToArticle;
+use Redaxo\Core\Content\ExtensionPoint\CategoryDeleted;
+use Redaxo\Core\Content\ExtensionPoint\CategoryMoved;
+use Redaxo\Core\Content\ExtensionPoint\CategoryStatusChanged;
+use Redaxo\Core\Content\ExtensionPoint\CategoryUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
@@ -29,11 +36,9 @@ final class CategoryHandler
      * @param array{catpriority: int, catname: string, name?: string, status?: int} $data Category data, the names
      *     are used for all languages
      *
-     * @throws ApiFunctionException
-     *
-     * @return string A status message
+     * @throws UserMessageException
      */
-    public static function addCategory(?int $categoryId, array $data): string
+    public static function add(?int $categoryId, array $data): Category
     {
         self::reqKey($data, 'catpriority');
         self::reqKey($data, 'catname');
@@ -41,7 +46,7 @@ final class CategoryHandler
         if (null !== $categoryId) {
             $parent = Category::get($categoryId);
             if (!$parent) {
-                throw new ApiFunctionException('Target category with ID "' . $categoryId . '" does not exist.');
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = '|' . implode('|', [...$parent->path, $parent->id]) . '|';
         } else {
@@ -126,25 +131,16 @@ final class CategoryHandler
         }
 
         // ----- PRIOR
-        self::newCatPrio($categoryId, 0, $data['catpriority']);
+        self::updatePriorities($categoryId, 0, $data['catpriority']);
 
         ArticleCache::delete($id);
 
-        // ----- EXTENSION POINT
-        $category = self::select($id, Language::getStartId());
-        $message = Extension::dispatch(new ExtensionPoint('CAT_ADDED', I18n::msg('category_added_and_startarticle_created'), [
-            'category' => $category,
-            'id' => $id,
-            'parent_id' => $categoryId,
-            'name' => $data['catname'],
-            'priority' => $data['catpriority'],
-            'path' => $path,
-            'status' => $data['status'],
-            'article' => $category,
-            'data' => $data,
-        ]));
+        $category = Category::require($id);
 
-        return $message;
+        // ----- EXTENSION POINT
+        Extension::dispatch(new CategoryAdded($category));
+
+        return $category;
     }
 
     /**
@@ -152,18 +148,18 @@ final class CategoryHandler
      *
      * @param array{catname?: string, catpriority?: int} $data Category data
      *
-     * @throws ApiFunctionException
-     *
-     * @return string A status message
+     * @throws UserMessageException
      */
-    public static function editCategory(int $categoryId, int $languageId, array $data): string
+    public static function edit(int $categoryId, int $languageId, array $data): Category
     {
         // --- Kategorie mit alten Daten selektieren
         $thisCat = self::select($categoryId, $languageId);
 
         if (1 != $thisCat->getRows()) {
-            throw new ApiFunctionException(I18n::msg('no_such_category'));
+            throw new UserMessageException(I18n::msg('no_such_category'));
         }
+
+        $previous = Category::require($categoryId, $languageId);
 
         if (isset($data['catname'])) {
             Sql::factory()
@@ -190,82 +186,54 @@ final class CategoryHandler
             $oldPrio = $thisCat->getIntValue('catpriority');
 
             if ($oldPrio != $data['catpriority']) {
-                self::newCatPrio($thisCat->getNullableIntValue('parent_id'), $data['catpriority'], $oldPrio);
+                self::updatePriorities($thisCat->getNullableIntValue('parent_id'), $data['catpriority'], $oldPrio);
             }
         }
 
-        $message = I18n::msg('category_updated');
-
         ArticleCache::delete($categoryId);
 
+        $category = Category::require($categoryId, $languageId);
+
         // ----- EXTENSION POINT
-        $message = Extension::dispatch(new ExtensionPoint('CAT_UPDATED', $message, [
-            'id' => $categoryId,
+        Extension::dispatch(new CategoryUpdated($category, $previous));
 
-            'category' => self::select($categoryId, $languageId),
-            'category_old' => clone $thisCat,
-            'article' => self::select($categoryId, $languageId),
-
-            'parent_id' => $thisCat->getValue('parent_id'),
-            'language' => $languageId,
-            'name' => $data['catname'] ?? $thisCat->getValue('catname'),
-            'priority' => $data['catpriority'] ?? $thisCat->getValue('catpriority'),
-            'path' => $thisCat->getValue('path'),
-            'status' => $thisCat->getValue('status'),
-
-            'data' => $data,
-        ]));
-
-        return $message;
+        return $category;
     }
 
     /**
      * Löscht eine Kategorie und reorganisiert die Prioritäten verbleibender Geschwister-Kategorien.
      *
-     * @throws ApiFunctionException
-     *
-     * @return string Eine Statusmeldung
+     * @throws UserMessageException
      */
-    public static function deleteCategory(int $categoryId): string
+    public static function delete(int $categoryId): void
     {
-        $thisCat = Sql::factory();
-        $thisCat->setQuery('SELECT a.*, c.priority AS catpriority FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$categoryId]);
-
-        // Prüfen ob die Kategorie existiert
-        if (1 != $thisCat->getRows()) {
-            throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted'));
+        $category = Category::get($categoryId);
+        if (!$category) {
+            throw new UserMessageException(I18n::msg('category_could_not_be_deleted'));
         }
 
         $KAT = Sql::factory();
         $KAT->setQuery('SELECT a.id FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.parent_id = ? LIMIT 1', [$categoryId]);
         // Prüfen ob die Kategorie noch Unterkategorien besitzt
         if (0 != $KAT->getRows()) {
-            throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
+            throw new UserMessageException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_subcategories'));
         }
 
         $KAT->setQuery('SELECT a.id FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.parent_id = ? AND c.id IS NULL LIMIT 1', [$categoryId]);
         // Prüfen ob die Kategorie noch Artikel besitzt (ausser dem Startartikel)
         if (0 != $KAT->getRows()) {
-            throw new ApiFunctionException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
+            throw new UserMessageException(I18n::msg('category_could_not_be_deleted') . ' ' . I18n::msg('category_still_contains_articles'));
         }
 
-        $parentId = $thisCat->getNullableIntValue('parent_id');
-        $message = ArticleHandler::_deleteArticle($categoryId);
+        ArticleHandler::deleteRecursively($categoryId);
 
         // ----- PRIOR
-        self::newCatPrio($parentId, 0, 1);
+        self::updatePriorities($category->parentId, 0, 1);
 
         // ----- EXTENSION POINT
-        $message = Extension::dispatch(new ExtensionPoint('CAT_DELETED', $message, [
-            'id' => $categoryId,
-            'parent_id' => $parentId,
-            'priority' => $thisCat->getValue('catpriority'),
-            'path' => $thisCat->getValue('path'),
-        ]));
+        Extension::dispatch(new CategoryDeleted($category));
 
         ComplexPermission::removeItem('structure', $categoryId);
-
-        return $message;
     }
 
     /**
@@ -273,47 +241,45 @@ final class CategoryHandler
      *
      * @param int|null $status Status auf den die Kategorie gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws ApiFunctionException
-     *
-     * @return int Der neue Status der Kategorie
+     * @throws UserMessageException
      */
-    public static function categoryStatus(int $categoryId, int $languageId, ?int $status = null): int
+    public static function changeStatus(int $categoryId, int $languageId, ?int $status = null): Category
     {
         $KAT = self::select($categoryId, $languageId);
-        if (1 == $KAT->getRows()) {
-            // Status wurde nicht von außen vorgegeben,
-            // => zyklisch auf den nächsten Weiterschalten
-            if (null === $status) {
-                $newstatus = self::nextStatus($KAT->getIntValue('status'));
-            } else {
-                $newstatus = $status;
-            }
-
-            Sql::factory()
-                ->setTable('rex_article_translation')
-                ->setWhere(['article_id' => $categoryId, 'language_id' => $languageId])
-                ->setValue('status', $newstatus)
-                ->update();
-
-            Sql::factory()
-                ->setTable('rex_article')
-                ->setWhere(['id' => $categoryId])
-                ->addGlobalUpdateFields(self::getUser())
-                ->update();
-
-            ArticleCache::delete($categoryId, $languageId);
-
-            // ----- EXTENSION POINT
-            Extension::dispatch(new ExtensionPoint('CAT_STATUS', null, [
-                'id' => $categoryId,
-                'language' => $languageId,
-                'status' => $newstatus,
-            ]));
-        } else {
-            throw new ApiFunctionException(I18n::msg('no_such_category'));
+        if (1 != $KAT->getRows()) {
+            throw new UserMessageException(I18n::msg('no_such_category'));
         }
 
-        return $newstatus;
+        $previous = Category::require($categoryId, $languageId);
+
+        // Status wurde nicht von außen vorgegeben,
+        // => zyklisch auf den nächsten Weiterschalten
+        if (null === $status) {
+            $newstatus = self::nextStatus($KAT->getIntValue('status'));
+        } else {
+            $newstatus = $status;
+        }
+
+        Sql::factory()
+            ->setTable('rex_article_translation')
+            ->setWhere(['article_id' => $categoryId, 'language_id' => $languageId])
+            ->setValue('status', $newstatus)
+            ->update();
+
+        Sql::factory()
+            ->setTable('rex_article')
+            ->setWhere(['id' => $categoryId])
+            ->addGlobalUpdateFields(self::getUser())
+            ->update();
+
+        ArticleCache::delete($categoryId, $languageId);
+
+        $category = Category::require($categoryId, $languageId);
+
+        // ----- EXTENSION POINT
+        Extension::dispatch(new CategoryStatusChanged($category, $previous));
+
+        return $category;
     }
 
     /**
@@ -357,21 +323,13 @@ final class CategoryHandler
     }
 
     /**
-     * Copies a category into another category.
-     *
-     * @param int|null $toCat `null` for the root level
-     */
-    public static function copyCategory(int $fromCat, ?int $toCat): void
-    {
-        // TODO copyCategory implementieren
-    }
-
-    /**
      * Recalculates the priorities of the subcategories of a category.
+     *
+     * @internal
      *
      * @param int|null $parentId `null` for the root level
      */
-    public static function newCatPrio(?int $parentId, int $newPrio, int $oldPrio): void
+    public static function updatePriorities(?int $parentId, int $newPrio, int $oldPrio): void
     {
         if ($newPrio != $oldPrio) {
             if ($newPrio < $oldPrio) {
@@ -403,12 +361,14 @@ final class CategoryHandler
      * Moves a category into another category.
      *
      * @param int|null $toCat `null` for the root level
+     *
+     * @throws UserMessageException
      */
-    public static function moveCategory(int $fromCat, ?int $toCat): bool
+    public static function move(int $fromCat, ?int $toCat): void
     {
         if ($fromCat === $toCat) {
             // kann nicht in gleiche kategroie kopiert werden
-            return false;
+            throw new UserMessageException(I18n::msg('content_error_movecategory'));
         }
 
         // kategorien vorhanden ?
@@ -420,18 +380,18 @@ final class CategoryHandler
         $tcat->setQuery('SELECT a.* FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$toCat]);
 
         if (1 != $fcat->getRows() || (1 != $tcat->getRows() && null !== $toCat)) {
-            // eine der kategorien existiert nicht
-            return false;
+            throw new UserMessageException(I18n::msg('no_such_category'));
         }
         if (null !== $toCat) {
             $tcats = explode('|', $tcat->getStringValue('path'));
             if (in_array($fromCat, $tcats)) {
                 // zielkategorie ist in quellkategorie -> nicht verschiebbar
-                return false;
+                throw new UserMessageException(I18n::msg('content_error_movecategory'));
             }
         }
 
         $fromParentId = $fcat->getNullableIntValue('parent_id');
+        $previous = Category::require($fromCat);
 
         // ----- folgende cats regenerate
         $RC = [];
@@ -494,14 +454,49 @@ final class CategoryHandler
             ArticleCache::delete($id);
         }
 
-        self::newCatPrio($fromParentId, 0, 1);
+        self::updatePriorities($fromParentId, 0, 1);
 
-        Extension::dispatch(new ExtensionPoint('CAT_MOVED', null, [
-            'id' => $fromCat,
-            'category_id' => $toCat,
-        ]));
+        Extension::dispatch(new CategoryMoved(Category::require($fromCat), $previous));
+    }
 
-        return true;
+    /**
+     * Konvertiert eine Kategorie in einen Artikel.
+     *
+     * @throws UserMessageException
+     */
+    public static function convertToArticle(int $categoryId): void
+    {
+        $sql = Sql::factory();
+
+        // Kategorie muss leer sein
+        $sql->setQuery('SELECT id FROM rex_article WHERE parent_id = ? LIMIT 1', [$categoryId]);
+        if (0 != $sql->getRows()) {
+            throw new UserMessageException(I18n::msg('content_toarticle_failed'));
+        }
+
+        $sql->setQuery('SELECT a.parent_id FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$categoryId]);
+        if (1 != $sql->getRows()) {
+            throw new UserMessageException(I18n::msg('content_toarticle_failed'));
+        }
+        $parentId = $sql->getNullableIntValue('parent_id');
+        $previous = Category::require($categoryId);
+
+        // the translations of the category are removed by the foreign key
+        $sql->setQuery('DELETE FROM rex_category WHERE id = ?', [$categoryId]);
+
+        Sql::factory()
+            ->setTable('rex_article')
+            ->setWhere(['id' => $categoryId])
+            ->setValue('priority', 99999)
+            ->addGlobalUpdateFields(self::getUser())
+            ->update();
+
+        ArticleHandler::updatePriorities($parentId, 1, 0);
+
+        ArticleCache::deleteLists($parentId);
+        ArticleCache::delete($categoryId);
+
+        Extension::dispatch(new CategoryConvertedToArticle(Article::require($categoryId), $previous));
     }
 
     /** Selects the category with its start article and the translations in the given language. */
@@ -524,12 +519,11 @@ final class CategoryHandler
      * Checks whether the required array key $keyName isset.
      *
      * @param array<string, mixed> $array
-     * @throws ApiFunctionException
      */
     private static function reqKey(array $array, string $keyName): void
     {
         if (!isset($array[$keyName])) {
-            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
+            throw new InvalidArgumentException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

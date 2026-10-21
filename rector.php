@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use Rector\Arguments\Rector\ClassMethod\ArgumentAdderRector;
 use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
-use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector as CodeQuality;
 use Rector\CodingStyle\Rector as CodingStyle;
@@ -29,12 +27,10 @@ use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameProperty;
 use Rector\Renaming\ValueObject\RenameStaticMethod;
-use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
 use Rector\Transform\Rector\FuncCall\FuncCallToStaticCallRector;
 use Rector\Transform\Rector\MethodCall\MethodCallToStaticCallRector;
 use Rector\Transform\Rector\New_\NewToStaticCallRector;
 use Rector\Transform\Rector\StaticCall\StaticCallToNewRector;
-use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\MethodCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
@@ -219,21 +215,6 @@ return RectorConfig::configure()
         'rex_extension_point_slice_menu' => Content\ExtensionPoint\SliceMenu::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
-        'rex_form_base' => Form\AbstractForm::class,
-        'rex_form' => Form\DbForm::class,
-        'rex_config_form' => Form\ConfigForm::class,
-        'rex_form_element' => Form\Field\BaseField::class,
-        'rex_form_options_element' => Form\Field\AbstractOptionField::class,
-        'rex_form_checkbox_element' => Form\Field\CheckboxField::class,
-        'rex_form_radio_element' => Form\Field\RadioField::class,
-        'rex_form_container_element' => Form\Field\ContainerField::class,
-        'rex_form_control_element' => Form\Field\ControlField::class,
-        'rex_form_select_element' => Form\Field\SelectField::class,
-        'rex_form_prio_element' => Form\Field\PriorityField::class,
-        'rex_form_perm_select_element' => Form\Field\PermissionSelectField::class,
-        'rex_form_raw_element' => Form\Field\RawField::class,
-        'rex_form_widget_linkmap_element' => Form\Field\ArticleField::class,
-        'rex_form_widget_media_element' => Form\Field\MediaField::class,
         'rex_select' => Form\Select\Select::class,
         'rex_category_select' => Form\Select\CategorySelect::class,
         'rex_media_category_select' => Form\Select\MediaCategorySelect::class,
@@ -341,12 +322,6 @@ return RectorConfig::configure()
     ->withConfiguredRule(RenameFunctionRector::class, [
         'rex_escape' => 'Redaxo\\Core\\View\\escape',
     ])
-    ->withConfiguredRule(ArgumentAdderRector::class, [
-        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
-        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 2, 'arguments', ['multiple' => true]),
-        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 1, 'value', null),
-        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 2, 'arguments', ['multiple' => true]),
-    ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(Language\LanguageHandler::class, 'addCLang', 'add'),
         new MethodCallRename(Language\LanguageHandler::class, 'editCLang', 'edit'),
@@ -375,9 +350,34 @@ return RectorConfig::configure()
         new MethodCallRename(Content\Template::class, 'getDefaultId', 'getDefaultKey'),
         new MethodCallRename(Content\Module::class, 'forKey', 'get'),
 
-        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addArticleField'),
-        new MethodCallRename(Form\AbstractForm::class, 'addLinkmapField', 'addArticleField'),
-        new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
+        new MethodCallRename(Content\ArticleHandler::class, 'addArticle', 'add'),
+        new MethodCallRename(Content\ArticleHandler::class, 'editArticle', 'edit'),
+        new MethodCallRename(Content\ArticleHandler::class, 'deleteArticle', 'delete'),
+        new MethodCallRename(Content\ArticleHandler::class, '_deleteArticle', 'deleteRecursively'),
+        new MethodCallRename(Content\ArticleHandler::class, 'copyArticle', 'copy'),
+        new MethodCallRename(Content\ArticleHandler::class, 'moveArticle', 'move'),
+        new MethodCallRename(Content\ArticleHandler::class, 'articleStatus', 'changeStatus'),
+        new MethodCallRename(Content\ArticleHandler::class, 'article2category', 'convertToCategory'),
+        new MethodCallRename(Content\ArticleHandler::class, 'article2startarticle', 'convertToStartArticle'),
+        new MethodCallRename(Content\ArticleHandler::class, 'newArtPrio', 'updatePriorities'),
+
+        new MethodCallRename(Content\CategoryHandler::class, 'addCategory', 'add'),
+        new MethodCallRename(Content\CategoryHandler::class, 'editCategory', 'edit'),
+        new MethodCallRename(Content\CategoryHandler::class, 'deleteCategory', 'delete'),
+        new MethodCallRename(Content\CategoryHandler::class, 'moveCategory', 'move'),
+        new MethodCallRename(Content\CategoryHandler::class, 'categoryStatus', 'changeStatus'),
+        new MethodCallRename(Content\CategoryHandler::class, 'newCatPrio', 'updatePriorities'),
+
+        new MethodCallRename(Content\ContentHandler::class, 'sliceStatus', 'changeSliceStatus'),
+
+        new MethodCallRename(MediaPool\MediaHandler::class, 'addMedia', 'add'),
+        new MethodCallRename(MediaPool\MediaHandler::class, 'updateMedia', 'edit'),
+        new MethodCallRename(MediaPool\MediaHandler::class, 'deleteMedia', 'delete'),
+
+        new MethodCallRename(MediaPool\MediaCategoryHandler::class, 'addCategory', 'add'),
+        new MethodCallRename(MediaPool\MediaCategoryHandler::class, 'editCategory', 'edit'),
+        new MethodCallRename(MediaPool\MediaCategoryHandler::class, 'deleteCategory', 'delete'),
+        new MethodCallRename(MediaPool\MediaCategoryHandler::class, 'categoryIsInUse', 'isInUse'),
     ])
     ->withConfiguredRule(RenameStaticMethodRector::class, [
         new RenameStaticMethod(Core::class, 'getPackageOrder', Addon\Addon::class, 'getBootOrder'),
@@ -414,6 +414,8 @@ return RectorConfig::configure()
         new RenameStaticMethod(View\View::class, 'message', View\Message::class, 'message'),
         new RenameStaticMethod(View\View::class, 'success', View\Message::class, 'success'),
         new RenameStaticMethod(View\View::class, 'warning', View\Message::class, 'warning'),
+
+        new RenameStaticMethod(Content\ArticleHandler::class, 'category2article', Content\CategoryHandler::class, 'convertToArticle'),
     ])
     ->withConfiguredRule(NewToStaticCallRector::class, [
         new NewToStaticCall(Log\LogFile::class, Log\LogFile::class, 'factory'),
@@ -437,10 +439,10 @@ return RectorConfig::configure()
         new FuncCallToStaticCall('rex_mediapool_Syncform', View\View::class, 'mediaPoolMediaForm'),
 
         // additional adjustments necessary afterward, see https://github.com/redaxo/core/pull/5918/files
-        new FuncCallToStaticCall('rex_mediapool_saveMedia', MediaPool\MediaPool::class, 'addMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_updateMedia', MediaPool\MediaPool::class, 'updateMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_syncFile', MediaPool\MediaPool::class, 'addMedia'), // different params
-        new FuncCallToStaticCall('rex_mediapool_deleteMedia', MediaPool\MediaPool::class, 'deleteMedia'), // different return value
+        new FuncCallToStaticCall('rex_mediapool_saveMedia', MediaPool\MediaHandler::class, 'add'), // different params
+        new FuncCallToStaticCall('rex_mediapool_updateMedia', MediaPool\MediaHandler::class, 'edit'), // different params
+        new FuncCallToStaticCall('rex_mediapool_syncFile', MediaPool\MediaHandler::class, 'add'), // different params
+        new FuncCallToStaticCall('rex_mediapool_deleteMedia', MediaPool\MediaHandler::class, 'delete'), // different return value
 
         new FuncCallToStaticCall('rex_cookie', Http\Request::class, 'cookie'),
         new FuncCallToStaticCall('rex_env', Http\Request::class, 'env'),
@@ -664,7 +666,6 @@ return RectorConfig::configure()
         new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),
         new ArgumentRemover(Filesystem\Url::class, 'currentBackendPage', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'article', 3, null),
-        new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(View\DataList::class, 'getUrl', 1, null),
         new ArgumentRemover(View\DataList::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(Content\StructureElement::class, 'getUrl', 1, null),
@@ -690,11 +691,29 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CLANG_FORM_BUTTONS', '\\' . Language\ExtensionPoint\LanguageFormButtons::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CLANG_FORM_ADD', '\\' . Language\ExtensionPoint\LanguageFormAdd::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CLANG_FORM_EDIT', '\\' . Language\ExtensionPoint\LanguageFormEdit::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_ADDED', '\\' . Content\ExtensionPoint\ArticleAdded::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_UPDATED', '\\' . Content\ExtensionPoint\ArticleUpdated::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_DELETED', '\\' . Content\ExtensionPoint\ArticleDeleted::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_ADDED', '\\' . Content\ExtensionPoint\CategoryAdded::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_UPDATED', '\\' . Content\ExtensionPoint\CategoryUpdated::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_DELETED', '\\' . Content\ExtensionPoint\CategoryDeleted::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_ADDED', '\\' . MediaPool\ExtensionPoint\MediaAdded::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_UPDATED', '\\' . MediaPool\ExtensionPoint\MediaUpdated::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_DELETED', '\\' . MediaPool\ExtensionPoint\MediaDeleted::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_ADDED', '\\' . MediaPool\ExtensionPoint\MediaCategoryAdded::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_UPDATED', '\\' . MediaPool\ExtensionPoint\MediaCategoryUpdated::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_DELETED', '\\' . MediaPool\ExtensionPoint\MediaCategoryDeleted::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_STATUS', '\\' . Content\ExtensionPoint\ArticleStatusChanged::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_STATUS', '\\' . Content\ExtensionPoint\CategoryStatusChanged::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_MOVED', '\\' . Content\ExtensionPoint\ArticleMoved::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_MOVED', '\\' . Content\ExtensionPoint\CategoryMoved::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_COPIED', '\\' . Content\ExtensionPoint\ArticleCopied::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_TO_CAT', '\\' . Content\ExtensionPoint\ArticleConvertedToCategory::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_TO_ART', '\\' . Content\ExtensionPoint\CategoryConvertedToArticle::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_TO_STARTARTICLE', '\\' . Content\ExtensionPoint\ArticleConvertedToStartArticle::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_ADD', '\\' . MediaPool\ExtensionPoint\MediaAdding::class . '::class'),
 
         new ReplaceArgumentDefaultValue(Form\Select\CategorySelect::class, '__construct', 1, false, null),
-    ])
-    ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
-        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Form\DbForm::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
     ])
     ->withConfiguredRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(ExtensionPoint\Extension::class, 'EARLY', ExtensionPoint\ExtensionLevel::class, 'Early'),

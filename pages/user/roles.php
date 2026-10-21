@@ -1,31 +1,30 @@
 <?php
 
 use Redaxo\Core\Backend\Accesskey;
-use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Backend\Form\Role;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\DbForm;
-use Redaxo\Core\Form\Field\PermissionSelectField;
-use Redaxo\Core\Form\Field\SelectField;
+use Redaxo\Core\Form\Form;
+use Redaxo\Core\Form\Storage\DatabaseStorage;
+use Redaxo\Core\Form\SubmitButton;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
-use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Security\CsrfToken;
-use Redaxo\Core\Security\Permission;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Validator\ValidationRule;
+use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 
-use function Redaxo\Core\View\escape;
-
 $func = Request::request('func', 'string');
 $id = Request::request('id', 'int');
 
-$message = '';
+// the form submits to the current url, so the message of the previous save must not appear again
+$message = 'get' !== Request::requestMethod() ? '' : match (Request::get('saved', 'string')) {
+    'added' => Message::info(I18n::msg('user_role_added')),
+    'updated' => Message::info(I18n::msg('user_role_data_updated')),
+    default => '',
+};
 $content = '';
 
 if ('delete' == $func) {
@@ -47,7 +46,7 @@ if ('' == $func) {
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-userrole"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add', 'default_value' => 1]) . '"' . Accesskey::attributes(I18n::msg('create_user_role'), 'add') . '><i class="rex-icon rex-icon-add-userrole"></i></a>';
+    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add']) . '"' . Accesskey::attributes(I18n::msg('create_user_role'), 'add') . '><i class="rex-icon rex-icon-add-userrole"></i></a>';
     $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
     $list->setColumnParams($thIcon, ['func' => 'edit', 'id' => '###id###']);
 
@@ -80,121 +79,33 @@ if ('' == $func) {
     $fragment->setVar('content', $content, false);
     $content = $fragment->parse('core/page/section.php');
 } else {
-    $title = 'edit' == $func ? I18n::msg('edit_user_role') : I18n::msg('add_user_role');
+    $role = new Role();
+    $source = new DatabaseStorage('rex_user_role', $id, globalFields: true);
 
-    $form = DbForm::factory('rex_user_role', '', 'id = ' . $id);
-    $form->addParam('id', $id);
-    $form->setApplyUrl(Url::currentBackendPage());
-    $form->setEditMode('edit' == $func);
-
-    $field = $form->addTextField('name');
-    $field->setLabel(I18n::msg('name'));
-    $field->getValidator()
-        ->add(ValidationRule::NOT_EMPTY)
-        ->add(ValidationRule::MAX_LENGTH, null, 255)
-    ;
-
-    $field = $form->addTextAreaField('description');
-    $field->setLabel(I18n::msg('description'));
-
-    $fieldContainer = $form->addContainerField('perms');
-    $fieldContainer->setMultiple(false);
-    $group = 'all';
-    $fieldContainer->setActive($group);
-
-    // Check all page permissions and add them to Permission if not already registered
-    $registerImplicitePagePermissions = static function ($pages) use (&$registerImplicitePagePermissions) {
-        foreach ($pages as $page) {
-            foreach ($page->getRequiredPermissions() as $perm) {
-                // ignore admin perm and complex perms (with "/")
-                if ($perm && !in_array($perm, ['isAdmin', 'admin', 'admin[]']) && !str_contains($perm, '/') && !Permission::has($perm)) {
-                    Permission::register($perm);
-                }
-            }
-            $registerImplicitePagePermissions($page->getSubpages());
-        }
-    };
-    $registerImplicitePagePermissions(Controller::getPages());
-
-    foreach ([Permission::GENERAL, Permission::OPTIONS, Permission::EXTRAS] as $permgroup) {
-        /** @var SelectField $field */
-        $field = $fieldContainer->addGroupedField($group, 'select', $permgroup);
-        $field->setLabel(I18n::msg('user_' . $permgroup));
-        $select = $field->getSelect();
-        $select->setMultiple(true);
-        $perms = Permission::getAll($permgroup);
-        asort($perms);
-        $select->setSize(min(20, max(3, count($perms))));
-        $select->addArrayOptions($perms);
+    if ('add' === $func) {
+        $role->grantAllItems();
+    } elseif (!$source->load($role)) {
+        Response::sendRedirect(Url::currentBackendPage());
     }
 
-    Extension::register('REX_FORM_INPUT_CLASS', static function (ExtensionPoint $ep) {
-        return 'perm_select' == $ep->getParam('inputType') ? PermissionSelectField::class : null;
-    });
+    // a duplicate is saved as new role
+    $storage = 'edit' === $func ? $source : new DatabaseStorage('rex_user_role', globalFields: true);
 
-    $fieldIds = [];
-    foreach (ComplexPermission::getAll() as $key => $class) {
-        $params = $class::getFieldParams();
-        if ($params) {
-            /** @var PermissionSelectField $field */
-            $field = $fieldContainer->addGroupedField($group, 'perm_select', $key);
-            $field->setLabel($params['label']);
-            $field->setCheckboxLabel($params['all_label']);
-            $fieldIds[] = escape($field->getAttribute('id'), 'js');
-            if (Request::request('default_value', 'boolean')) {
-                $field->setValue(ComplexPermission::ALL);
-            }
-            if (isset($params['select'])) {
-                $field->setSelect($params['select']);
-            }
-            $select = $field->getSelect();
-            $select->setMultiple(true);
-            if (isset($params['options'])) {
-                $select->addArrayOptions($params['options']);
-            }
-            if (isset($params['sql_options'])) {
-                $select->addSqlOptions($params['sql_options']);
-            }
-            $select->get();
-            $select->setSize(min(20, max(3, $select->countOptions())));
-        }
+    $form = new Form(
+        $role,
+        title: new Translatable('edit' === $func ? 'edit_user_role' : 'add_user_role'),
+        buttons: [SubmitButton::save(), SubmitButton::apply()],
+        cancelUrl: Url::currentBackendPage(),
+    );
+
+    if ($form->handleRequest()) {
+        $storage->save($role);
+
+        $saved = 'edit' === $func ? 'updated' : 'added';
+        Response::sendRedirect(Url::currentBackendPage($form->isSubmittedBy('apply') ? ['func' => 'edit', 'id' => $storage->id, 'saved' => $saved] : ['saved' => $saved]));
     }
 
-    $content .= $form->get();
-
-    if ($fieldIds) {
-        $content .= '
-            <script type="text/javascript" nonce="' . Response::getNonce() . '">
-            <!--
-
-            jQuery(function($) {
-
-                function check_perm_field(field, duration) {
-                    var id = field.attr("id").substr(0, field.attr("id").length - 4);
-                    if(field.is(":checked"))
-                        $("#"+id).closest(".rex-form-group").hide(duration).find(":input").prop("disabled", true);
-                    else
-                        $("#"+id).closest(".rex-form-group").show(duration).find(":input").prop("disabled", false);
-                }
-                $("#' . implode('-all, #', $fieldIds) . '-all").change(function(){
-                    check_perm_field($(this), "slow");
-                });
-
-                $("#' . implode('-all, #', $fieldIds) . '-all").each(function(){
-                    check_perm_field($(this), 0);
-                });
-
-            });
-
-            //--></script>
-        ';
-    }
-
-    $fragment = new Fragment();
-    $fragment->setVar('class', 'edit', false);
-    $fragment->setVar('title', $title);
-    $fragment->setVar('body', $content, false);
-    $content = $fragment->parse('core/page/section.php');
+    $content = $form->render();
 }
 
 echo $message;

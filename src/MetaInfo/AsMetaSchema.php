@@ -7,7 +7,7 @@ use Attribute;
 /**
  * Marks a {@see MetaSchema} subclass and binds it to an entity.
  *
- * Exactly one schema per entity is supported.
+ * An entity may have several schemas.
  */
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class AsMetaSchema

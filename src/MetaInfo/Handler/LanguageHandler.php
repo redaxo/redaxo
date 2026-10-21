@@ -55,11 +55,15 @@ final class LanguageHandler extends AbstractHandler
             return;
         }
 
+        if (!$this->submit(new MetaContext(MetaEntity::Language, $ep->language))) {
+            return;
+        }
+
         $sql = Sql::factory();
         $sql->setTable('rex_language');
         $sql->setWhere('id=:id', ['id' => $ep->language->id]);
 
-        $this->saveRequestValues($sql, new MetaContext(MetaEntity::Language));
+        $this->saveValues($sql, MetaEntity::Language);
 
         if ($sql->hasValues()) {
             $sql->update();

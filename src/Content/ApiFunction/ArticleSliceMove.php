@@ -9,6 +9,7 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\Module;
+use Redaxo\Core\Content\SliceMoveDirection;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Http\Request;
@@ -30,7 +31,10 @@ final class ArticleSliceMove extends ApiFunction
         $articleId = Request::request('article_id', 'int');
         $languageId = Request::request('language', 'int');
         $sliceId = Request::request('slice_id', 'int');
-        $direction = Request::request('direction', 'string');
+        $direction = SliceMoveDirection::tryFrom(Request::request('direction', 'string'));
+        if (null === $direction) {
+            throw new ApiFunctionException('Invalid move direction.');
+        }
 
         $article = Article::get($articleId, $languageId);
         if (!$article instanceof Article) {
@@ -58,8 +62,8 @@ final class ArticleSliceMove extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        $message = ContentHandler::moveSlice($sliceId, $languageId, $direction);
+        ContentHandler::moveSlice($sliceId, $languageId, $direction);
 
-        return new Result(true, $message);
+        return new Result(true, I18n::msg('slice_moved'));
     }
 }

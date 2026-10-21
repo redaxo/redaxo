@@ -37,26 +37,26 @@ if ($PERMALL) {
         if (!$csrf->isValid()) {
             $error = I18n::msg('csrf_token_invalid');
         } else {
-            if ('edit_file_cat' == $mediaMethod) {
-                $catName = Request::request('cat_name', 'string');
-                $data = ['name' => $catName];
-                $success = MediaCategoryHandler::editCategory($editId, $data);
-            } elseif ('delete_file_cat' == $mediaMethod) {
-                try {
-                    $success = MediaCategoryHandler::deleteCategory($editId);
-                } catch (UserMessageException $e) {
-                    $error = $e->getMessage();
+            try {
+                if ('edit_file_cat' == $mediaMethod) {
+                    $catName = Request::request('cat_name', 'string');
+                    $data = ['name' => $catName];
+                    $category = MediaCategoryHandler::edit($editId, $data);
+                    $success = I18n::msg('pool_kat_updated', $category->name);
+                } elseif ('delete_file_cat' == $mediaMethod) {
+                    MediaCategoryHandler::delete($editId);
+                    $success = I18n::msg('pool_kat_deleted');
+                } elseif ('add_file_cat' == $mediaMethod) {
+                    $parent = null;
+                    $parentId = Request::request('cat_id', 'int');
+                    if ($parentId) {
+                        $parent = MediaCategory::get($parentId);
+                    }
+                    $category = MediaCategoryHandler::add(Request::request('catname', 'string'), $parent);
+                    $success = I18n::msg('pool_kat_saved', $category->name);
                 }
-            } elseif ('add_file_cat' == $mediaMethod) {
-                $parent = null;
-                $parentId = Request::request('cat_id', 'int');
-                if ($parentId) {
-                    $parent = MediaCategory::get($parentId);
-                }
-                $success = MediaCategoryHandler::addCategory(
-                    Request::request('catname', 'string'),
-                    $parent,
-                );
+            } catch (UserMessageException $e) {
+                $error = $e->getMessage();
             }
         }
     }

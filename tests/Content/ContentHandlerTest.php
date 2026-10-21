@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Content\ArticleSlice;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\SliceMoveDirection;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use ReflectionProperty;
@@ -70,8 +71,8 @@ final class ContentHandlerTest extends TestCase
         // moveSlice() resolves equal priorities by updatedate, so the slices must not share the current second
         Sql::factory()->setQuery('UPDATE rex_article_slice SET updatedate = updatedate - INTERVAL 1 MINUTE WHERE article_id = ?', [$this->articleId]);
 
-        ContentHandler::moveSlice($first->id, 1, 'movedown');
-        ContentHandler::sliceStatus($first->id, 0);
+        ContentHandler::moveSlice($first->id, 1, SliceMoveDirection::Down);
+        ContentHandler::changeSliceStatus($first->id, 0);
         ContentHandler::deleteSlice($first->id);
 
         self::assertSame(

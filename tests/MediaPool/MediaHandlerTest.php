@@ -3,14 +3,19 @@
 namespace Redaxo\Core\Tests\MediaPool;
 
 use PHPUnit\Framework\TestCase;
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\Exception\UserMessageException;
+use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdding;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaHandler;
 use Redaxo\Core\MediaPool\MediaPool;
+use Redaxo\Core\Util\Type;
 use ReflectionMethod;
+use ReflectionProperty;
 
 use function count;
 
@@ -104,8 +109,8 @@ final class MediaHandlerTest extends TestCase
 
         try {
             self::moveMedia($srcFile, $dstFile, 'image/svg+xml');
-            self::fail('Expected an ApiFunctionException');
-        } catch (ApiFunctionException) {
+            self::fail('Expected a UserMessageException');
+        } catch (UserMessageException) {
             // expected
         }
 
@@ -147,21 +152,86 @@ final class MediaHandlerTest extends TestCase
         self::assertNull($media);
         $rootMedia = Media::getRootMedia();
 
-        $result = MediaHandler::addMedia([
+        $addedMedia = MediaHandler::add([
             'category_id' => null,
             'title' => 'test',
             'file' => ['name' => $filename, 'path' => $srcFile],
         ], false);
 
         try {
-            self::assertSame($filename, $result['filename']);
+            self::assertSame($filename, $addedMedia->fileName);
             self::assertSame($filename, Media::get($filename)?->fileName);
 
             $rootMediaNames = array_map(static fn (Media $media) => $media->fileName, Media::getRootMedia());
             self::assertCount(count($rootMedia) + 1, $rootMediaNames);
             self::assertContains($filename, $rootMediaNames);
         } finally {
-            MediaHandler::deleteMedia($filename);
+            MediaHandler::delete($filename);
+        }
+    }
+
+    public function testAddMediaCanBeRejected(): void
+    {
+        $srcFile = self::getPath('source.txt');
+        File::put($srcFile, 'test');
+
+        $filename = MediaPool::filename('media_handler_test.txt');
+
+        $extensions = Type::array(new ReflectionProperty(Extension::class, 'extensions')->getValue());
+
+        try {
+            Extension::register(MediaAdding::class, static function (MediaAdding $ep) use ($filename, $srcFile): string {
+                self::assertSame($filename, $ep->fileName);
+                self::assertSame($srcFile, $ep->path);
+                self::assertFalse($ep->isUpload);
+
+                return 'rejected';
+            });
+
+            MediaHandler::add([
+                'category_id' => null,
+                'title' => 'test',
+                'file' => ['name' => $filename, 'path' => $srcFile],
+            ], false);
+
+            self::fail('Expected a UserMessageException');
+        } catch (UserMessageException $e) {
+            self::assertSame('rejected', $e->getMessage());
+            self::assertNull(Media::get($filename));
+            self::assertFileDoesNotExist(Path::media($filename));
+        } finally {
+            new ReflectionProperty(Extension::class, 'extensions')->setValue(null, $extensions);
+        }
+    }
+
+    public function testUpdateMediaDispatchesPreviousState(): void
+    {
+        $srcFile = self::getPath('source.txt');
+        File::put($srcFile, 'test');
+
+        $filename = MediaHandler::add([
+            'category_id' => null,
+            'title' => 'old title',
+            'file' => ['name' => MediaPool::filename('media_handler_test.txt'), 'path' => $srcFile],
+        ], false)->fileName;
+
+        $extensions = Type::array(new ReflectionProperty(Extension::class, 'extensions')->getValue());
+
+        try {
+            $events = [];
+            Extension::register(MediaUpdated::class, static function (MediaUpdated $ep) use (&$events): void {
+                $events[] = $ep;
+            });
+
+            $media = MediaHandler::edit($filename, ['category_id' => null, 'title' => 'new title']);
+
+            self::assertSame('new title', $media->title);
+            self::assertCount(1, $events);
+            self::assertSame($media, $events[0]->media);
+            self::assertSame('old title', $events[0]->previous->title);
+        } finally {
+            new ReflectionProperty(Extension::class, 'extensions')->setValue(null, $extensions);
+            MediaHandler::delete($filename);
         }
     }
 }

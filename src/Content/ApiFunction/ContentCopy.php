@@ -43,10 +43,8 @@ final class ContentCopy extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        if (ContentHandler::copyContent($articleId, $articleId, $fromLanguageId, $toLanguageId, null, $overwrite)) {
-            return new Result(true, I18n::msg('content_contentcopy'));
-        }
+        ContentHandler::copyContent($articleId, $articleId, $fromLanguageId, $toLanguageId, null, $overwrite);
 
-        return new Result(false, I18n::msg('content_errorcopy'));
+        return new Result(true, I18n::msg('content_contentcopy'));
     }
 }

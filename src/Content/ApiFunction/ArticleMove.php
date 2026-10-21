@@ -49,10 +49,8 @@ final class ArticleMove extends ApiFunction
             throw new ApiFunctionException(I18n::msg('no_rights_to_this_function'));
         }
 
-        if (ArticleHandler::moveArticle($articleId, $categoryId, $categoryIdNew ?: null)) {
-            return new Result(true, I18n::msg('content_articlemoved'));
-        }
+        ArticleHandler::move($articleId, $categoryId, $categoryIdNew ?: null);
 
-        return new Result(false, I18n::msg('content_errormovearticle'));
+        return new Result(true, I18n::msg('content_articlemoved'));
     }
 }

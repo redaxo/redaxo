@@ -43,6 +43,8 @@ final class CategoryEdit extends ApiFunction
         $data = [];
         $data['catpriority'] = Request::post('category-position', 'int');
         $data['catname'] = Request::post('category-name', 'string');
-        return new Result(true, CategoryHandler::editCategory($catId, $languageId, $data));
+        CategoryHandler::edit($catId, $languageId, $data);
+
+        return new Result(true, I18n::msg('category_updated'));
     }
 }

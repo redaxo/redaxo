@@ -39,6 +39,8 @@ final class CategoryAdd extends ApiFunction
         $data = [];
         $data['catpriority'] = Request::post('category-position', 'int');
         $data['catname'] = Request::post('category-name', 'string');
-        return new Result(true, CategoryHandler::addCategory($parentId ?: null, $data));
+        CategoryHandler::add($parentId ?: null, $data);
+
+        return new Result(true, I18n::msg('category_added_and_startarticle_created'));
     }
 }

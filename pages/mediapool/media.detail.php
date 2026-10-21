@@ -1,8 +1,8 @@
 <?php
 
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
@@ -57,12 +57,12 @@ if (Request::post('btn_delete', 'string')) {
             $filename = $media->fileName;
             if ($perm->hasCategoryPerm($media->categoryId)) {
                 try {
-                    MediaHandler::deleteMedia($filename);
+                    MediaHandler::delete($filename);
                     $success = I18n::msg('pool_file_deleted');
                     $fileId = 0;
 
                     return;
-                } catch (ApiFunctionException $e) {
+                } catch (UserMessageException $e) {
                     $error = $e->getMessage();
                 }
             } else {
@@ -101,7 +101,7 @@ if (Request::post('btn_update', 'string')) {
             }
 
             try {
-                MediaHandler::updateMedia($filename, $data);
+                MediaHandler::edit($filename, $data);
 
                 if (($gf->getNullableIntValue('category_id') ?? 0) !== $rexFileCategory) {
                     Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [
@@ -110,7 +110,7 @@ if (Request::post('btn_update', 'string')) {
                     ]));
                 }
                 $success = I18n::msg('pool_file_infos_updated');
-            } catch (ApiFunctionException $e) {
+            } catch (UserMessageException $e) {
                 $error = $e->getMessage();
             }
         }

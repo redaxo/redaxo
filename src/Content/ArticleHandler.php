@@ -2,11 +2,20 @@
 
 namespace Redaxo\Core\Content;
 
-use Redaxo\Core\ApiFunction\Exception\ApiFunctionException;
+use Redaxo\Core\Content\ExtensionPoint\ArticleAdded;
+use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToCategory;
+use Redaxo\Core\Content\ExtensionPoint\ArticleConvertedToStartArticle;
+use Redaxo\Core\Content\ExtensionPoint\ArticleCopied;
+use Redaxo\Core\Content\ExtensionPoint\ArticleDeleted;
+use Redaxo\Core\Content\ExtensionPoint\ArticleMoved;
+use Redaxo\Core\Content\ExtensionPoint\ArticleStatusChanged;
+use Redaxo\Core\Content\ExtensionPoint\ArticleUpdated;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Database\Table;
+use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
@@ -28,11 +37,9 @@ final class ArticleHandler
      * @param array{category_id: int|null, priority: int, name: string, template?: string} $data Article data,
      *     `category_id` is `null` for the root level, `name` is used for all languages
      *
-     * @throws ApiFunctionException
-     *
-     * @return string A status message
+     * @throws UserMessageException
      */
-    public static function addArticle(array $data): string
+    public static function add(array $data): Article
     {
         self::reqKey($data, 'category_id');
         self::reqKey($data, 'priority');
@@ -47,7 +54,7 @@ final class ArticleHandler
         if (null !== $categoryId) {
             $parent = Category::get($categoryId);
             if (!$parent) {
-                throw new ApiFunctionException('Target category with ID "' . $categoryId . '" does not exist.');
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = '|' . implode('|', [...$parent->path, $parent->id]) . '|';
         } else {
@@ -88,23 +95,16 @@ final class ArticleHandler
                 ->insert();
         }
 
-        self::newArtPrio($categoryId, 0, $data['priority']);
+        self::updatePriorities($categoryId, 0, $data['priority']);
 
         ArticleCache::delete($id);
 
-        // ----- EXTENSION POINT
-        $message = Extension::dispatch(new ExtensionPoint('ART_ADDED', I18n::msg('article_added'), [
-            'id' => $id,
-            'status' => 0,
-            'name' => $data['name'],
-            'parent_id' => $categoryId,
-            'priority' => $data['priority'],
-            'path' => $path,
-            'template_key' => $data['template'],
-            'data' => $data,
-        ]));
+        $article = Article::require($id);
 
-        return $message;
+        // ----- EXTENSION POINT
+        Extension::dispatch(new ArticleAdded($article));
+
+        return $article;
     }
 
     /**
@@ -112,22 +112,20 @@ final class ArticleHandler
      *
      * @param array{name: string, priority?: int, template?: string|null} $data Article data
      *
-     * @throws ApiFunctionException
-     *
-     * @return string A status message
+     * @throws UserMessageException
      */
-    public static function editArticle(int $articleId, int $languageId, array $data): string
+    public static function edit(int $articleId, int $languageId, array $data): Article
     {
         self::reqKey($data, 'name');
 
         $thisArt = self::select($articleId, $languageId);
 
         if (1 != $thisArt->getRows()) {
-            throw new ApiFunctionException('Unable to find article with id "' . $articleId . '" and language "' . $languageId . '"!');
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
-        $ooArt = Article::require($articleId, $languageId);
-        $data['category_id'] = $ooArt->categoryId;
+        $previous = Article::require($articleId, $languageId);
+        $data['category_id'] = $previous->categoryId;
 
         $templates = Template::getTemplatesForCategory($data['category_id']);
         $data['template'] = isset($data['template']) ? Type::string($data['template']) : null;
@@ -144,8 +142,6 @@ final class ArticleHandler
             }
         }
 
-        // complete remaining optional aprams
-        $data['path'] = $thisArt->getValue('path');
         $data['priority'] ??= $thisArt->getIntValue('priority');
 
         Sql::factory()
@@ -162,130 +158,93 @@ final class ArticleHandler
         $EA->addGlobalUpdateFields(self::getUser());
         $EA->update();
 
-        $message = I18n::msg('article_updated');
-
         // ----- PRIOR
         $oldPrio = $thisArt->getIntValue('priority');
 
         if ($oldPrio != $data['priority']) {
-            self::newArtPrio($data['category_id'], $data['priority'], $oldPrio);
+            self::updatePriorities($data['category_id'], $data['priority'], $oldPrio);
         }
 
         ArticleCache::delete($articleId);
 
-        // ----- EXTENSION POINT
-        $message = Extension::dispatch(new ExtensionPoint('ART_UPDATED', $message, [
-            'id' => $articleId,
-            'article' => self::select($articleId, $languageId),
-            'article_old' => clone $thisArt,
-            'status' => $thisArt->getValue('status'),
-            'name' => $data['name'],
-            'language' => $languageId,
-            'parent_id' => $data['category_id'],
-            'priority' => $data['priority'],
-            'path' => $data['path'],
-            'template_key' => $data['template'],
-            'data' => $data,
-        ]));
+        $article = Article::require($articleId, $languageId);
 
-        return $message;
+        // ----- EXTENSION POINT
+        Extension::dispatch(new ArticleUpdated($article, $previous));
+
+        return $article;
     }
 
     /**
      * Löscht einen Artikel und reorganisiert die Prioritäten verbleibender Geschwister-Artikel.
      *
-     * @throws ApiFunctionException
-     *
-     * @return string Eine Statusmeldung
+     * @throws UserMessageException
      */
-    public static function deleteArticle(int $articleId): string
+    public static function delete(int $articleId): void
     {
         $Art = Sql::factory();
         $Art->setQuery('SELECT a.* FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL', [$articleId]);
 
         if (1 != $Art->getRows()) {
-            throw new ApiFunctionException(I18n::msg('article_doesnt_exist'));
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
-        $message = self::_deleteArticle($articleId);
-        $parentId = $Art->getNullableIntValue('parent_id');
+        $article = Article::require($articleId);
+
+        self::deleteRecursively($articleId);
 
         // ----- PRIOR
-        self::newArtPrio($parentId, 0, 1);
+        self::updatePriorities($article->categoryId, 0, 1);
 
         // ----- EXTENSION POINT
-        $message = Extension::dispatch(new ExtensionPoint('ART_DELETED', $message, [
-            'id' => $articleId,
-            'parent_id' => $parentId,
-            'priority' => $Art->getValue('priority'),
-            'path' => $Art->getValue('path'),
-        ]));
-
-        return $message;
+        Extension::dispatch(new ArticleDeleted($article));
     }
 
     /**
-     * Löscht einen Artikel.
+     * Deletes an article, a start article together with all articles of its category, without checking permissions.
      *
-     * @throws ApiFunctionException
+     * @internal
      *
-     * @return string Eine Statusmeldung
+     * @throws UserMessageException
      */
-    public static function _deleteArticle(int $id): string
+    public static function deleteRecursively(int $id): void
     {
-        // artikel loeschen
-
-        // kontrolle ob erlaubnis nicht hier.. muss vorher geschehen
-
-        // -> startarticle = 0
-        // --> artikelfiles löschen
-        // ---> article
-        // ---> content
-        // ---> clist
-        // ---> alist
-        // -> startarticle = 1
-        // --> rekursiv aufrufen
-
         if ($id == Article::getSiteStartArticleId()) {
-            throw new ApiFunctionException(I18n::msg('cant_delete_sitestartarticle'));
+            throw new UserMessageException(I18n::msg('cant_delete_sitestartarticle'));
         }
         if ($id == Article::getNotfoundArticleId()) {
-            throw new ApiFunctionException(I18n::msg('cant_delete_notfoundarticle'));
+            throw new UserMessageException(I18n::msg('cant_delete_notfoundarticle'));
         }
 
         $ART = Sql::factory();
         $ART->setQuery('SELECT a.*, c.id IS NOT NULL AS startarticle FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$id]);
 
-        if ($ART->getRows() > 0) {
-            $parentId = $ART->getNullableIntValue('parent_id');
-            Extension::dispatch(new ExtensionPoint('ART_PRE_DELETED', '', [
-                'id' => $id,
-                'parent_id' => $parentId,
-                'priority' => $ART->getValue('priority'),
-                'path' => $ART->getValue('path'),
-            ]));
-
-            if ($ART->getBoolValue('startarticle')) {
-                $message = I18n::msg('category_deleted');
-                $SART = Sql::factory();
-                $SART->setQuery('SELECT id FROM rex_article WHERE parent_id = ?', [$id]);
-                foreach ($SART as $child) {
-                    self::_deleteArticle($child->getIntValue('id'));
-                }
-            } else {
-                $message = I18n::msg('article_deleted');
-            }
-
-            ArticleCache::delete($id);
-            // the translations, the category row, the slices and their history are removed by the foreign keys
-            $ART->setQuery('DELETE FROM rex_article WHERE id = ?', [$id]);
-
-            // --------------------------------------------------- Listen generieren
-            ArticleCache::deleteLists($parentId);
-
-            return $message;
+        if (0 === $ART->getRows()) {
+            throw new UserMessageException(I18n::msg('category_doesnt_exist'));
         }
-        throw new ApiFunctionException(I18n::msg('category_doesnt_exist'));
+
+        $parentId = $ART->getNullableIntValue('parent_id');
+        Extension::dispatch(new ExtensionPoint('ART_PRE_DELETED', '', [
+            'id' => $id,
+            'parent_id' => $parentId,
+            'priority' => $ART->getValue('priority'),
+            'path' => $ART->getValue('path'),
+        ]));
+
+        if ($ART->getBoolValue('startarticle')) {
+            $SART = Sql::factory();
+            $SART->setQuery('SELECT id FROM rex_article WHERE parent_id = ?', [$id]);
+            foreach ($SART as $child) {
+                self::deleteRecursively($child->getIntValue('id'));
+            }
+        }
+
+        ArticleCache::delete($id);
+        // the translations, the category row, the slices and their history are removed by the foreign keys
+        $ART->setQuery('DELETE FROM rex_article WHERE id = ?', [$id]);
+
+        // --------------------------------------------------- Listen generieren
+        ArticleCache::deleteLists($parentId);
     }
 
     /**
@@ -293,43 +252,41 @@ final class ArticleHandler
      *
      * @param int|null $status Status auf den der Artikel gesetzt werden soll, oder NULL wenn zum nächsten Status weitergeschaltet werden soll
      *
-     * @throws ApiFunctionException
-     *
-     * @return int Der neue Status des Artikels
+     * @throws UserMessageException
      */
-    public static function articleStatus(int $articleId, int $languageId, ?int $status = null): int
+    public static function changeStatus(int $articleId, int $languageId, ?int $status = null): Article
     {
         $GA = self::select($articleId, $languageId);
-        if (1 == $GA->getRows()) {
-            // Status wurde nicht von außen vorgegeben,
-            // => zyklisch auf den nächsten Weiterschalten
-            if (null === $status) {
-                $newstatus = self::nextStatus($GA->getIntValue('status'));
-            } else {
-                $newstatus = $status;
-            }
-
-            Sql::factory()
-                ->setTable('rex_article_translation')
-                ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
-                ->setValue('status', $newstatus)
-                ->update();
-
-            self::touch($articleId);
-
-            ArticleCache::delete($articleId, $languageId);
-
-            // ----- EXTENSION POINT
-            Extension::dispatch(new ExtensionPoint('ART_STATUS', null, [
-                'id' => $articleId,
-                'language' => $languageId,
-                'status' => $newstatus,
-            ]));
-        } else {
-            throw new ApiFunctionException(I18n::msg('no_such_category'));
+        if (1 != $GA->getRows()) {
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
-        return $newstatus;
+        $previous = Article::require($articleId, $languageId);
+
+        // Status wurde nicht von außen vorgegeben,
+        // => zyklisch auf den nächsten Weiterschalten
+        if (null === $status) {
+            $newstatus = self::nextStatus($GA->getIntValue('status'));
+        } else {
+            $newstatus = $status;
+        }
+
+        Sql::factory()
+            ->setTable('rex_article_translation')
+            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
+            ->setValue('status', $newstatus)
+            ->update();
+
+        self::touch($articleId);
+
+        ArticleCache::delete($articleId, $languageId);
+
+        $article = Article::require($articleId, $languageId);
+
+        // ----- EXTENSION POINT
+        Extension::dispatch(new ArticleStatusChanged($article, $previous));
+
+        return $article;
     }
 
     /**
@@ -375,9 +332,11 @@ final class ArticleHandler
     /**
      * Recalculates the priorities of the articles in a category.
      *
+     * @internal
+     *
      * @param int|null $parentId `null` for the root level
      */
-    public static function newArtPrio(?int $parentId, int $newPrio, int $oldPrio): void
+    public static function updatePriorities(?int $parentId, int $newPrio, int $oldPrio): void
     {
         if ($newPrio != $oldPrio) {
             if ($newPrio < $oldPrio) {
@@ -410,15 +369,20 @@ final class ArticleHandler
         }
     }
 
-    /** Konvertiert einen Artikel in eine Kategorie. */
-    public static function article2category(int $artId): bool
+    /**
+     * Konvertiert einen Artikel in eine Kategorie.
+     *
+     * @throws UserMessageException
+     */
+    public static function convertToCategory(int $artId): void
     {
         $sql = Sql::factory();
         $sql->setQuery('SELECT a.parent_id FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL', [$artId]);
         if (1 != $sql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tocategory_failed'));
         }
         $parentId = $sql->getNullableIntValue('parent_id');
+        $previous = Article::require($artId);
 
         $user = self::getUser();
 
@@ -439,51 +403,12 @@ final class ArticleHandler
             ->addGlobalUpdateFields($user)
             ->update();
 
-        CategoryHandler::newCatPrio($parentId, 1, 0);
+        CategoryHandler::updatePriorities($parentId, 1, 0);
 
         ArticleCache::deleteLists($parentId);
         ArticleCache::delete($artId);
 
-        Extension::dispatch(new ExtensionPoint('ART_TO_CAT', '', ['id' => $artId]));
-
-        return true;
-    }
-
-    /** Konvertiert eine Kategorie in einen Artikel. */
-    public static function category2article(int $artId): bool
-    {
-        $sql = Sql::factory();
-
-        // Kategorie muss leer sein
-        $sql->setQuery('SELECT id FROM rex_article WHERE parent_id = ? LIMIT 1', [$artId]);
-        if (0 != $sql->getRows()) {
-            return false;
-        }
-
-        $sql->setQuery('SELECT a.parent_id FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$artId]);
-        if (1 != $sql->getRows()) {
-            return false;
-        }
-        $parentId = $sql->getNullableIntValue('parent_id');
-
-        // the translations of the category are removed by the foreign key
-        $sql->setQuery('DELETE FROM rex_category WHERE id = ?', [$artId]);
-
-        Sql::factory()
-            ->setTable('rex_article')
-            ->setWhere(['id' => $artId])
-            ->setValue('priority', 99999)
-            ->addGlobalUpdateFields(self::getUser())
-            ->update();
-
-        self::newArtPrio($parentId, 1, 0);
-
-        ArticleCache::deleteLists($parentId);
-        ArticleCache::delete($artId);
-
-        Extension::dispatch(new ExtensionPoint('CAT_TO_ART', '', ['id' => $artId]));
-
-        return true;
+        Extension::dispatch(new ArticleConvertedToCategory(Category::require($artId), $previous));
     }
 
     /**
@@ -491,8 +416,10 @@ final class ArticleHandler
      *
      * The category keeps its position, names and meta values, but continues under the id of the new start article,
      * while the previous start article becomes a plain article inside the category.
+     *
+     * @throws UserMessageException
      */
-    public static function article2startarticle(int $neuId): bool
+    public static function convertToStartArticle(int $neuId): void
     {
         $GAID = [];
 
@@ -500,20 +427,20 @@ final class ArticleHandler
         $neu = Sql::factory();
         $neu->setQuery('SELECT a.* FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL', [$neuId]);
         if (1 != $neu->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tostartarticle_failed'));
         }
         $altId = $neu->getNullableIntValue('parent_id');
 
         // in oberster kategorie dann return
         if (null === $altId) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tostartarticle_failed'));
         }
 
         // alten startartikel
         $alt = Sql::factory();
         $alt->setQuery('SELECT a.* FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$altId]);
         if (1 != $alt->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_tostartarticle_failed'));
         }
         $parentId = $alt->getNullableIntValue('parent_id');
 
@@ -588,12 +515,7 @@ final class ArticleHandler
 
         ComplexPermission::replaceItem('structure', $altId, $neuId);
 
-        Extension::dispatch(new ExtensionPoint('ART_TO_STARTARTICLE', '', [
-            'id' => $neuId,
-            'id_old' => $altId,
-        ]));
-
-        return true;
+        Extension::dispatch(new ArticleConvertedToStartArticle(Article::require($neuId), Article::require($altId)));
     }
 
     /**
@@ -604,10 +526,10 @@ final class ArticleHandler
      *
      * @param list<string> $params Names of the columns to copy
      */
-    public static function copyMeta(int $fromId, int $toId, int $fromLanguageId = 1, int $toLanguageId = 1, array $params = []): bool
+    public static function copyMeta(int $fromId, int $toId, int $fromLanguageId = 1, int $toLanguageId = 1, array $params = []): void
     {
         if ($fromId === $toId && $fromLanguageId === $toLanguageId) {
-            return false;
+            throw new InvalidArgumentException('Source and target of the meta copy must differ.');
         }
 
         $tables = [
@@ -650,7 +572,7 @@ final class ArticleHandler
         }
 
         if ([] === $copied) {
-            return false;
+            return;
         }
 
         // the owner of a changed translation counts as updated as well
@@ -670,8 +592,6 @@ final class ArticleHandler
         } else {
             ArticleCache::deleteMeta($toId, $toLanguageId);
         }
-
-        return true;
     }
 
     /**
@@ -679,16 +599,16 @@ final class ArticleHandler
      *
      * @param int|null $toCatId `null` for the root level
      *
-     * @return int|false The id of the copied article, or `false` on failure
+     * @throws UserMessageException
      */
-    public static function copyArticle(int $id, ?int $toCatId): int|false
+    public static function copy(int $id, ?int $toCatId): Article
     {
         $user = self::getUser();
 
         $fromSql = Sql::factory();
         $fromSql->setQuery('SELECT * FROM rex_article WHERE id = ?', [$id]);
         if (1 != $fromSql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
         $path = '|';
@@ -696,7 +616,7 @@ final class ArticleHandler
             $toSql = Sql::factory();
             $toSql->setQuery('SELECT a.path FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$toCatId]);
             if (1 != $toSql->getRows()) {
-                return false;
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = $toSql->getStringValue('path') . $toCatId . '|';
         }
@@ -749,13 +669,7 @@ final class ArticleHandler
         }
 
         // Prios neu berechnen
-        self::newArtPrio($toCatId, 1, 0);
-
-        Extension::dispatch(new ExtensionPoint('ART_COPIED', null, [
-            'id_source' => $id,
-            'id' => $newId,
-            'category_id' => $toCatId,
-        ]));
+        self::updatePriorities($toCatId, 1, 0);
 
         // Caches des Artikels löschen, in allen Sprachen
         ArticleCache::delete($id);
@@ -765,7 +679,11 @@ final class ArticleHandler
             ArticleCache::delete($toCatId);
         }
 
-        return $newId;
+        $article = Article::require($newId);
+
+        Extension::dispatch(new ArticleCopied($article, Article::require($id)));
+
+        return $article;
     }
 
     /**
@@ -773,18 +691,20 @@ final class ArticleHandler
      *
      * @param int|null $fromCatId `null` for the root level
      * @param int|null $toCatId `null` for the root level
+     *
+     * @throws UserMessageException
      */
-    public static function moveArticle(int $id, ?int $fromCatId, ?int $toCatId): bool
+    public static function move(int $id, ?int $fromCatId, ?int $toCatId): void
     {
         if ($fromCatId === $toCatId) {
-            return false;
+            throw new UserMessageException(I18n::msg('content_errormovearticle'));
         }
 
         // validierung der id & from_cat_id
         $fromSql = Sql::factory();
         $fromSql->setQuery('SELECT a.id FROM rex_article a LEFT JOIN rex_category c ON c.id = a.id WHERE a.id = ? AND c.id IS NULL AND a.parent_id <=> ?', [$id, $fromCatId]);
         if (1 != $fromSql->getRows()) {
-            return false;
+            throw new UserMessageException(I18n::msg('article_doesnt_exist'));
         }
 
         // validierung der to_cat_id
@@ -793,10 +713,12 @@ final class ArticleHandler
             $toSql = Sql::factory();
             $toSql->setQuery('SELECT a.path FROM rex_article a JOIN rex_category c ON c.id = a.id WHERE a.id = ?', [$toCatId]);
             if (1 != $toSql->getRows()) {
-                return false;
+                throw new UserMessageException(I18n::msg('no_such_category'));
             }
             $path = $toSql->getStringValue('path') . $toCatId . '|';
         }
+
+        $previous = Article::require($id);
 
         $artSql = Sql::factory();
         $artSql->setTable('rex_article');
@@ -809,13 +731,8 @@ final class ArticleHandler
         $artSql->update();
 
         // Prios neu berechnen
-        self::newArtPrio($toCatId, 1, 0);
-        self::newArtPrio($fromCatId, 1, 0);
-
-        Extension::dispatch(new ExtensionPoint('ART_MOVED', null, [
-            'id' => $id,
-            'category_id' => $toCatId,
-        ]));
+        self::updatePriorities($toCatId, 1, 0);
+        self::updatePriorities($fromCatId, 1, 0);
 
         // Caches des Artikels löschen, in allen Sprachen
         ArticleCache::delete($id);
@@ -827,7 +744,7 @@ final class ArticleHandler
             }
         }
 
-        return true;
+        Extension::dispatch(new ArticleMoved(Article::require($id), $previous));
     }
 
     /** Selects the article together with its translation in the given language. */
@@ -859,13 +776,11 @@ final class ArticleHandler
      * Checks whether the required array key $keyName isset.
      *
      * @param array<string, mixed> $array
-     *
-     * @throws ApiFunctionException
      */
     private static function reqKey(array $array, string $keyName): void
     {
         if (!array_key_exists($keyName, $array)) {
-            throw new ApiFunctionException('Missing required parameter "' . $keyName . '"!');
+            throw new InvalidArgumentException('Missing required parameter "' . $keyName . '"!');
         }
     }
 

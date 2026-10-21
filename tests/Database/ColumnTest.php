@@ -98,9 +98,11 @@ final class ColumnTest extends TestCase
         yield 'text' => [['text', true, null, null, null], Column::text('a', nullable: true)];
         yield 'mediumtext' => [['mediumtext', false, null, null, null], Column::mediumtext('a')];
         yield 'longtext' => [['longtext', false, null, null, null], Column::longtext('a')];
+        yield 'json' => [['json', true, null, null, 'c'], Column::json('a', nullable: true, comment: 'c')];
 
         yield 'decimal' => [['decimal(10,2)', false, null, null, null], Column::decimal('a', 10, 2)];
         yield 'decimal unsigned' => [['decimal(10,2) unsigned', false, '0.00', null, null], Column::decimal('a', 10, 2, unsigned: true, default: '0.00')];
+        yield 'double' => [['double', true, '1.5', null, null], Column::double('a', nullable: true, default: 1.5)];
 
         yield 'date' => [['date', false, null, null, null], Column::date('a')];
         yield 'time' => [['time', false, null, null, null], Column::time('a')];

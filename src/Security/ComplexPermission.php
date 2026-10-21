@@ -3,7 +3,6 @@
 namespace Redaxo\Core\Security;
 
 use Redaxo\Core\Exception\InvalidArgumentException;
-use Redaxo\Core\Form\Select\Select;
 
 use function is_array;
 use function sprintf;
@@ -47,12 +46,8 @@ abstract class ComplexPermission
         return $this->user->admin || self::ALL === $this->perms;
     }
 
-    /**
-     * Returns the field params for the role form.
-     *
-     * @return array{label: string, all_label: string, select?: Select, options?: array<string|int, string>, sql_options?: string}|null
-     */
-    public static function getFieldParams(): ?array
+    /** Returns the items offered in the role form, `null` if the permission is not editable there. */
+    public static function getChoices(): ?PermissionChoices
     {
         return null;
     }

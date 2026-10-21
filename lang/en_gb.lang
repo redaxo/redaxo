@@ -70,8 +70,6 @@ logged_out = Not signed in
 logged_in_as = Signed in as
 
 # redaxo/include/classes/class.form.php
-form_field_first_priority = At the beginning
-form_field_after_priority = After field "{0}"
 
 # src\core\pages\system.php
 info_updated = Information updated!
@@ -228,20 +226,27 @@ list_no_rows = No entries
 
 form_save = Save
 form_apply = Apply
-form_delete = Delete
-form_reset = Reset
 form_abort = Cancel
 form_saved = Data has been saved!
 form_save_error = Error saving data!
-form_applied = Data has been saved!
-form_deleted = Data has been deleted!
-form_delete_error = Error deleting data!
-form_resetted = Data has been reset!
+form_required = The field must not be empty.
+form_invalid_value = The value is invalid.
+form_invalid_choice = The selected option is invalid.
+form_invalid_email = The e-mail address is invalid.
+form_invalid_url = The URL is invalid (allowed: {0}).
+form_max_length = The value must be at most {0} characters long.
+form_min = The value must be at least {0}.
+form_max = The value must be at most {0}.
+form_min_date = The value must not be before {0}.
+form_max_date = The value must not be after {0}.
+form_article_not_found = The selected article does not exist.
+form_media_not_found = The selected medium does not exist.
+form_media_invalid_type = Only files of type {0} are allowed.
 
 # language
 all_languages = All languages
 language_error_startidcanotbedeleted = Default language with Id "{0}" may not be deleted
-language_error_idcanotbedeleted = Language with Id "{0}" does not exist
+language_not_found = Language with Id "{0}" does not exist
 
 # footer
 footer_joinforum = Visit the forums
@@ -303,6 +308,7 @@ user_role_apply = Apply role changes
 user_role_duplicate = duplicate
 user_role_delete = delete
 user_role_caption = List of all roles
+user_role_perms = Permissions
 user_no_role = No roles
 
 
@@ -401,6 +407,7 @@ pool_kat_deleted = Media category deleted
 pool_kat_create_label = Add new category
 pool_kat_create = Add category
 pool_kat_edit = Edit
+pool_kat_not_found = Media category doesn't exist!
 pool_kat_not_deleted = Category cannot be deleted, because it is not empty!
 pool_kat_name = Name
 pool_kat_function = Function
@@ -437,7 +444,6 @@ pool_file_in_use_articles = Article (Content)
 pool_file_changed = File exchanged!
 pool_file_added = File added!
 pool_file_movefailed = Upload failed.
-pool_file_renamed = Original filename <code>{0}</code> has been changed: <code>{1}</code>
 pool_file_mediatype_not_allowed = File type not allowed:
 pool_file_allowed_mediatypes = Allowed file types:
 pool_file_banned_mediatypes = Prohibited file types:
@@ -482,9 +488,10 @@ perm_general_media[sync] = Mediapool: Synchronise files
 
 # metainfo
 minfo_metadata_saved = Metainfos have been saved.
+minfo_metadata_not_saved = The metadata has not been saved:
 minfo_media_in_use_art = Article (metadata)
 minfo_media_in_use_cat = Categories (metadata)
-minfo_media_in_use_med = Languages (metadata)
+minfo_media_in_use_med = Media (metadata)
 minfo_media_in_use_language = Languages (metadata)
 
 # bc: labels aus dem core
@@ -616,6 +623,7 @@ copy_article = to categorie
 no_rights_to_edit = No editing permissions for this block!
 slice_moved = Slice moved.
 slice_moved_error = Error. Slice not moved.
+slice_not_found = Slice doesn't exist!
 slice_deleted_error = Error. Slice not deleted.
 slice_saved_error = Error. Slice not saved.
 content_contentcopy = Content copied.
@@ -629,7 +637,6 @@ content_errormovearticle = Error. Article not moved.
 content_articlemoved = Article moved.
 content_submitcopyarticle = Copy article
 content_articlecopied = Article copied.
-content_errorcopyarticle = Error. Article not copied.
 content_error_movecategory = Error. Category not moved.
 content_submitmovecategory = Move category
 content_startarticle = Start article
