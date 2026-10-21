@@ -10,6 +10,7 @@ use Redaxo\Core\Env;
 use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\ButtonStyle;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\Storage\ConfigStorage;
 use Redaxo\Core\Form\SubmitButton;
@@ -68,7 +69,7 @@ $editorForm = new Form(
     title: new Translatable('system_editor'),
     buttons: [
         SubmitButton::save(new Translatable('system_editor_update_cookie')),
-        new SubmitButton('delete_cookie', new Translatable('system_editor_delete_cookie'), class: 'btn-delete'),
+        new SubmitButton('delete_cookie', new Translatable('system_editor_delete_cookie'), style: ButtonStyle::Danger),
     ],
 );
 
@@ -248,7 +249,7 @@ $mainContent[] = $editorForm->capture(static function (Form $form) use ($viaCook
             <footer class="panel-footer">
                 <div class="rex-form-panel-footer">
                     <div class="btn-toolbar">
-                        <?= $form->button('save', aligned: true) ?>
+                        <?= $form->button('save', ['class' => ['rex-form-aligned']]) ?>
                         <?php if ($viaCookie): ?>
                             <?= $form->button('delete_cookie') ?>
                         <?php endif ?>

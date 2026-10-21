@@ -2,8 +2,6 @@
 
 namespace Redaxo\Core\Backend;
 
-use function array_key_exists;
-
 /** Accesskeys of the backend, keyboard shortcuts for the most common actions. */
 final class Accesskey
 {
@@ -20,6 +18,12 @@ final class Accesskey
 
     private function __construct() {}
 
+    /** Returns the accesskey for the given key, or `null` if accesskeys are disabled or the key has none. */
+    public static function get(string $key): ?string
+    {
+        return self::$enabled ? self::$keys[$key] ?? null : null;
+    }
+
     /**
      * Returns the title attribute for an element, including the accesskey attribute if the given key has one.
      *
@@ -27,9 +31,9 @@ final class Accesskey
      */
     public static function attributes(string $title, string $key): string
     {
-        if (self::$enabled && array_key_exists($key, self::$keys)) {
-            $accesskey = self::$keys[$key];
+        $accesskey = self::get($key);
 
+        if (null !== $accesskey) {
             return ' accesskey="' . $accesskey . '" title="' . $title . ' [' . $accesskey . ']"';
         }
 
