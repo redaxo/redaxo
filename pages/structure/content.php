@@ -7,7 +7,6 @@ use Redaxo\Core\Backend\Page;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\ArticleSlice;
-use Redaxo\Core\Content\ArticleSliceAction;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
@@ -24,7 +23,9 @@ use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Util\Type;
 use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Html;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -42,6 +43,7 @@ $sliceRevision = 0;
 
 $warning = '';
 $globalWarning = '';
+$invalidSliceForm = null;
 $info = '';
 $globalInfo = '';
 
@@ -186,42 +188,25 @@ if (
             } else {
                 // ----- RECHTE AM MODUL: JA
 
-                // ***********************  daten einlesen
+                $sliceForm = 'delete' === $function ? null : $module->createForm();
 
-                // ----- PRE SAVE ACTION [ADD/EDIT/DELETE]
-                $mode = match ($function) {
-                    'edit' => ArticleSliceAction::EDIT,
-                    'delete' => ArticleSliceAction::DELETE,
-                    default => ArticleSliceAction::ADD,
-                };
-                $action = new ArticleSliceAction($mode, $articleId, $languageId, $ctype, $sliceId);
-
-                $action->setRequestValues();
-
-                $module->onPresave($action);
-                $actionMessage = implode('<br />', $action->messages);
-                // ----- / PRE SAVE ACTION
-
-                // Werte werden aus den REX_ACTIONS übernommen wenn SAVE=true
-                if (!$action->save) {
-                    // ----- DONT SAVE/UPDATE SLICE
-                    if ('' != $actionMessage) {
-                        $warning = $actionMessage;
-                    } elseif ('delete' == $function) {
-                        $warning = I18n::msg('slice_deleted_error');
-                    } else {
-                        $warning = I18n::msg('slice_saved_error');
+                if (null !== $sliceForm && !$module->submitForm($sliceForm)) {
+                    $errors = [I18n::msg('slice_saved_error')];
+                    foreach ($sliceForm->getFormErrors() as $error) {
+                        $errors[] = (string) Html::from($error);
                     }
+                    $warning = implode('<br />', $errors);
+
+                    // shown again by the editor, with the submitted values and the errors
+                    $invalidSliceForm = $sliceForm;
                 } else {
-                    if ($actionMessage) {
-                        $actionMessage .= '<br />';
-                    }
-
                     // ----- SAVE/UPDATE SLICE
                     if ('add' == $function || 'edit' == $function) {
+                        $module->beforeSave();
+
                         $newsql = Sql::factory();
                         $newsql->setTable($sliceTable);
-                        $newsql->setValues($action->columnValues);
+                        $newsql->setValue('data', $module->encodeData());
 
                         if ('edit' == $function) {
                             $newsql->setWhere(['id' => $sliceId]);
@@ -246,8 +231,8 @@ if (
 
                             $newsql->update();
 
-                            $slice = ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision);
-                            $info = Extension::dispatch(new ArticleContentUpdated($OOArt, 'slice_updated', $slice, $actionMessage . I18n::msg('block_updated')));
+                            $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision));
+                            $info = Extension::dispatch(new ArticleContentUpdated($OOArt, 'slice_updated', $slice, I18n::msg('block_updated')));
                         } else {
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
@@ -269,9 +254,11 @@ if (
                             );
 
                             $function = '';
-                            $slice = ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision);
-                            $info = Extension::dispatch(new ArticleContentUpdated($OOArt, 'slice_added', $slice, $actionMessage . I18n::msg('block_added')));
+                            $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision));
+                            $info = Extension::dispatch(new ArticleContentUpdated($OOArt, 'slice_added', $slice, I18n::msg('block_added')));
                         }
+
+                        Module::of($slice)->afterSave();
                     } else {
                         // make delete
 
@@ -287,13 +274,6 @@ if (
                     $EA->addGlobalUpdateFields();
                     $EA->update();
                     ArticleCache::delete($articleId, $languageId);
-
-                    // ----- POST SAVE ACTION [ADD/EDIT/DELETE]
-                    $module->onPostsave($action);
-                    if ($messages = $action->messages) {
-                        $info .= '<br />' . implode('<br />', $messages);
-                    }
-                    // ----- / POST SAVE ACTION
 
                     // Update Button wurde gedrückt?
                     if (Request::post('btn_save', 'string')) {
@@ -398,7 +378,7 @@ if (
     ]));
 
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
-    $contentMain .= Controller::includeCurrentPageSubPath(compact('info', 'warning', 'article', 'articleId', 'categoryId', 'languageId', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'));
+    $contentMain .= Controller::includeCurrentPageSubPath(compact('info', 'warning', 'invalidSliceForm', 'article', 'articleId', 'categoryId', 'languageId', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'));
     // ------------------------------------------ END: AUSGABE
 
     // ----- EXTENSION POINT

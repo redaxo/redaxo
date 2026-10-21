@@ -3,6 +3,7 @@
 namespace Redaxo\Core\Tests\Content;
 
 use Override;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Content\ArticleCache;
 use Redaxo\Core\Content\ArticleContent;
@@ -12,6 +13,7 @@ use Redaxo\Core\Content\Module;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Fixtures\TestModule1;
+use Redaxo\Core\Tests\Content\Fixtures\TestFieldsModule;
 
 /** @internal */
 final class ModuleTest extends TestCase
@@ -77,6 +79,21 @@ final class ModuleTest extends TestCase
         self::assertSame($slice, TestModule1::of($slice)->slice);
     }
 
+    public function testOfSharesTheInstancePerSlice(): void
+    {
+        $slice = $this->createSlice('testmodule1');
+
+        self::assertSame(Module::of($slice), TestModule1::of($slice));
+        self::assertNotSame(Module::of($slice), Module::of($this->createSlice('testmodule1')));
+    }
+
+    public function testOfSliceOfAnotherModule(): void
+    {
+        $this->expectException(LogicException::class);
+
+        TestFieldsModule::of($this->createSlice('testmodule1'));
+    }
+
     public function testOfUnknownModule(): void
     {
         $this->expectException(LogicException::class);
@@ -84,35 +101,83 @@ final class ModuleTest extends TestCase
         Module::of($this->createSlice('unknown'));
     }
 
+    public function testHydratesTheStoredValues(): void
+    {
+        $module = TestFieldsModule::of($this->createSlice('test_fields', ['headline' => 'Hello', 'item_count' => 3, 'hl' => true, 'unknown' => 'foo']));
+
+        self::assertSame('Hello', $module->headline);
+        self::assertSame(3, $module->itemCount);
+        self::assertTrue($module->highlight);
+    }
+
+    public function testStoredValuesNotFittingKeepTheDefault(): void
+    {
+        $module = TestFieldsModule::of($this->createSlice('test_fields', ['headline' => 'Hello', 'item_count' => 'many']));
+
+        self::assertSame('Hello', $module->headline);
+        self::assertNull($module->itemCount);
+        self::assertFalse($module->highlight);
+    }
+
+    public function testEncodeData(): void
+    {
+        $module = TestFieldsModule::of($this->createSlice('test_fields'));
+        $module->headline = 'Grüße/1';
+        $module->itemCount = 2;
+
+        self::assertSame('{"headline":"Grüße/1","item_count":2,"hl":false}', $module->encodeData());
+        self::assertNull(TestModule1::of($this->createSlice('testmodule1'))->encodeData());
+    }
+
+    /**
+     * @param list<string> $expectedFieldErrors
+     * @param list<string> $expectedFormErrors
+     * @param array<string, string> $submitted
+     */
+    #[DataProvider('provideSubmitForm')]
+    public function testSubmitForm(bool $expected, array $expectedFieldErrors, array $expectedFormErrors, array $submitted): void
+    {
+        $module = TestFieldsModule::of($this->createSlice('test_fields', ['headline' => 'Old']));
+        $form = $module->createForm();
+
+        $_POST['slice'] = $submitted;
+        try {
+            self::assertSame($expected, $module->submitForm($form));
+        } finally {
+            unset($_POST['slice']);
+        }
+
+        self::assertSame($expectedFieldErrors, array_keys($form->getFieldErrors()));
+        self::assertSame($expectedFormErrors, $form->getFormErrors());
+        if ([] === $expectedFieldErrors) {
+            self::assertSame($submitted['headline'], $module->headline);
+        } else {
+            self::assertSame('Old', $module->headline);
+        }
+    }
+
+    /** @return iterable<string, array{bool, list<string>, list<string>, array<string, string>}> */
+    public static function provideSubmitForm(): iterable
+    {
+        yield 'valid' => [true, [], [], ['headline' => 'Hello', 'itemCount' => '3', 'highlight' => '1']];
+        yield 'required field missing' => [false, ['headline'], [], ['headline' => '', 'itemCount' => '3']];
+        yield 'rejected by validate()' => [false, [], ['Rejected'], ['headline' => 'reject']];
+    }
+
     public function testOutputFromArticleCache(): void
     {
         $this->createSlice('testmodule1');
+        $this->createSlice('test_fields', ['headline' => 'Hello', 'item_count' => 3]);
         $this->createSlice('unknown');
 
         ContentHandler::generateArticleContent(self::FAKE_ID, 1);
 
-        self::assertSame('output', new ArticleContent(self::FAKE_ID, 1)->renderContent());
+        self::assertSame('outputHello|3|', new ArticleContent(self::FAKE_ID, 1)->renderContent());
     }
 
-    private function createSlice(string $moduleKey): ArticleSlice
+    /** @param array<string, mixed> $values */
+    private function createSlice(string $moduleKey, array $values = []): ArticleSlice
     {
-        $sql = Sql::factory()
-            ->setTable('rex_article_slice')
-            ->setValues([
-                'article_id' => self::FAKE_ID,
-                'language_id' => 1,
-                'ctype_id' => 1,
-                'module' => $moduleKey,
-                'revision' => 0,
-                'priority' => 1,
-            ])
-            ->addGlobalCreateFields()
-            ->addGlobalUpdateFields();
-        $sql->insert();
-
-        $slice = ArticleSlice::getArticleSliceById($sql->getLastId(), 1);
-        self::assertNotNull($slice);
-
-        return $slice;
+        return ContentHandler::addSlice(self::FAKE_ID, 1, 1, $moduleKey, $values);
     }
 }

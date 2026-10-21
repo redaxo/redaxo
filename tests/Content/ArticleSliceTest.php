@@ -36,15 +36,18 @@ final class ArticleSliceTest extends TestCase
             ->delete();
     }
 
-    public function testGetValue(): void
+    public function testData(): void
     {
         $id = $this->addSlice(1, 1);
 
         $slice = ArticleSlice::getArticleSliceById($id);
 
         self::assertNotNull($slice);
-        self::assertSame('foo', $slice->getValue(1));
-        self::assertNull($slice->getValue(2));
+
+        // MySQL does not keep the key order of JSON objects
+        $data = $slice->data;
+        ksort($data);
+        self::assertSame(['list' => [1, 2], 'text' => 'foo'], $data);
     }
 
     public function testGetNextSlice(): void
@@ -90,7 +93,7 @@ final class ArticleSliceTest extends TestCase
                 'revision' => 0,
                 'priority' => $priority,
                 'status' => $status,
-                'value1' => 'foo',
+                'data' => '{"text": "foo", "list": [1, 2]}',
             ])
             ->addGlobalCreateFields()
             ->addGlobalUpdateFields()

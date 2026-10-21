@@ -4,6 +4,8 @@ namespace Redaxo\Core\Tests\MediaPool;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Redaxo\Core\Content\ContentHandler;
+use Redaxo\Core\Database\Sql;
 use Redaxo\Core\MediaPool\MediaPool;
 
 /** @internal */
@@ -68,5 +70,48 @@ final class MediaPoolTest extends TestCase
             [true, __DIR__ . '/../../SECURITY.md'],
             [false, __DIR__ . '/../../SECURITY.md', 'foo.txt'],
         ];
+    }
+
+    /** @param array<string, mixed> $values */
+    #[DataProvider('provideMediaIsInUse')]
+    public function testMediaIsInUse(bool $expected, array $values): void
+    {
+        $articleId = 2_147_483_647;
+
+        // the slice needs an article to hang off, see the foreign key of `rex_article_slice`
+        Sql::factory()
+            ->setTable('rex_article')
+            ->setValues(['id' => $articleId, 'parent_id' => null, 'priority' => 1, 'path' => '|'])
+            ->addGlobalCreateFields()
+            ->addGlobalUpdateFields()
+            ->insert();
+
+        try {
+            Sql::factory()
+                ->setTable('rex_article_translation')
+                ->setValues(['article_id' => $articleId, 'language_id' => 1, 'name' => 'test', 'status' => 1])
+                ->insert();
+
+            ContentHandler::addSlice($articleId, 1, 1, 'test', $values);
+
+            self::assertSame($expected, false !== MediaPool::mediaIsInUse('rex-test(1).jpg'));
+        } finally {
+            // the translation and the slice are removed by the foreign keys
+            Sql::factory()
+                ->setTable('rex_article')
+                ->setWhere(['id' => $articleId])
+                ->delete();
+        }
+    }
+
+    /** @return iterable<string, array{bool, array<string, mixed>}> */
+    public static function provideMediaIsInUse(): iterable
+    {
+        yield 'media field' => [true, ['image' => 'rex-test(1).jpg']];
+        yield 'media list field' => [true, ['images' => ['other.jpg', 'rex-test(1).jpg']]];
+        yield 'embedded in a text' => [true, ['text' => '<img src="/media/rex-test(1).jpg">']];
+        yield 'other media' => [false, ['image' => 'other.jpg']];
+        yield 'longer name' => [false, ['image' => 'my-rex-test(1).jpg']];
+        yield 'no values' => [false, []];
     }
 }
