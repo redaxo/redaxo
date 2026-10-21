@@ -25,6 +25,7 @@ use Redaxo\Core\Util\Formatter;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\HtmlAttributes;
 use Redaxo\Core\View\Message;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use function Redaxo\Core\View\escape;
 
@@ -96,15 +97,13 @@ if (Request::post('btn_update', 'string')) {
         } else {
             $filename = $gf->getStringValue('filename');
             $data = [];
-            $data['category_id'] = $rexFileCategory;
+            $data['category_id'] = $rexFileCategory ?: null;
             $data['title'] = Request::request('ftitle', 'string');
 
-            if ($_FILES['file_new'] ?? null) {
-                $data['file'] = Request::files('file_new', [
-                    ['name', 'string'],
-                    ['tmp_name', 'string'],
-                    ['error', 'int'],
-                ]);
+            /** @var mixed $file */
+            $file = Core::getRequest()->files->get('file_new');
+            if ($file instanceof UploadedFile) {
+                $data['file'] = $file;
             }
 
             $meta = new MetaForm(new MetaContext(MetaEntity::Media, Media::get($filename), mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
@@ -114,7 +113,7 @@ if (Request::post('btn_update', 'string')) {
                     throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
                 }
 
-                MediaHandler::edit($filename, $data, meta: $meta->values());
+                MediaHandler::edit($filename, Language::getCurrentId(), $data, $meta->values());
 
                 if (($gf->getNullableIntValue('category_id') ?? 0) !== $rexFileCategory) {
                     Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [

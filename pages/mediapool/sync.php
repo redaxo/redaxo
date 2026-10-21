@@ -19,6 +19,7 @@ use Redaxo\Core\Util\Str;
 use Redaxo\Core\View\Fragment;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 use function Redaxo\Core\View\escape;
 
@@ -96,16 +97,14 @@ if (Request::post('save', 'boolean') && Request::post('sync_files', 'boolean')) 
                     continue;
                 }
 
-                $data = [];
-                $data['title'] = $ftitle;
-                $data['category_id'] = $rexFileCategory ?: null;
-                $data['file'] = [
-                    'name' => $filename,
-                    'path' => Path::media($filename),
+                $data = [
+                    'file' => new SymfonyFile(Path::media($filename)),
+                    'category_id' => $rexFileCategory ?: null,
+                    'title' => $ftitle,
                 ];
 
                 try {
-                    MediaHandler::add($data, false, meta: $meta->values());
+                    MediaHandler::add($data, $meta->values(), subindexing: false);
 
                     unset($diffFiles[$key]);
                     if ($first) {
