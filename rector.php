@@ -60,7 +60,6 @@ use Redaxo\Core\Mailer;
 use Redaxo\Core\MediaManager;
 use Redaxo\Core\MediaPool;
 use Redaxo\Core\MetaInfo;
-use Redaxo\Core\RexVar;
 use Redaxo\Core\Security;
 use Redaxo\Core\Setup;
 use Redaxo\Core\SystemReport;
@@ -262,10 +261,6 @@ return RectorConfig::configure()
         'rex_url_provider_interface' => Base\UrlProviderInterface::class,
         'rex_validator' => Validator\Validator::class,
         'rex_validation_rule' => Validator\ValidationRule::class,
-        'rex_var_link' => RexVar\LinkVar::class,
-        'rex_var_linklist' => RexVar\LinkListVar::class,
-        'rex_var_media' => RexVar\MediaVar::class,
-        'rex_var_medialist' => RexVar\MediaListVar::class,
         'rex_version' => Util\Version::class,
         'rex_article' => Content\Article::class,
         'rex_article_action' => Content\ArticleSliceAction::class,
