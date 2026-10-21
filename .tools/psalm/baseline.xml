@@ -759,22 +759,6 @@
       <code><![CDATA[$fromRevisionId]]></code>
     </NoValue>
   </file>
-  <file src="src/Content/ArticleSlice.php">
-    <PossiblyNullArgument>
-      <code><![CDATA[$data['link']]]></code>
-      <code><![CDATA[$data['linklist']]]></code>
-      <code><![CDATA[$data['media']]]></code>
-      <code><![CDATA[$data['medialist']]]></code>
-      <code><![CDATA[$data['value']]]></code>
-    </PossiblyNullArgument>
-    <PossiblyUndefinedArrayOffset>
-      <code><![CDATA[$data['link']]]></code>
-      <code><![CDATA[$data['linklist']]]></code>
-      <code><![CDATA[$data['media']]]></code>
-      <code><![CDATA[$data['medialist']]]></code>
-      <code><![CDATA[$data['value']]]></code>
-    </PossiblyUndefinedArrayOffset>
-  </file>
   <file src="src/Content/CategoryNavigation.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[(string) $va]]></code>
