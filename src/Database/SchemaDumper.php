@@ -177,6 +177,12 @@ final readonly class SchemaDumper
 
             $method = $type;
             $default = null === $default ? null : $this->scalar($default);
+        } elseif ('json' === $type) {
+            if (null !== $extra || null !== $default) {
+                return null;
+            }
+
+            $method = 'json';
         } else {
             return null;
         }

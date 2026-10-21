@@ -93,6 +93,17 @@ final readonly class Column
     }
 
     /**
+     * A column for JSON documents, rejecting invalid JSON.
+     *
+     * It has no default parameter, as MySQL allows only expression defaults for JSON columns.
+     * MariaDB stores it as `longtext` with a `json_valid()` check, which is read back as `json` though.
+     */
+    public static function json(string $name, bool $nullable = false, ?string $comment = null): self
+    {
+        return new self($name, 'json', $nullable, null, null, $comment);
+    }
+
+    /**
      * @param int<1, 65> $precision Total number of digits
      * @param int<0, 30> $scale Number of digits after the decimal point, at most $precision
      */

@@ -5,6 +5,7 @@ namespace Redaxo\Core\Tests\Mailer;
 use Override;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Exception\InvalidArgumentException;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Mailer\Mailer;
 use Redaxo\Core\Mailer\MailLogMode;
 use Symfony\Component\Mailer\Exception\TransportException;
@@ -73,7 +74,7 @@ final class MailerTest extends TestCase
 
     public function testFromEnvWithoutDsn(): void
     {
-        $this->expectExceptionMessage('The env var "MAILER_DSN" is missing');
+        $this->expectExceptionMessage('The env var "MAILER_DSN" is missing or empty');
 
         Mailer::fromEnv();
     }
@@ -140,6 +141,21 @@ final class MailerTest extends TestCase
         $this->expectException(TransportException::class);
 
         $mailer->send(self::createEmail());
+    }
+
+    public function testSendWithoutSender(): void
+    {
+        $transport = new RecordingTransport();
+        $mailer = new Mailer($transport, logMode: MailLogMode::None);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('REX_MAILER_FROM');
+
+        try {
+            $mailer->send(self::createEmail());
+        } finally {
+            self::assertNull($transport->sent);
+        }
     }
 
     private static function createEmail(): Email

@@ -8,8 +8,11 @@ use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Finder;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Translation\I18n;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Header\MailboxListHeader;
 
 use function array_slice;
+use function is_array;
 
 use const ICONV_MIME_DECODE_CONTINUE_ON_ERROR;
 use const PATHINFO_EXTENSION;
@@ -27,9 +30,17 @@ final class MailArchive
         return Path::coreData('mailer/archive');
     }
 
-    /** @internal */
-    public static function add(string $content, bool $sent = true): void
+    /**
+     * The envelope recipients are prepended as `X-Envelope-To` header, because the `Bcc` header is not part of the mail.
+     *
+     * @param array<Address> $recipients
+     * @internal
+     */
+    public static function add(string $content, array $recipients, bool $sent = true): void
     {
+        $recipients = array_map(static fn (Address $address) => new Address($address->getAddress()), $recipients);
+        $content = new MailboxListHeader('X-Envelope-To', $recipients)->toString() . "\r\n" . $content;
+
         $dir = self::folder() . '/' . date('Y') . '/' . date('m');
         $prefix = $sent ? '' : 'not_sent_';
         $count = 1;
@@ -131,33 +142,23 @@ final class MailArchive
      */
     public static function parseHeaders(string $file): array
     {
-        $subject = I18n::msg('mailer_archive_no_subject');
-        $recipient = I18n::msg('mailer_archive_no_recipient');
+        $head = explode("\n\n", str_replace("\r\n", "\n", File::get($file, '')), 2)[0];
+        /** @var array<string, string|list<string>> $headers headers occurring several times are returned as list */
+        $headers = iconv_mime_decode_headers($head, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8') ?: [];
+        $headers = array_change_key_case($headers);
 
-        $content = File::get($file);
-        if ($content) {
-            foreach (array_slice(explode("\n", $content), 0, 50) as $line) {
-                $line = trim($line);
-                if ('' === $line) {
-                    break; // end of headers
-                }
+        $header = static function (string $name) use ($headers): ?string {
+            $value = $headers[$name] ?? '';
+            $value = trim(is_array($value) ? $value[0] : $value);
 
-                if (0 === stripos($line, 'Subject:')) {
-                    $subject = substr($line, 8);
-                    $decodedSubject = iconv_mime_decode($subject, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
-                    if (false !== $decodedSubject) {
-                        $subject = $decodedSubject;
-                    }
-                    $subject = trim($subject);
-                    $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
-                }
+            return '' === $value ? null : $value;
+        };
 
-                if (0 === stripos($line, 'To:')) {
-                    $recipient = trim(substr($line, 3));
-                    $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
-                }
-            }
-        }
+        $subject = $header('subject') ?? I18n::msg('mailer_archive_no_subject');
+        $subject = mb_strlen($subject) > 50 ? mb_substr($subject, 0, 50) . '...' : $subject;
+
+        $recipient = $header('to') ?? $header('x-envelope-to') ?? I18n::msg('mailer_archive_no_recipient');
+        $recipient = mb_strlen($recipient) > 30 ? mb_substr($recipient, 0, 30) . '...' : $recipient;
 
         return [
             'subject' => $subject,
