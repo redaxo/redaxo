@@ -157,7 +157,7 @@ if (
             // determine priority value to get the new slice into the right order
             $prevSlice = Sql::factory();
             if (-1 == $sliceId) {
-                $prevSlice->setQuery('SELECT MAX(priority) as priority FROM ' . $sliceTable . ' WHERE article_id=? AND language_id=? AND ctype_id=? AND revision=?', [$articleId, $languageId, $ctype, $sliceRevision]);
+                $prevSlice->setQuery('SELECT MAX(priority) as priority FROM ' . $sliceTable . ' WHERE article_id=? AND language_id=? AND content_section_id=? AND revision=?', [$articleId, $languageId, $ctype, $sliceRevision]);
                 $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
             } else {
                 $prevSlice->setQuery('SELECT priority FROM ' . $sliceTable . ' WHERE id=?', [$sliceId]);
@@ -218,7 +218,7 @@ if (
                             $newsql->setValue('article_id', $articleId);
                             $newsql->setValue('module', $moduleKey);
                             $newsql->setValue('language_id', $languageId);
-                            $newsql->setValue('ctype_id', $ctype);
+                            $newsql->setValue('content_section_id', $ctype);
                             $newsql->setValue('revision', $sliceRevision);
                             $newsql->setValue('priority', $priority);
                         }
@@ -244,7 +244,7 @@ if (
                             DatabaseUtil::organizePriorities(
                                 'rex_article_slice',
                                 'priority',
-                                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
+                                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
                                 'priority, updatedate DESC',
                             );
 

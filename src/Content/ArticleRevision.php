@@ -32,7 +32,7 @@ final class ArticleRevision
         $dc->setQuery('delete from rex_article_slice where article_id=? and language_id=? and revision=?', [$articleId, $languageId, $toRevisionId]);
 
         $gc = Sql::factory();
-        $gc->setQuery('select * from rex_article_slice where article_id=? and language_id=? and revision=? ORDER by ctype_id, priority', [$articleId, $languageId, $fromRevisionId]);
+        $gc->setQuery('select * from rex_article_slice where article_id=? and language_id=? and revision=? ORDER by content_section_id, priority', [$articleId, $languageId, $fromRevisionId]);
 
         $cols = Sql::factory();
         $cols->setQuery('SHOW COLUMNS FROM rex_article_slice');

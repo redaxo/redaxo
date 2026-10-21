@@ -33,7 +33,7 @@ final class ContentHandler
      */
     public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $values = [], ?int $priority = null, int $revision = 0): ArticleSlice
     {
-        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctypeId . ' AND revision=' . $revision;
+        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctypeId . ' AND revision=' . $revision;
 
         if (null === $priority) {
             $prevSlice = Sql::factory();
@@ -48,7 +48,7 @@ final class ContentHandler
         $sql->setTable('rex_article_slice');
         $sql->setValue('article_id', $articleId);
         $sql->setValue('language_id', $languageId);
-        $sql->setValue('ctype_id', $ctypeId);
+        $sql->setValue('content_section_id', $ctypeId);
         $sql->setValue('module', $moduleKey);
         $sql->setValue('revision', $revision);
         $sql->setValue('priority', max(1, $priority));
@@ -108,7 +108,7 @@ final class ContentHandler
 
         // some vars for later use
         $articleId = $CM->getIntValue('article_id');
-        $ctype = $CM->getIntValue('ctype_id');
+        $ctype = $CM->getIntValue('content_section_id');
         $sliceRevision = $CM->getIntValue('revision');
 
         Extension::dispatch(new SliceMoving(ArticleSlice::fromSql($CM), $direction));
@@ -126,7 +126,7 @@ final class ContentHandler
         DatabaseUtil::organizePriorities(
             'rex_article_slice',
             'priority',
-            'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctype . ' AND revision=' . $sliceRevision,
+            'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctype . ' AND revision=' . $sliceRevision,
             'priority, updatedate ' . $updSort,
         );
 
@@ -170,7 +170,7 @@ final class ContentHandler
         DatabaseUtil::organizePriorities(
             'rex_article_slice',
             'priority',
-            'article_id=' . $slice->articleId . ' AND language_id=' . $slice->languageId . ' AND ctype_id=' . $slice->contentSectionId . ' AND revision=' . $slice->revision,
+            'article_id=' . $slice->articleId . ' AND language_id=' . $slice->languageId . ' AND content_section_id=' . $slice->contentSectionId . ' AND revision=' . $slice->revision,
             'priority',
         );
 
@@ -255,12 +255,12 @@ final class ContentHandler
         $cols->setQuery('SHOW COLUMNS FROM rex_article_slice');
 
         $maxPriorityRaw = Sql::factory()->getArray(
-            'SELECT `ctype_id`, `revision`, MAX(`priority`) as max FROM rex_article_slice WHERE `article_id` = :to_id AND `language_id` = :to_language GROUP BY `ctype_id`, `revision`',
+            'SELECT `content_section_id`, `revision`, MAX(`priority`) as max FROM rex_article_slice WHERE `article_id` = :to_id AND `language_id` = :to_language GROUP BY `content_section_id`, `revision`',
             ['to_id' => $toId, 'to_language' => $toLanguageId],
         );
         $maxPriority = [];
         foreach ($maxPriorityRaw as $row) {
-            $maxPriority[(int) $row['ctype_id']][(int) $row['revision']] = (int) $row['max'];
+            $maxPriority[(int) $row['content_section_id']][(int) $row['revision']] = (int) $row['max'];
         }
 
         $user = self::getUser();
@@ -273,14 +273,14 @@ final class ContentHandler
                 } elseif ('article_id' == $colname) {
                     $value = $toId;
                 } elseif ('priority' == $colname) {
-                    $ctypeId = $slice->getIntValue('ctype_id');
+                    $ctypeId = $slice->getIntValue('content_section_id');
                     $value = $slice->getIntValue($colname) + ($maxPriority[$ctypeId][$slice->getIntValue('revision')] ?? 0);
                 } else {
                     $value = $slice->getValue($colname);
                 }
 
                 // collect all affected ctypes
-                if ('ctype_id' == $colname) {
+                if ('content_section_id' == $colname) {
                     $ctypes[$value][$slice->getIntValue('revision')] = true;
                 }
 
@@ -303,7 +303,7 @@ final class ContentHandler
                 DatabaseUtil::organizePriorities(
                     'rex_article_slice',
                     'priority',
-                    'article_id=' . $toId . ' AND language_id=' . $toLanguageId . ' AND ctype_id=' . (int) $ctype . ' AND revision=' . $revision,
+                    'article_id=' . $toId . ' AND language_id=' . $toLanguageId . ' AND content_section_id=' . (int) $ctype . ' AND revision=' . $revision,
                     'priority, updatedate',
                 );
             }

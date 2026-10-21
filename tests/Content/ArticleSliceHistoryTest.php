@@ -30,7 +30,7 @@ final class ArticleSliceHistoryTest extends TestCase
 
             Sql::factory()
                 ->setTable('rex_article_slice')
-                ->setValues(['article_id' => $articleId, 'language_id' => 1, 'ctype_id' => 1, 'module' => 'test', 'priority' => 1, 'revision' => 0])
+                ->setValues(['article_id' => $articleId, 'language_id' => 1, 'content_section_id' => 1, 'module' => 'test', 'priority' => 1, 'revision' => 0])
                 ->addGlobalCreateFields()
                 ->addGlobalUpdateFields()
                 ->insert();
