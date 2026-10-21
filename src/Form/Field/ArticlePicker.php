@@ -56,8 +56,8 @@ class ArticlePicker extends Field implements ReferencesItems
         $ids = array_map(intval(...), self::splitList($field->raw));
 
         return $this->multiple
-            ? new ArticleListInput($field->inputName, $field->id, $ids, $this->categoryId)
-            : new ArticleInput($field->inputName, $field->id, $ids[0] ?? null, $this->categoryId);
+            ? new ArticleListInput($field->inputName, $field->id, $ids, $this->categoryId, disabled: $field->disabled)
+            : new ArticleInput($field->inputName, $field->id, $ids[0] ?? null, $this->categoryId, disabled: $field->disabled);
     }
 
     /** @return string|list<string> */

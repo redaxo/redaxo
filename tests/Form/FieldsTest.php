@@ -139,6 +139,25 @@ final class FieldsTest extends TestCase
         self::assertStringContainsString('type="date"', $html);
     }
 
+    #[DataProvider('provideRenderDisabled')]
+    public function testRenderDisabled(string $expectedPattern, string $field): void
+    {
+        $html = (string) new Form(new AllFields(), csrf: false, disabled: [$field])->row($field);
+
+        self::assertMatchesRegularExpression($expectedPattern, $html);
+    }
+
+    /** @return iterable<int, array{string, string}> */
+    public static function provideRenderDisabled(): iterable
+    {
+        yield ['/<textarea [^>]* disabled[ >]/', 'text'];
+        yield ['/<input [^>]*type="number"[^>]* disabled[ >]/', 'count'];
+        yield ['/<input [^>]*type="date"[^>]* disabled[ >]/', 'date'];
+        yield ['/<select [^>]* disabled[ >]/', 'tags'];
+        yield ['/<input type="checkbox"[^>]* disabled[ >]/', 'days'];
+        yield ['/<input type="radio"[^>]* disabled[ >]/', 'color'];
+    }
+
     #[RequiresPhpExtension('bcmath')]
     public function testDecimal(): void
     {

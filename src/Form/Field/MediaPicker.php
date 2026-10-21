@@ -61,8 +61,8 @@ class MediaPicker extends Field implements ReferencesItems
         $fileNames = self::splitList($field->raw);
 
         return $this->multiple
-            ? new MediaListInput($field->inputName, $field->id, $fileNames, $this->categoryId, $this->types, $this->preview)
-            : new MediaInput($field->inputName, $field->id, $fileNames[0] ?? null, $this->categoryId, $this->types, $this->preview);
+            ? new MediaListInput($field->inputName, $field->id, $fileNames, $this->categoryId, $this->types, $this->preview, disabled: $field->disabled)
+            : new MediaInput($field->inputName, $field->id, $fileNames[0] ?? null, $this->categoryId, $this->types, $this->preview, disabled: $field->disabled);
     }
 
     /** @return string|list<string> */

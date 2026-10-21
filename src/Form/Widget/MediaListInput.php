@@ -26,6 +26,7 @@ final class MediaListInput implements Widget
         public array $types = [],
         /** Whether to show a preview of the selected medium. */
         public bool $preview = false,
+        public bool $disabled = false,
     ) {}
 
     public function labelTarget(): string

@@ -17,6 +17,7 @@ final class Textarea implements Widget
         /** @var positive-int */
         public int $rows = 5,
         public bool $required = false,
+        public bool $disabled = false,
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 

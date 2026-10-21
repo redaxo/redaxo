@@ -11,5 +11,6 @@ return static function (Textarea $textarea): void { ?>
         'id' => $textarea->id,
         'rows' => $textarea->rows,
         'required' => $textarea->required,
+        'disabled' => $textarea->disabled,
     ]) ?>><?= escape((string) $textarea->value) ?></textarea>
 <?php };

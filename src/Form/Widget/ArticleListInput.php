@@ -22,6 +22,7 @@ final class ArticleListInput implements Widget
         public array $articleIds = [],
         /** Category the linkmap opens in; defaults to the current category. */
         public ?int $categoryId = null,
+        public bool $disabled = false,
     ) {}
 
     public function labelTarget(): string

@@ -13,6 +13,7 @@ return static function (CheckboxInput $checkbox): void { ?>
                 'value' => $checkbox->value,
                 'checked' => $checkbox->checked,
                 'required' => $checkbox->required,
+                'disabled' => $checkbox->disabled,
             ]) ?>>
             <?= Html::from($checkbox->label) ?>
         </label>

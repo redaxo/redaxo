@@ -20,6 +20,7 @@ return static function (ChoiceList $list): void {
                             'id' => $list->optionId($value),
                             'value' => (string) $value,
                             'checked' => $list->isSelected($value),
+                            'disabled' => $list->disabled,
                         ]) ?>>
                         <?= escape(Translatable::text($label)) ?>
                     </label>
