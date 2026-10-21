@@ -95,7 +95,7 @@ class Choice extends Field
         $selected = $this->multiple ? self::splitList($field->raw) : (is_string($field->raw) ? $field->raw : null);
 
         if ($this->expanded) {
-            return new ChoiceList($field->inputName, $this->choices(), $selected, $field->id, $this->multiple);
+            return new ChoiceList($field->inputName, $this->choices(), $selected, $field->id, $this->multiple, disabled: $field->disabled);
         }
 
         return new SelectInput(
@@ -106,6 +106,7 @@ class Choice extends Field
             $this->multiple,
             $this->placeholder ?? ($field->type->nullable ? '' : null),
             $this->required,
+            $field->disabled,
         );
     }
 

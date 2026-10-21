@@ -14,6 +14,7 @@ use Redaxo\Core\View\Renderable;
 use Redaxo\Core\View\RendersView;
 use ReflectionClass;
 
+use function array_fill_keys;
 use function array_flip;
 use function array_intersect_key;
 use function array_key_exists;
@@ -56,6 +57,9 @@ final class Form implements Renderable
     /** @var array<string, FieldDefinition> the fields of the form, keyed by property name */
     private readonly array $fields;
 
+    /** @var array<string, true> */
+    private readonly array $disabled;
+
     private bool $submitted = false;
 
     /** @var list<SubmitButton> */
@@ -77,6 +81,8 @@ final class Form implements Renderable
 
     /**
      * @param list<string>|null $only restricts the form to these properties (in schema order); `null` for all
+     * @param list<string> $disabled properties shown read-only: they keep the value of the data object, a submitted
+     *     value is ignored
      * @param list<SubmitButton>|null $buttons defaults to a save button; the browser submits the form by the first
      *     button when pressing enter, so it should be the save button
      */
@@ -86,6 +92,7 @@ final class Form implements Renderable
         public string|Renderable|null $title = null,
         public readonly bool $csrf = true,
         ?array $only = null,
+        array $disabled = [],
         /** Whether the rows place their labels above the widgets instead of next to them, e.g. in narrow columns. */
         public bool $vertical = false,
         ?array $buttons = null,
@@ -108,6 +115,11 @@ final class Form implements Renderable
             $fields = array_intersect_key($fields, array_flip($only));
         }
         $this->fields = $fields;
+
+        foreach ($disabled as $property) {
+            $this->definition($property);
+        }
+        $this->disabled = array_fill_keys($disabled, true);
 
         foreach ($this->fields as $property => $definition) {
             $this->raw[$property] = $definition->field->toRaw($definition->getValue($data));
@@ -161,6 +173,10 @@ final class Form implements Renderable
 
         $values = [];
         foreach ($this->fields as $name => $definition) {
+            if (isset($this->disabled[$name])) {
+                continue;
+            }
+
             $raw = self::normalizeRaw($submitted[$name] ?? null);
             $this->raw[$name] = $raw ?? '';
 
@@ -256,6 +272,7 @@ final class Form implements Renderable
             (string) preg_replace('/[^\w-]/', '_', $this->name . '-' . $name),
             $this->raw[$name],
             $this->fieldErrors[$name] ?? null,
+            isset($this->disabled[$name]),
         );
     }
 

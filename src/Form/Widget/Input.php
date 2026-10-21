@@ -21,6 +21,7 @@ final class Input implements Widget
         public ?string $id = null,
         public string $type = 'text',
         public bool $required = false,
+        public bool $disabled = false,
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 

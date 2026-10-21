@@ -69,15 +69,26 @@ class Collection extends Field implements ReferencesItems
 
         $items = [];
         foreach ($this->rawItems($field->raw) as $index => $raw) {
-            $form = $this->itemForm($field->inputName . '[' . $index . ']');
+            $name = $field->inputName . '[' . $index . ']';
+
+            if ($field->disabled) {
+                // a disabled form ignores submitted values, so it shows the values bound into the item before
+                $item = $this->newItem();
+                $this->itemForm('item', $item)->submit($raw);
+                $items[] = $this->itemForm($name, $item, disabled: true)->rest();
+
+                continue;
+            }
+
             // binds the raw values for display, showing the errors of invalid ones
+            $form = $this->itemForm($name);
             $form->submit($raw);
             $items[] = $form->rest();
         }
 
         $template = $this->itemForm($field->inputName . '[' . $placeholder . ']')->rest();
 
-        return new CollectionInput($field->id, $items, $template, $placeholder, $this->max);
+        return new CollectionInput($field->id, $items, $template, $placeholder, $this->max, $field->disabled);
     }
 
     /** @return list<array<string, string|array<array-key, mixed>>> */
@@ -178,9 +189,11 @@ class Collection extends Field implements ReferencesItems
         return new ReflectionClass($this->item)->newInstance();
     }
 
-    private function itemForm(string $name, ?object $item = null): Form
+    private function itemForm(string $name, ?object $item = null, bool $disabled = false): Form
     {
-        return new Form($item ?? $this->newItem(), name: $name, csrf: false, vertical: true);
+        $disabled = $disabled ? array_keys(FormSchema::of($this->item)->fields) : [];
+
+        return new Form($item ?? $this->newItem(), name: $name, csrf: false, vertical: true, disabled: $disabled);
     }
 
     /** @return list<object> */

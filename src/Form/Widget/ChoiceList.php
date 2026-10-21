@@ -28,6 +28,7 @@ final class ChoiceList implements Widget
         public ?string $id = null,
         public bool $multiple = false,
         public bool $inline = false,
+        public bool $disabled = false,
     ) {}
 
     public function optionId(int|string $value): ?string

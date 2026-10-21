@@ -24,6 +24,7 @@ final class CollectionInput implements Widget
         public string $placeholder,
         /** @var positive-int|null */
         public ?int $max = null,
+        public bool $disabled = false,
     ) {}
 
     public function labelTarget(): ?string

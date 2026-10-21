@@ -124,4 +124,19 @@ final class CollectionTest extends TestCase
         self::assertStringContainsString(new Translatable('form_required')->translate(), $html);
         self::assertStringContainsString(new Translatable('form_collection_invalid')->translate(), $html);
     }
+
+    public function testRenderDisabled(): void
+    {
+        $item = new CollectionItem();
+        $item->title = 'First';
+        $data = new CollectionData();
+        $data->items = [$item];
+
+        $html = (string) new Form($data, csrf: false, disabled: ['items'])->row('items');
+
+        self::assertMatchesRegularExpression('/name="collectionData\\[items\\]\\[0\\]\\[title\\]"[^>]* value="First"[^>]* disabled/', $html);
+        self::assertStringNotContainsString('<template>', $html);
+        self::assertStringNotContainsString('data-rex-collection-add', $html);
+        self::assertStringNotContainsString('data-rex-collection-remove', $html);
+    }
 }

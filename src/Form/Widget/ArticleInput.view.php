@@ -18,7 +18,7 @@ return static function (ArticleInput $input): void {
         . '&language=' . Language::getCurrentId()
         . '&category_id=' . ($article->categoryId ?? $input->categoryId ?? Category::getCurrent()->id ?? 0);
 
-    $allowed = Core::requireUser()->getComplexPerm('structure')->hasStructurePerm();
+    $allowed = !$input->disabled && Core::requireUser()->getComplexPerm('structure')->hasStructurePerm();
     $open = sprintf('openLinkMap("%s", "%s"); return false;', escape($valueId, 'js'), escape($params, 'js'));
     $delete = sprintf(
         'document.getElementById("%s").value = ""; document.getElementById("%s").value = ""; return false;',
@@ -32,6 +32,7 @@ return static function (ArticleInput $input): void {
             'id' => $input->id,
             'value' => null === $article ? '' : $article->name . ' [' . $article->id . ']',
             'readonly' => true,
+            'disabled' => $input->disabled,
         ]) ?>>
         <input type="hidden" name="<?= escape($input->name) ?>" id="<?= escape($valueId) ?>" value="<?= escape((string) $input->articleId) ?>">
         <span class="input-group-btn">

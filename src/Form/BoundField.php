@@ -24,5 +24,7 @@ final readonly class BoundField
         /** @var string|array<array-key, mixed> a list of strings for most multi-value fields, nested for collections */
         public string|array $raw,
         public string|Renderable|null $error = null,
+        /** Whether the field is shown read-only; its submitted value is ignored. */
+        public bool $disabled = false,
     ) {}
 }

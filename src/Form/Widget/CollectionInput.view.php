@@ -8,8 +8,9 @@ use Redaxo\Core\View\HtmlAttributes;
 use function Redaxo\Core\View\escape;
 
 return static function (CollectionInput $input): void {
-    $item = static function (Html $fields): void { ?>
+    $item = static function (Html $fields) use ($input): void { ?>
         <div class="rex-form-collection-item panel panel-default">
+            <?php if (!$input->disabled): ?>
             <div class="panel-heading text-right">
                 <div class="btn-group btn-group-xs">
                     <button type="button" class="btn btn-default" data-rex-collection-move="up" title="<?= escape(I18n::rawMsg('form_collection_move_up')) ?>"><i class="rex-icon rex-icon-up"></i></button>
@@ -17,6 +18,7 @@ return static function (CollectionInput $input): void {
                     <button type="button" class="btn btn-delete" data-rex-collection-remove title="<?= escape(I18n::rawMsg('form_collection_remove')) ?>"><i class="rex-icon rex-icon-delete"></i></button>
                 </div>
             </div>
+            <?php endif ?>
             <div class="panel-body"><?= $fields ?></div>
         </div>
     <?php } ?>
@@ -33,7 +35,9 @@ return static function (CollectionInput $input): void {
                 <?php $item($fields) ?>
             <?php endforeach ?>
         </div>
-        <template><?php $item($input->template) ?></template>
-        <button type="button" class="btn btn-default" data-rex-collection-add><i class="rex-icon rex-icon-add"></i> <?= escape(I18n::rawMsg('form_collection_add')) ?></button>
+        <?php if (!$input->disabled): ?>
+            <template><?php $item($input->template) ?></template>
+            <button type="button" class="btn btn-default" data-rex-collection-add><i class="rex-icon rex-icon-add"></i> <?= escape(I18n::rawMsg('form_collection_add')) ?></button>
+        <?php endif ?>
     </div>
 <?php };
