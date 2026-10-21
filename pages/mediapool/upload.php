@@ -14,6 +14,7 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 assert(isset($PERMALL) && is_bool($PERMALL));
 assert(isset($openerInputField) && is_string($openerInputField));
@@ -37,23 +38,26 @@ if ('add_file' == $mediaMethod) {
         echo Message::error(I18n::msg('csrf_token_invalid'));
     } else {
         if (Request::post('save', 'boolean') || Request::post('saveandexit', 'boolean')) {
-            $data = [];
-            $data['title'] = Request::request('ftitle', 'string');
-            $data['category_id'] = (int) $rexFileCategory;
-            $data['file'] = Request::files('file_new', [
-                ['name', 'string'],
-                ['tmp_name', 'string'],
-                ['error', 'int'],
-            ]);
-
             $types = Request::post('types', 'string');
 
             try {
+                /** @var mixed $file */
+                $file = Core::getRequest()->files->get('file_new');
+                if (!$file instanceof UploadedFile) {
+                    throw new UserMessageException(I18n::msg('pool_file_not_found'));
+                }
+
                 if (!$meta->submit()) {
                     throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
                 }
 
-                $media = MediaHandler::add($data, true, '' === $types ? [] : explode(',', $types), $meta->values());
+                $data = [
+                    'file' => $file,
+                    'category_id' => $rexFileCategory ?: null,
+                    'title' => Request::request('ftitle', 'string'),
+                ];
+
+                $media = MediaHandler::add($data, $meta->values(), types: '' === $types ? [] : explode(',', $types));
                 $info = I18n::msg('pool_file_added');
                 if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {
