@@ -125,7 +125,7 @@ final class ModuleTest extends TestCase
         $module->headline = 'Grüße/1';
         $module->itemCount = 2;
 
-        self::assertSame('{"headline":"Grüße/1","item_count":2,"hl":false,"image":null,"gallery":[],"link":null}', $module->encodeData());
+        self::assertSame('{"headline":"Grüße/1","item_count":2,"hl":false,"image":null,"gallery":[],"link":null,"items":[]}', $module->encodeData());
         self::assertNull(TestModule1::of($this->createSlice('testmodule1'))->encodeData());
     }
 

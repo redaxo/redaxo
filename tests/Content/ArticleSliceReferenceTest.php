@@ -58,6 +58,13 @@ final class ArticleSliceReferenceTest extends TestCase
         self::assertSame(1, $this->countReferences(self::ARTICLE));
     }
 
+    public function testReferencesOfCollectionItems(): void
+    {
+        ContentHandler::addSlice(self::ARTICLE, 1, 1, 'test_fields', ['headline' => 'foo', 'items' => [['title' => 'a'], ['title' => 'b', 'link' => self::LINKED]]]);
+
+        self::assertSame([self::ARTICLE], $this->findLinkingArticles());
+    }
+
     public function testFieldsWithoutReferences(): void
     {
         ContentHandler::addSlice(self::ARTICLE, 1, 1, 'test_fields', ['headline' => 'foo']);

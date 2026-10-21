@@ -9,14 +9,11 @@ use Redaxo\Core\Form\Field\Field;
 use Redaxo\Core\Form\Field\ReferencesItems;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\FormSchema;
-use Redaxo\Core\Form\InvalidValueException;
 use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\Translatable;
 use WeakMap;
 
-use function array_key_exists;
-use function array_values;
 use function sprintf;
 
 /**
@@ -85,7 +82,7 @@ abstract class Module
 
         if (!isset($instances[$slice])) {
             $module = new $class($slice);
-            $module->hydrate();
+            FormSchema::of($class)->hydrate($module, $slice->data);
             $instances[$slice] = $module;
         }
 
@@ -218,12 +215,7 @@ abstract class Module
      */
     final public function encodeData(): ?string
     {
-        $data = [];
-        foreach (FormSchema::of(static::class)->fields as $definition) {
-            $data[$definition->key] = $definition->field->encode($definition->getValue($this));
-        }
-
-        return ArticleSlice::encodeData($data);
+        return ArticleSlice::encodeData(FormSchema::of(static::class)->encode($this));
     }
 
     /**
@@ -234,34 +226,7 @@ abstract class Module
      */
     final public function references(): array
     {
-        $references = [];
-        foreach (FormSchema::of(static::class)->fields as $definition) {
-            if ($definition->field instanceof ReferencesItems) {
-                foreach ($definition->field->references($definition->getValue($this)) as $reference) {
-                    $references[$reference->type . ':' . $reference->target] = $reference;
-                }
-            }
-        }
-
-        return array_values($references);
-    }
-
-    /** Stored values that are missing or no longer fit the field keep the default of the property. */
-    private function hydrate(): void
-    {
-        foreach (FormSchema::of(static::class)->fields as $definition) {
-            if (!array_key_exists($definition->key, $this->slice->data)) {
-                continue;
-            }
-
-            try {
-                $value = $definition->field->decode($this->slice->data[$definition->key], $definition->type);
-            } catch (InvalidValueException) {
-                continue;
-            }
-
-            $definition->setValue($this, $value);
-        }
+        return FormSchema::of(static::class)->references($this);
     }
 
     private static function attribute(): AsModule

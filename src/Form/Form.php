@@ -21,6 +21,7 @@ use function array_key_last;
 use function array_keys;
 use function implode;
 use function is_array;
+use function is_int;
 use function is_string;
 use function lcfirst;
 use function preg_replace;
@@ -62,7 +63,7 @@ final class Form implements Renderable
 
     private ?string $submittedBy = null;
 
-    /** @var array<string, string|list<string>> */
+    /** @var array<string, string|array<array-key, mixed>> */
     private array $raw = [];
 
     /** @var array<string, string|Renderable> */
@@ -424,7 +425,11 @@ final class Form implements Renderable
         return CsrfToken::factory('form:' . $this->name);
     }
 
-    /** @return string|list<string>|null */
+    /**
+     * Keeps strings and (nested) arrays of them; arrays with integer keys only become lists, e.g. `tags[]`.
+     *
+     * @return string|array<array-key, mixed>|null
+     */
     private static function normalizeRaw(mixed $raw): string|array|null
     {
         if (is_string($raw)) {
@@ -436,12 +441,17 @@ final class Form implements Renderable
         }
 
         $values = [];
+        $list = true;
         foreach (array_keys($raw) as $key) {
+            $list = $list && is_int($key);
+
             if (is_string($raw[$key])) {
-                $values[] = $raw[$key];
+                $values[$key] = $raw[$key];
+            } elseif (is_array($raw[$key])) {
+                $values[$key] = self::normalizeRaw($raw[$key]);
             }
         }
 
-        return $values;
+        return $list ? array_values($values) : $values;
     }
 }
