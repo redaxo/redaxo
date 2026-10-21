@@ -287,6 +287,13 @@ form_articlelist_move_top = Ausgewählten Link an den Anfang verschieben
 form_articlelist_move_up = Ausgewählten Link nach oben verschieben
 form_articlelist_move_down = Ausgewählten Link nach unten verschieben
 form_articlelist_move_bottom = Ausgewählten Link an das Ende verschieben
+form_collection_invalid = Mindestens ein Eintrag ist ungültig.
+form_collection_min = Es müssen mindestens {0} Einträge sein.
+form_collection_max = Es dürfen höchstens {0} Einträge sein.
+form_collection_add = Eintrag hinzufügen
+form_collection_remove = Eintrag entfernen
+form_collection_move_up = Eintrag nach oben verschieben
+form_collection_move_down = Eintrag nach unten verschieben
 
 # language
 all_languages = Alle Sprachen

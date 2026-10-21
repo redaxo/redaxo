@@ -21,7 +21,7 @@ final readonly class BoundField
         /** Value of the `name` attribute, e.g. `settings[lang]`. */
         public string $inputName,
         public string $id,
-        /** @var string|list<string> */
+        /** @var string|array<array-key, mixed> a list of strings for most multi-value fields, nested for collections */
         public string|array $raw,
         public string|Renderable|null $error = null,
         /** Whether the field is shown read-only; its submitted value is ignored. */
