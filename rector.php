@@ -58,7 +58,6 @@ use Redaxo\Core\Log;
 use Redaxo\Core\Mailer;
 use Redaxo\Core\MediaManager;
 use Redaxo\Core\MediaPool;
-use Redaxo\Core\MetaInfo;
 use Redaxo\Core\Security;
 use Redaxo\Core\Setup;
 use Redaxo\Core\SystemReport;
@@ -228,11 +227,6 @@ return RectorConfig::configure()
         'rex_media_perm' => MediaPool\MediaPoolPermission::class,
         'rex_mediapool' => MediaPool\MediaPool::class,
         'rex_media_manager' => MediaManager\MediaManager::class,
-        'rex_metainfo_handler' => MetaInfo\Handler\AbstractHandler::class,
-        'rex_metainfo_article_handler' => MetaInfo\Handler\ArticleHandler::class,
-        'rex_metainfo_category_handler' => MetaInfo\Handler\CategoryHandler::class,
-        'rex_metainfo_clang_handler' => MetaInfo\Handler\LanguageHandler::class,
-        'rex_metainfo_media_handler' => MetaInfo\Handler\MediaHandler::class,
         'rex_pager' => Util\Pager::class,
         'rex_path' => Filesystem\Path::class,
         'rex_path_default_provider' => Filesystem\DefaultPathProvider::class,
@@ -676,6 +670,7 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CLANG_FORM_EDIT', '\\' . Language\ExtensionPoint\LanguageFormEdit::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_ADDED', '\\' . Content\ExtensionPoint\ArticleAdded::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_UPDATED', '\\' . Content\ExtensionPoint\ArticleUpdated::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_META_UPDATED', '\\' . Content\ExtensionPoint\ArticleUpdated::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_DELETED', '\\' . Content\ExtensionPoint\ArticleDeleted::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_ADDED', '\\' . Content\ExtensionPoint\CategoryAdded::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_UPDATED', '\\' . Content\ExtensionPoint\CategoryUpdated::class . '::class'),

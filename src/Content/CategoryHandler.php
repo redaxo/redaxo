@@ -16,6 +16,8 @@ use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 
@@ -35,11 +37,15 @@ final class CategoryHandler
      * @param int|null $categoryId Id of the parent category, `null` for the root level
      * @param array{catpriority: int, catname: string, name?: string, status?: int} $data Category data, the names
      *     are used for all languages
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     used for all languages
      *
      * @throws UserMessageException
      */
-    public static function add(?int $categoryId, array $data): Category
+    public static function add(?int $categoryId, array $data, array $meta = []): Category
     {
+        $metaValues = new MetaValues(MetaEntity::Category, $meta);
+
         self::reqKey($data, 'catpriority');
         self::reqKey($data, 'catname');
 
@@ -93,12 +99,13 @@ final class CategoryHandler
         $AART->insert();
         $id = $AART->getLastId();
 
-        Sql::factory()
+        $shared = Sql::factory()
             ->setTable('rex_category')
             ->setValues(['id' => $id, 'priority' => $data['catpriority']])
             ->addGlobalCreateFields($user)
-            ->addGlobalUpdateFields($user)
-            ->insert();
+            ->addGlobalUpdateFields($user);
+        $shared->setValues($metaValues->forTable('rex_category'));
+        $shared->insert();
 
         foreach (Language::getAllIds() as $languageId) {
             // Inherit the template from the start article of the respective language, otherwise use the default
@@ -120,14 +127,15 @@ final class CategoryHandler
                 ])
                 ->insert();
 
-            Sql::factory()
+            $translation = Sql::factory()
                 ->setTable('rex_category_translation')
                 ->setValues([
                     'category_id' => $id,
                     'language_id' => $languageId,
                     'name' => $data['catname'],
-                ])
-                ->insert();
+                ]);
+            $translation->setValues($metaValues->forTable('rex_category_translation'));
+            $translation->insert();
         }
 
         // ----- PRIOR
@@ -147,11 +155,15 @@ final class CategoryHandler
      * Edits a category: the name in the given language, the priority for all languages.
      *
      * @param array{catname?: string, catpriority?: int} $data Category data
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     the translated ones are saved for the given language
      *
      * @throws UserMessageException
      */
-    public static function edit(int $categoryId, int $languageId, array $data): Category
+    public static function edit(int $categoryId, int $languageId, array $data, array $meta = []): Category
     {
+        $metaValues = new MetaValues(MetaEntity::Category, $meta);
+
         // --- Kategorie mit alten Daten selektieren
         $thisCat = self::select($categoryId, $languageId);
 
@@ -161,12 +173,15 @@ final class CategoryHandler
 
         $previous = Category::require($categoryId, $languageId);
 
+        $translation = Sql::factory()
+            ->setTable('rex_category_translation')
+            ->setWhere(['category_id' => $categoryId, 'language_id' => $languageId]);
         if (isset($data['catname'])) {
-            Sql::factory()
-                ->setTable('rex_category_translation')
-                ->setWhere(['category_id' => $categoryId, 'language_id' => $languageId])
-                ->setValue('name', $data['catname'])
-                ->update();
+            $translation->setValue('name', $data['catname']);
+        }
+        $translation->setValues($metaValues->forTable('rex_category_translation'));
+        if ($translation->hasValues()) {
+            $translation->update();
         }
 
         $category = Sql::factory();
@@ -178,6 +193,7 @@ final class CategoryHandler
             }
             $category->setValue('priority', $data['catpriority']);
         }
+        $category->setValues($metaValues->forTable('rex_category'));
         $category->addGlobalUpdateFields(self::getUser());
         $category->update();
 

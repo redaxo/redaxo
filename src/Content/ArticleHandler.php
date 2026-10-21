@@ -20,6 +20,8 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
@@ -38,11 +40,15 @@ final class ArticleHandler
      *
      * @param array{category_id: int|null, priority: int, name: string, template?: string} $data Article data,
      *     `category_id` is `null` for the root level, `name` is used for all languages
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     used for all languages
      *
      * @throws UserMessageException
      */
-    public static function add(array $data): Article
+    public static function add(array $data, array $meta = []): Article
     {
+        $metaValues = new MetaValues(MetaEntity::Article, $meta);
+
         self::reqKey($data, 'category_id');
         self::reqKey($data, 'priority');
         self::reqKey($data, 'name');
@@ -79,6 +85,7 @@ final class ArticleHandler
         $AART->setValue('parent_id', $categoryId);
         $AART->setValue('priority', $data['priority']);
         $AART->setValue('path', $path);
+        $AART->setValues($metaValues->forTable('rex_article'));
         $AART->addGlobalCreateFields($user);
         $AART->addGlobalUpdateFields($user);
         $AART->insert();
@@ -94,6 +101,7 @@ final class ArticleHandler
                     'status' => 0,
                     'template' => $data['template'],
                 ])
+                ->setValues($metaValues->forTable('rex_article_translation'))
                 ->insert();
         }
 
@@ -112,12 +120,17 @@ final class ArticleHandler
     /**
      * Edits an article: name and template in the given language, the priority for all languages.
      *
-     * @param array{name: string, priority?: int, template?: string|null} $data Article data
+     * @param array{name: string, priority?: int, template?: string|null} $data Article data, the template is kept if
+     *     the key is missing
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     the translated ones are saved for the given language
      *
      * @throws UserMessageException
      */
-    public static function edit(int $articleId, int $languageId, array $data): Article
+    public static function edit(int $articleId, int $languageId, array $data, array $meta = []): Article
     {
+        $metaValues = new MetaValues(MetaEntity::Article, $meta);
+
         self::reqKey($data, 'name');
 
         $thisArt = self::select($articleId, $languageId);
@@ -129,14 +142,25 @@ final class ArticleHandler
         $previous = Article::require($articleId, $languageId);
         $data['category_id'] = $previous->categoryId;
 
-        $templates = Template::getTemplatesForCategory($data['category_id']);
-        $data['template'] = isset($data['template']) ? Type::string($data['template']) : null;
+        $translation = Sql::factory()
+            ->setTable('rex_article_translation')
+            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
+            ->setValue('name', $data['name']);
 
-        // Wenn Template nicht vorhanden, dann entweder erlaubtes nehmen
-        // oder leer setzen.
-        if (null === $data['template'] || !isset($templates[$data['template']])) {
-            $data['template'] = array_key_first($templates);
+        if (array_key_exists('template', $data)) {
+            $templates = Template::getTemplatesForCategory($data['category_id']);
+            $template = null === $data['template'] ? null : Type::string($data['template']);
+
+            // Fall back to the first allowed template if the chosen one is not available in this category
+            if (null === $template || !isset($templates[$template])) {
+                $template = array_key_first($templates);
+            }
+
+            $translation->setValue('template', $template);
         }
+
+        $translation->setValues($metaValues->forTable('rex_article_translation'));
+        $translation->update();
 
         if (isset($data['priority'])) {
             if ($data['priority'] <= 0) {
@@ -146,17 +170,11 @@ final class ArticleHandler
 
         $data['priority'] ??= $thisArt->getIntValue('priority');
 
-        Sql::factory()
-            ->setTable('rex_article_translation')
-            ->setWhere(['article_id' => $articleId, 'language_id' => $languageId])
-            ->setValue('name', $data['name'])
-            ->setValue('template', $data['template'])
-            ->update();
-
         $EA = Sql::factory();
         $EA->setTable('rex_article');
         $EA->setWhere(['id' => $articleId]);
         $EA->setValue('priority', $data['priority']);
+        $EA->setValues($metaValues->forTable('rex_article'));
         $EA->addGlobalUpdateFields(self::getUser());
         $EA->update();
 

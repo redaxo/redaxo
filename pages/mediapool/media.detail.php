@@ -16,6 +16,9 @@ use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MediaPool\MediaHandler;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -77,6 +80,8 @@ if (Request::post('btn_delete', 'string')) {
     }
 }
 
+$meta = null;
+
 if (Request::post('btn_update', 'string')) {
     if (!$csrf->isValid()) {
         $error = I18n::msg('csrf_token_invalid');
@@ -102,8 +107,14 @@ if (Request::post('btn_update', 'string')) {
                 ]);
             }
 
+            $meta = new MetaForm(new MetaContext(MetaEntity::Media, Media::get($filename), mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
+
             try {
-                MediaHandler::edit($filename, $data);
+                if (!$meta->submit()) {
+                    throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
+                }
+
+                MediaHandler::edit($filename, $data, meta: $meta->values());
 
                 if (($gf->getNullableIntValue('category_id') ?? 0) !== $rexFileCategory) {
                     Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [
@@ -134,7 +145,8 @@ if ($perm->hasCategoryPerm($gf->getNullableIntValue('category_id'))) {
     $TPERM = true;
 }
 
-$ftitle = $gf->getStringValue('title');
+// a failed update shows the submitted title again, like the submitted meta values
+$ftitle = $meta?->hasErrors() ? Request::request('ftitle', 'string') : $gf->getStringValue('title');
 $fname = $gf->getStringValue('filename');
 $ffiletype = $gf->getNullableStringValue('filetype');
 $ffileSize = $gf->getIntValue('filesize');
@@ -238,6 +250,8 @@ if ($TPERM) {
     $fragment->setVar('elements', $formElements, false);
     $panel .= $fragment->parse('core/form/form.php');
 
+    $meta ??= new MetaForm(new MetaContext(MetaEntity::Media, Media::get($fname), mediaCategory: $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null));
+    $panel .= $meta->render();
     $panel .= Extension::dispatch(new ExtensionPoint('MEDIA_FORM_EDIT', '', ['id' => $fileId, 'media' => $gf]));
 
     $panel .= $addExtInfo;

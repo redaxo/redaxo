@@ -9,7 +9,11 @@ use Redaxo\Core\ApiFunction\Result;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\CategoryHandler;
 use Redaxo\Core\Core;
+use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\MetaInfo\MetaContext;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Translation\I18n;
 
 /**
@@ -28,7 +32,8 @@ final class CategoryEdit extends ApiFunction
         $catId = Request::request('category-id', 'int');
         $languageId = Request::request('language', 'int');
 
-        if (null === Category::get($catId, $languageId)) {
+        $category = Category::get($catId, $languageId);
+        if (null === $category) {
             throw new ApiFunctionException('Unable to find category with id "' . $catId . '" and language "' . $languageId . '"!');
         }
 
@@ -43,7 +48,12 @@ final class CategoryEdit extends ApiFunction
         $data = [];
         $data['catpriority'] = Request::post('category-position', 'int');
         $data['catname'] = Request::post('category-name', 'string');
-        CategoryHandler::edit($catId, $languageId, $data);
+        $meta = new MetaForm(new MetaContext(MetaEntity::Category, $category, $category));
+        if (!$meta->submit()) {
+            throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
+        }
+
+        CategoryHandler::edit($catId, $languageId, $data, $meta->values());
 
         return new Result(true, I18n::msg('category_updated'));
     }

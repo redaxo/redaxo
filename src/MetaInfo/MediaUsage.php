@@ -1,48 +1,36 @@
 <?php
 
-namespace Redaxo\Core\MetaInfo\Handler;
+namespace Redaxo\Core\MetaInfo;
 
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
-use Redaxo\Core\Exception\UserMessageException;
-use Redaxo\Core\ExtensionPoint\AsExtension;
-use Redaxo\Core\ExtensionPoint\ExtensionLevel;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Field\MediaPicker;
-use Redaxo\Core\Http\Session;
-use Redaxo\Core\Language\Language;
-use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdded;
-use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
-use Redaxo\Core\MediaPool\MediaCategory;
-use Redaxo\Core\MetaInfo\MetaContext;
-use Redaxo\Core\MetaInfo\MetaEntity;
-use Redaxo\Core\MetaInfo\MetaSchema;
 use Redaxo\Core\Translation\I18n;
 
 use function implode;
 use function Redaxo\Core\View\escape;
 
 /**
+ * Finds the media referenced by meta fields.
+ *
  * @internal
  */
-final class MediaHandler extends AbstractHandler
+final class MediaUsage
 {
+    private function __construct() {}
+
     /**
-     * Extension to check whether the given media is still in use.
-     *
-     * @param ExtensionPoint<list<string>> $ep
+     * Returns the warnings listing the items whose meta fields reference the given medium.
      *
      * @return list<string>
      */
-    #[AsExtension('MEDIA_IS_IN_USE')]
-    public static function isMediaInUse(ExtensionPoint $ep): array
+    public static function getWarnings(string $filename): array
     {
-        $params = $ep->getParams();
-        $warning = $ep->subject;
+        $warning = [];
 
         $sql = Sql::factory();
-        $escapedFilename = $sql->escape($params['filename']);
+        $escapedFilename = $sql->escape($filename);
 
         $where = ['articles' => [], 'categories' => [], 'media' => [], 'languages' => []];
         $map = [
@@ -117,64 +105,5 @@ final class MediaHandler extends AbstractHandler
         }
 
         return $warning;
-    }
-
-    /** @param ExtensionPoint<string> $ep */
-    #[AsExtension('MEDIA_FORM_EDIT')]
-    #[AsExtension('MEDIA_FORM_ADD')]
-    public function extendForm(ExtensionPoint $ep): string
-    {
-        // Only on edit there is an existing medium to edit.
-        /** @var object|null $media */
-        $media = $ep->getParam('media');
-
-        return $ep->subject . $this->renderFields($this->createContext($media));
-    }
-
-    /** @throws UserMessageException if the submitted values are invalid */
-    #[AsExtension(level: ExtensionLevel::Early)]
-    public function saveFields(MediaAdded|MediaUpdated $ep): void
-    {
-        if (!$this->submit($this->createContext($ep->media))) {
-            throw $this->invalidValues(MetaEntity::Media);
-        }
-
-        // a freshly added medium gets the submitted values in all languages, an edited one only in its language
-        $languageIds = $ep instanceof MediaAdded ? Language::getAllIds() : [$ep->media->languageId];
-
-        $this->save($ep->media->id, $languageIds);
-    }
-
-    private function createContext(?object $media): MetaContext
-    {
-        $catId = (int) Session::start()->get('media[rex_file_category]', 0);
-
-        return new MetaContext(MetaEntity::Media, $media, mediaCategory: $catId > 0 ? MediaCategory::get($catId) : null);
-    }
-
-    /** @param list<int> $languageIds */
-    private function save(int $id, array $languageIds): void
-    {
-        $sql = Sql::factory();
-        $sql->setTable('rex_media');
-        $sql->setWhere(['id' => $id]);
-
-        $this->saveValues($sql, MetaEntity::Media, translated: false);
-
-        if ($sql->hasValues()) {
-            $sql->update();
-        }
-
-        foreach ($languageIds as $languageId) {
-            $sql = Sql::factory();
-            $sql->setTable('rex_media_translation');
-            $sql->setWhere(['media_id' => $id, 'language_id' => $languageId]);
-
-            $this->saveValues($sql, MetaEntity::Media, translated: true);
-
-            if ($sql->hasValues()) {
-                $sql->update();
-            }
-        }
     }
 }
