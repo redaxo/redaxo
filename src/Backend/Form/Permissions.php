@@ -66,11 +66,16 @@ final class Permissions extends Field
 
         $groups = [];
         foreach (self::GROUPS as $group) {
+            $choices = self::groupChoices($group);
+            if (!$choices) {
+                continue;
+            }
+
             $groups[] = [
                 'key' => $group,
                 'label' => new Translatable('user_' . $group),
                 'allLabel' => null,
-                'choices' => self::prefix($group, self::groupChoices($group)),
+                'choices' => self::prefix($group, $choices),
                 'selected' => $selected[$group] ?? [],
                 'all' => false,
             ];

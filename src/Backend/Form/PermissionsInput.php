@@ -10,8 +10,8 @@ use Redaxo\Core\View\RendersView;
 use function preg_replace;
 
 /**
- * The rows of the {@see Permissions} field: a multi-select per permission, plus an "all" checkbox for complex
- * permissions.
+ * The rows of the {@see Permissions} field: checkboxes for the simple permission groups, a multi-select plus an "all"
+ * checkbox for each complex permission.
  *
  * @internal
  */
