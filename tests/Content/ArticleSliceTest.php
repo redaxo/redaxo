@@ -43,7 +43,11 @@ final class ArticleSliceTest extends TestCase
         $slice = ArticleSlice::getArticleSliceById($id);
 
         self::assertNotNull($slice);
-        self::assertSame(['text' => 'foo', 'list' => [1, 2]], $slice->data);
+
+        // MySQL does not keep the key order of JSON objects
+        $data = $slice->data;
+        ksort($data);
+        self::assertSame(['list' => [1, 2], 'text' => 'foo'], $data);
     }
 
     public function testGetNextSlice(): void
