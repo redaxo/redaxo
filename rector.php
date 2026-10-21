@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use Rector\Arguments\Rector\ClassMethod\ArgumentAdderRector;
 use Rector\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector;
-use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Arguments\ValueObject\ReplaceArgumentDefaultValue;
 use Rector\CodeQuality\Rector as CodeQuality;
 use Rector\CodingStyle\Rector as CodingStyle;
@@ -29,12 +27,10 @@ use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameProperty;
 use Rector\Renaming\ValueObject\RenameStaticMethod;
-use Rector\Transform\Rector\ConstFetch\ConstFetchToClassConstFetchRector;
 use Rector\Transform\Rector\FuncCall\FuncCallToStaticCallRector;
 use Rector\Transform\Rector\MethodCall\MethodCallToStaticCallRector;
 use Rector\Transform\Rector\New_\NewToStaticCallRector;
 use Rector\Transform\Rector\StaticCall\StaticCallToNewRector;
-use Rector\Transform\ValueObject\ConstFetchToClassConstFetch;
 use Rector\Transform\ValueObject\FuncCallToStaticCall;
 use Rector\Transform\ValueObject\MethodCallToStaticCall;
 use Rector\Transform\ValueObject\NewToStaticCall;
@@ -219,20 +215,6 @@ return RectorConfig::configure()
         'rex_extension_point_slice_menu' => Content\ExtensionPoint\SliceMenu::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
-        'rex_form_base' => Form\AbstractForm::class,
-        'rex_form' => Form\DbForm::class,
-        'rex_config_form' => Form\ConfigForm::class,
-        'rex_form_element' => Form\Field\BaseField::class,
-        'rex_form_options_element' => Form\Field\AbstractOptionField::class,
-        'rex_form_checkbox_element' => Form\Field\CheckboxField::class,
-        'rex_form_radio_element' => Form\Field\RadioField::class,
-        'rex_form_container_element' => Form\Field\ContainerField::class,
-        'rex_form_control_element' => Form\Field\ControlField::class,
-        'rex_form_select_element' => Form\Field\SelectField::class,
-        'rex_form_prio_element' => Form\Field\PriorityField::class,
-        'rex_form_raw_element' => Form\Field\RawField::class,
-        'rex_form_widget_linkmap_element' => Form\Field\ArticleField::class,
-        'rex_form_widget_media_element' => Form\Field\MediaField::class,
         'rex_select' => Form\Select\Select::class,
         'rex_category_select' => Form\Select\CategorySelect::class,
         'rex_media_category_select' => Form\Select\MediaCategorySelect::class,
@@ -340,12 +322,6 @@ return RectorConfig::configure()
     ->withConfiguredRule(RenameFunctionRector::class, [
         'rex_escape' => 'Redaxo\\Core\\View\\escape',
     ])
-    ->withConfiguredRule(ArgumentAdderRector::class, [
-        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 1, 'value', null),
-        new ArgumentAdder(Form\AbstractForm::class, 'addLinklistField', 2, 'arguments', ['multiple' => true]),
-        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 1, 'value', null),
-        new ArgumentAdder(Form\AbstractForm::class, 'addMedialistField', 2, 'arguments', ['multiple' => true]),
-    ])
     ->withConfiguredRule(RenameMethodRector::class, [
         new MethodCallRename(Language\LanguageHandler::class, 'addCLang', 'add'),
         new MethodCallRename(Language\LanguageHandler::class, 'editCLang', 'edit'),
@@ -373,10 +349,6 @@ return RectorConfig::configure()
         new MethodCallRename(Content\Template::class, 'getCtypes', 'getContentSections'),
         new MethodCallRename(Content\Template::class, 'getDefaultId', 'getDefaultKey'),
         new MethodCallRename(Content\Module::class, 'forKey', 'get'),
-
-        new MethodCallRename(Form\AbstractForm::class, 'addLinklistField', 'addArticleField'),
-        new MethodCallRename(Form\AbstractForm::class, 'addLinkmapField', 'addArticleField'),
-        new MethodCallRename(Form\AbstractForm::class, 'addMedialistField', 'addMediaField'),
 
         new MethodCallRename(Content\ArticleHandler::class, 'addArticle', 'add'),
         new MethodCallRename(Content\ArticleHandler::class, 'editArticle', 'edit'),
@@ -694,7 +666,6 @@ return RectorConfig::configure()
         new ArgumentRemover(Filesystem\Url::class, 'backendPage', 2, null),
         new ArgumentRemover(Filesystem\Url::class, 'currentBackendPage', 1, null),
         new ArgumentRemover(Filesystem\Url::class, 'article', 3, null),
-        new ArgumentRemover(Form\AbstractForm::class, 'getUrl', 1, null),
         new ArgumentRemover(View\DataList::class, 'getUrl', 1, null),
         new ArgumentRemover(View\DataList::class, 'getParsedUrl', 1, null),
         new ArgumentRemover(Content\StructureElement::class, 'getUrl', 1, null),
@@ -743,9 +714,6 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_ADD', '\\' . MediaPool\ExtensionPoint\MediaAdding::class . '::class'),
 
         new ReplaceArgumentDefaultValue(Form\Select\CategorySelect::class, '__construct', 1, false, null),
-    ])
-    ->withConfiguredRule(ConstFetchToClassConstFetchRector::class, [
-        new ConstFetchToClassConstFetch('REX_FORM_ERROR_VIOLATE_UNIQUE_KEY', Form\DbForm::class, 'ERROR_VIOLATE_UNIQUE_KEY'),
     ])
     ->withConfiguredRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(ExtensionPoint\Extension::class, 'EARLY', ExtensionPoint\ExtensionLevel::class, 'Early'),

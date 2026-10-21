@@ -70,8 +70,6 @@ logged_out = nicht angemeldet
 logged_in_as = Angemeldet als
 
 # redaxo/include/classes/class.form.php
-form_field_first_priority = Am Anfang
-form_field_after_priority = Nach dem Feld "{0}"
 
 # src\core\pages\system.php
 info_updated = Informationen wurden aktualisiert!
@@ -259,15 +257,9 @@ list_no_rows = Keine Einträge vorhanden
 
 form_save = Speichern
 form_apply = Übernehmen
-form_delete = Löschen
-form_reset = Zurücksetzen
 form_abort = Abbrechen
 form_saved = Eingaben wurden gespeichert!
 form_save_error = Fehler beim Speichern!
-form_applied = Eingaben wurden übernommen!
-form_deleted = Eingaben wurden gelöscht!
-form_delete_error = Fehler beim Löschen!
-form_resetted = Eingaben wurden verworfen!
 form_required = Das Feld darf nicht leer sein.
 form_invalid_value = Der Wert ist ungültig.
 form_invalid_choice = Die gewählte Option ist ungültig.

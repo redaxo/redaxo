@@ -40,7 +40,6 @@ parameters:
     symfony:
         consoleApplicationLoader: .tools/phpstan/console.php
     ignoreErrors:
-        - '#^Constructor of class .*Field has an unused parameter \$tag.#'
         - '#^Offset .* on .* always exists#'
         -   identifiers: [possiblyImpure.functionCall, possiblyImpure.methodCall]
         -
