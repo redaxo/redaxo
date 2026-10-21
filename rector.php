@@ -733,6 +733,15 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_ADDED', '\\' . MediaPool\ExtensionPoint\MediaCategoryAdded::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_UPDATED', '\\' . MediaPool\ExtensionPoint\MediaCategoryUpdated::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_DELETED', '\\' . MediaPool\ExtensionPoint\MediaCategoryDeleted::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_STATUS', '\\' . Content\ExtensionPoint\ArticleStatusChanged::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_STATUS', '\\' . Content\ExtensionPoint\CategoryStatusChanged::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_MOVED', '\\' . Content\ExtensionPoint\ArticleMoved::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_MOVED', '\\' . Content\ExtensionPoint\CategoryMoved::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_COPIED', '\\' . Content\ExtensionPoint\ArticleCopied::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_TO_CAT', '\\' . Content\ExtensionPoint\ArticleConvertedToCategory::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_TO_ART', '\\' . Content\ExtensionPoint\CategoryConvertedToArticle::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_TO_STARTARTICLE', '\\' . Content\ExtensionPoint\ArticleConvertedToStartArticle::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_ADD', '\\' . MediaPool\ExtensionPoint\MediaAdding::class . '::class'),
 
         new ReplaceArgumentDefaultValue(Form\Select\CategorySelect::class, '__construct', 1, false, null),
     ])
