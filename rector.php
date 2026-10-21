@@ -397,6 +397,7 @@ return RectorConfig::configure()
         new RenameStaticMethod(View\View::class, 'success', View\Message::class, 'success'),
         new RenameStaticMethod(View\View::class, 'warning', View\Message::class, 'warning'),
 
+        new RenameStaticMethod(Content\ArticleSlice::class, 'getFirstSliceForCtype', Content\ArticleSlice::class, 'getFirstSliceForContentSection'),
         new RenameStaticMethod(Content\ArticleHandler::class, 'category2article', Content\CategoryHandler::class, 'convertToArticle'),
         new RenameStaticMethod(Content\CategoryHandler::class, 'statusTypes', Content\ArticleHandler::class, 'statusTypes'),
         new RenameStaticMethod(Content\CategoryHandler::class, 'nextStatus', Content\ArticleHandler::class, 'nextStatus'),
@@ -478,7 +479,7 @@ return RectorConfig::configure()
         new MethodCallToPropertyFetch(Content\StructureContext::class, 'getCategoryId', 'categoryId'),
         new MethodCallToPropertyFetch(Content\StructureContext::class, 'getArticleId', 'articleId'),
         new MethodCallToPropertyFetch(Content\StructureContext::class, 'getClangId', 'languageId'),
-        new MethodCallToPropertyFetch(Content\StructureContext::class, 'getCtypeId', 'ctypeId'),
+        new MethodCallToPropertyFetch(Content\StructureContext::class, 'getCtypeId', 'contentSectionId'),
         new MethodCallToPropertyFetch(Content\StructureContext::class, 'getArtStart', 'artStart'),
         new MethodCallToPropertyFetch(Content\StructureContext::class, 'getCatStart', 'catStart'),
         new MethodCallToPropertyFetch(Content\StructureContext::class, 'getEditId', 'editId'),

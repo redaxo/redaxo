@@ -142,7 +142,7 @@ final class ArticleContentEditor extends ArticleContentBase
             'article_id' => $this->articleId,
             'slice_id' => $sliceId,
             'language' => $this->languageId,
-            'ctype' => $this->contentSectionId,
+            'content_section_id' => $this->contentSectionId,
         ]);
         $fragment = '#slice' . $sliceId;
 
@@ -281,7 +281,7 @@ final class ArticleContentEditor extends ArticleContentBase
             'page' => Controller::getCurrentPage(),
             'article_id' => $this->articleId,
             'language' => $this->languageId,
-            'ctype' => $this->contentSectionId,
+            'content_section_id' => $this->contentSectionId,
             'slice_id' => $sliceId,
             'function' => 'add',
         ]);
@@ -389,7 +389,7 @@ final class ArticleContentEditor extends ArticleContentBase
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'language' => $this->languageId, 'ctype' => $this->contentSectionId]) . '#slice-add-pos-' . $this->sliceAddPosition . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'language' => $this->languageId, 'content_section_id' => $this->contentSectionId]) . '#slice-add-pos-' . $this->sliceAddPosition . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -424,12 +424,12 @@ final class ArticleContentEditor extends ArticleContentBase
 
         $fragment = new Fragment();
         $fragment->setVar('attributes', ['class' => ['rex-slice', 'rex-slice-add']], false);
-        $fragment->setVar('formAction', Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'language' => $this->languageId, 'ctype' => $this->contentSectionId]) . '#slice-add-pos-' . $this->sliceAddPosition);
+        $fragment->setVar('formAction', Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'language' => $this->languageId, 'content_section_id' => $this->contentSectionId]) . '#slice-add-pos-' . $this->sliceAddPosition);
         $fragment->setVar('content', $sliceContent, false);
         return $fragment->parse('core/structure/content/slice_list_item.php');
     }
 
-    private function editSlice(int $sliceId, ArticleSlice $slice, int $ctypeId, string $moduleKey, Sql $artDataSql): string
+    private function editSlice(int $sliceId, ArticleSlice $slice, int $contentSectionId, string $moduleKey, Sql $artDataSql): string
     {
         $msg = '';
         if ($this->sliceId === $sliceId) {
@@ -444,7 +444,7 @@ final class ArticleContentEditor extends ArticleContentBase
         $formElements = [];
 
         $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'language' => $this->languageId]) . '#slice' . $sliceId . '">' . I18n::msg('form_abort') . '</a>';
+        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'content_section_id' => $contentSectionId, 'language' => $this->languageId]) . '#slice' . $sliceId . '">' . I18n::msg('form_abort') . '</a>';
         $formElements[] = $n;
 
         $n = [];
@@ -484,7 +484,7 @@ final class ArticleContentEditor extends ArticleContentBase
 
         $fragment = new Fragment();
         $fragment->setVar('attributes', ['class' => ['rex-slice', 'rex-slice-edit'], 'id' => 'slice' . $sliceId], false);
-        $fragment->setVar('formAction', Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'language' => $this->languageId, 'function' => 'edit']) . '#slice' . $sliceId);
+        $fragment->setVar('formAction', Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'content_section_id' => $contentSectionId, 'language' => $this->languageId, 'function' => 'edit']) . '#slice' . $sliceId);
         $fragment->setVar('content', $sliceContent, false);
         return $fragment->parse('core/structure/content/slice_list_item.php');
     }

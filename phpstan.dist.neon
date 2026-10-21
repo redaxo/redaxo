@@ -45,3 +45,12 @@ parameters:
         -
             identifier: missingType.checkedException
             path: tests/*
+        # remaining fragment usages are tracked via the `new.deprecatedClass` baseline
+        -
+            message: '#deprecated class Redaxo\\Core\\View\\Fragment\b#'
+            identifiers:
+                - classConstant.deprecatedClass
+                - method.deprecatedClass
+                - property.deprecatedClass
+                - staticMethod.deprecatedClass
+                - varTag.deprecatedClass

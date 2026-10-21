@@ -21,6 +21,10 @@ use const E_USER_WARNING;
  * @phpstan-method string getSubfragment(string $filename, array<string, mixed> $params = [])
  * @phpstan-method string i18n(string $key, ...$replacements)
  * @phpstan-method mixed  escape($value, $strategy = 'html')
+ *
+ * @internal
+ *
+ * @deprecated The fragment system will be removed before the 6.0 release
  */
 class Fragment
 {

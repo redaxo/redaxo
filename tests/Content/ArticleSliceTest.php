@@ -50,6 +50,27 @@ final class ArticleSliceTest extends TestCase
         self::assertSame(['list' => [1, 2], 'text' => 'foo'], $data);
     }
 
+    public function testGetFirstSliceForArticle(): void
+    {
+        $this->addSlice(1, 1, 22);
+        $firstOnline = $this->addSlice(2, 1, 21);
+        $first = $this->addSlice(1, 0, 21);
+
+        self::assertSame($first, ArticleSlice::getFirstSliceForArticle(self::FAKE_ID, 1)?->id);
+        self::assertSame($firstOnline, ArticleSlice::getFirstSliceForArticle(self::FAKE_ID, 1, ignoreOfflines: true)?->id);
+    }
+
+    public function testGetFirstSliceForContentSection(): void
+    {
+        $this->addSlice(1, 1, 1);
+        $this->addSlice(3, 1, 2);
+        $firstOnline = $this->addSlice(2, 1, 2);
+        $first = $this->addSlice(1, 0, 2);
+
+        self::assertSame($first, ArticleSlice::getFirstSliceForContentSection(2, self::FAKE_ID, 1)?->id);
+        self::assertSame($firstOnline, ArticleSlice::getFirstSliceForContentSection(2, self::FAKE_ID, 1, ignoreOfflines: true)?->id);
+    }
+
     public function testGetNextSlice(): void
     {
         $id = $this->addSlice(1, 1);
@@ -80,7 +101,7 @@ final class ArticleSliceTest extends TestCase
         self::assertSame($previousOnline, $slice->getPreviousSlice(true)?->id);
     }
 
-    private function addSlice(int $priority, int $status): int
+    private function addSlice(int $priority, int $status, int $contentSectionId = 1): int
     {
         $sql = Sql::factory();
         $sql
@@ -88,7 +109,7 @@ final class ArticleSliceTest extends TestCase
             ->setValues([
                 'article_id' => self::FAKE_ID,
                 'language_id' => 1,
-                'content_section_id' => 1,
+                'content_section_id' => $contentSectionId,
                 'module' => 'test',
                 'revision' => 0,
                 'priority' => $priority,

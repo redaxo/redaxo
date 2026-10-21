@@ -74,7 +74,7 @@ $templateKey = $article->getNullableStringValue('template') ?? '';
 $template = Template::get($templateKey);
 $contentSections = $template?->getContentSections() ?? [];
 
-$ctype = Request::request('ctype', 'int', 1);
+$ctype = Request::request('content_section_id', 'int', 1);
 if ($ctype < 2 || !$template?->hasContentSection($ctype)) {
     $ctype = 1;
 }
@@ -95,7 +95,7 @@ $context = new Context([
     'article_id' => $articleId,
     'category_id' => $categoryId,
     'language' => $languageId,
-    'ctype' => $ctype,
+    'content_section_id' => $ctype,
 ]);
 
 // ----- Titel anzeigen
@@ -281,10 +281,10 @@ if (
     foreach (count($contentSections) > 1 ? $contentSections : [] as $section) {
         $hasSlice = true;
         if ($ctype != $section->id) {
-            $hasSlice = null !== ArticleSlice::getFirstSliceForCtype($section->id, $articleId, $languageId);
+            $hasSlice = null !== ArticleSlice::getFirstSliceForContentSection($section->id, $articleId, $languageId);
         }
-        $editPage->addSubpage(new Page('ctype' . $section->id, $section->name)
-            ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'language' => $languageId, 'ctype' => $section->id])
+        $editPage->addSubpage(new Page('content_section' . $section->id, $section->name)
+            ->setHref(['page' => 'content/edit', 'article_id' => $articleId, 'language' => $languageId, 'content_section_id' => $section->id])
             ->setIsActive($ctype == $section->id)
             ->setItemAttr('class', $hasSlice ? '' : 'rex-empty'),
         );
