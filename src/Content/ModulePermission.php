@@ -24,8 +24,8 @@ final class ModulePermission extends ComplexPermission
     public static function getChoices(): PermissionChoices
     {
         $choices = [];
-        foreach (Module::getAll() as $module) {
-            $choices[$module->key] = I18n::translate($module->name);
+        foreach (Module::getAll() as $key => $module) {
+            $choices[$key] = I18n::translate($module::name());
         }
         $collator = new Collator(Locale::getDefault());
         uasort($choices, static fn (string $a, string $b): int => (int) $collator->compare($a, $b));

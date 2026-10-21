@@ -3,7 +3,6 @@
 namespace Redaxo\Core\Fixtures;
 
 use Override;
-use Redaxo\Core\Content\ArticleSlice;
 use Redaxo\Core\Content\AsModule;
 use Redaxo\Core\Content\Module;
 
@@ -11,13 +10,13 @@ use Redaxo\Core\Content\Module;
 final class TestModule1 extends Module
 {
     #[Override]
-    public function input(ArticleSlice $slice): string
+    public function input(): string
     {
         return 'input';
     }
 
     #[Override]
-    public function output(ArticleSlice $slice): string
+    public function output(): string
     {
         return 'output';
     }

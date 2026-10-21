@@ -51,7 +51,6 @@ final class ArticleContentEditor extends ArticleContentBase
             $sliceRevision = $artDataSql->getIntValue('rex_article_slice.revision');
 
             $moduleKey = $artDataSql->getStringValue('rex_article_slice.module');
-            $module = Module::get($moduleKey);
 
             // ----- add select box einbauen
             $sliceContent = $this->getModuleSelect($sliceId);
@@ -89,9 +88,8 @@ final class ArticleContentEditor extends ArticleContentBase
                 }
             }
             // Modulinhalt ausgeben
-            if (null !== $module) {
-                $slice = ArticleSlice::fromSql($artDataSql);
-                $content = $module->output($slice);
+            if (Module::exists($moduleKey)) {
+                $content = Module::of(ArticleSlice::fromSql($artDataSql))->output();
             } else {
                 $content = '';
             }
@@ -126,8 +124,8 @@ final class ArticleContentEditor extends ArticleContentBase
     /** Returns the slice heading. */
     private function getSliceHeading(string $moduleKey): string
     {
-        $module = Module::get($moduleKey);
-        return null !== $module ? I18n::translate($module->name) : $moduleKey;
+        $module = Module::getClass($moduleKey);
+        return null !== $module ? I18n::translate($module::name()) : $moduleKey;
     }
 
     /** Returns the slice menu. */
@@ -160,10 +158,10 @@ final class ArticleContentEditor extends ArticleContentBase
         $menuMoveupAction = [];
         $menuMovedownAction = [];
         if (Core::requireUser()->getComplexPerm('modules')->hasPerm($moduleKey)) {
-            $module = Module::get($moduleKey);
+            $module = Module::getClass($moduleKey);
             $category = $this->article->categoryId > 0 ? Category::get($this->article->categoryId) : null;
             $moduleAllowed = (!$this->article->templateKey || Template::checkModuleAllowed($this->article->templateKey, $this->contentSectionId, $moduleKey))
-                && (null === $module || $module->isAllowedInCategory($category));
+                && (null === $module || $module::isAllowedInCategory($category));
             if ($moduleAllowed) {
                 // edit
                 $item = [];
@@ -196,7 +194,7 @@ final class ArticleContentEditor extends ArticleContentBase
 
             if ($moduleAllowed && Core::requireUser()->hasPerm('moveSlice[]')) {
                 $item = [];
-                $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_up');
+                $item['hidden_label'] = I18n::msg('module') . ' ' . $moduleName . ' ' . I18n::msg('move_slice_up');
                 $item['url'] = $context->getUrl(
                     ['upd' => time(), 'direction' => SliceMoveDirection::Up->value] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
@@ -206,7 +204,7 @@ final class ArticleContentEditor extends ArticleContentBase
                 $menuMoveupAction = $item;
 
                 $item = [];
-                $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_down');
+                $item['hidden_label'] = I18n::msg('module') . ' ' . $moduleName . ' ' . I18n::msg('move_slice_down');
                 $item['url'] = $context->getUrl(
                     ['upd' => time(), 'direction' => SliceMoveDirection::Down->value] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
@@ -345,10 +343,10 @@ final class ArticleContentEditor extends ArticleContentBase
 
             $this->moduleSelect = [];
             foreach ($contentSections as $section) {
-                foreach (Module::getAll() as $module) {
-                    if (Core::requireUser()->getComplexPerm('modules')->hasPerm($module->key)) {
-                        if ((!$template || $template->isModuleAllowed($section, $module)) && $module->isAllowedInCategory($category)) {
-                            $this->moduleSelect[$section->id][] = ['name' => I18n::translate($module->name), 'key' => $module->key];
+                foreach (Module::getAll() as $key => $module) {
+                    if (Core::requireUser()->getComplexPerm('modules')->hasPerm($key)) {
+                        if ((!$template || $template->isModuleAllowed($section, $module)) && $module::isAllowedInCategory($category)) {
+                            $this->moduleSelect[$section->id][] = ['name' => I18n::translate($module::name()), 'key' => $key];
                         }
                     }
                 }
@@ -384,7 +382,7 @@ final class ArticleContentEditor extends ArticleContentBase
         // the editor always operates on a concrete content section
         assert($this->contentSectionId > 0);
 
-        $module = Module::get($moduleKey);
+        $module = Module::getClass($moduleKey);
 
         if (null === $module) {
             return Message::error(I18n::msg('module_doesnt_exist'));
@@ -393,7 +391,7 @@ final class ArticleContentEditor extends ArticleContentBase
         $slice = ArticleSlice::forNewSlice($this->articleId, $this->languageId, $this->contentSectionId, $moduleKey, $this->sliceAddPosition, $this->sliceRevision)
             ->withRequestValues();
 
-        $moduleInput = $module->input($slice);
+        $moduleInput = $module::of($slice)->input();
 
         $msg = '';
         if ('' !== $this->error) {
@@ -434,7 +432,7 @@ final class ArticleContentEditor extends ArticleContentBase
         $fragment = new Fragment();
         $fragment->setVar('before', $msg, false);
         $fragment->setVar('class', 'add', false);
-        $fragment->setVar('title', I18n::msg('module') . ': ' . I18n::translate($module->name), false);
+        $fragment->setVar('title', I18n::msg('module') . ': ' . I18n::translate($module::name()), false);
         $fragment->setVar('body', $panel, false);
         $fragment->setVar('footer', $sliceFooter, false);
         $sliceContent = $fragment->parse('core/page/section.php');
@@ -476,8 +474,7 @@ final class ArticleContentEditor extends ArticleContentBase
         $fragment->setVar('elements', $formElements, false);
         $sliceFooter = $fragment->parse('core/form/submit.php');
 
-        $module = Module::get($moduleKey);
-        $moduleInput = $module ? $module->input($slice) : '';
+        $moduleInput = Module::exists($moduleKey) ? Module::of($slice)->input() : '';
 
         $panel = '
                 <fieldset>
