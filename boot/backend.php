@@ -8,6 +8,8 @@ use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleRevision;
 use Redaxo\Core\Content\ArticleSliceHistory;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\ExtensionPoint\ContentPageBeforeSlices;
+use Redaxo\Core\Content\ExtensionPoint\ContentPageHeader;
 use Redaxo\Core\Content\HistoryLogin;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
@@ -346,8 +348,8 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
             exit;
     }
 
-    Extension::register('STRUCTURE_CONTENT_HEADER', static function (ExtensionPoint $ep) {
-        if ('content/edit' == $ep->getParam('page')) {
+    Extension::register(ContentPageHeader::class, static function (ContentPageHeader $ep): void {
+        if ('content/edit' == $ep->page) {
             $articleLink = Url::article(Article::getCurrentId(), Language::getCurrentId());
             if (str_starts_with($articleLink, 'http')) {
                 $user = Core::requireUser();
@@ -374,13 +376,12 @@ if (Core::getConfig('article_history', false) && Core::getUser()?->hasPerm('hist
 }
 
 if (Core::getConfig('article_work_version', false)) {
-    Extension::register('STRUCTURE_CONTENT_HEADER', static function (ExtensionPoint $ep) {
-        if ('content/edit' !== $ep->getParam('page')) {
-            return null;
+    Extension::register(ContentPageHeader::class, static function (ContentPageHeader $ep): void {
+        if ('content/edit' !== $ep->page) {
+            return;
         }
 
-        $params = $ep->getParams();
-        $articleId = Type::int($params['article_id']);
+        $articleId = $ep->article->id;
 
         $version = ArticleRevision::getSessionArticleRevision($articleId);
         $newVersion = Request::request('rex_set_version', 'int', null);
@@ -397,20 +398,18 @@ if (Core::getConfig('article_work_version', false)) {
 
         ArticleRevision::setSessionArticleRevision($articleId, $version);
 
-        // slice_revision is passed by reference, so this sets the revision used by the content page
-        $ep->setParam('slice_revision', $version);
+        $ep->sliceRevision = $version;
     });
 
-    Extension::register('STRUCTURE_CONTENT_BEFORE_SLICES', static function (ExtensionPoint $ep) {
-        if ('content/edit' !== $ep->getParam('page')) {
+    Extension::register(ContentPageBeforeSlices::class, static function (ContentPageBeforeSlices $ep): ?string {
+        if ('content/edit' !== $ep->page) {
             return null;
         }
 
         $user = Core::requireUser();
-        $params = $ep->getParams();
-        $articleId = Type::int($params['article_id']);
-        $languageId = Type::int($params['language']);
-        $return = Type::string($ep->subject);
+        $articleId = $ep->article->id;
+        $languageId = $ep->article->languageId;
+        $return = $ep->subject;
 
         $workingVersionEmpty = true;
         $gw = Sql::factory();
@@ -449,7 +448,7 @@ if (Core::getConfig('article_work_version', false)) {
 
                     $article = Type::instanceOf(Article::get($articleId, $languageId), Article::class);
                     ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::LIVE);
-                    $ep->setParam('slice_revision', ArticleRevision::LIVE);
+                    $ep->sliceRevision = ArticleRevision::LIVE;
                     $return = Extension::dispatch(
                         new ArticleContentUpdated($article, 'work_to_live', subject: $return),
                     );
@@ -464,7 +463,7 @@ if (Core::getConfig('article_work_version', false)) {
                 );
                 $return .= Message::success(I18n::msg('version_info_live_version_to_working'));
                 ArticleRevision::setSessionArticleRevision($articleId, ArticleRevision::WORK);
-                $ep->setParam('slice_revision', ArticleRevision::WORK);
+                $ep->sliceRevision = ArticleRevision::WORK;
                 break;
             case 'clear_work':
                 ArticleRevision::clearContent($articleId, $languageId, ArticleRevision::WORK);
@@ -484,7 +483,7 @@ if (Core::getConfig('article_work_version', false)) {
             'page' => 'content/edit',
             'article_id' => $articleId,
             'language' => $languageId,
-            'content_section_id' => Type::int($params['content_section_id']),
+            'content_section_id' => $ep->contentSectionId,
         ]);
 
         $items = [];

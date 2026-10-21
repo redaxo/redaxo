@@ -17,6 +17,7 @@ use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaFormAdd;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MetaInfo\MetaForm;
 use Redaxo\Core\Security\CsrfToken;
@@ -291,7 +292,7 @@ final class View
         $panel .= $fragment->parse('core/form/form.php');
 
         $panel .= $meta->render();
-        $panel .= Extension::dispatch(new ExtensionPoint('MEDIA_FORM_ADD', ''));
+        $panel .= Extension::dispatch(new MediaFormAdd());
 
         if ($fileChooser) {
             $e = [];

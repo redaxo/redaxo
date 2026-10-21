@@ -3,12 +3,13 @@
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Core;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListToolbar;
+use Redaxo\Core\MediaPool\MediaCategory;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\View\Fragment;
@@ -43,12 +44,6 @@ $selMedia = new SelectInput(
     'rex_file_category',
     attributes: new HtmlAttributes(['onchange' => 'this.form.submit();', 'data-live-search' => 'true']),
 );
-
-// ----- EXTENSION POINT
-echo Extension::dispatch(new ExtensionPoint('PAGE_MEDIAPOOL_HEADER', '', [
-    'subpage' => $subpage,
-    'category_id' => $rexFileCategory,
-]));
 
 $formElements = [];
 $n = [];
@@ -95,11 +90,7 @@ if ('' !== $languageSwitch) {
     echo '<div class="clearfix">' . $languageSwitch . '</div>';
 }
 
-// ----- EXTENSION POINT
-$toolbar = Extension::dispatch(new ExtensionPoint('MEDIA_LIST_TOOLBAR', $toolbar, [
-    'subpage' => $subpage,
-    'category_id' => $rexFileCategory,
-]));
+$toolbar = Extension::dispatch(new MediaListToolbar($subpage, $rexFileCategory > 0 ? MediaCategory::get($rexFileCategory) : null, $toolbar));
 
 // *************************************** Subpage: Media
 

@@ -6,7 +6,6 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -15,6 +14,8 @@ use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaManager\MediaManager;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListFunctions;
+use Redaxo\Core\MediaPool\ExtensionPoint\MediaListThumbnail;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MediaPool\MediaHandler;
@@ -313,13 +314,7 @@ foreach ($items as $media) {
         }
     }
 
-    // Register new EP MEDIA_LIST_THUMBNAIL - fuer Vorschau-Manipulation z.B. fuer Plyr/Lottie
-    // ----- EXTENSION POINT
-    $thumbnail = Extension::dispatch(new ExtensionPoint('MEDIA_LIST_THUMBNAIL', $thumbnail, [
-        'id' => $media->id,
-        'filename' => $media->fileName,
-        'media' => $media,
-    ]));
+    $thumbnail = Extension::dispatch(new MediaListThumbnail($media, $thumbnail));
 
     if ('' == $media->title) {
         $fileTitle = '[' . I18n::msg('pool_file_notitle') . ']';
@@ -353,17 +348,7 @@ foreach ($items as $media) {
                     <td class="rex-table-action"><a class="rex-link-expanded" href="' . $ilink . '">' . I18n::msg('edit') . '</a></td>
                     <td class="rex-table-action">';
 
-    $panel .= Extension::dispatch(new ExtensionPoint('MEDIA_LIST_FUNCTIONS', $openerLink, [
-        'media' => $media, // new
-        'file_id' => $media->id, // @deprecated
-        'file_name' => $media->fileName, // @deprecated
-        'file_oname' => $media->originalFileName, // @deprecated
-        'file_title' => $media->title, // @deprecated
-        'file_type' => $media->type, // @deprecated
-        'file_size' => $media->size, // @deprecated
-        'file_stamp' => $media->updateDate, // @deprecated
-        'file_updateuser' => $media->updateUser, // @deprecated
-    ]));
+    $panel .= Extension::dispatch(new MediaListFunctions($media, $openerLink));
 
     $panel .= '</td>
                 </tr>';

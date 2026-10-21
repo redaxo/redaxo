@@ -13,12 +13,15 @@ use Redaxo\Core\Content\ApiFunction\CategoryStatusChange;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Content\ArticleHandler;
 use Redaxo\Core\Content\Category;
+use Redaxo\Core\Content\ExtensionPoint\ArticleListOrder;
+use Redaxo\Core\Content\ExtensionPoint\CategoryFormAdd;
+use Redaxo\Core\Content\ExtensionPoint\CategoryFormButtons;
+use Redaxo\Core\Content\ExtensionPoint\CategoryFormEdit;
 use Redaxo\Core\Content\StructureContext;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
@@ -64,11 +67,6 @@ if (0 === $structureContext->languageId) {
     exit;
 }
 
-// --------------------- Extension Point
-echo Extension::dispatch(new ExtensionPoint('PAGE_STRUCTURE_HEADER_PRE', '', [
-    'context' => $structureContext->getContext(),
-]));
-
 // --------------------------------------------- TITLE
 echo View::title(I18n::msg('title_structure'));
 
@@ -99,12 +97,6 @@ if ($user->hasPerm('addCategory[]') && $structureContext->hasCategoryPermission(
 }
 
 $dataColspan = 5;
-
-// --------------------- Extension Point
-echo Extension::dispatch(new ExtensionPoint('PAGE_STRUCTURE_HEADER', '', [
-    'category_id' => $structureContext->categoryId,
-    'language' => $structureContext->languageId,
-]));
 
 // --------------------- COUNT CATEGORY ROWS
 
@@ -196,10 +188,7 @@ if ('add_cat' === $structureContext->function && $user->hasPerm('addCategory[]')
         $meta->submit();
     }
 
-    $metaButtons = $categoryMetaToggle($meta) . Extension::dispatch(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
-        'id' => $structureContext->categoryId,
-        'language' => $structureContext->languageId,
-    ]));
+    $metaButtons = $categoryMetaToggle($meta) . Extension::dispatch(new CategoryFormButtons(null, $category, $structureContext->languageId));
     $addButtons = CategoryAdd::getHiddenFields() . '
         <input type="hidden" name="parent-category-id" value="' . $structureContext->categoryId . '" />
         <button class="btn btn-save" type="submit" name="category-add-button"' . Accesskey::attributes(I18n::msg('add_category'), 'save') . '>' . I18n::msg('add_category') . '</button>';
@@ -218,11 +207,7 @@ if ('add_cat' === $structureContext->function && $user->hasPerm('addCategory[]')
     $echo .= $categoryMetaRow($meta);
 
     // ----- EXTENSION POINT
-    $echo .= Extension::dispatch(new ExtensionPoint('CAT_FORM_ADD', '', [
-        'id' => $structureContext->categoryId,
-        'language' => $structureContext->languageId,
-        'data_colspan' => ($dataColspan + 1),
-    ]));
+    $echo .= Extension::dispatch(new CategoryFormAdd($category, $structureContext->languageId, $dataColspan + 1));
 }
 
 // --------------------- KATEGORIE LIST
@@ -266,17 +251,14 @@ if ($KAT->getRows() > 0) {
             if ($canEdit && $structureContext->editId === $iCategoryId && 'edit_cat' === $structureContext->function) {
                 // --------------------- KATEGORIE EDIT FORM
 
-                $editCategory = Category::get($iCategoryId, $structureContext->languageId);
+                $editCategory = Category::require($iCategoryId, $structureContext->languageId);
                 $meta = new MetaForm(new MetaContext(MetaEntity::Category, $editCategory, $editCategory));
                 if ($categoryApiFailed) {
                     $meta->submit();
                 }
 
                 // ----- EXTENSION POINT
-                $metaButtons = $categoryMetaToggle($meta) . Extension::dispatch(new ExtensionPoint('CAT_FORM_BUTTONS', '', [
-                    'id' => $structureContext->editId,
-                    'language' => $structureContext->languageId,
-                ]));
+                $metaButtons = $categoryMetaToggle($meta) . Extension::dispatch(new CategoryFormButtons($editCategory, $category, $structureContext->languageId));
 
                 $addButtons = CategoryEdit::getHiddenFields() . '
                 <input type="hidden" name="category-id" value="' . $structureContext->editId . '" />
@@ -299,14 +281,7 @@ if ($KAT->getRows() > 0) {
                 $echo .= $categoryMetaRow($meta);
 
                 // ----- EXTENSION POINT
-                $echo .= Extension::dispatch(new ExtensionPoint('CAT_FORM_EDIT', '', [
-                    'id' => $structureContext->editId,
-                    'language' => $structureContext->languageId,
-                    'category' => $KAT,
-                    'catname' => $KAT->getStringValue('catname'),
-                    'catpriority' => $KAT->getIntValue('catpriority'),
-                    'data_colspan' => ($dataColspan + 1),
-                ]));
+                $echo .= Extension::dispatch(new CategoryFormEdit($editCategory, $dataColspan + 1));
             } else {
                 // --------------------- KATEGORIE WITH WRITE
 
@@ -401,11 +376,7 @@ if ($structureContext->categoryId > 0 || (0 === $structureContext->categoryId &&
         $artAddLink = '<a class="rex-link-expanded" href="' . $structureContext->getContext()->getUrl(['function' => 'add_art', 'artstart' => $structureContext->artStart]) . '"' . Accesskey::attributes(I18n::msg('article_add'), 'add_2') . '><i class="rex-icon rex-icon-add-article"></i></a>';
     }
 
-    $articleOrderBy = Extension::dispatch(new ExtensionPoint('PAGE_STRUCTURE_ARTICLE_ORDER_BY', 'priority, name', [
-        'category_id' => $structureContext->categoryId,
-        'article_id' => $structureContext->articleId,
-        'language' => $structureContext->languageId,
-    ]));
+    $articleOrderBy = Extension::dispatch(new ArticleListOrder($category, $structureContext->languageId));
 
     // ---------- COUNT DATA
     $sql = Sql::factory();

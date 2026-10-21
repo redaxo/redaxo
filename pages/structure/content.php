@@ -11,6 +11,10 @@ use Redaxo\Core\Content\ArticleSliceReference;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\ExtensionPoint\ContentPageAfterSlices;
+use Redaxo\Core\Content\ExtensionPoint\ContentPageBeforeSlices;
+use Redaxo\Core\Content\ExtensionPoint\ContentPageHeader;
+use Redaxo\Core\Content\ExtensionPoint\ContentPageSidebar;
 use Redaxo\Core\Content\ExtensionPoint\SliceAdding;
 use Redaxo\Core\Content\ExtensionPoint\SliceUpdating;
 use Redaxo\Core\Content\Module;
@@ -19,7 +23,6 @@ use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Http\Context;
@@ -42,7 +45,6 @@ $sliceId = Request::request('slice_id', 'int', '');
 $articleId = Article::get($articleId) ? $articleId : 0;
 $languageId = Language::exists($languageId) ? $languageId : Language::getStartId();
 
-$articleRevision = 0;
 $sliceRevision = 0;
 
 $warning = '';
@@ -105,18 +107,9 @@ echo View::languageSwitchAsButtons($context);
 // ----- category pfad und rechte
 echo View::structureBreadcrumb($categoryId, $articleId, $languageId);
 
-// ----- EXTENSION POINT
-echo Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_HEADER', '', [
-    'article_id' => $articleId,
-    'language' => $languageId,
-    'function' => $function,
-    'slice_id' => $sliceId,
-    'page' => Controller::getCurrentPage(),
-    'content_section_id' => $ctype,
-    'category_id' => $categoryId,
-    'article_revision' => &$articleRevision,
-    'slice_revision' => &$sliceRevision,
-]));
+$header = new ContentPageHeader($OOArt, Controller::getCurrentPage(), $ctype, $function, $sliceId, $sliceRevision);
+echo Extension::dispatch($header);
+$sliceRevision = $header->sliceRevision;
 
 $user = Core::requireUser();
 
@@ -164,7 +157,7 @@ if (
                 $priority = $prevSlice->getIntValue('priority');
             }
 
-            $slice = ArticleSlice::forNewSlice($articleId, $languageId, $ctype, Request::post('module', 'string'), $priority, (int) $sliceRevision);
+            $slice = ArticleSlice::forNewSlice($articleId, $languageId, $ctype, Request::post('module', 'string'), $priority, $sliceRevision);
         }
 
         $module = null !== $slice && Module::exists($slice->moduleKey) ? Module::of($slice) : null;
@@ -226,17 +219,17 @@ if (
                         if ('edit' == $function) {
                             $newsql->addGlobalUpdateFields();
 
-                            Extension::dispatch(new SliceUpdating(Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision))));
+                            Extension::dispatch(new SliceUpdating(Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, $sliceRevision))));
 
                             $newsql->update();
 
-                            $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision));
+                            $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, $sliceRevision));
                             $info = Extension::dispatch(new ArticleContentUpdated($OOArt, 'slice_updated', $slice, I18n::msg('block_updated')));
                         } else {
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
 
-                            Extension::dispatch(new SliceAdding($OOArt, $ctype, $moduleKey, (int) $sliceRevision));
+                            Extension::dispatch(new SliceAdding($OOArt, $ctype, $moduleKey, $sliceRevision));
 
                             $newsql->insert();
                             $sliceId = $newsql->getLastId();
@@ -244,12 +237,12 @@ if (
                             DatabaseUtil::organizePriorities(
                                 'rex_article_slice',
                                 'priority',
-                                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctype . ' AND revision=' . (int) $sliceRevision,
+                                'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctype . ' AND revision=' . $sliceRevision,
                                 'priority, updatedate DESC',
                             );
 
                             $function = '';
-                            $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision));
+                            $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, $sliceRevision));
                             $info = Extension::dispatch(new ArticleContentUpdated($OOArt, 'slice_added', $slice, I18n::msg('block_added')));
                         }
 
@@ -360,53 +353,22 @@ if (
         $contentMain .= Message::success($info);
     }
 
-    // ----- EXTENSION POINT
-    $contentMain .= Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_BEFORE_SLICES', '', [
-        'article_id' => $articleId,
-        'language' => $languageId,
-        'function' => $function,
-        'slice_id' => $sliceId,
-        'page' => Controller::getCurrentPage(),
-        'content_section_id' => $ctype,
-        'category_id' => $categoryId,
-        'article_revision' => &$articleRevision,
-        'slice_revision' => &$sliceRevision,
-    ]));
+    $beforeSlices = new ContentPageBeforeSlices($OOArt, Controller::getCurrentPage(), $ctype, $function, $sliceId, $sliceRevision);
+    $contentMain .= Extension::dispatch($beforeSlices);
+    $sliceRevision = $beforeSlices->sliceRevision;
 
     // ------------------------------------------ START: MODULE EDITIEREN/ADDEN ETC.
     $contentMain .= Controller::includeCurrentPageSubPath(compact('info', 'warning', 'invalidSliceForm', 'article', 'articleId', 'categoryId', 'languageId', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'));
     // ------------------------------------------ END: AUSGABE
 
-    // ----- EXTENSION POINT
-    $contentMain .= Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_AFTER_SLICES', '', [
-        'article_id' => $articleId,
-        'language' => $languageId,
-        'function' => $function,
-        'slice_id' => $sliceId,
-        'page' => Controller::getCurrentPage(),
-        'content_section_id' => $ctype,
-        'category_id' => $categoryId,
-        'article_revision' => &$articleRevision,
-        'slice_revision' => &$sliceRevision,
-    ]));
+    $contentMain .= Extension::dispatch(new ContentPageAfterSlices($OOArt, Controller::getCurrentPage(), $ctype, $function, $sliceId, $sliceRevision));
 
     $contentMain = '<section id="rex-js-page-main-content" data-pjax-container="#rex-js-page-main-content">' . $contentMain . '</section>';
 
     // own scope, the sidebar must not overwrite the variables of this page
     $metaSidebar = Type::string((static fn (int $articleId, int $languageId, int $ctype): mixed => include Path::core('pages/structure/content.metainfo.php'))($articleId, $languageId, $ctype));
 
-    // ----- EXTENSION POINT
-    $contentSidebar = Extension::dispatch(new ExtensionPoint('STRUCTURE_CONTENT_SIDEBAR', $metaSidebar, [
-        'article_id' => $articleId,
-        'language' => $languageId,
-        'function' => $function,
-        'slice_id' => $sliceId,
-        'page' => Controller::getCurrentPage(),
-        'content_section_id' => $ctype,
-        'category_id' => $categoryId,
-        'article_revision' => &$articleRevision,
-        'slice_revision' => &$sliceRevision,
-    ]));
+    $contentSidebar = Extension::dispatch(new ContentPageSidebar($OOArt, Controller::getCurrentPage(), $ctype, $function, $sliceId, $sliceRevision, $metaSidebar));
 
     $fragment = new Fragment();
     $fragment->setVar('content', $contentMain, false);

@@ -7,11 +7,12 @@ use Redaxo\Core\Backend\Accesskey;
 use Redaxo\Core\Backend\Controller;
 use Redaxo\Core\Content\ApiFunction\ArticleSliceMove;
 use Redaxo\Core\Content\ApiFunction\ArticleSliceStatusChange;
+use Redaxo\Core\Content\ExtensionPoint\ContentPageModuleSelect;
 use Redaxo\Core\Content\ExtensionPoint\SliceMenu;
+use Redaxo\Core\Content\ExtensionPoint\SlicePreview;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Http\Context;
@@ -55,7 +56,6 @@ final class ArticleContentEditor extends ArticleContentBase
             $sliceId = $artDataSql->getIntValue('rex_article_slice.id');
             $sliceCtype = $artDataSql->getIntValue('rex_article_slice.content_section_id');
             $sliceStatus = $artDataSql->getIntValue('rex_article_slice.status');
-            $sliceRevision = $artDataSql->getIntValue('rex_article_slice.revision');
 
             $moduleKey = $artDataSql->getStringValue('rex_article_slice.module');
 
@@ -98,15 +98,7 @@ final class ArticleContentEditor extends ArticleContentBase
                 $content = '';
             }
 
-            // EP for changing the module preview
-            $panel .= Extension::dispatch(new ExtensionPoint('SLICE_BE_PREVIEW', $content, [
-                'article_id' => $this->articleId,
-                'language' => $this->languageId,
-                'content_section_id' => $this->contentSectionId,
-                'module_key' => $moduleKey,
-                'slice_id' => $sliceId,
-                'revision' => $sliceRevision,
-            ]));
+            $panel .= Extension::dispatch(new SlicePreview(ArticleSlice::fromSql($artDataSql), $content));
 
             $fragment = new Fragment();
             $fragment->setVar('title', $this->getSliceHeading($moduleKey), false);
@@ -318,17 +310,7 @@ final class ArticleContentEditor extends ArticleContentBase
         $fragment->setVar('button_label', I18n::msg('add_block'));
         $fragment->setVar('items', $items, false);
         $select = $fragment->parse('core/structure/content/module_select.php');
-        $select = Extension::dispatch(new ExtensionPoint(
-            'STRUCTURE_CONTENT_MODULE_SELECT',
-            $select,
-            [
-                'page' => Controller::getCurrentPage(),
-                'article_id' => $this->articleId,
-                'language' => $this->languageId,
-                'content_section_id' => $this->contentSectionId,
-                'slice_id' => $sliceId,
-            ],
-        ));
+        $select = Extension::dispatch(new ContentPageModuleSelect($this->article, $this->contentSectionId, $sliceId, $select));
         $fragment = new Fragment();
         $fragment->setVar('attributes', ['class' => ['rex-slice', 'rex-slice-select'], 'id' => 'slice-add-pos-' . $position], false);
         $fragment->setVar('content', $select, false);
