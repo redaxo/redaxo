@@ -30,6 +30,7 @@ final class PermissionsInput implements Widget
          */
         public array $groups,
         public string|Renderable|null $error = null,
+        public bool $disabled = false,
     ) {}
 
     public function groupId(string $key): string

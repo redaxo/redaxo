@@ -211,6 +211,32 @@ final class FormTest extends TestCase
         $form->field('size');
     }
 
+    public function testDisabled(): void
+    {
+        $_POST['settings'] = ['_submit' => '1', 'title' => '', 'subtitle' => 'Sub', 'size' => '2', 'color' => 'blue'];
+
+        $settings = new Settings();
+        $form = new Form($settings, csrf: false, disabled: ['title', 'active']);
+
+        self::assertTrue($form->handleRequest(), 'a disabled required field is not validated');
+        self::assertSame('Hello', $settings->title, 'the submitted value of a disabled field is ignored');
+        self::assertTrue($settings->active, 'a disabled checkbox missing in the request keeps its value');
+        self::assertSame('Sub', $settings->subtitle);
+
+        self::assertTrue($form->field('title')->disabled);
+        self::assertFalse($form->field('subtitle')->disabled);
+        self::assertSame('Hello', $form->field('title')->raw, 'a disabled field shows the value of the data object');
+        self::assertMatchesRegularExpression('/<input [^>]*name="settings\\[title\\]"[^>]* disabled/', (string) $form->row('title'));
+        self::assertMatchesRegularExpression('/<input type="checkbox" [^>]* checked disabled>/', (string) $form->row('active'));
+        self::assertStringNotContainsString('disabled', (string) $form->row('subtitle'));
+    }
+
+    public function testDisabledUnknownField(): void
+    {
+        $this->expectException(LogicException::class);
+        new Form(new Settings(), only: ['title'], disabled: ['size']);
+    }
+
     public function testFieldsets(): void
     {
         $form = new Form(new Fieldsets(), csrf: false);

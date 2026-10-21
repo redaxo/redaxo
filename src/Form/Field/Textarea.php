@@ -56,6 +56,6 @@ class Textarea extends Field
     #[Override]
     public function widget(BoundField $field): TextareaWidget
     {
-        return new TextareaWidget($field->inputName, Type::string($field->raw), $field->id, $this->rows, $this->required, new HtmlAttributes(['maxlength' => $this->maxLength]));
+        return new TextareaWidget($field->inputName, Type::string($field->raw), $field->id, $this->rows, $this->required, $field->disabled, new HtmlAttributes(['maxlength' => $this->maxLength]));
     }
 }

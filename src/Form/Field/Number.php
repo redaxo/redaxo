@@ -64,6 +64,7 @@ class Number extends Field
             $field->id,
             'number',
             required: $this->required,
+            disabled: $field->disabled,
             attributes: new HtmlAttributes([
                 'min' => null === $this->min ? null : (string) $this->min,
                 'max' => null === $this->max ? null : (string) $this->max,
