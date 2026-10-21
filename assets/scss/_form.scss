@@ -35,8 +35,7 @@
 .form-control:focus:not([readonly]) {
     background-color: #fff;
 }
-// Redaxo\Core\Form\Select\Select liefert immer size=1 und bs3 setzt height auf auto
-// hier werden auch alle selects ohne size Attribute auf einheitliche Höhe gesetzt
+// bs3 setzt height nur bei selects mit size/multiple auf auto, hier einheitlich für alle selects
 select.form-control {
     height: auto;
 }

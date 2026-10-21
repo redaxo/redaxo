@@ -52,7 +52,6 @@ use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\Exception;
 use Redaxo\Core\ExtensionPoint;
 use Redaxo\Core\Filesystem;
-use Redaxo\Core\Form;
 use Redaxo\Core\Http;
 use Redaxo\Core\Language;
 use Redaxo\Core\Log;
@@ -214,7 +213,6 @@ return RectorConfig::configure()
         'rex_extension_point_slice_menu' => Content\ExtensionPoint\SliceMenu::class,
         'rex_file' => Filesystem\File::class,
         'rex_finder' => Filesystem\Finder::class,
-        'rex_select' => Form\Select\Select::class,
         'rex_formatter' => Util\Formatter::class,
         'rex_i18n' => Translation\I18n::class,
         'rex_log_entry' => Log\LogEntry::class,
@@ -697,6 +695,8 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_TO_ART', '\\' . Content\ExtensionPoint\CategoryConvertedToArticle::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_TO_STARTARTICLE', '\\' . Content\ExtensionPoint\ArticleConvertedToStartArticle::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_ADD', '\\' . MediaPool\ExtensionPoint\MediaAdding::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_SHOW', '\\' . Content\ExtensionPoint\SliceOutput::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_OUTPUT', '\\' . Content\ExtensionPoint\SliceOutput::class . '::class'),
     ])
     ->withConfiguredRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(ExtensionPoint\Extension::class, 'EARLY', ExtensionPoint\ExtensionLevel::class, 'Early'),

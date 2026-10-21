@@ -3,13 +3,17 @@
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Accesskey;
 use Redaxo\Core\Backend\Appearance;
+use Redaxo\Core\Backend\Form\Profile;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Form\FieldRow;
+use Redaxo\Core\Form\Form;
+use Redaxo\Core\Form\Storage\DatabaseStorage;
+use Redaxo\Core\Form\SubmitButton;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\BackendLogin;
@@ -17,9 +21,10 @@ use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Security\WebAuthn;
 use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\Util\Str;
-use Redaxo\Core\Validator\Validator;
 use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Html;
 use Redaxo\Core\View\Message;
 use Redaxo\Core\View\View;
 
@@ -39,11 +44,6 @@ $passkey = Request::request('passkey', 'string');
 $userpswNew1 = Request::request('userpsw_new_1', 'string');
 $userpswNew2 = Request::request('userpsw_new_2', 'string');
 
-$username = Request::request('username', 'string', $user->name);
-$userdesc = Request::request('userdesc', 'string', $user->getValue('description'));
-$useremail = Request::request('useremail', 'string', $user->email);
-$usertheme = Request::request('usertheme', 'string', $user->theme) ?: null;
-$userlogin = $user->login;
 $csrfToken = CsrfToken::factory('profile');
 $passwordPolicy = BackendLogin::getPasswordPolicy();
 $webauthn = new WebAuthn();
@@ -51,69 +51,21 @@ $webauthn = new WebAuthn();
 // --------------------------------- Title
 echo View::title(I18n::msg('profile_title'), '');
 
-// --------------------------------- BE LANG
+// --------------------------------- PROFILE
 
-// backend sprache
-$userpermBeSprache = Request::request('userperm_be_sprache', 'string', $user->language);
-$selBeSprache = new Select();
-$selBeSprache->setSize(1);
-$selBeSprache->setStyle('class="form-control"');
-$selBeSprache->setName('userperm_be_sprache');
-$selBeSprache->setId('rex-id-userperm-mylang');
-$selBeSprache->setAttribute('class', 'form-control selectpicker');
-$selBeSprache->addOption('default', '');
-$selBeSprache->setSelected($userpermBeSprache);
-$locales = I18n::getLocales();
-asort($locales);
-foreach ($locales as $locale) {
-    $selBeSprache->addOption(I18n::msgInLocale('lang', $locale), $locale);
-}
+$profile = new Profile();
+$profileStorage = new DatabaseStorage('rex_user', $userId, globalFields: true);
+$profileStorage->load($profile);
 
-// --------------------------------- Theme
+$profileForm = new Form(
+    $profile,
+    title: new Translatable('profile_myprofile'),
+    disabled: null === Appearance::$forcedTheme ? [] : ['theme'],
+    buttons: [SubmitButton::save(new Translatable('profile_save'))],
+);
 
-$selBeTheme = new Select();
-$selBeTheme->setSize(1);
-$selBeTheme->setStyle('class="form-control"');
-$selBeTheme->setName('usertheme');
-$selBeTheme->setId('rex-id-usertheme');
-$selBeTheme->setAttribute('class', 'form-control selectpicker');
-$selBeTheme->setDisabled(null !== Appearance::$forcedTheme);
-$selBeTheme->setSelected($usertheme);
-$selBeTheme->addOption(I18n::msg('theme_auto'), '');
-$selBeTheme->addOption(I18n::msg('theme_light'), 'light');
-$selBeTheme->addOption(I18n::msg('theme_dark'), 'dark');
-
-// --------------------------------- FUNCTIONS
-
-$update = Request::post('upd_profile_button', 'bool');
-
-if ($update) {
-    if (!$csrfToken->isValid()) {
-        $error = I18n::msg('csrf_token_invalid');
-    } elseif ($useremail && !Validator::factory()->email($useremail)) {
-        $error = I18n::msg('invalid_email');
-    }
-}
-
-// Restore success message after redirect
-// is necessary to show the whole page in the selected language
-if (Request::request('rex_user_updated', 'bool', false)) {
-    $success = I18n::msg('user_data_updated');
-}
-
-if ($update && !$error) {
-    $updateuser = Sql::factory();
-    $updateuser->setTable('rex_user');
-    $updateuser->setWhere(['id' => $userId]);
-    $updateuser->setValue('name', $username);
-    $updateuser->setValue('description', $userdesc);
-    $updateuser->setValue('email', $useremail);
-    $updateuser->setValue('theme', $usertheme);
-    $updateuser->setValue('language', $userpermBeSprache);
-
-    $updateuser->addGlobalUpdateFields();
-
-    $updateuser->update();
+if ($profileForm->handleRequest()) {
+    $profileStorage->save($profile);
     User::clearInstance($userId);
 
     Extension::dispatch(new ExtensionPoint('PROFILE_UPDATED', '', [
@@ -123,6 +75,12 @@ if ($update && !$error) {
 
     // trigger a fullpage-reload which immediately reflects a possible changed language
     Response::sendRedirect(Url::currentBackendPage(['rex_user_updated' => true]));
+}
+
+// Restore success message after redirect
+// is necessary to show the whole page in the selected language
+if (Request::request('rex_user_updated', 'bool', false)) {
+    $success = I18n::msg('user_data_updated');
 }
 
 $verifyLogin = static function () use ($user, $login, $userpsw, $webauthn): bool|string {
@@ -225,74 +183,26 @@ echo ApiFunction::getMessage();
 
 // --------------------------------- FORMS
 
-$content = '';
-$content .= '<fieldset>';
-
-$formElements = [];
-
-$n = [];
-$n['label'] = '<label for="rex-id-userlogin">' . I18n::msg('login_name') . '</label>';
-$n['field'] = '<span class="form-control-static" id="rex-id-userlogin">' . escape($userlogin) . '</span>';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-userperm-mylang">' . I18n::msg('backend_language') . '</label>';
-$n['field'] = $selBeSprache->get();
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-username">' . I18n::msg('name') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-username" name="username" value="' . escape($username) . '" autocomplete="name" maxlength="255" autofocus />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-userdesc">' . I18n::msg('description') . '</label>';
-$n['field'] = '<input class="form-control" type="text" id="rex-id-userdesc" name="userdesc" value="' . escape($userdesc) . '" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-useremail">' . I18n::msg('email') . '</label>';
-$n['field'] = '<input class="form-control" type="email" id="rex-id-useremail" name="useremail" value="' . escape($useremail) . '" maxlength="255" />';
-$formElements[] = $n;
-
-$n = [];
-$n['label'] = '<label for="rex-id-usertheme">' . I18n::msg('theme') . '</label>';
-$n['field'] = $selBeTheme->get();
-$formElements[] = $n;
-
-$fragment = new Fragment();
-$fragment->setVar('flush', true);
-$fragment->setVar('group', true);
-$fragment->setVar('elements', $formElements, false);
-$content .= $fragment->parse('core/form/form.php');
-
-$content .= '</fieldset>';
-
-$formElements = [];
-
-$n = [];
-$n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" value="1" name="upd_profile_button" ' . Accesskey::attributes(I18n::msg('profile_save'), 'save') . '>' . I18n::msg('profile_save') . '</button>';
-$formElements[] = $n;
-
-$fragment = new Fragment();
-$fragment->setVar('elements', $formElements, false);
-$buttons = $fragment->parse('core/form/submit.php');
-
-$fragment = new Fragment();
-$fragment->setVar('class', 'edit', false);
-$fragment->setVar('title', I18n::msg('profile_myprofile'), false);
-$fragment->setVar('body', $content, false);
-$fragment->setVar('buttons', $buttons, false);
-$content = $fragment->parse('core/page/section.php');
-
-$content = '
-    <form action="' . Url::currentBackendPage() . '" method="post" data-pjax="false">
-        ' . $csrfToken->getHiddenField() . '
-        ' . $content . '
-    </form>';
-
 if (!$passwordChangeRequired) {
-    echo $content;
+    echo $profileForm->capture(static function (Form $form) use ($user): void { ?>
+        <section class="rex-page-section">
+            <div class="panel panel-edit">
+                <header class="panel-heading"><div class="panel-title"><?= Html::from($form->title ?? '') ?></div></header>
+                <div class="panel-body">
+                    <?php foreach ($form->getFormErrors() as $error): ?>
+                        <?= Message::error((string) Html::from($error)) ?>
+                    <?php endforeach ?>
+                    <?= new FieldRow(Html::raw('<p class="form-control-static">' . escape($user->login) . '</p>'), new Translatable('login_name'))->render() ?>
+                    <?= $form->rest() ?>
+                </div>
+                <footer class="panel-footer">
+                    <div class="rex-form-panel-footer">
+                        <div class="btn-toolbar"><?= $form->buttons() ?></div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+    <?php }, ['data-pjax' => 'false']);
 }
 
 $passkeyVerify = $login->getPasskey() ? $webauthn->getGetArgs($login->getPasskey()) : '';

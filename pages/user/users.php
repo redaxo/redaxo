@@ -2,723 +2,401 @@
 
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Backend\Accesskey;
-use Redaxo\Core\Backend\Controller;
+use Redaxo\Core\Backend\Form\User as UserData;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Form\Select\Select;
+use Redaxo\Core\Form\FieldRow;
+use Redaxo\Core\Form\Form;
+use Redaxo\Core\Form\SubmitButton;
+use Redaxo\Core\Form\Widget\CheckboxInput;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\ApiFunction\UserImpersonate;
 use Redaxo\Core\Security\BackendLogin;
 use Redaxo\Core\Security\CsrfToken;
-use Redaxo\Core\Security\Login;
 use Redaxo\Core\Security\User;
 use Redaxo\Core\Security\UserRole;
 use Redaxo\Core\Security\UserSession;
 use Redaxo\Core\Translation\I18n;
-use Redaxo\Core\Util\Str;
-use Redaxo\Core\Validator\Validator;
+use Redaxo\Core\Translation\Translatable;
 use Redaxo\Core\View\DataList;
 use Redaxo\Core\View\Fragment;
+use Redaxo\Core\View\Html;
 use Redaxo\Core\View\Message;
 
 use function Redaxo\Core\View\escape;
 
 $currentUser = Core::requireUser();
 
-$message = '';
-$content = '';
-
+$func = Request::request('func', 'string');
 $userId = Request::request('user_id', 'int');
-$info = [];
-$warnings = [];
 
-$user = null;
+// non-admins must not edit or delete admins
+$user = $userId ? User::get($userId) : null;
+if ($user && $user->admin && !$currentUser->admin) {
+    $user = null;
+}
 
-if (0 !== $userId) {
-    $user = User::get($userId);
+// the form submits to the current url, so the message of the previous save must not appear again
+$message = 'get' !== Request::requestMethod() ? '' : match (Request::get('saved', 'string')) {
+    'added' => Message::info(I18n::msg('user_added')),
+    'updated' => Message::info(I18n::msg('user_data_updated')),
+    default => '',
+};
+
+if ('delete' === $func) {
     if (!$user) {
-        $userId = 0;
-    }
-}
-
-// Allgemeine Infos
-$userpsw = Request::post('userpsw', 'string');
-$passwordChangeRequired = Request::post('password_change_required', 'bool');
-$userlogin = Request::post('userlogin', 'string');
-$username = Request::request('username', 'string');
-$userdesc = Request::request('userdesc', 'string');
-$useremail = Request::request('useremail', 'string');
-$useradmin = Request::request('useradmin', 'int');
-$userstatus = Request::request('userstatus', 'int');
-
-// role
-$selRole = new Select();
-$selRole->setSize(1);
-$selRole->setName('userrole[]');
-$selRole->setId('rex-js-user-role');
-$selRole->setMultiple();
-$selRole->setAttribute('class', 'form-control selectpicker');
-// $sel_role->addOption(I18n::msg('user_no_role'), 0);
-$roles = [];
-$sqlRole = Sql::factory();
-$sqlRole->setQuery('SELECT id, name FROM rex_user_role ORDER BY name');
-foreach ($sqlRole as $role) {
-    $roleName = $role->getNullableStringValue('name') ?? '';
-    $roles[$role->getIntValue('id')] = $roleName;
-    $selRole->addOption($roleName, $role->getIntValue('id'));
-}
-$userrole = array_values(Request::request('userrole', 'array[int]'));
-
-// backend sprache
-$selBeSprache = new Select();
-$selBeSprache->setSize(1);
-$selBeSprache->setName('userperm_be_sprache');
-$selBeSprache->setId('rex-user-perm-mylang');
-$selBeSprache->setAttribute('class', 'form-control selectpicker');
-$selBeSprache->addOption('default', '');
-$saveLocale = I18n::getLocale();
-foreach (I18n::getLocales() as $locale) {
-    I18n::setLocale($locale, false); // Locale nicht neu setzen
-    $selBeSprache->addOption(I18n::msg('lang'), $locale);
-}
-I18n::setLocale($saveLocale, false);
-$userpermBeSprache = Request::request('userperm_be_sprache', 'string');
-
-// ----- welche startseite
-$selStartpage = new Select();
-$selStartpage->setSize(1);
-$selStartpage->setName('userperm_startpage');
-$selStartpage->setId('rex-user-perm-startpage');
-$selStartpage->setAttribute('class', 'form-control selectpicker');
-$selStartpage->setAttribute('data-live-search', 'true');
-$selStartpage->addOption('default', '');
-
-$startpages = [];
-foreach (Controller::getPages() as $page => $pageObj) {
-    if ($pageObj->hasNavigation() && !$pageObj->isHidden()) {
-        $startpages[$page] = $pageObj->getTitle();
-    }
-}
-asort($startpages);
-$selStartpage->addOptions($startpages);
-$userpermStartpage = Request::request('userperm_startpage', 'string');
-
-// --------------------------------- Title
-
-// --------------------------------- FUNCTIONS
-$fUNCUPDATE = '';
-$fUNCAPPLY = '';
-$fUNCDELETE = '';
-if ($user && ($currentUser->admin || !$user->admin)) {
-    $fUNCUPDATE = Request::request('FUNC_UPDATE', 'string');
-    $fUNCAPPLY = Request::request('FUNC_APPLY', 'string');
-    $fUNCDELETE = Request::request('FUNC_DELETE', 'string');
-} else {
-    $userId = 0;
-}
-$fUNCADD = Request::request('FUNC_ADD', 'string');
-$save = Request::request('save', 'int');
-$adminchecked = '';
-
-$passwordPolicy = BackendLogin::getPasswordPolicy();
-
-if ($fUNCUPDATE || $fUNCAPPLY || ($fUNCADD && $save)) {
-    if (!CsrfToken::factory('user_edit')->isValid()) {
-        $warnings[] = I18n::msg('csrf_token_invalid');
-    }
-
-    if ($useremail && !Validator::factory()->email($useremail)) {
-        $warnings[] = I18n::msg('invalid_email');
-    }
-
-    if ($userpsw && (true !== $msg = $passwordPolicy->check($userpsw, $userId ?: null))) {
-        if ($currentUser->admin) {
-            $msg .= ' ' . I18n::msg('password_admin_notice');
-        }
-        $warnings[] = $msg;
-    }
-}
-
-if ($warnings) {
-    // do not save
-} elseif ('' != $fUNCUPDATE || '' != $fUNCAPPLY) {
-    $loginReset = Request::request('logintriesreset', 'int');
-    $userstatus = Request::request('userstatus', 'int');
-
-    if ($currentUser->admin && $userId === $currentUser->id) {
-        $useradmin = 1;
-    }
-
-    $updateuser = Sql::factory();
-    $updateuser->setTable('rex_user');
-    $updateuser->setWhere(['id' => $userId]);
-    $updateuser->setValue('name', $username);
-    $updateuser->setValue('admin', $currentUser->admin && 1 == $useradmin ? 1 : 0);
-    $updateuser->setValue('language', $userpermBeSprache);
-    $updateuser->setValue('startpage', $userpermStartpage);
-    $updateuser->addGlobalUpdateFields();
-    $updateuser->setValue('description', $userdesc);
-    $updateuser->setValue('email', $useremail);
-    if (1 == $loginReset) {
-        $updateuser->setValue('login_tries', '0');
-    }
-    if (1 == $userstatus) {
-        $updateuser->setValue('status', 1);
-    } else {
-        $updateuser->setValue('status', 0);
-    }
-
-    $passwordHash = null;
-    if ('' != $userpsw) {
-        $passwordHash = Login::passwordHash($userpsw);
-        $updateuser->setValue('password', $passwordHash);
-        $updateuser->setDateTimeValue('password_changed', time());
-        $updateuser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
-    }
-
-    $updateuser->setValue('password_change_required', (int) $passwordChangeRequired);
-
-    $updateuser->update();
-
-    UserRole::setForUser($userId, $userrole);
-
-    $info[] = I18n::msg('user_data_updated');
-
-    User::clearInstance($userId);
-    $user = User::require($userId);
-
-    if (null !== $passwordHash && $userId == $currentUser->id) {
-        BackendLogin::requireCurrent()->changedPassword($passwordHash);
-    }
-
-    Extension::dispatch(new ExtensionPoint('USER_UPDATED', '', [
-        'id' => $userId,
-        'user' => $user,
-        'password' => $userpsw,
-    ], true));
-
-    if (null !== $passwordHash) {
-        UserSession::getInstance()->removeSessionsExceptCurrent($userId);
-    }
-
-    if ('' != $fUNCUPDATE) {
-        $userId = 0;
-        $fUNCUPDATE = '';
-    }
-} elseif ('' != $fUNCDELETE) {
-    // man kann sich selbst nicht loeschen..
-    if ($currentUser->id == $userId) {
-        $warnings[] = I18n::msg('user_notdeleteself');
+        // nothing to delete
+    } elseif ($currentUser->id === $user->id) {
+        $message = Message::warning(I18n::msg('user_notdeleteself'));
     } elseif (!CsrfToken::factory('user_delete')->isValid()) {
-        $warnings[] = I18n::msg('csrf_token_invalid');
+        $message = Message::warning(I18n::msg('csrf_token_invalid'));
     } else {
-        $deleteuser = Sql::factory();
-        $deleteuser->setQuery('DELETE FROM rex_user WHERE id = ? LIMIT 1', [$userId]);
-        $info[] = I18n::msg('user_deleted');
-
-        User::clearInstance($userId);
+        Sql::factory()->setQuery('DELETE FROM rex_user WHERE id = ? LIMIT 1', [$user->id]);
+        User::clearInstance($user->id);
+        $message = Message::info(I18n::msg('user_deleted'));
 
         Extension::dispatch(new ExtensionPoint('USER_DELETED', '', [
-            'id' => $userId,
+            'id' => $user->id,
             'user' => $user,
         ], true));
     }
 
-    $userId = 0;
-} elseif ('' != $fUNCADD && 1 == $save) {
-    $adduser = Sql::factory();
-    $adduser->setQuery('SELECT * FROM rex_user WHERE login = ?', [$userlogin]);
-
-    if (0 == $adduser->getRows() && '' != $userlogin && '' != $userpsw) {
-        $userpswHash = Login::passwordHash($userpsw);
-
-        $adduser = Sql::factory();
-        $adduser->setTable('rex_user');
-        $adduser->setValue('name', $username);
-        $adduser->setValue('password', $userpswHash);
-        $adduser->setValue('login', $userlogin);
-        $adduser->setValue('description', $userdesc);
-        $adduser->setValue('email', $useremail);
-        $adduser->setValue('admin', $currentUser->admin && 1 == $useradmin ? 1 : 0);
-        $adduser->setValue('language', $userpermBeSprache);
-        $adduser->setValue('startpage', $userpermStartpage);
-        $adduser->addGlobalCreateFields();
-        $adduser->addGlobalUpdateFields();
-        $adduser->setDateTimeValue('password_changed', time());
-        $adduser->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords(null, $userpswHash));
-        $adduser->setValue('password_change_required', (int) $passwordChangeRequired);
-        if (1 == $userstatus) {
-            $adduser->setValue('status', 1);
-        } else {
-            $adduser->setValue('status', 0);
-        }
-
-        $adduser->insert();
-
-        UserRole::setForUser($adduser->getLastId(), $userrole);
-
-        $userId = 0;
-        $fUNCADD = '';
-        $info[] = I18n::msg('user_added');
-
-        Extension::dispatch(new ExtensionPoint('USER_ADDED', '', [
-            'id' => $adduser->getLastId(),
-            'user' => User::require($adduser->getLastId()),
-            'password' => $userpsw,
-        ], true));
-    } else {
-        if (1 == $useradmin) {
-            $adminchecked = 'checked="checked"';
-        }
-
-        // userrole
-        $selRole->setSelected($userrole);
-
-        // userperm_be_sprache
-        if ('' == $userpermBeSprache) {
-            $userpermBeSprache = 'default';
-        }
-        $selBeSprache->setSelected($userpermBeSprache);
-
-        // userperm_startpage
-        if ('' == $userpermStartpage) {
-            $userpermStartpage = 'default';
-        }
-        $selStartpage->setSelected($userpermStartpage);
-
-        if ($adduser->getRows()) {
-            $warnings[] = I18n::msg('user_login_exists');
-        }
-        if (!$userlogin) {
-            $warnings[] = I18n::msg('user_missing_login');
-        }
-        if (!$userpsw) {
-            $warnings[] = I18n::msg('user_missing_password');
-        }
-    }
-} else {
-    // default value for new users (for existing users it is replaced after reading the user from db)
-    $passwordChangeRequired = true;
-}
-
-// ---------------------------------- ERR MSG
-
-if (!empty($info)) {
-    $message .= Message::info(implode('<br/>', $info));
-}
-
-if (!empty($warnings)) {
-    $message .= Message::warning(implode('<br/>', $warnings));
+    $func = '';
+    $user = null;
 }
 
 echo ApiFunction::getMessage();
 
-// --------------------------------- FORMS
-
-$SHOW = true;
-
-if ('' != $fUNCADD || $user) {
-    $SHOW = false;
-
-    // whether the user is editing his own account
-    $self = $userId == $currentUser->id;
-
-    $statuschecked = '';
-    if ('' != $fUNCADD) {
-        $statuschecked = 'checked="checked"';
-    }
+if ('add' === $func || $user) {
+    $data = new UserData();
+    // whether the user is editing their own account
+    $self = $user && $currentUser->id === $user->id;
+    $loginTries = 0;
 
     if ($user) {
-        // User Edit
+        $sql = Sql::factory()->setQuery('SELECT * FROM rex_user WHERE id = ?', [$user->id]);
+        $data->login = $user->login;
+        $data->passwordChangeRequired = $sql->getBoolValue('password_change_required');
+        $data->name = $user->name;
+        $data->description = $sql->getNullableStringValue('description');
+        $data->email = $user->email;
+        $data->admin = $user->admin;
+        $data->status = $sql->getBoolValue('status');
+        $data->roles = UserRole::getIdsForUser($user->id);
+        $data->startPage = $user->startPage;
+        $data->language = $user->language;
+        $loginTries = $sql->getIntValue('login_tries');
+    }
 
-        $formLabel = I18n::msg('edit_user');
-        $addHidden = '<input type="hidden" name="user_id" value="' . $userId . '" />';
-        $addUserLogin = '<p class="form-control-static">' . escape($user->login) . '</p>';
+    $fields = ['password', 'passwordChangeRequired', 'name', 'description', 'email', 'status', 'roles', 'startPage', 'language'];
+    if (!$user) {
+        $fields[] = 'login';
+    }
+    if ($currentUser->admin) {
+        $fields[] = 'admin';
+    }
+    if ($loginTries > 0) {
+        $fields[] = 'resetLoginTries';
+    }
 
-        $formElements = [];
+    // users can neither lock themselves out nor change their own admin status
+    $disabled = [];
+    if ($self) {
+        $disabled = ['passwordChangeRequired', 'status', ...$currentUser->admin ? ['admin', 'roles'] : []];
+    }
 
-        $n = [];
-        $n['field'] = '<a class="btn btn-abort" href="' . Url::currentBackendPage() . '">' . I18n::msg('form_abort') . '</a>';
-        $formElements[] = $n;
+    $form = new Form(
+        $data,
+        title: new Translatable($user ? 'edit_user' : 'create_user'),
+        only: $fields,
+        disabled: $disabled,
+        buttons: $user ? [SubmitButton::save(new Translatable('user_save')), new SubmitButton('apply', new Translatable('user_apply'), accesskey: 'apply')] : [SubmitButton::save(new Translatable('add_user'))],
+        cancelUrl: Url::currentBackendPage(),
+    );
 
-        $n = [];
-        $n['field'] = '<button class="btn btn-save rex-form-aligned" type="submit" name="FUNC_UPDATE" value="1" ' . Accesskey::attributes(I18n::msg('save_and_close_tooltip'), 'save') . '>' . I18n::msg('user_save') . '</button>';
-        $formElements[] = $n;
+    $form->handleRequest();
+    $passwordPolicy = BackendLogin::getPasswordPolicy();
 
-        $n = [];
-        $n['field'] = '<button class="btn btn-apply" type="submit" name="FUNC_APPLY" value="1" ' . Accesskey::attributes(I18n::msg('save_and_goon_tooltip'), 'apply') . '>' . I18n::msg('user_apply') . '</button>';
-        $formElements[] = $n;
+    // checked on the submitted raw values, so the errors appear together with those of the other fields
+    if ($form->isSubmitted()) {
+        $login = $user ? '' : $form->field('login')->raw;
+        if (is_string($login) && '' !== $login && User::forLogin($login)) {
+            $form->addError(new Translatable('user_login_exists'), 'login');
+        }
 
-        $fragment = new Fragment();
-        $fragment->setVar('elements', $formElements, false);
-        $buttons = $fragment->parse('core/form/submit.php');
-        unset($formElements);
-
-        if (!$fUNCUPDATE && !$fUNCAPPLY) {
-            $sql = Sql::factory();
-            $sql->setQuery('select * from rex_user where id=' . $userId);
-
-            if (1 == $sql->getRows()) {
-                $passwordChangeRequired = $sql->getBoolValue('password_change_required');
-                $useradmin = $sql->getIntValue('admin');
-                $userstatus = $sql->getIntValue('rex_user.status');
-                $userrole = UserRole::getIdsForUser($userId);
-                $userpermBeSprache = $sql->getNullableStringValue('language') ?? '';
-                $userpermStartpage = $sql->getNullableStringValue('startpage') ?? '';
-                $username = $sql->getNullableStringValue('rex_user.name') ?? '';
-                $userdesc = $sql->getNullableStringValue('rex_user.description') ?? '';
-                $useremail = $sql->getNullableStringValue('rex_user.email') ?? '';
+        $password = $form->field('password')->raw;
+        if ('' === $password) {
+            if (!$user) {
+                $form->addError(new Translatable('form_required'), 'password');
             }
+        } elseif (is_string($password) && true !== $msg = $passwordPolicy->check($password, $user?->id)) {
+            $form->addError($currentUser->admin ? $msg . ' ' . I18n::msg('password_admin_notice') : $msg, 'password');
         }
-
-        if ($useradmin) {
-            $adminchecked = 'checked="checked"';
-        } else {
-            $adminchecked = '';
-        }
-
-        if (1 == $userstatus) {
-            $statuschecked = 'checked="checked"';
-        } else {
-            $statuschecked = '';
-        }
-
-        $selRole->setSelected($userrole);
-        $selBeSprache->setSelected($userpermBeSprache);
-        $selStartpage->setSelected($userpermStartpage);
-
-        if ($currentUser->admin) {
-            $disabled = $self ? ' disabled="disabled"' : '';
-            $addAdminChkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . $disabled . ' />';
-        } else {
-            $addAdminChkbox = '';
-        }
-
-        // Der Benutzer kann sich selbst den Status nicht entziehen
-        if ($self && '' != $statuschecked) {
-            $addStatusChkbox = '<input type="hidden" name="userstatus" value="1" /><input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' disabled="disabled" />';
-        } else {
-            $addStatusChkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        }
-    } else {
-        // User Add
-        $formLabel = I18n::msg('create_user');
-        $addHidden = '<input type="hidden" name="FUNC_ADD" value="1" />';
-        if ($currentUser->admin) {
-            $addAdminChkbox = '<input type="checkbox" id="rex-js-user-admin" name="useradmin" value="1" ' . $adminchecked . ' />';
-        } else {
-            $addAdminChkbox = '';
-        }
-        $addStatusChkbox = '<input type="checkbox" id="rex-user-status" name="userstatus" value="1" ' . $statuschecked . ' />';
-        $addUserLogin = '<input class="form-control" type="text" id="rex-user-login" name="userlogin" value="' . escape($userlogin) . '" required maxlength="255" autofocus autocomplete="username" inputmode="email" autocorrect="off" autocapitalize="off" />';
-
-        $formElements = [];
-
-        $n = [];
-        $n['field'] = '<button class="btn btn-save" type="submit" name="function" value="1" ' . Accesskey::attributes(I18n::msg('add_user'), 'save') . '>' . I18n::msg('add_user') . '</button>';
-        $formElements[] = $n;
-
-        $fragment = new Fragment();
-        $fragment->setVar('elements', $formElements, false);
-        $buttons = $fragment->parse('core/form/submit.php');
-        unset($formElements);
     }
 
-    $content .= '
-            <fieldset>
-                <input type="hidden" name="subpage" value="" />
-                <input type="hidden" name="save" value="1" />
-                ' . $addHidden;
+    if ($form->isValid()) {
+        $sql = Sql::factory();
+        $sql->setTable('rex_user');
+        $sql->setValue('name', $data->name);
+        $sql->setValue('description', $data->description);
+        $sql->setValue('email', $data->email);
+        $sql->setValue('startpage', $data->startPage);
+        $sql->setValue('language', $data->language);
+        $sql->setValue('password_change_required', (int) $data->passwordChangeRequired);
+        $sql->setValue('status', (int) $data->status);
+        if ($form->has('admin')) {
+            $sql->setValue('admin', (int) $data->admin);
+        }
+        if ($data->resetLoginTries) {
+            $sql->setValue('login_tries', 0);
+        }
 
-    $formElements = [];
+        $passwordHash = null;
+        if (null !== $data->password) {
+            $passwordHash = BackendLogin::passwordHash($data->password);
+            $sql->setValue('password', $passwordHash);
+            $sql->setDateTimeValue('password_changed', time());
+            $sql->setArrayValue('previous_passwords', $passwordPolicy->updatePreviousPasswords($user, $passwordHash));
+        }
 
-    $n = [];
-    $n['label'] = '<label for="rex-user-login" class="required">' . I18n::msg('login_name') . '</label>';
-    $n['field'] = $addUserLogin;
-    $formElements[] = $n;
+        $sql->addGlobalUpdateFields();
 
-    $n = [];
-    $n['label'] = '<label for="rex-js-user-password" class="required">' . I18n::msg('password') . '</label>';
-    $n['field'] = '<input class="form-control" type="password" id="rex-js-user-password" name="userpsw" autocomplete="new-password" autocorrect="off" autocapitalize="off" ' . Str::buildAttributes($passwordPolicy->getHtmlAttributes()) . ' />';
-    $n['note'] = $passwordPolicy->getDescription();
+        if ($user) {
+            $sql->setWhere(['id' => $user->id]);
+            $sql->update();
+            $id = $user->id;
+        } else {
+            $sql->setValue('login', $data->login);
+            $sql->addGlobalCreateFields();
+            $sql->insert();
+            $id = $sql->getLastId();
+        }
 
-    $formElements[] = $n;
+        UserRole::setForUser($id, $data->roles);
+        User::clearInstance($id);
 
-    $fragment = new Fragment();
-    $fragment->setVar('flush', true);
-    $fragment->setVar('group', true);
-    $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
+        if ($user) {
+            if (null !== $passwordHash) {
+                if ($self) {
+                    BackendLogin::requireCurrent()->changedPassword($passwordHash);
+                }
+                UserSession::getInstance()->removeSessionsExceptCurrent($id);
+            }
 
-    $formElements = [];
+            Extension::dispatch(new ExtensionPoint('USER_UPDATED', '', [
+                'id' => $id,
+                'user' => User::require($id),
+                'password' => $data->password ?? '',
+            ], true));
+        } else {
+            Extension::dispatch(new ExtensionPoint('USER_ADDED', '', [
+                'id' => $id,
+                'user' => User::require($id),
+                'password' => $data->password ?? '',
+            ], true));
+        }
 
-    $n = [];
-    $n['label'] = '<label for="rex-user-password-change-required">' . I18n::msg('user_password_change_required') . '</label>';
-    $checked = $passwordChangeRequired && !$self ? ' checked="checked"' : '';
-    $disabled = $self ? ' disabled="disabled"' : '';
-    $n['field'] = '<input type="checkbox" id="rex-user-password-change-required" name="password_change_required" value="1" ' . $checked . $disabled . ' />';
-    $formElements[] = $n;
-
-    $fragment = new Fragment();
-    $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/checkbox.php');
-
-    $formElements = [];
-
-    $n = [];
-    $n['label'] = '<label for="rex-user-name">' . I18n::msg('name') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-name" name="username" value="' . escape($username) . '"  autocomplete="name" maxlength="255" />';
-    $formElements[] = $n;
-
-    $n = [];
-    $n['label'] = '<label for="rex-user-description">' . I18n::msg('description') . '</label>';
-    $n['field'] = '<input class="form-control" type="text" id="rex-user-description" name="userdesc" value="' . escape($userdesc) . '" autocomplete="off" />';
-    $formElements[] = $n;
-
-    $n = [];
-    $n['label'] = '<label for="rex-user-email">' . I18n::msg('email') . '</label>';
-    $n['field'] = '<input class="form-control" type="email" placeholder="user@example.org" id="rex-user-email" name="useremail" value="' . escape($useremail) . '"  autocomplete="email" maxlength="255" />';
-    $formElements[] = $n;
-
-    $fragment = new Fragment();
-    $fragment->setVar('flush', true);
-    $fragment->setVar('group', true);
-    $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
-
-    $formElements = [];
-
-    if ($addAdminChkbox) {
-        $n = [];
-        $n['label'] = '<label for="rex-js-user-admin">' . I18n::msg('user_admin') . '</label>';
-        $n['field'] = $addAdminChkbox;
-        $n['note'] = I18n::msg('user_admin_note');
-        $formElements[] = $n;
+        $saved = $user ? 'updated' : 'added';
+        Response::sendRedirect(Url::currentBackendPage($form->isSubmittedBy('apply') ? ['user_id' => $id, 'saved' => $saved] : ['saved' => $saved]));
     }
-
-    $n = [];
-    $n['label'] = '<label for="rex-user-status">' . I18n::msg('user_status_active') . '</label>';
-    $n['field'] = $addStatusChkbox;
-    $formElements[] = $n;
-
-    if ($userId > 0 && ($loginTries = $user->getValue('login_tries')) > 0) {
-        $n = [];
-        $n['label'] = '<label for="rex-user-logintriesreset">' . I18n::msg('user_reset_tries', $loginTries) . '</label>';
-        $n['field'] = '<input type="checkbox" id="rex-user-logintriesreset" name="logintriesreset" value="1" />';
-        $formElements[] = $n;
-    }
-
-    $fragment = new Fragment();
-    $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/checkbox.php');
-
-    $formElements = [];
-
-    $n = [];
-    $n['label'] = '<label for="rex-js-user-role">' . I18n::msg('user_role') . '</label>';
-    $n['field'] = $selRole->get();
-    $formElements[] = $n;
-
-    $n = [];
-    $n['label'] = '<label for="rex-user-perm-startpage">' . I18n::msg('startpage') . '</label>';
-    $n['field'] = $selStartpage->get();
-    $formElements[] = $n;
-
-    $n = [];
-    $n['label'] = '<label for="rex-user-perm-mylang">' . I18n::msg('backend_language') . '</label>';
-    $n['field'] = $selBeSprache->get();
-    $formElements[] = $n;
-
-    $fragment = new Fragment();
-    $fragment->setVar('group', true);
-    $fragment->setVar('flush', true);
-    $fragment->setVar('elements', $formElements, false);
-    $content .= $fragment->parse('core/form/form.php');
-
-    $content .= '</fieldset>';
-
-    $fragment = new Fragment();
-    $fragment->setVar('class', 'edit', false);
-    $fragment->setVar('title', $formLabel);
-    $fragment->setVar('body', $content, false);
-    $fragment->setVar('buttons', $buttons, false);
-    $content = $fragment->parse('core/page/section.php');
-
-    $content = '
-        <form id="rex-form-user" action="' . Url::currentBackendPage() . '" method="post">
-            ' . CsrfToken::factory('user_edit')->getHiddenField() . '
-            ' . $content . '
-        </form>
-
-        <script type="text/javascript" nonce="' . Response::getNonce() . '">
-        <!--
-        jQuery(function($) {
-            $("#rex-js-user-admin").change(function() {
-                 if ($(this).is(":checked"))
-                     $("#rex-js-user-role").prop("disabled", true);
-                 else
-                     $("#rex-js-user-role").prop("disabled", false);
-                 $("#rex-js-user-role").selectpicker("refresh");
-            }).change();
-        });
-        //-->
-        </script>';
 
     echo $message;
-    echo $content;
 
-    if ($userId > 0) {
+    echo $form->capture(static function (Form $form) use ($user, $loginTries): void { ?>
+        <section class="rex-page-section">
+            <div class="panel panel-edit">
+                <header class="panel-heading"><div class="panel-title"><?= Html::from($form->title ?? '') ?></div></header>
+                <div class="panel-body">
+                    <?php foreach ($form->getFormErrors() as $error): ?>
+                        <?= Message::error((string) Html::from($error)) ?>
+                    <?php endforeach ?>
+                    <?php if ($user): ?>
+                        <?= new FieldRow(Html::raw('<p class="form-control-static">' . escape($user->login) . '</p>'), new Translatable('login_name'))->render() ?>
+                    <?php endif ?>
+                    <?php foreach (['login', 'password', 'passwordChangeRequired', 'name', 'description', 'email', 'admin', 'status'] as $name): ?>
+                        <?php if ($form->has($name)): ?>
+                            <?= $form->row($name) ?>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                    <?php if ($form->has('resetLoginTries')): ?>
+                        <?php $field = $form->field('resetLoginTries') ?>
+                        <?= new FieldRow(new CheckboxInput($field->inputName, new Translatable('user_reset_tries', $loginTries), '1' === $field->raw, id: $field->id))->render() ?>
+                    <?php endif ?>
+                    <?php foreach (['roles', 'startPage', 'language'] as $name): ?>
+                        <?= $form->row($name) ?>
+                    <?php endforeach ?>
+                </div>
+                <footer class="panel-footer">
+                    <div class="rex-form-panel-footer">
+                        <div class="btn-toolbar"><?= $form->buttons() ?></div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+    <?php });
+    ?>
+    <script nonce="<?= Response::getNonce() ?>">
+        jQuery(function ($) {
+            $('#user-admin').change(function () {
+                $('#user-roles').prop('disabled', $(this).is(':checked')).selectpicker('refresh');
+            }).change();
+        });
+    </script>
+    <?php
+
+    if ($user) {
+        $userId = $user->id;
         require Path::core('pages/profile/auth_methods.php');
         require Path::core('pages/profile/sessions.php');
     }
+
+    return;
 }
 
 // ---------------------------------- Userliste
 
-if ($SHOW) {
-    $query = trim(Request::request('user_search', 'string', ''));
-    $fragment = new Fragment();
-    $fragment->setVar('id', 'rex-users-addon-search');
-    $fragment->setVar('name', 'user_search');
-    $fragment->setVar('autofocus', !Request::request('function', 'bool'));
-    $fragment->setVar('value', $query);
-    $searchForm = $fragment->parse('core/form/search.php');
-    $toolbar = '<form method="POST" action="">' . $searchForm . '</form>';
+$query = trim(Request::request('user_search', 'string', ''));
+$fragment = new Fragment();
+$fragment->setVar('id', 'rex-users-addon-search');
+$fragment->setVar('name', 'user_search');
+$fragment->setVar('autofocus', true);
+$fragment->setVar('value', $query);
+$searchForm = $fragment->parse('core/form/search.php');
+$toolbar = '<form method="POST" action="">' . $searchForm . '</form>';
 
-    $where = '';
-    if ($query) {
-        $sql = Sql::factory();
-        $query = $sql->escape('%' . $sql->escapeLikeWildcards($query) . '%');
-        $where = 'WHERE `name` LIKE ' . $query . ' OR `login` LIKE ' . $query;
-    }
-
-    // use string starting with "_" to have users without role at bottom when sorting by role ASC
-    $noRole = '_no_role';
-    $separator = "\0,\0";
-    $list = DataList::factory('
-        SELECT
-            id,
-            IF(name <> "", name, login) as name,
-            login,
-            `admin`,
-            IF(`admin`, "Admin", IFNULL((
-                SELECT GROUP_CONCAT(r.name ORDER BY r.name SEPARATOR "' . $separator . '")
-                FROM rex_user_role_assignment a
-                JOIN rex_user_role r ON r.id = a.role_id
-                WHERE a.user_id = u.id
-            ), "' . $noRole . '")) as role,
-            status,
-            lastlogin
-        FROM rex_user u
-        ' . $where . '
-    ', defaultSort: ['name' => 'asc']);
-    $list->addTableAttribute('class', 'table-striped table-hover');
-
-    $tdIcon = '<i class="rex-icon rex-icon-user" title="' . I18n::msg('user_status_active') . '"></i>';
-    $thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['FUNC_ADD' => '1']) . '"' . Accesskey::attributes(I18n::msg('create_user'), 'add') . '><i class="rex-icon rex-icon-add-user"></i></a>';
-    $list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
-    $list->setColumnParams($thIcon, ['user_id' => '###id###']);
-    $list->setColumnFormat($thIcon, 'custom', static function () use ($currentUser, $list, $thIcon, $tdIcon) {
-        if (!$list->getValue('status')) {
-            $tdIcon = str_replace('rex-icon-user', 'rex-icon-user-inactive text-muted', $tdIcon);
-            $tdIcon = str_replace(I18n::msg('user_status_active'), I18n::msg('user_status_inactive'), $tdIcon);
-        }
-        return !$list->getValue('admin') || $currentUser->admin ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
-    });
-
-    $list->removeColumn('admin');
-    $list->removeColumn('status');
-
-    $list->setColumnLabel('id', 'Id');
-    $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
-    $list->setColumnSortable('id');
-
-    $list->setColumnLabel('name', I18n::msg('name'));
-    $list->setColumnParams('name', ['user_id' => '###id###']);
-    $list->setColumnFormat('name', 'custom', static function () use ($currentUser, $list) {
-        $name = escape($list->getValue('name'));
-        return !$list->getValue('admin') || $currentUser->admin ? $list->getColumnLink('name', $name) : $name;
-    });
-    $list->setColumnSortable('name');
-
-    $list->setColumnLabel('login', I18n::msg('login'));
-    $list->setColumnFormat('login', 'custom', static function () use ($list) {
-        $login = escape($list->getValue('login'));
-        if (!$list->getValue('status')) {
-            $login = '<span class="text-muted">' . $login . '</span>';
-        }
-        return $login;
-    });
-    $list->setColumnSortable('login');
-
-    $list->setColumnLabel('role', I18n::msg('user_role'));
-    $list->setColumnFormat('role', 'custom', static function () use ($list, $noRole, $separator) {
-        $roles = $list->getValue('role');
-        if ($noRole === $roles) {
-            return '<span class="label label-warning">' . I18n::msg('user_no_role') . '</span>';
-        }
-        if ($list->getValue('admin')) {
-            return '<span class="label label-success">' . I18n::msg('user_admin') . '</span>';
-        }
-
-        return '<div class="rex-docs"><ul class="small"><li>' . implode('</li><li>', explode($separator, escape($roles))) . '</li></ul></div>';
-    }, ['roles' => $roles]);
-    $list->setColumnSortable('role');
-
-    $list->setColumnLabel('lastlogin', I18n::msg('last_login'));
-    $list->setColumnFormat('lastlogin', 'intlDateTime');
-    $list->setColumnSortable('lastlogin', 'desc');
-
-    $colspan = $currentUser->admin ? 3 : 2;
-    $list->addColumn(I18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit'));
-    $list->setColumnLayout(I18n::msg('user_functions'), ['<th class="rex-table-action" colspan="' . $colspan . '">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(I18n::msg('user_functions'), ['user_id' => '###id###']);
-    $list->setColumnFormat(I18n::msg('user_functions'), 'custom', static function () use ($currentUser, $list) {
-        $edit = '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit');
-        return !$list->getValue('admin') || $currentUser->admin ? $list->getColumnLink(I18n::msg('user_functions'), $edit) : $edit;
-    });
-
-    $list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete'));
-    $list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams('funcs', ['FUNC_DELETE' => '1', 'user_id' => '###id###'] + CsrfToken::factory('user_delete')->getUrlParams());
-    $list->setColumnFormat('funcs', 'custom', static function () use ($currentUser, $list) {
-        if (
-            $list->getValue('id') == $currentUser->id
-            || $list->getValue('admin') && !$currentUser->admin
-            || ($impersonator = Core::getImpersonator()) && $list->getValue('id') == $impersonator->id
-        ) {
-            return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('user_delete') . '</span>';
-        }
-        return $list->getColumnLink('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('user_delete'));
-    });
-    $list->addLinkAttribute('funcs', 'data-confirm', I18n::msg('delete') . ' ?');
-
-    if ($currentUser->admin) {
-        $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete'));
-        $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
-        $list->setColumnFormat('impersonate', 'custom', static function () use ($currentUser, $list) {
-            if (Core::getImpersonator() || $list->getValue('id') == $currentUser->id) {
-                return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . I18n::msg('login_impersonate') . '</span>';
-            }
-
-            $url = Url::currentBackendPage(['_impersonate' => $list->getValue('id')] + UserImpersonate::getUrlParams());
-            return sprintf('<a class="rex-link-expanded" href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, I18n::msg('login_impersonate'));
-        });
-    }
-
-    $content .= $list->get();
-
-    $fragment = new Fragment();
-    $fragment->setVar('title', I18n::msg('user_caption'));
-    $fragment->setVar('options', $toolbar, false);
-    $fragment->setVar('content', $content, false);
-    $content = $fragment->parse('core/page/section.php');
-
-    echo $message;
-    echo $content;
+$where = '';
+if ($query) {
+    $sql = Sql::factory();
+    $query = $sql->escape('%' . $sql->escapeLikeWildcards($query) . '%');
+    $where = 'WHERE `name` LIKE ' . $query . ' OR `login` LIKE ' . $query;
 }
+
+// use string starting with "_" to have users without role at bottom when sorting by role ASC
+$noRole = '_no_role';
+$separator = "\0,\0";
+$list = DataList::factory('
+    SELECT
+        id,
+        IF(name <> "", name, login) as name,
+        login,
+        `admin`,
+        IF(`admin`, "Admin", IFNULL((
+            SELECT GROUP_CONCAT(r.name ORDER BY r.name SEPARATOR "' . $separator . '")
+            FROM rex_user_role_assignment a
+            JOIN rex_user_role r ON r.id = a.role_id
+            WHERE a.user_id = u.id
+        ), "' . $noRole . '")) as role,
+        status,
+        lastlogin
+    FROM rex_user u
+    ' . $where . '
+', defaultSort: ['name' => 'asc']);
+$list->addTableAttribute('class', 'table-striped table-hover');
+
+$tdIcon = '<i class="rex-icon rex-icon-user" title="' . I18n::msg('user_status_active') . '"></i>';
+$thIcon = '<a class="rex-link-expanded" href="' . $list->getUrl(['func' => 'add']) . '"' . Accesskey::attributes(I18n::msg('create_user'), 'add') . '><i class="rex-icon rex-icon-add-user"></i></a>';
+$list->addColumn($thIcon, $tdIcon, 0, ['<th class="rex-table-icon">###VALUE###</th>', '<td class="rex-table-icon">###VALUE###</td>']);
+$list->setColumnParams($thIcon, ['user_id' => '###id###']);
+$list->setColumnFormat($thIcon, 'custom', static function () use ($currentUser, $list, $thIcon, $tdIcon) {
+    if (!$list->getValue('status')) {
+        $tdIcon = str_replace('rex-icon-user', 'rex-icon-user-inactive text-muted', $tdIcon);
+        $tdIcon = str_replace(I18n::msg('user_status_active'), I18n::msg('user_status_inactive'), $tdIcon);
+    }
+    return !$list->getValue('admin') || $currentUser->admin ? $list->getColumnLink($thIcon, $tdIcon) : $tdIcon;
+});
+
+$list->removeColumn('admin');
+$list->removeColumn('status');
+
+$list->setColumnLabel('id', 'Id');
+$list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
+$list->setColumnSortable('id');
+
+$list->setColumnLabel('name', I18n::msg('name'));
+$list->setColumnParams('name', ['user_id' => '###id###']);
+$list->setColumnFormat('name', 'custom', static function () use ($currentUser, $list) {
+    $name = escape($list->getValue('name'));
+    return !$list->getValue('admin') || $currentUser->admin ? $list->getColumnLink('name', $name) : $name;
+});
+$list->setColumnSortable('name');
+
+$list->setColumnLabel('login', I18n::msg('login'));
+$list->setColumnFormat('login', 'custom', static function () use ($list) {
+    $login = escape($list->getValue('login'));
+    if (!$list->getValue('status')) {
+        $login = '<span class="text-muted">' . $login . '</span>';
+    }
+    return $login;
+});
+$list->setColumnSortable('login');
+
+$list->setColumnLabel('role', I18n::msg('user_role'));
+$list->setColumnFormat('role', 'custom', static function () use ($list, $noRole, $separator) {
+    $roles = $list->getValue('role');
+    if ($noRole === $roles) {
+        return '<span class="label label-warning">' . I18n::msg('user_no_role') . '</span>';
+    }
+    if ($list->getValue('admin')) {
+        return '<span class="label label-success">' . I18n::msg('user_admin') . '</span>';
+    }
+
+    return '<div class="rex-docs"><ul class="small"><li>' . implode('</li><li>', explode($separator, escape($roles))) . '</li></ul></div>';
+});
+$list->setColumnSortable('role');
+
+$list->setColumnLabel('lastlogin', I18n::msg('last_login'));
+$list->setColumnFormat('lastlogin', 'intlDateTime');
+$list->setColumnSortable('lastlogin', 'desc');
+
+$colspan = $currentUser->admin ? 3 : 2;
+$list->addColumn(I18n::msg('user_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit'));
+$list->setColumnLayout(I18n::msg('user_functions'), ['<th class="rex-table-action" colspan="' . $colspan . '">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
+$list->setColumnParams(I18n::msg('user_functions'), ['user_id' => '###id###']);
+$list->setColumnFormat(I18n::msg('user_functions'), 'custom', static function () use ($currentUser, $list) {
+    $edit = '<i class="rex-icon rex-icon-edit"></i> ' . I18n::msg('edit');
+    return !$list->getValue('admin') || $currentUser->admin ? $list->getColumnLink(I18n::msg('user_functions'), $edit) : $edit;
+});
+
+$list->addColumn('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete'));
+$list->setColumnLayout('funcs', ['', '<td class="rex-table-action">###VALUE###</td>']);
+$list->setColumnParams('funcs', ['func' => 'delete', 'user_id' => '###id###'] + CsrfToken::factory('user_delete')->getUrlParams());
+$list->setColumnFormat('funcs', 'custom', static function () use ($currentUser, $list) {
+    if (
+        $list->getValue('id') == $currentUser->id
+        || $list->getValue('admin') && !$currentUser->admin
+        || ($impersonator = Core::getImpersonator()) && $list->getValue('id') == $impersonator->id
+    ) {
+        return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('user_delete') . '</span>';
+    }
+    return $list->getColumnLink('funcs', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('user_delete'));
+});
+$list->addLinkAttribute('funcs', 'data-confirm', I18n::msg('delete') . ' ?');
+
+if ($currentUser->admin) {
+    $list->addColumn('impersonate', '<i class="rex-icon rex-icon-delete"></i> ' . I18n::msg('delete'));
+    $list->setColumnLayout('impersonate', ['', '<td class="rex-table-action">###VALUE###</td>']);
+    $list->setColumnFormat('impersonate', 'custom', static function () use ($currentUser, $list) {
+        if (Core::getImpersonator() || $list->getValue('id') == $currentUser->id) {
+            return '<span class="rex-text-disabled"><i class="rex-icon rex-icon-sign-in"></i> ' . I18n::msg('login_impersonate') . '</span>';
+        }
+
+        $url = Url::currentBackendPage(['_impersonate' => $list->getValue('id')] + UserImpersonate::getUrlParams());
+        return sprintf('<a class="rex-link-expanded" href="%s" data-pjax="false"><i class="rex-icon rex-icon-sign-in"></i> %s</a>', $url, I18n::msg('login_impersonate'));
+    });
+}
+
+$content = $list->get();
+
+$fragment = new Fragment();
+$fragment->setVar('title', I18n::msg('user_caption'));
+$fragment->setVar('options', $toolbar, false);
+$fragment->setVar('content', $content, false);
+$content = $fragment->parse('core/page/section.php');
+
+echo $message;
+echo $content;

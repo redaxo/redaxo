@@ -316,6 +316,7 @@ user_password_change_required = Password needs to be replaced after signing in
 user_status_active = User is active
 user_status_inactive = User is inactive
 startpage = Startpage
+user_system_default = System default
 
 user_role = Role(s)
 user_role_data_updated = Role has been updated!
