@@ -68,7 +68,7 @@ const allPages = {
 
     'users_users.png': START_URL + '?page=users/users',
     'users_roles.png': START_URL + '?page=users/roles',
-    'users_role_add.png': START_URL + '?page=users/roles&func=add&default_value=1',
+    'users_role_add.png': START_URL + '?page=users/roles&func=add',
 
     'markdown.png': START_URL + '?page=system/markdown',
     'form.png': START_URL + '?page=system/form',

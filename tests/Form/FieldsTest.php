@@ -22,6 +22,7 @@ use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\FormSchema;
 use Redaxo\Core\Tests\Form\Fixtures\AllFields;
 use Redaxo\Core\Tests\Form\Fixtures\Color;
+use Redaxo\Core\Tests\Form\Fixtures\SizeChoices;
 use Redaxo\Core\Translation\Translatable;
 
 /** @internal */
@@ -250,6 +251,25 @@ final class FieldsTest extends TestCase
         yield 'url without scheme' => ['form_invalid_url', ['website' => 'example.org']];
         yield 'url with other scheme' => ['form_invalid_url', ['website' => 'ftp://example.org']];
         yield 'javascript url' => ['form_invalid_url', ['website' => 'javascript://comment%0Aalert(1)']];
+    }
+
+    public function testChoiceProvider(): void
+    {
+        $data = new class {
+            #[Choice(
+                'Size',
+                choices: new SizeChoices(),
+            )]
+            public ?int $size = null;
+        };
+
+        $form = new Form($data, name: 'provider', csrf: false);
+        self::assertStringContainsString('<option value="2">Large</option>', (string) $form->widget('size'));
+
+        self::assertTrue($form->submit(['size' => '2']));
+        self::assertSame(2, $data->size);
+
+        self::assertFalse(new Form(clone $data, name: 'provider', csrf: false)->submit(['size' => '3']));
     }
 
     public function testMissingDefault(): void

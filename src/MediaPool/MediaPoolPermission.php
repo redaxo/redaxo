@@ -2,9 +2,10 @@
 
 namespace Redaxo\Core\MediaPool;
 
-use Redaxo\Core\Form\Select\MediaCategorySelect;
+use Override;
 use Redaxo\Core\Security\ComplexPermission;
-use Redaxo\Core\Translation\I18n;
+use Redaxo\Core\Security\PermissionChoices;
+use Redaxo\Core\Translation\Translatable;
 
 use function count;
 use function in_array;
@@ -23,12 +24,13 @@ final class MediaPoolPermission extends ComplexPermission
         return $this->hasAll() || count($this->perms) > 0;
     }
 
-    public static function getFieldParams(): array
+    #[Override]
+    public static function getChoices(): PermissionChoices
     {
-        return [
-            'label' => I18n::msg('mediafolder'),
-            'all_label' => I18n::msg('all_mediafolder'),
-            'select' => new MediaCategorySelect(false),
-        ];
+        return new PermissionChoices(
+            new Translatable('mediafolder'),
+            new Translatable('all_mediafolder'),
+            new MediaCategoryChoices(checkPerms: false),
+        );
     }
 }

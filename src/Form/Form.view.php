@@ -19,7 +19,7 @@ return static function (Form $form): void { ?>
                 </div>
                 <footer class="panel-footer">
                     <div class="rex-form-panel-footer">
-                        <div class="btn-toolbar"><?= $form->submitButton() ?></div>
+                        <div class="btn-toolbar"><?= $form->buttons() ?></div>
                     </div>
                 </footer>
             </div>

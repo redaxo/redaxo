@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Form\SubmitButton;
 use Redaxo\Core\Tests\Form\Fixtures\Color;
 use Redaxo\Core\Tests\Form\Fixtures\Fieldsets;
 use Redaxo\Core\Tests\Form\Fixtures\Settings;
@@ -100,7 +101,7 @@ final class FormTest extends TestCase
         $form = new Form(new Settings(), csrf: false);
 
         $html = (string) $form->row('title');
-        self::assertStringContainsString('<label for="settings-title">Title</label>', $html);
+        self::assertStringContainsString('<label for="settings-title" class="required">Title</label>', $html);
         self::assertStringContainsString('name="settings[title]"', $html);
         self::assertStringContainsString('value="Hello"', $html);
         self::assertStringContainsString('maxlength="20"', $html);
@@ -110,6 +111,38 @@ final class FormTest extends TestCase
         self::assertStringContainsString('<option value="1" selected>Small</option>', $rest);
         self::assertStringContainsString('<option value="red">Red</option>', $rest);
         self::assertMatchesRegularExpression('/<input type="checkbox" name="settings\[active\]"[^>]* checked/', $rest);
+    }
+
+    public function testButtons(): void
+    {
+        $form = new Form(new Settings(), csrf: false);
+        self::assertSame('<button class="btn btn-save rex-form-aligned" type="submit" name="settings[_button]" value="save" accesskey="s" title="Save [s]">Save</button>', (string) $form->buttons());
+
+        $form = new Form(
+            new Settings(),
+            csrf: false,
+            buttons: [new SubmitButton('reset', 'Reset <all>', class: 'btn-delete'), SubmitButton::save('Store')],
+            cancelUrl: 'index.php?a=1&b=2',
+        );
+
+        $html = (string) $form->buttons();
+        self::assertMatchesRegularExpression('/^<button class="btn btn-delete rex-form-aligned" type="submit" name="settings\[_button\]" value="reset" title="Reset &lt;all&gt;">Reset &lt;all&gt;<\/button><button class="btn btn-save" [^>]*value="save"[^>]*>Store<\/button><a class="btn btn-abort" href="index.php\?a=1&amp;b=2">/', $html);
+
+        self::assertTrue($form->submit(['title' => 'Saved', 'size' => '1']));
+        self::assertFalse($form->isSubmittedBy('save'), 'no button when submitted without one, e.g. by script');
+
+        self::assertTrue($form->submit(['title' => 'Saved', 'size' => '1', '_button' => 'save']));
+        self::assertTrue($form->isSubmittedBy('save'));
+        self::assertFalse($form->isSubmittedBy('reset'));
+
+        self::assertFalse($form->submit(['title' => '', 'size' => '1', '_button' => 'reset']));
+        self::assertTrue($form->isSubmittedBy('reset'), 'the button is known even if values are invalid');
+
+        $form->submit(['title' => 'Unknown', 'size' => '1', '_button' => 'unknown']);
+        self::assertFalse($form->isSubmittedBy('unknown'));
+
+        $this->expectException(LogicException::class);
+        $form->button('unknown');
     }
 
     public function testSubmitEmbedded(): void

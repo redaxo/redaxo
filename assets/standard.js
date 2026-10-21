@@ -555,6 +555,16 @@ jQuery(document).ready(function($) {
     // confirm dialog behavior for forms
     $(document).on('submit', 'form[data-confirm]', confDialog);
 
+    // hides the element the checkbox points to while it is checked, e.g. the item select next to an "all" checkbox
+    $(document).on('change', 'input[data-rex-hides]', function () {
+        $($(this).attr('data-rex-hides')).toggle(!this.checked);
+    });
+    $(document).on('rex:ready', function (event, viewRoot) {
+        $(viewRoot).find('input[data-rex-hides]').each(function () {
+            $($(this).attr('data-rex-hides')).toggle(!this.checked);
+        });
+    });
+
     // add eye-toggle to each password input
     $(document).on('rex:ready', function (event, viewRoot) {
         $(viewRoot).find('input[type="password"]').each(function() {

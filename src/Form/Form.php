@@ -45,6 +45,8 @@ final class Form implements Renderable
 
     private const string SUBMIT_KEY = '_submit';
 
+    private const string BUTTON_KEY = '_button';
+
     /** Name of the request parameter holding the submitted values; defaults to the short class name of the data object. */
     public readonly string $name;
 
@@ -54,6 +56,11 @@ final class Form implements Renderable
     private readonly array $fields;
 
     private bool $submitted = false;
+
+    /** @var list<SubmitButton> */
+    public array $buttons;
+
+    private ?string $submittedBy = null;
 
     /** @var array<string, string|list<string>> */
     private array $raw = [];
@@ -67,22 +74,29 @@ final class Form implements Renderable
     /** @var array<string, true> */
     private array $rendered = [];
 
-    /** @param list<string>|null $only restricts the form to these properties (in schema order); `null` for all */
+    /**
+     * @param list<string>|null $only restricts the form to these properties (in schema order); `null` for all
+     * @param list<SubmitButton>|null $buttons defaults to a save button; the browser submits the form by the first
+     *     button when pressing enter, so it should be the save button
+     */
     public function __construct(
         public readonly object $data,
         ?string $name = null,
         public string|Renderable|null $title = null,
-        public string|Translatable $submitLabel = new Translatable('form_save'),
         public readonly bool $csrf = true,
         ?array $only = null,
         /** Whether the rows place their labels above the widgets instead of next to them, e.g. in narrow columns. */
         public bool $vertical = false,
+        ?array $buttons = null,
+        /** Target of a cancel link next to the submit buttons; `null` for none. */
+        public ?string $cancelUrl = null,
     ) {
         $class = new ReflectionClass($data);
         if (null === $name && $class->isAnonymous()) {
             throw new LogicException('A form for an anonymous class needs an explicit name.');
         }
         $this->name = $name ?? lcfirst($class->getShortName());
+        $this->buttons = $buttons ?? [SubmitButton::save()];
         $this->schema = FormSchema::of($data::class);
 
         $fields = $this->schema->fields;
@@ -141,6 +155,8 @@ final class Form implements Renderable
     public function submit(array $submitted): bool
     {
         $this->submitted = true;
+        $button = self::normalizeRaw($submitted[self::BUTTON_KEY] ?? null);
+        $this->submittedBy = is_string($button) && $this->findButton($button) ? $button : null;
 
         $values = [];
         foreach ($this->fields as $name => $definition) {
@@ -173,6 +189,17 @@ final class Form implements Renderable
         }
 
         return true;
+    }
+
+    /**
+     * Whether the form was submitted by the given {@see SubmitButton}.
+     *
+     * Known as soon as the form is submitted (and passed the csrf check), even if values are invalid, so a button can
+     * also trigger something else than saving.
+     */
+    public function isSubmittedBy(string $button): bool
+    {
+        return $this->submittedBy === $button;
     }
 
     /** Whether the form was submitted without errors. */
@@ -332,11 +359,50 @@ final class Form implements Renderable
         return Html::raw('</form>');
     }
 
-    public function submitButton(): Html
+    /** Renders the {@see self::$buttons} and the cancel link. */
+    public function buttons(): Html
     {
-        $label = Translatable::text($this->submitLabel);
+        $html = '';
+        foreach ($this->buttons as $i => $button) {
+            $html .= (string) $this->button($button->name, aligned: 0 === $i);
+        }
 
-        return Html::raw('<button class="btn btn-save rex-form-aligned" type="submit"' . Accesskey::attributes($label, 'save') . '>' . escape($label) . '</button>');
+        return Html::raw($html . (string) $this->cancelLink());
+    }
+
+    /**
+     * Renders the submit button with the given name.
+     *
+     * @param bool $aligned whether to align the button with the field column, for the first button of the toolbar
+     */
+    public function button(string $name, bool $aligned = false): Html
+    {
+        $button = $this->findButton($name) ?? throw new LogicException(sprintf('Unknown form button "%s".', $name));
+        $label = escape(Translatable::text($button->label));
+        $attributes = null === $button->accesskey ? ' title="' . $label . '"' : Accesskey::attributes($label, $button->accesskey);
+
+        return Html::raw('<button class="btn ' . escape($button->class) . ($aligned ? ' rex-form-aligned' : '') . '" type="submit" name="' . escape($this->name . '[' . self::BUTTON_KEY . ']') . '" value="' . escape($button->name) . '"' . $attributes . '>' . $label . '</button>');
+    }
+
+    /** Renders the cancel link, or nothing if there is no {@see self::$cancelUrl}. */
+    public function cancelLink(): Html
+    {
+        if (null === $this->cancelUrl) {
+            return Html::raw('');
+        }
+
+        return Html::raw('<a class="btn btn-abort" href="' . escape($this->cancelUrl) . '">' . escape(new Translatable('form_abort')->translate()) . '</a>');
+    }
+
+    private function findButton(string $name): ?SubmitButton
+    {
+        foreach ($this->buttons as $button) {
+            if ($button->name === $name) {
+                return $button;
+            }
+        }
+
+        return null;
     }
 
     /** @return array<array-key, mixed>|null */

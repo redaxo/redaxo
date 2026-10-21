@@ -12,6 +12,7 @@ use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\Storage\ConfigStorage;
+use Redaxo\Core\Form\SubmitButton;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Mailer\Mailer;
@@ -50,7 +51,7 @@ $systemSettings = new SystemSettings();
 $configStorage = new ConfigStorage(Core::CONFIG_NAMESPACE);
 $configStorage->load($systemSettings);
 
-$systemForm = new Form($systemSettings, title: new Translatable('system_settings'), submitLabel: new Translatable('system_update'));
+$systemForm = new Form($systemSettings, title: new Translatable('system_settings'), buttons: [SubmitButton::save(new Translatable('system_update'))]);
 
 if ($systemForm->handleRequest()) {
     $configStorage->save($systemSettings);
@@ -62,26 +63,32 @@ $editorSettings = new EditorSettings();
 $editorSettings->name = $editor->getName();
 $editorSettings->basepath = $editor->getBasepath();
 
-$editorForm = new Form($editorSettings, title: new Translatable('system_editor'), submitLabel: new Translatable('system_editor_update_cookie'));
+$editorForm = new Form(
+    $editorSettings,
+    title: new Translatable('system_editor'),
+    buttons: [
+        SubmitButton::save(new Translatable('system_editor_update_cookie')),
+        new SubmitButton('delete_cookie', new Translatable('system_editor_delete_cookie'), class: 'btn-delete'),
+    ],
+);
 
-if ($editorForm->handleRequest()) {
-    $cookieOptions = ['samesite' => 'strict'];
+$editorValid = $editorForm->handleRequest();
+$cookieOptions = ['samesite' => 'strict'];
 
-    if (Request::post('editor_delete_cookie', 'bool')) {
-        Response::clearCookie('editor', $cookieOptions);
-        Response::clearCookie('editor_basepath', $cookieOptions);
-        unset($_COOKIE['editor']);
-        unset($_COOKIE['editor_basepath']);
+if ($editorForm->isSubmittedBy('delete_cookie')) {
+    Response::clearCookie('editor', $cookieOptions);
+    Response::clearCookie('editor_basepath', $cookieOptions);
+    unset($_COOKIE['editor']);
+    unset($_COOKIE['editor_basepath']);
 
-        $success = I18n::msg('system_editor_success_cookie_deleted');
-    } else {
-        Response::sendCookie('editor', $editorSettings->name, $cookieOptions);
-        Response::sendCookie('editor_basepath', $editorSettings->basepath, $cookieOptions);
-        $_COOKIE['editor'] = $editorSettings->name;
-        $_COOKIE['editor_basepath'] = $editorSettings->basepath;
+    $success = I18n::msg('system_editor_success_cookie_deleted');
+} elseif ($editorValid) {
+    Response::sendCookie('editor', $editorSettings->name, $cookieOptions);
+    Response::sendCookie('editor_basepath', $editorSettings->basepath, $cookieOptions);
+    $_COOKIE['editor'] = $editorSettings->name;
+    $_COOKIE['editor_basepath'] = $editorSettings->basepath;
 
-        $success = I18n::msg('system_editor_success_cookie');
-    }
+    $success = I18n::msg('system_editor_success_cookie');
 }
 
 if ($func && !$csrfToken->isValid()) {
@@ -241,9 +248,9 @@ $mainContent[] = $editorForm->capture(static function (Form $form) use ($viaCook
             <footer class="panel-footer">
                 <div class="rex-form-panel-footer">
                     <div class="btn-toolbar">
-                        <?= $form->submitButton() ?>
+                        <?= $form->button('save', aligned: true) ?>
                         <?php if ($viaCookie): ?>
-                            <button class="btn btn-delete" type="submit" name="editor_delete_cookie" value="1"><?= I18n::msg('system_editor_delete_cookie') ?></button>
+                            <?= $form->button('delete_cookie') ?>
                         <?php endif ?>
                     </div>
                 </div>
