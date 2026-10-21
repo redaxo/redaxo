@@ -42,7 +42,7 @@ $structureContext = new StructureContext(
     categoryId: Request::request('category_id', 'int'),
     articleId: Request::request('article_id', 'int'),
     languageId: Request::request('language', 'int'),
-    ctypeId: Request::request('ctype', 'int'),
+    contentSectionId: Request::request('content_section_id', 'int'),
     artStart: Request::request('artstart', 'int'),
     catStart: Request::request('catstart', 'int'),
     editId: Request::request('edit_id', 'int'),

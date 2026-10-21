@@ -31,9 +31,9 @@ final class ContentHandler
      * @param array<string, mixed> $values the stored values of the module fields, keyed by storage key
      * @param int|null $priority `null` to append the slice to the content section
      */
-    public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $values = [], ?int $priority = null, int $revision = 0): ArticleSlice
+    public static function addSlice(int $articleId, int $languageId, int $contentSectionId, string $moduleKey, array $values = [], ?int $priority = null, int $revision = 0): ArticleSlice
     {
-        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $ctypeId . ' AND revision=' . $revision;
+        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND content_section_id=' . $contentSectionId . ' AND revision=' . $revision;
 
         if (null === $priority) {
             $prevSlice = Sql::factory();
@@ -42,13 +42,13 @@ final class ContentHandler
             $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
         }
 
-        Extension::dispatch(new SliceAdding(Article::require($articleId, $languageId), $ctypeId, $moduleKey, $revision));
+        Extension::dispatch(new SliceAdding(Article::require($articleId, $languageId), $contentSectionId, $moduleKey, $revision));
 
         $sql = Sql::factory();
         $sql->setTable('rex_article_slice');
         $sql->setValue('article_id', $articleId);
         $sql->setValue('language_id', $languageId);
-        $sql->setValue('content_section_id', $ctypeId);
+        $sql->setValue('content_section_id', $contentSectionId);
         $sql->setValue('module', $moduleKey);
         $sql->setValue('revision', $revision);
         $sql->setValue('priority', max(1, $priority));
@@ -273,8 +273,8 @@ final class ContentHandler
                 } elseif ('article_id' == $colname) {
                     $value = $toId;
                 } elseif ('priority' == $colname) {
-                    $ctypeId = $slice->getIntValue('content_section_id');
-                    $value = $slice->getIntValue($colname) + ($maxPriority[$ctypeId][$slice->getIntValue('revision')] ?? 0);
+                    $contentSectionId = $slice->getIntValue('content_section_id');
+                    $value = $slice->getIntValue($colname) + ($maxPriority[$contentSectionId][$slice->getIntValue('revision')] ?? 0);
                 } else {
                     $value = $slice->getValue($colname);
                 }
