@@ -16,15 +16,14 @@ final readonly class SubmitButton
     public function __construct(
         public string $name,
         public string|Translatable $label,
-        /** Css class for the button style, e.g. `btn-apply` or `btn-delete`. */
-        public string $class = 'btn-apply',
+        public ButtonStyle $style = ButtonStyle::Primary,
         /** Key of {@see Accesskey::$keys}. */
         public ?string $accesskey = null,
     ) {}
 
     public static function save(string|Translatable $label = new Translatable('form_save')): self
     {
-        return new self('save', $label, 'btn-save', 'save');
+        return new self('save', $label, accesskey: 'save');
     }
 
     /** The button for saving without leaving the form. */

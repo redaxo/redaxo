@@ -233,7 +233,7 @@ if ('add' === $func || $user) {
                 </div>
                 <footer class="panel-footer">
                     <div class="rex-form-panel-footer">
-                        <div class="btn-toolbar"><?= $form->buttons() ?></div>
+                        <?= $form->buttons() ?>
                     </div>
                 </footer>
             </div>

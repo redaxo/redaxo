@@ -3,8 +3,10 @@
 namespace Redaxo\Core\Form;
 
 use Closure;
-use Redaxo\Core\Backend\Accesskey;
 use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Form\Widget\Button;
+use Redaxo\Core\Form\Widget\ButtonToolbar;
+use Redaxo\Core\Form\Widget\CancelLink;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\Translatable;
@@ -20,6 +22,7 @@ use function array_intersect_key;
 use function array_key_exists;
 use function array_key_last;
 use function array_keys;
+use function array_map;
 use function implode;
 use function is_array;
 use function is_int;
@@ -377,29 +380,25 @@ final class Form implements Renderable
         return Html::raw('</form>');
     }
 
-    /** Renders the {@see self::$buttons} and the cancel link. */
+    /** Renders the toolbar with the {@see self::$buttons} and the cancel link. */
     public function buttons(): Html
     {
-        $html = '';
-        foreach ($this->buttons as $i => $button) {
-            $html .= (string) $this->button($button->name, aligned: 0 === $i);
-        }
-
-        return Html::raw($html . (string) $this->cancelLink());
+        return new ButtonToolbar(
+            array_map($this->createButton(...), $this->buttons),
+            null === $this->cancelUrl ? null : new CancelLink($this->cancelUrl),
+        )->render();
     }
 
     /**
      * Renders the submit button with the given name.
      *
-     * @param bool $aligned whether to align the button with the field column, for the first button of the toolbar
+     * @param array<literal-string, bool|string|int|array<string|int, string|bool>|null> $attributes
      */
-    public function button(string $name, bool $aligned = false): Html
+    public function button(string $name, array $attributes = []): Html
     {
         $button = $this->findButton($name) ?? throw new LogicException(sprintf('Unknown form button "%s".', $name));
-        $label = escape(Translatable::text($button->label));
-        $attributes = null === $button->accesskey ? ' title="' . $label . '"' : Accesskey::attributes($label, $button->accesskey);
 
-        return Html::raw('<button class="btn ' . escape($button->class) . ($aligned ? ' rex-form-aligned' : '') . '" type="submit" name="' . escape($this->name . '[' . self::BUTTON_KEY . ']') . '" value="' . escape($button->name) . '"' . $attributes . '>' . $label . '</button>');
+        return $this->createButton($button, new HtmlAttributes($attributes))->render();
     }
 
     /** Renders the cancel link, or nothing if there is no {@see self::$cancelUrl}. */
@@ -409,7 +408,19 @@ final class Form implements Renderable
             return Html::raw('');
         }
 
-        return Html::raw('<a class="btn btn-abort" href="' . escape($this->cancelUrl) . '">' . escape(new Translatable('form_abort')->translate()) . '</a>');
+        return new CancelLink($this->cancelUrl)->render();
+    }
+
+    private function createButton(SubmitButton $button, HtmlAttributes $attributes = new HtmlAttributes()): Button
+    {
+        return new Button(
+            name: $this->name . '[' . self::BUTTON_KEY . ']',
+            value: $button->name,
+            label: Translatable::text($button->label),
+            style: $button->style,
+            accesskey: $button->accesskey,
+            attributes: $attributes,
+        );
     }
 
     private function findButton(string $name): ?SubmitButton
