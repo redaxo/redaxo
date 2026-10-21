@@ -7,6 +7,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;
+use Redaxo\Core\Database\Exception\SqlException;
 use Redaxo\Core\Database\ForeignKey;
 use Redaxo\Core\Database\Index;
 use Redaxo\Core\Database\SchemaDumper;
@@ -796,6 +797,30 @@ final class TableTest extends TestCase
         foreach ($types as $type) {
             yield $type => [$type];
         }
+    }
+
+    public function testEnsureJsonColumn(): void
+    {
+        $json = Column::json('foo', nullable: true);
+        $longtext = Column::longtext('bar', nullable: true);
+
+        Table::get(self::TABLE)
+            ->ensurePrimaryIdColumn()
+            ->ensureColumn($json)
+            ->ensureColumn($longtext)
+            ->ensure();
+
+        Table::clearInstance(self::TABLE);
+
+        $table = Table::get(self::TABLE);
+        self::assertEquals($json, $table->getColumn('foo'));
+        self::assertEquals($longtext, $table->getColumn('bar'));
+
+        $sql = Sql::factory();
+        $sql->setQuery('INSERT INTO ' . self::TABLE . ' (foo) VALUES (?)', ['{"a": 1}']);
+
+        $this->expectException(SqlException::class);
+        $sql->setQuery('INSERT INTO ' . self::TABLE . ' (foo) VALUES (?)', ['{invalid']);
     }
 
     #[DataProvider('provideCurrentTimestampColumns')]
