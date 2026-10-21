@@ -53,7 +53,7 @@ if ('add_file' == $mediaMethod) {
                     throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
                 }
 
-                $media = MediaHandler::add($data, true, '' === $types ? [] : explode(',', $types), $meta);
+                $media = MediaHandler::add($data, true, '' === $types ? [] : explode(',', $types), $meta->values());
                 $info = I18n::msg('pool_file_added');
                 if (Request::post('saveandexit', 'boolean')) {
                     if ('' != $openerInputField) {

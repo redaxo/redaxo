@@ -2,7 +2,6 @@
 
 namespace Redaxo\Core\MetaInfo;
 
-use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Http\Request;
@@ -14,7 +13,7 @@ use Redaxo\Core\View\Message;
  *
  * Each {@see MetaSchema} having fields visible in the context is edited by its own {@see Form}, all of them submitting
  * their values below {@see self::REQUEST_KEY}. The host validates them via {@see self::submit()} before saving the
- * item, and hands the instance to the save routine of the item, which writes the values via {@see self::apply()}.
+ * item, and passes the {@see self::values()} to the save routine of the item.
  *
  * @internal
  */
@@ -109,25 +108,30 @@ final class MetaForm
     }
 
     /**
-     * Sets the submitted values of the fields stored in the given table on the save object of the item.
+     * Returns the submitted values, to be passed to the save routine of the item.
      *
-     * @param non-empty-string $table the main or the translation table of the entity
+     * @return array<string, mixed> keyed by the storage key of the field, see {@see MetaValues}
      */
-    public function apply(Sql $sql, string $table): void
+    public function values(): array
     {
         if (true !== $this->valid) {
             throw new LogicException('Only valid submitted meta values can be saved.');
         }
 
+        $values = [];
         foreach ($this->forms as $form) {
             /** @var MetaSchema $schema */
             $schema = $form->data;
 
             foreach (MetaSchema::fieldsOf($schema::class) as $field) {
-                if ($form->has($field->property) && $field->table() === $table) {
-                    $sql->setValue($field->column, $field->toColumn($field->definition->getValue($schema)));
+                if ($form->has($field->property)) {
+                    /** @var string|int|float|bool|array<array-key, mixed>|object|null $value */
+                    $value = $field->definition->getValue($schema);
+                    $values[$field->definition->key] = $value;
                 }
             }
         }
+
+        return $values;
     }
 }

@@ -48,7 +48,7 @@ final class CategoryAdd extends ApiFunction
             throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
         }
 
-        CategoryHandler::add($parentId ?: null, $data, $meta);
+        CategoryHandler::add($parentId ?: null, $data, $meta->values());
 
         return new Result(true, I18n::msg('category_added_and_startarticle_created'));
     }

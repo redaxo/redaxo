@@ -53,7 +53,7 @@ final class CategoryEdit extends ApiFunction
             throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
         }
 
-        CategoryHandler::edit($catId, $languageId, $data, $meta);
+        CategoryHandler::edit($catId, $languageId, $data, $meta->values());
 
         return new Result(true, I18n::msg('category_updated'));
     }

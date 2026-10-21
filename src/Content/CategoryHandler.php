@@ -16,7 +16,8 @@ use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\MetaInfo\MetaForm;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 
@@ -36,12 +37,15 @@ final class CategoryHandler
      * @param int|null $categoryId Id of the parent category, `null` for the root level
      * @param array{catpriority: int, catname: string, name?: string, status?: int} $data Category data, the names
      *     are used for all languages
-     * @param MetaForm|null $meta validly submitted meta values, used for all languages
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     used for all languages
      *
      * @throws UserMessageException
      */
-    public static function add(?int $categoryId, array $data, ?MetaForm $meta = null): Category
+    public static function add(?int $categoryId, array $data, array $meta = []): Category
     {
+        $metaValues = new MetaValues(MetaEntity::Category, $meta);
+
         self::reqKey($data, 'catpriority');
         self::reqKey($data, 'catname');
 
@@ -100,7 +104,7 @@ final class CategoryHandler
             ->setValues(['id' => $id, 'priority' => $data['catpriority']])
             ->addGlobalCreateFields($user)
             ->addGlobalUpdateFields($user);
-        $meta?->apply($shared, 'rex_category');
+        $shared->setValues($metaValues->forTable('rex_category'));
         $shared->insert();
 
         foreach (Language::getAllIds() as $languageId) {
@@ -130,7 +134,7 @@ final class CategoryHandler
                     'language_id' => $languageId,
                     'name' => $data['catname'],
                 ]);
-            $meta?->apply($translation, 'rex_category_translation');
+            $translation->setValues($metaValues->forTable('rex_category_translation'));
             $translation->insert();
         }
 
@@ -151,12 +155,15 @@ final class CategoryHandler
      * Edits a category: the name in the given language, the priority for all languages.
      *
      * @param array{catname?: string, catpriority?: int} $data Category data
-     * @param MetaForm|null $meta validly submitted meta values, the translated ones are saved for the given language
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     the translated ones are saved for the given language
      *
      * @throws UserMessageException
      */
-    public static function edit(int $categoryId, int $languageId, array $data, ?MetaForm $meta = null): Category
+    public static function edit(int $categoryId, int $languageId, array $data, array $meta = []): Category
     {
+        $metaValues = new MetaValues(MetaEntity::Category, $meta);
+
         // --- Kategorie mit alten Daten selektieren
         $thisCat = self::select($categoryId, $languageId);
 
@@ -172,7 +179,7 @@ final class CategoryHandler
         if (isset($data['catname'])) {
             $translation->setValue('name', $data['catname']);
         }
-        $meta?->apply($translation, 'rex_category_translation');
+        $translation->setValues($metaValues->forTable('rex_category_translation'));
         if ($translation->hasValues()) {
             $translation->update();
         }
@@ -186,7 +193,7 @@ final class CategoryHandler
             }
             $category->setValue('priority', $data['catpriority']);
         }
-        $meta?->apply($category, 'rex_category');
+        $category->setValues($metaValues->forTable('rex_category'));
         $category->addGlobalUpdateFields(self::getUser());
         $category->update();
 

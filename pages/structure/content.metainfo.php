@@ -127,7 +127,7 @@ if (1 == $article->getRows()) {
             $message = Message::error(I18n::msg('minfo_metadata_invalid'));
         } else {
             try {
-                ArticleHandler::edit($articleId, $languageId, ['name' => $articleName], $meta);
+                ArticleHandler::edit($articleId, $languageId, ['name' => $articleName], $meta->values());
                 $message = Message::success(I18n::msg('minfo_metadata_saved'));
             } catch (UserMessageException $e) {
                 $message = Message::error($e->getMessage());

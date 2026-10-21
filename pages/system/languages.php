@@ -97,12 +97,12 @@ if ($addClangSave || $editClangSave) {
         $func = $addClangSave ? 'add' : 'edit';
     } elseif ($addClangSave) {
         $success = I18n::msg('language_created');
-        LanguageHandler::add($languageCode, $languageName, $languagePrio, meta: $meta);
+        LanguageHandler::add($languageCode, $languageName, $languagePrio, meta: $meta->values());
         $languageId = 0;
         $func = '';
     } else {
         if (Language::exists($languageId)) {
-            LanguageHandler::edit($languageId, $languageCode, $languageName, $languagePrio, meta: $meta);
+            LanguageHandler::edit($languageId, $languageCode, $languageName, $languagePrio, meta: $meta->values());
             $success = I18n::msg('language_edited');
             $func = '';
             $languageId = 0;

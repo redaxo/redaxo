@@ -8,6 +8,7 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\Filesystem\Dir;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
+use Redaxo\Core\Fixtures\TestMediaMetaSchema;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaAdding;
 use Redaxo\Core\MediaPool\ExtensionPoint\MediaUpdated;
 use Redaxo\Core\MediaPool\Media;
@@ -231,6 +232,33 @@ final class MediaHandlerTest extends TestCase
             self::assertSame('old title', $events[0]->previous->title);
         } finally {
             new ReflectionProperty(Extension::class, 'extensions')->setValue(null, $extensions);
+            MediaHandler::delete($filename);
+        }
+    }
+
+    public function testSaveMetaValues(): void
+    {
+        $srcFile = self::getPath('source.txt');
+        File::put($srcFile, 'test');
+
+        $filename = MediaHandler::add([
+            'category_id' => null,
+            'title' => 'test',
+            'file' => ['name' => MediaPool::filename('media_handler_test.txt'), 'path' => $srcFile],
+        ], false, meta: ['ai_generated' => true, 'alt' => 'old alt'])->fileName;
+
+        try {
+            $meta = TestMediaMetaSchema::of(Type::notNull(Media::get($filename)));
+            self::assertTrue($meta->aiGenerated);
+            self::assertSame('old alt', $meta->alt);
+
+            // values missing in the array are kept
+            $media = MediaHandler::edit($filename, ['category_id' => null, 'title' => 'test'], meta: ['alt' => 'new alt']);
+
+            $meta = TestMediaMetaSchema::of($media);
+            self::assertTrue($meta->aiGenerated);
+            self::assertSame('new alt', $meta->alt);
+        } finally {
             MediaHandler::delete($filename);
         }
     }

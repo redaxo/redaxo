@@ -114,7 +114,7 @@ if (Request::post('btn_update', 'string')) {
                     throw new UserMessageException(I18n::msg('minfo_metadata_invalid'));
                 }
 
-                MediaHandler::edit($filename, $data, meta: $meta);
+                MediaHandler::edit($filename, $data, meta: $meta->values());
 
                 if (($gf->getNullableIntValue('category_id') ?? 0) !== $rexFileCategory) {
                     Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [

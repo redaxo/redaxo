@@ -20,7 +20,8 @@ use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Language\Language;
-use Redaxo\Core\MetaInfo\MetaForm;
+use Redaxo\Core\MetaInfo\MetaEntity;
+use Redaxo\Core\MetaInfo\MetaValues;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Type;
@@ -115,12 +116,15 @@ final class ArticleHandler
      *
      * @param array{name: string, priority?: int, template?: string|null} $data Article data, the template is kept if
      *     the key is missing
-     * @param MetaForm|null $meta validly submitted meta values, the translated ones are saved for the given language
+     * @param array<string, mixed> $meta meta values, keyed by the storage key of the field (see {@see MetaValues}),
+     *     the translated ones are saved for the given language
      *
      * @throws UserMessageException
      */
-    public static function edit(int $articleId, int $languageId, array $data, ?MetaForm $meta = null): Article
+    public static function edit(int $articleId, int $languageId, array $data, array $meta = []): Article
     {
+        $metaValues = new MetaValues(MetaEntity::Article, $meta);
+
         self::reqKey($data, 'name');
 
         $thisArt = self::select($articleId, $languageId);
@@ -149,7 +153,7 @@ final class ArticleHandler
             $translation->setValue('template', $template);
         }
 
-        $meta?->apply($translation, 'rex_article_translation');
+        $translation->setValues($metaValues->forTable('rex_article_translation'));
         $translation->update();
 
         if (isset($data['priority'])) {
@@ -164,7 +168,7 @@ final class ArticleHandler
         $EA->setTable('rex_article');
         $EA->setWhere(['id' => $articleId]);
         $EA->setValue('priority', $data['priority']);
-        $meta?->apply($EA, 'rex_article');
+        $EA->setValues($metaValues->forTable('rex_article'));
         $EA->addGlobalUpdateFields(self::getUser());
         $EA->update();
 
