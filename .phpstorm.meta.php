@@ -7,13 +7,6 @@ namespace PHPSTORM_META;
 expectedArguments(\Redaxo\Core\Filesystem\Finder::sort(), 0, \Redaxo\Core\Util\SortableIterator::KEYS, \Redaxo\Core\Util\SortableIterator::VALUES);
 expectedArguments(\Redaxo\Core\Util\SortableIterator::__construct(), 1, \Redaxo\Core\Util\SortableIterator::KEYS, \Redaxo\Core\Util\SortableIterator::VALUES);
 
-expectedArguments(\Redaxo\Core\Form\DbForm::factory(), 3, 'get', 'post');
-
-registerArgumentsSet('form_field_type', 'text', 'textarea', 'checkbox', 'radio', 'select', 'media', 'article', 'hidden', 'readonly', 'readonlytext', 'control');
-expectedArguments(\Redaxo\Core\Form\DbForm::createInput(), 0, argumentsSet('form_field_type'));
-expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addField(), 0, argumentsSet('form_field_type'));
-expectedArguments(\Redaxo\Core\Form\Field\ContainerField::addGroupedField(), 1, argumentsSet('form_field_type'));
-
 registerArgumentsSet('formatter_type', 'date', 'strftime', 'intlDateTime', 'intlDate', 'intlTime', 'number', 'bytes', 'sprintf', 'nl2br', 'truncate', 'widont', 'version', 'url', 'email', 'custom');
 expectedArguments(\Redaxo\Core\Util\Formatter::format(), 1, argumentsSet('formatter_type'));
 expectedArguments(\Redaxo\Core\View\DataList::setColumnFormat(), 1, argumentsSet('formatter_type'));
