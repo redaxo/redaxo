@@ -124,22 +124,15 @@ final readonly class ArticleSlice
         );
     }
 
-    /**
-     * Return the first slice for an article.
-     * This can then be used to iterate over all the slices in the order as they appear using the getNextSlice() function.
-     */
+    /** Returns the first slice of the first content section of an article that has slices. */
     public static function getFirstSliceForArticle(int $articleId, ?int $languageId = null, int $revision = 0, bool $ignoreOfflines = false): ?self
     {
         $languageId ??= Language::getCurrentId();
 
-        foreach (range(1, 20) as $contentSectionId) {
-            $slice = self::getFirstSliceForContentSection($contentSectionId, $articleId, $languageId, $revision, $ignoreOfflines);
-            if (null !== $slice) {
-                return $slice;
-            }
-        }
-
-        return null;
+        return self::getSliceWhere(
+            'article_id=? AND language_id=? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
+            [$articleId, $languageId, $revision],
+        );
     }
 
     /** Returns the first slice of the given content section of an article. */
@@ -148,7 +141,7 @@ final readonly class ArticleSlice
         $languageId ??= Language::getCurrentId();
 
         return self::getSliceWhere(
-            'article_id=? AND language_id=? AND content_section_id=? AND priority=1 AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
+            'article_id=? AND language_id=? AND content_section_id=? AND revision=?' . ($ignoreOfflines ? ' AND status = 1' : ''),
             [$articleId, $languageId, $contentSectionId, $revision],
         );
     }
