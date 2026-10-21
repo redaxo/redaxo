@@ -7,6 +7,7 @@ use Override;
 use Redaxo\Core\Content\Article;
 use Redaxo\Core\Form\BoundField;
 use Redaxo\Core\Form\InvalidValueException;
+use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Form\ValueType;
 use Redaxo\Core\Form\Widget\ArticleInput;
 use Redaxo\Core\Form\Widget\ArticleListInput;
@@ -29,7 +30,7 @@ use const FILTER_VALIDATE_INT;
  * Storages persist the article id, or the list of ids.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class ArticlePicker extends Field
+class ArticlePicker extends Field implements ReferencesItems
 {
     public function __construct(
         string|Renderable $label,
@@ -121,5 +122,20 @@ class ArticlePicker extends Field
         $id = filter_var($id, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
 
         return (null === $id ? null : Article::get($id)) ?? throw new InvalidValueException(new Translatable('form_article_not_found'));
+    }
+
+    /** @return list<Reference> */
+    #[Override]
+    public function references(mixed $value): array
+    {
+        $references = [];
+        foreach ((array) $this->toRaw($value) as $id) {
+            if ('' === $id) {
+                continue;
+            }
+            $references[] = Reference::article((int) $id);
+        }
+
+        return $references;
     }
 }

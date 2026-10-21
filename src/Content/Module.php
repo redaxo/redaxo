@@ -6,14 +6,17 @@ use Redaxo\Core\ClassDiscovery;
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\Field;
+use Redaxo\Core\Form\Field\ReferencesItems;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\FormSchema;
 use Redaxo\Core\Form\InvalidValueException;
+use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Translation\Translatable;
 use WeakMap;
 
 use function array_key_exists;
+use function array_values;
 use function sprintf;
 
 /**
@@ -221,6 +224,26 @@ abstract class Module
         }
 
         return ArticleSlice::encodeData($data);
+    }
+
+    /**
+     * Returns the items the field values refer to, see {@see ReferencesItems}.
+     *
+     * @return list<Reference>
+     * @internal
+     */
+    final public function references(): array
+    {
+        $references = [];
+        foreach (FormSchema::of(static::class)->fields as $definition) {
+            if ($definition->field instanceof ReferencesItems) {
+                foreach ($definition->field->references($definition->getValue($this)) as $reference) {
+                    $references[$reference->type . ':' . $reference->target] = $reference;
+                }
+            }
+        }
+
+        return array_values($references);
     }
 
     /** Stored values that are missing or no longer fit the field keep the default of the property. */

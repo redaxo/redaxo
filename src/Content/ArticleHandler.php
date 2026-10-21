@@ -18,6 +18,7 @@ use Redaxo\Core\Exception\InvalidArgumentException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
+use Redaxo\Core\Form\Reference;
 use Redaxo\Core\Language\Language;
 use Redaxo\Core\Security\ComplexPermission;
 use Redaxo\Core\Translation\I18n;
@@ -25,6 +26,7 @@ use Redaxo\Core\Util\Type;
 
 use function array_key_exists;
 use function count;
+use function implode;
 use function in_array;
 
 final class ArticleHandler
@@ -221,6 +223,16 @@ final class ArticleHandler
 
         if (0 === $ART->getRows()) {
             throw new UserMessageException(I18n::msg('category_doesnt_exist'));
+        }
+
+        $names = [];
+        foreach (ArticleSliceReference::findArticles(Reference::article($id)) as ['articleId' => $articleId, 'languageId' => $languageId]) {
+            if ($articleId !== $id) {
+                $names[$articleId] ??= Article::get($articleId, $languageId)->name ?? (string) $articleId;
+            }
+        }
+        if ($names) {
+            throw new UserMessageException(I18n::msg('article_still_in_use', implode(', ', $names)));
         }
 
         $parentId = $ART->getNullableIntValue('parent_id');

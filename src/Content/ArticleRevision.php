@@ -51,6 +51,8 @@ final class ArticleRevision
             $ins->addGlobalCreateFields();
             $ins->addGlobalUpdateFields();
             $ins->insert();
+
+            ArticleSliceReference::copy($slice->getIntValue('id'), $ins->getLastId());
         }
 
         ArticleCache::delete($articleId);
