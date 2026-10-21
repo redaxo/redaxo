@@ -94,7 +94,7 @@ if ('' == $func) {
     $form = new Form(
         $role,
         title: new Translatable('edit' === $func ? 'edit_user_role' : 'add_user_role'),
-        buttons: [SubmitButton::apply()],
+        buttons: [SubmitButton::save(), SubmitButton::apply()],
         cancelUrl: Url::currentBackendPage(),
     );
 

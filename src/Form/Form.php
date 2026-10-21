@@ -57,6 +57,9 @@ final class Form implements Renderable
 
     private bool $submitted = false;
 
+    /** @var list<SubmitButton> */
+    public array $buttons;
+
     private ?string $submittedBy = null;
 
     /** @var array<string, string|list<string>> */
@@ -71,22 +74,20 @@ final class Form implements Renderable
     /** @var array<string, true> */
     private array $rendered = [];
 
-    /** @param list<string>|null $only restricts the form to these properties (in schema order); `null` for all */
+    /**
+     * @param list<string>|null $only restricts the form to these properties (in schema order); `null` for all
+     * @param list<SubmitButton>|null $buttons defaults to a save button; the browser submits the form by the first
+     *     button when pressing enter, so it should be the save button
+     */
     public function __construct(
         public readonly object $data,
         ?string $name = null,
         public string|Renderable|null $title = null,
-        public string|Translatable $submitLabel = new Translatable('form_save'),
         public readonly bool $csrf = true,
         ?array $only = null,
         /** Whether the rows place their labels above the widgets instead of next to them, e.g. in narrow columns. */
         public bool $vertical = false,
-        /**
-         * Additional submit buttons, rendered after the save button.
-         *
-         * @var list<SubmitButton>
-         */
-        public array $buttons = [],
+        ?array $buttons = null,
         /** Target of a cancel link next to the submit buttons; `null` for none. */
         public ?string $cancelUrl = null,
     ) {
@@ -95,6 +96,7 @@ final class Form implements Renderable
             throw new LogicException('A form for an anonymous class needs an explicit name.');
         }
         $this->name = $name ?? lcfirst($class->getShortName());
+        $this->buttons = $buttons ?? [SubmitButton::save()];
         $this->schema = FormSchema::of($data::class);
 
         $fields = $this->schema->fields;
@@ -357,32 +359,29 @@ final class Form implements Renderable
         return Html::raw('</form>');
     }
 
-    /** Renders the save button, the additional {@see self::$buttons} and the cancel link. */
+    /** Renders the {@see self::$buttons} and the cancel link. */
     public function buttons(): Html
     {
-        $html = (string) $this->submitButton();
-        foreach ($this->buttons as $button) {
-            $html .= (string) $this->button($button->name);
+        $html = '';
+        foreach ($this->buttons as $i => $button) {
+            $html .= (string) $this->button($button->name, aligned: 0 === $i);
         }
 
         return Html::raw($html . (string) $this->cancelLink());
     }
 
-    public function submitButton(): Html
-    {
-        $label = escape(Translatable::text($this->submitLabel));
-
-        return Html::raw('<button class="btn btn-save rex-form-aligned" type="submit"' . Accesskey::attributes($label, 'save') . '>' . $label . '</button>');
-    }
-
-    /** Renders the additional submit button with the given name. */
-    public function button(string $name): Html
+    /**
+     * Renders the submit button with the given name.
+     *
+     * @param bool $aligned whether to align the button with the field column, for the first button of the toolbar
+     */
+    public function button(string $name, bool $aligned = false): Html
     {
         $button = $this->findButton($name) ?? throw new LogicException(sprintf('Unknown form button "%s".', $name));
         $label = escape(Translatable::text($button->label));
         $attributes = null === $button->accesskey ? ' title="' . $label . '"' : Accesskey::attributes($label, $button->accesskey);
 
-        return Html::raw('<button class="btn ' . escape($button->class) . '" type="submit" name="' . escape($this->name . '[' . self::BUTTON_KEY . ']') . '" value="' . escape($button->name) . '"' . $attributes . '>' . $label . '</button>');
+        return Html::raw('<button class="btn ' . escape($button->class) . ($aligned ? ' rex-form-aligned' : '') . '" type="submit" name="' . escape($this->name . '[' . self::BUTTON_KEY . ']') . '" value="' . escape($button->name) . '"' . $attributes . '>' . $label . '</button>');
     }
 
     /** Renders the cancel link, or nothing if there is no {@see self::$cancelUrl}. */

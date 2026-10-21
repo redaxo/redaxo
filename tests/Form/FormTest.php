@@ -116,24 +116,23 @@ final class FormTest extends TestCase
     public function testButtons(): void
     {
         $form = new Form(new Settings(), csrf: false);
-        self::assertStringNotContainsString('settings[_button]', (string) $form->buttons());
-        self::assertSame('', (string) $form->cancelLink());
+        self::assertSame('<button class="btn btn-save rex-form-aligned" type="submit" name="settings[_button]" value="save" accesskey="s" title="Save [s]">Save</button>', (string) $form->buttons());
 
         $form = new Form(
             new Settings(),
             csrf: false,
-            buttons: [SubmitButton::apply(), new SubmitButton('reset', 'Reset <all>', class: 'btn-delete')],
+            buttons: [new SubmitButton('reset', 'Reset <all>', class: 'btn-delete'), SubmitButton::save('Store')],
             cancelUrl: 'index.php?a=1&b=2',
         );
 
         $html = (string) $form->buttons();
-        self::assertMatchesRegularExpression('/<button class="btn btn-save[^"]*" type="submit".*<button class="btn btn-apply" type="submit" name="settings\[_button\]" value="apply" accesskey="x".*<button class="btn btn-delete" type="submit" name="settings\[_button\]" value="reset" title="Reset &lt;all&gt;">Reset &lt;all&gt;<\/button>.*href="index.php\?a=1&amp;b=2"/s', $html);
+        self::assertMatchesRegularExpression('/^<button class="btn btn-delete rex-form-aligned" type="submit" name="settings\[_button\]" value="reset" title="Reset &lt;all&gt;">Reset &lt;all&gt;<\/button><button class="btn btn-save" [^>]*value="save"[^>]*>Store<\/button><a class="btn btn-abort" href="index.php\?a=1&amp;b=2">/', $html);
 
         self::assertTrue($form->submit(['title' => 'Saved', 'size' => '1']));
-        self::assertFalse($form->isSubmittedBy('apply'));
+        self::assertFalse($form->isSubmittedBy('save'), 'no button when submitted without one, e.g. by script');
 
-        self::assertTrue($form->submit(['title' => 'Applied', 'size' => '1', '_button' => 'apply']));
-        self::assertTrue($form->isSubmittedBy('apply'));
+        self::assertTrue($form->submit(['title' => 'Saved', 'size' => '1', '_button' => 'save']));
+        self::assertTrue($form->isSubmittedBy('save'));
         self::assertFalse($form->isSubmittedBy('reset'));
 
         self::assertFalse($form->submit(['title' => '', 'size' => '1', '_button' => 'reset']));

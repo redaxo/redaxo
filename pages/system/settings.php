@@ -51,7 +51,7 @@ $systemSettings = new SystemSettings();
 $configStorage = new ConfigStorage(Core::CONFIG_NAMESPACE);
 $configStorage->load($systemSettings);
 
-$systemForm = new Form($systemSettings, title: new Translatable('system_settings'), submitLabel: new Translatable('system_update'));
+$systemForm = new Form($systemSettings, title: new Translatable('system_settings'), buttons: [SubmitButton::save(new Translatable('system_update'))]);
 
 if ($systemForm->handleRequest()) {
     $configStorage->save($systemSettings);
@@ -66,8 +66,10 @@ $editorSettings->basepath = $editor->getBasepath();
 $editorForm = new Form(
     $editorSettings,
     title: new Translatable('system_editor'),
-    submitLabel: new Translatable('system_editor_update_cookie'),
-    buttons: [new SubmitButton('delete_cookie', new Translatable('system_editor_delete_cookie'), class: 'btn-delete')],
+    buttons: [
+        SubmitButton::save(new Translatable('system_editor_update_cookie')),
+        new SubmitButton('delete_cookie', new Translatable('system_editor_delete_cookie'), class: 'btn-delete'),
+    ],
 );
 
 $editorValid = $editorForm->handleRequest();
@@ -246,7 +248,7 @@ $mainContent[] = $editorForm->capture(static function (Form $form) use ($viaCook
             <footer class="panel-footer">
                 <div class="rex-form-panel-footer">
                     <div class="btn-toolbar">
-                        <?= $form->submitButton() ?>
+                        <?= $form->button('save', aligned: true) ?>
                         <?php if ($viaCookie): ?>
                             <?= $form->button('delete_cookie') ?>
                         <?php endif ?>
