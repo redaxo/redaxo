@@ -60,7 +60,7 @@ $profileStorage->load($profile);
 $profileForm = new Form(
     $profile,
     title: new Translatable('profile_myprofile'),
-    only: null === Appearance::$forcedTheme ? null : ['name', 'description', 'email', 'language'],
+    disabled: null === Appearance::$forcedTheme ? [] : ['theme'],
     buttons: [SubmitButton::save(new Translatable('profile_save'))],
 );
 

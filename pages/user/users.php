@@ -93,30 +93,28 @@ if ('add' === $func || $user) {
         $loginTries = $sql->getIntValue('login_tries');
     }
 
-    $fields = ['password', 'name', 'description', 'email', 'startPage', 'language'];
+    $fields = ['password', 'passwordChangeRequired', 'name', 'description', 'email', 'status', 'roles', 'startPage', 'language'];
     if (!$user) {
         $fields[] = 'login';
     }
-    // roles do not matter for admins
-    if (!$self || !$user?->admin) {
-        $fields[] = 'roles';
-    }
-    if (!$self) {
-        // users can neither lock themselves out nor change their own admin status
-        $fields[] = 'passwordChangeRequired';
-        $fields[] = 'status';
-        if ($currentUser->admin) {
-            $fields[] = 'admin';
-        }
+    if ($currentUser->admin) {
+        $fields[] = 'admin';
     }
     if ($loginTries > 0) {
         $fields[] = 'resetLoginTries';
+    }
+
+    // users can neither lock themselves out nor change their own admin status
+    $disabled = [];
+    if ($self) {
+        $disabled = ['passwordChangeRequired', 'status', ...$currentUser->admin ? ['admin', 'roles'] : []];
     }
 
     $form = new Form(
         $data,
         title: new Translatable($user ? 'edit_user' : 'create_user'),
         only: $fields,
+        disabled: $disabled,
         buttons: $user ? [SubmitButton::save(new Translatable('user_save')), new SubmitButton('apply', new Translatable('user_apply'), accesskey: 'apply')] : [SubmitButton::save(new Translatable('add_user'))],
         cancelUrl: Url::currentBackendPage(),
     );
@@ -149,12 +147,8 @@ if ('add' === $func || $user) {
         $sql->setValue('email', $data->email);
         $sql->setValue('startpage', $data->startPage);
         $sql->setValue('language', $data->language);
-        if ($form->has('passwordChangeRequired')) {
-            $sql->setValue('password_change_required', (int) $data->passwordChangeRequired);
-        }
-        if ($form->has('status')) {
-            $sql->setValue('status', (int) $data->status);
-        }
+        $sql->setValue('password_change_required', (int) $data->passwordChangeRequired);
+        $sql->setValue('status', (int) $data->status);
         if ($form->has('admin')) {
             $sql->setValue('admin', (int) $data->admin);
         }
@@ -183,9 +177,7 @@ if ('add' === $func || $user) {
             $id = $sql->getLastId();
         }
 
-        if ($form->has('roles')) {
-            UserRole::setForUser($id, $data->roles);
-        }
+        UserRole::setForUser($id, $data->roles);
         User::clearInstance($id);
 
         if ($user) {
@@ -236,9 +228,7 @@ if ('add' === $func || $user) {
                         <?= new FieldRow(new CheckboxInput($field->inputName, new Translatable('user_reset_tries', $loginTries), '1' === $field->raw, id: $field->id))->render() ?>
                     <?php endif ?>
                     <?php foreach (['roles', 'startPage', 'language'] as $name): ?>
-                        <?php if ($form->has($name)): ?>
-                            <?= $form->row($name) ?>
-                        <?php endif ?>
+                        <?= $form->row($name) ?>
                     <?php endforeach ?>
                 </div>
                 <footer class="panel-footer">
