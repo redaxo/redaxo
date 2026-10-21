@@ -49,7 +49,7 @@
     </plugins>
     <issueHandlers>
         <Trace errorLevel="error"/> <!-- https://psalm.dev/docs/running_psalm/issues/Trace/ -->
-        <!-- the remaining usages are tracked in the phpstan baseline -->
+        <!-- the remaining usages are tracked in the phpstan baseline (`new.deprecatedClass`) -->
         <DeprecatedClass>
             <errorLevel type="suppress">
                 <referencedClass name="Redaxo\Core\View\Fragment" />
