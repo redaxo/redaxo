@@ -194,7 +194,7 @@ final class ArticleContentEditor extends ArticleContentBase
 
             if ($moduleAllowed && Core::requireUser()->hasPerm('moveSlice[]')) {
                 $item = [];
-                $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_up');
+                $item['hidden_label'] = I18n::msg('module') . ' ' . $moduleName . ' ' . I18n::msg('move_slice_up');
                 $item['url'] = $context->getUrl(
                     ['upd' => time(), 'direction' => SliceMoveDirection::Up->value] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
@@ -204,7 +204,7 @@ final class ArticleContentEditor extends ArticleContentBase
                 $menuMoveupAction = $item;
 
                 $item = [];
-                $item['hidden_label'] = I18n::msg('module') . ' article_content_editor.php' . $moduleName . ' ' . I18n::msg('move_slice_down');
+                $item['hidden_label'] = I18n::msg('module') . ' ' . $moduleName . ' ' . I18n::msg('move_slice_down');
                 $item['url'] = $context->getUrl(
                     ['upd' => time(), 'direction' => SliceMoveDirection::Down->value] + ArticleSliceMove::getUrlParams(),
                 ) . $fragment;
