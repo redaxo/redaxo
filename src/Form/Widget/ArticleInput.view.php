@@ -35,8 +35,8 @@ return static function (ArticleInput $input): void {
         ]) ?>>
         <input type="hidden" name="<?= escape($input->name) ?>" id="<?= escape($valueId) ?>" value="<?= escape((string) $input->articleId) ?>">
         <span class="input-group-btn">
-            <a href="#" <?= new HtmlAttributes(['class' => ['btn', 'btn-popup', 'rex-disabled' => !$allowed], 'onclick' => $allowed ? $open : 'return false;', 'title' => I18n::rawMsg('var_link_open')]) ?>><i class="rex-icon rex-icon-open-linkmap"></i></a>
-            <a href="#" <?= new HtmlAttributes(['class' => ['btn', 'btn-popup', 'rex-disabled' => !$allowed], 'onclick' => $allowed ? $delete : 'return false;', 'title' => I18n::rawMsg('var_link_delete')]) ?>><i class="rex-icon rex-icon-delete-link"></i></a>
+            <a href="#" <?= new HtmlAttributes(['class' => ['btn', 'btn-popup', 'rex-disabled' => !$allowed], 'onclick' => $allowed ? $open : 'return false;', 'title' => I18n::rawMsg('form_article_open')]) ?>><i class="rex-icon rex-icon-open-linkmap"></i></a>
+            <a href="#" <?= new HtmlAttributes(['class' => ['btn', 'btn-popup', 'rex-disabled' => !$allowed], 'onclick' => $allowed ? $delete : 'return false;', 'title' => I18n::rawMsg('form_article_delete')]) ?>><i class="rex-icon rex-icon-delete-link"></i></a>
         </span>
     </div>
 <?php };

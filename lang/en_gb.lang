@@ -242,6 +242,20 @@ form_max_date = The value must not be after {0}.
 form_article_not_found = The selected article does not exist.
 form_media_not_found = The selected medium does not exist.
 form_media_invalid_type = Only files of type {0} are allowed.
+form_media_open = Choose media
+form_media_new = Add media
+form_media_remove = Delete selected media
+form_media_view = Show selected media
+form_medialist_move_top = Move selected media to top
+form_medialist_move_up = Move selected media up
+form_medialist_move_down = Move selected media down
+form_medialist_move_bottom = Move selected media to bottom
+form_article_open = Select Link
+form_article_delete = Delete selected link
+form_articlelist_move_top = Move selected link to top
+form_articlelist_move_up = Move selected link up
+form_articlelist_move_down = Move selected link down
+form_articlelist_move_bottom = Move selected link to bottom
 
 # language
 all_languages = All languages
@@ -475,15 +489,6 @@ pool_upload = Fileupload
 all_mediafolder = All media categories
 mediafolder = Media categories
 
-var_media_open = Choose media
-var_media_new = Add media
-var_media_remove = Delete selected media
-var_media_view = Show selected media
-var_medialist_move_top = Move selected media to top
-var_medialist_move_up = move selected media up
-var_medialist_move_down = move selected media down
-var_medialist_move_bottom  = move selected media to bottom
-
 perm_general_media[sync] = Mediapool: Synchronise files
 
 # metainfo
@@ -588,13 +593,6 @@ linkmap = Linkmap
 linkmap_categories = Categories
 linkmap_articles = Article
 linkmap_has_no_template = has no template
-
-var_link_open = Select Link
-var_link_delete = Delete selected link
-var_linklist_move_top = Move selected link to top
-var_linklist_move_up = Move selected link up
-var_linklist_move_down = Move selected link down
-var_linklist_move_bottom = Move selected link to bottom
 
 
 content = Article

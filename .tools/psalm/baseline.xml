@@ -256,48 +256,6 @@
       <code><![CDATA[$field]]></code>
     </MixedOperand>
   </file>
-  <file src="fragments/core/form/widget.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$element['after']]]></code>
-      <code><![CDATA[$element['before']]]></code>
-      <code><![CDATA[$element['field']]]></code>
-      <code><![CDATA[$element['functionButtons']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$after]]></code>
-      <code><![CDATA[$before]]></code>
-      <code><![CDATA[$element]]></code>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$functionButtons]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$after]]></code>
-      <code><![CDATA[$before]]></code>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$functionButtons]]></code>
-    </MixedOperand>
-  </file>
-  <file src="fragments/core/form/widget_list.php">
-    <MixedArrayAccess>
-      <code><![CDATA[$element['field']]]></code>
-      <code><![CDATA[$element['functionButtons']]]></code>
-      <code><![CDATA[$element['moveButtons']]]></code>
-    </MixedArrayAccess>
-    <MixedAssignment>
-      <code><![CDATA[$element]]></code>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$functionButtons]]></code>
-      <code><![CDATA[$moveButtons]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$element['after']]]></code>
-      <code><![CDATA[$element['before']]]></code>
-      <code><![CDATA[$field]]></code>
-      <code><![CDATA[$functionButtons]]></code>
-      <code><![CDATA[$moveButtons]]></code>
-      <code><![CDATA[$moveButtons]]></code>
-    </MixedOperand>
-  </file>
   <file src="fragments/core/header.php">
     <MixedArgument>
       <code><![CDATA[$this->meta_navigation]]></code>

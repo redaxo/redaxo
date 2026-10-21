@@ -33,14 +33,14 @@ return static function (ArticleListInput $input): void {
         <input type="hidden" name="<?= escape($input->name) ?>" id="REX_LINKLIST_<?= escape($input->id) ?>" value="<?= escape(implode(',', $input->articleIds)) ?>">
         <span class="input-group-addon">
             <div class="btn-group-vertical">
-                <?= $button("moveREXLinklist('$id', 'top');", 'var_linklist_move_top', 'rex-icon-top') ?>
-                <?= $button("moveREXLinklist('$id', 'up');", 'var_linklist_move_up', 'rex-icon-up') ?>
-                <?= $button("moveREXLinklist('$id', 'down');", 'var_linklist_move_down', 'rex-icon-down') ?>
-                <?= $button("moveREXLinklist('$id', 'bottom');", 'var_linklist_move_bottom', 'rex-icon-bottom') ?>
+                <?= $button("moveREXLinklist('$id', 'top');", 'form_articlelist_move_top', 'rex-icon-top') ?>
+                <?= $button("moveREXLinklist('$id', 'up');", 'form_articlelist_move_up', 'rex-icon-up') ?>
+                <?= $button("moveREXLinklist('$id', 'down');", 'form_articlelist_move_down', 'rex-icon-down') ?>
+                <?= $button("moveREXLinklist('$id', 'bottom');", 'form_articlelist_move_bottom', 'rex-icon-bottom') ?>
             </div>
             <div class="btn-group-vertical">
-                <?= $button("openREXLinklist('$id', '" . escape($params, 'js') . "');", 'var_link_open', 'rex-icon-open-linkmap', $allowed) ?>
-                <?= $button("deleteREXLinklist('$id');", 'var_link_delete', 'rex-icon-delete-link', $allowed) ?>
+                <?= $button("openREXLinklist('$id', '" . escape($params, 'js') . "');", 'form_article_open', 'rex-icon-open-linkmap', $allowed) ?>
+                <?= $button("deleteREXLinklist('$id');", 'form_article_delete', 'rex-icon-delete-link', $allowed) ?>
             </div>
         </span>
     </div>

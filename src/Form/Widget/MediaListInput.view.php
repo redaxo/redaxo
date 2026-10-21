@@ -33,16 +33,16 @@ return static function (MediaListInput $input): void {
             <input type="hidden" name="<?= escape($input->name) ?>" id="REX_MEDIALIST_<?= escape($input->id) ?>" value="<?= escape(implode(',', $input->fileNames)) ?>">
             <span class="input-group-addon">
                 <div class="btn-group-vertical">
-                    <?= $button("moveREXMedialist('$id', 'top');", 'var_medialist_move_top', 'rex-icon-top') ?>
-                    <?= $button("moveREXMedialist('$id', 'up');", 'var_medialist_move_up', 'rex-icon-up') ?>
-                    <?= $button("moveREXMedialist('$id', 'down');", 'var_medialist_move_down', 'rex-icon-down') ?>
-                    <?= $button("moveREXMedialist('$id', 'bottom');", 'var_medialist_move_bottom', 'rex-icon-bottom') ?>
+                    <?= $button("moveREXMedialist('$id', 'top');", 'form_medialist_move_top', 'rex-icon-top') ?>
+                    <?= $button("moveREXMedialist('$id', 'up');", 'form_medialist_move_up', 'rex-icon-up') ?>
+                    <?= $button("moveREXMedialist('$id', 'down');", 'form_medialist_move_down', 'rex-icon-down') ?>
+                    <?= $button("moveREXMedialist('$id', 'bottom');", 'form_medialist_move_bottom', 'rex-icon-bottom') ?>
                 </div>
                 <div class="btn-group-vertical">
-                    <?= $button("openREXMedialist('$id', '$params');", 'var_media_open', 'rex-icon-open-mediapool', $allowed) ?>
-                    <?= $button("addREXMedialist('$id', '$params');", 'var_media_new', 'rex-icon-add-media', $allowed) ?>
-                    <?= $button("deleteREXMedialist('$id');", 'var_media_remove', 'rex-icon-delete-media', $allowed) ?>
-                    <?= $button("viewREXMedialist('$id', '$params');", 'var_media_view', 'rex-icon-view-media', $allowed) ?>
+                    <?= $button("openREXMedialist('$id', '$params');", 'form_media_open', 'rex-icon-open-mediapool', $allowed) ?>
+                    <?= $button("addREXMedialist('$id', '$params');", 'form_media_new', 'rex-icon-add-media', $allowed) ?>
+                    <?= $button("deleteREXMedialist('$id');", 'form_media_remove', 'rex-icon-delete-media', $allowed) ?>
+                    <?= $button("viewREXMedialist('$id', '$params');", 'form_media_view', 'rex-icon-view-media', $allowed) ?>
                 </div>
             </span>
         </div>

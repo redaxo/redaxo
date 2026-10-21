@@ -27,10 +27,10 @@ return static function (MediaInput $input): void {
         <div class="input-group">
             <input class="form-control" type="text" name="<?= escape($input->name) ?>" value="<?= escape((string) $input->fileName) ?>" id="<?= escape($input->labelTarget()) ?>" readonly>
             <span class="input-group-btn">
-                <?= $button("openREXMedia('$id', '$params');", 'var_media_open', 'rex-icon-open-mediapool') ?>
-                <?= $button("addREXMedia('$id', '$params');", 'var_media_new', 'rex-icon-add-media') ?>
-                <?= $button("deleteREXMedia('$id');", 'var_media_remove', 'rex-icon-delete-media') ?>
-                <?= $button("viewREXMedia('$id', '$params');", 'var_media_view', 'rex-icon-view-media') ?>
+                <?= $button("openREXMedia('$id', '$params');", 'form_media_open', 'rex-icon-open-mediapool') ?>
+                <?= $button("addREXMedia('$id', '$params');", 'form_media_new', 'rex-icon-add-media') ?>
+                <?= $button("deleteREXMedia('$id');", 'form_media_remove', 'rex-icon-delete-media') ?>
+                <?= $button("viewREXMedia('$id', '$params');", 'form_media_view', 'rex-icon-view-media') ?>
             </span>
         </div>
         <div class="rex-js-media-preview"></div>
