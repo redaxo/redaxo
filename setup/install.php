@@ -90,14 +90,6 @@ Table::get('rex_article')
     ->ensureForeignKeyTo('rex_category', ['parent_id' => 'id'], onUpdate: ForeignKey::CASCADE)
     ->alter();
 
-foreach (['rex_article_slice', 'rex_article_slice_history'] as $table) {
-    foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $slot => $count) {
-        for ($i = 1; $i <= $count; ++$i) {
-            Table::get($table)->removeColumn($slot . $i);
-        }
-    }
-}
-
 Table::get('rex_article_slice')
     ->ensurePrimaryIdColumn()
     ->ensureColumn(Column::int('article_id', unsigned: true))
