@@ -26,7 +26,7 @@ class Checkbox extends Field
     #[Override]
     public function widget(BoundField $field): CheckboxInput
     {
-        return new CheckboxInput($field->inputName, $this->label, '1' === $field->raw, id: $field->id, required: $this->required);
+        return new CheckboxInput($field->inputName, $this->label, '1' === $field->raw, id: $field->id, required: $this->required, disabled: $field->disabled);
     }
 
     #[Override]

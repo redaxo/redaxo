@@ -28,6 +28,7 @@ final class SelectInput implements Widget
         /** Label of an empty option; `null` renders none. Ignored for `multiple`. */
         public string|Translatable|null $placeholder = null,
         public bool $required = false,
+        public bool $disabled = false,
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 

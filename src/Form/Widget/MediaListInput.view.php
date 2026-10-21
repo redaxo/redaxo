@@ -14,7 +14,7 @@ return static function (MediaListInput $input): void {
         . ($input->types ? '&types=' . urlencode(implode(',', $input->types)) : ''),
         'js',
     );
-    $allowed = Core::requireUser()->getComplexPerm('media')->hasMediaPerm();
+    $allowed = !$input->disabled && Core::requireUser()->getComplexPerm('media')->hasMediaPerm();
 
     $button = static fn (string $onclick, string $title, string $icon, bool $enabled = true): string => '<a ' . new HtmlAttributes([
         'href' => '#',
@@ -25,7 +25,7 @@ return static function (MediaListInput $input): void {
     ])->toString() . '><i class="rex-icon ' . $icon . '"></i></a>' ?>
     <div <?= new HtmlAttributes(['class' => ['rex-js-widget', 'rex-js-widget-medialist', 'rex-js-widget-preview' => $input->preview, 'rex-js-widget-preview-media-manager' => $input->preview]]) ?>>
         <div class="input-group">
-            <select class="form-control" id="<?= escape($input->labelTarget()) ?>" size="10">
+            <select <?= new HtmlAttributes(['class' => ['form-control'], 'id' => $input->labelTarget(), 'size' => 10, 'disabled' => $input->disabled]) ?>>
                 <?php foreach ($input->fileNames as $fileName): ?>
                     <option value="<?= escape($fileName) ?>"><?= escape($fileName) ?></option>
                 <?php endforeach ?>
@@ -33,10 +33,10 @@ return static function (MediaListInput $input): void {
             <input type="hidden" name="<?= escape($input->name) ?>" id="REX_MEDIALIST_<?= escape($input->id) ?>" value="<?= escape(implode(',', $input->fileNames)) ?>">
             <span class="input-group-addon">
                 <div class="btn-group-vertical">
-                    <?= $button("moveREXMedialist('$id', 'top');", 'form_medialist_move_top', 'rex-icon-top') ?>
-                    <?= $button("moveREXMedialist('$id', 'up');", 'form_medialist_move_up', 'rex-icon-up') ?>
-                    <?= $button("moveREXMedialist('$id', 'down');", 'form_medialist_move_down', 'rex-icon-down') ?>
-                    <?= $button("moveREXMedialist('$id', 'bottom');", 'form_medialist_move_bottom', 'rex-icon-bottom') ?>
+                    <?= $button("moveREXMedialist('$id', 'top');", 'form_medialist_move_top', 'rex-icon-top', !$input->disabled) ?>
+                    <?= $button("moveREXMedialist('$id', 'up');", 'form_medialist_move_up', 'rex-icon-up', !$input->disabled) ?>
+                    <?= $button("moveREXMedialist('$id', 'down');", 'form_medialist_move_down', 'rex-icon-down', !$input->disabled) ?>
+                    <?= $button("moveREXMedialist('$id', 'bottom');", 'form_medialist_move_bottom', 'rex-icon-bottom', !$input->disabled) ?>
                 </div>
                 <div class="btn-group-vertical">
                     <?= $button("openREXMedialist('$id', '$params');", 'form_media_open', 'rex-icon-open-mediapool', $allowed) ?>

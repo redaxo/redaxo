@@ -22,6 +22,7 @@ final class CheckboxInput implements Widget
         public string $value = '1',
         public ?string $id = null,
         public bool $required = false,
+        public bool $disabled = false,
         public HtmlAttributes $attributes = new HtmlAttributes(),
     ) {}
 
