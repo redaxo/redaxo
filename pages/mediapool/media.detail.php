@@ -114,13 +114,6 @@ if (Request::post('btn_update', 'string')) {
                 }
 
                 MediaHandler::edit($filename, Language::getCurrentId(), $data, $meta->values());
-
-                if (($gf->getNullableIntValue('category_id') ?? 0) !== $rexFileCategory) {
-                    Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [
-                        'filename' => $filename,
-                        'category_id' => $rexFileCategory,
-                    ]));
-                }
                 $success = I18n::msg('pool_file_infos_updated');
             } catch (UserMessageException $e) {
                 $error = $e->getMessage();
