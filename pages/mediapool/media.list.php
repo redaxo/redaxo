@@ -13,11 +13,11 @@ use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Widget\SelectInput;
 use Redaxo\Core\Http\Context;
 use Redaxo\Core\Http\Request;
+use Redaxo\Core\Language\Language;
 use Redaxo\Core\MediaManager\MediaManager;
 use Redaxo\Core\MediaPool\Media;
 use Redaxo\Core\MediaPool\MediaCategoryChoices;
 use Redaxo\Core\MediaPool\MediaHandler;
-use Redaxo\Core\MediaPool\MediaPoolCache;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\Util\Formatter;
@@ -79,20 +79,12 @@ if ($hasCategoryPerm && 'updatecat_selectedmedia' == $mediaMethod) {
                     continue;
                 }
 
-                $db = Sql::factory();
-                // $db->setDebug();
-                $db->setTable('rex_media');
-                $db->setWhere(['filename' => $fileName]);
-                $db->setValue('category_id', $rexFileCategory ?: null);
-                $db->addGlobalUpdateFields();
-                $db->update();
-                ++$countMoved;
-                MediaPoolCache::delete($fileName);
-
-                Extension::dispatch(new ExtensionPoint('MEDIA_MOVED', null, [
-                    'filename' => $fileName,
-                    'category_id' => $rexFileCategory,
-                ]));
+                try {
+                    MediaHandler::edit($fileName, Language::getCurrentId(), ['category_id' => $rexFileCategory ?: null]);
+                    ++$countMoved;
+                } catch (UserMessageException $e) {
+                    $error[] = $e->getMessage();
+                }
             }
 
             if ($countMoved) {

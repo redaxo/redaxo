@@ -675,6 +675,7 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'CAT_DELETED', '\\' . Content\ExtensionPoint\CategoryDeleted::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_ADDED', '\\' . MediaPool\ExtensionPoint\MediaAdded::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_UPDATED', '\\' . MediaPool\ExtensionPoint\MediaUpdated::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_MOVED', '\\' . MediaPool\ExtensionPoint\MediaUpdated::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_DELETED', '\\' . MediaPool\ExtensionPoint\MediaDeleted::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_ADDED', '\\' . MediaPool\ExtensionPoint\MediaCategoryAdded::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_UPDATED', '\\' . MediaPool\ExtensionPoint\MediaCategoryUpdated::class . '::class'),

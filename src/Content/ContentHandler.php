@@ -14,7 +14,6 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\RuntimeException;
 use Redaxo\Core\Exception\UserMessageException;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\File;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Language\Language;
@@ -337,13 +336,6 @@ final class ContentHandler
 
             // --------------------------------------------------- Artikelcontent speichern
             $articleContentFile = Path::coreCache('structure/' . $articleId . '.' . $languageId . '.content');
-
-            // ----- EXTENSION POINT
-            $articleContent = Extension::dispatch(new ExtensionPoint('GENERATE_FILTER', $articleContent, [
-                'id' => $articleId,
-                'language' => $languageId,
-                'article' => $CONT,
-            ]));
 
             if (!File::put($articleContentFile, $articleContent)) {
                 throw new RuntimeException(sprintf('Article %d could not be generated, check the directory permissions for "%s".', $articleId, Path::coreCache('structure/')));
