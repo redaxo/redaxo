@@ -692,6 +692,11 @@ return RectorConfig::configure()
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'MEDIA_CATEGORY_IS_IN_USE', '\\' . MediaPool\ExtensionPoint\MediaCategoryUsageCheck::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_SHOW', '\\' . Content\ExtensionPoint\SliceOutput::class . '::class'),
         new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_OUTPUT', '\\' . Content\ExtensionPoint\SliceOutput::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_ADD', '\\' . Content\ExtensionPoint\SliceAdding::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_UPDATE', '\\' . Content\ExtensionPoint\SliceUpdating::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_MOVE', '\\' . Content\ExtensionPoint\SliceMoving::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'SLICE_DELETE', '\\' . Content\ExtensionPoint\SliceDeleting::class . '::class'),
+        new ReplaceArgumentDefaultValue(ExtensionPoint\Extension::class, 'register', 0, 'ART_SLICES_COPY', '\\' . Content\ExtensionPoint\ArticleSlicesCopying::class . '::class'),
     ])
     ->withConfiguredRule(RenameClassConstFetchRector::class, [
         new RenameClassAndConstFetch(ExtensionPoint\Extension::class, 'EARLY', ExtensionPoint\ExtensionLevel::class, 'Early'),

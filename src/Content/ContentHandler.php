@@ -4,6 +4,10 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\ExtensionPoint\ArticleSlicesCopying;
+use Redaxo\Core\Content\ExtensionPoint\SliceAdding;
+use Redaxo\Core\Content\ExtensionPoint\SliceDeleting;
+use Redaxo\Core\Content\ExtensionPoint\SliceMoving;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\DatabaseUtil;
 use Redaxo\Core\Database\Sql;
@@ -38,6 +42,8 @@ final class ContentHandler
 
             $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
         }
+
+        Extension::dispatch(new SliceAdding(Article::require($articleId, $languageId), $ctypeId, $moduleKey, $revision));
 
         $sql = Sql::factory();
         $sql->setTable('rex_article_slice');
@@ -106,13 +112,7 @@ final class ContentHandler
         $ctype = $CM->getIntValue('ctype_id');
         $sliceRevision = $CM->getIntValue('revision');
 
-        Extension::dispatch(new ExtensionPoint('SLICE_MOVE', '', [
-            'direction' => $direction,
-            'slice_id' => $sliceId,
-            'article_id' => $articleId,
-            'language_id' => $languageId,
-            'slice_revision' => $sliceRevision,
-        ]));
+        Extension::dispatch(new SliceMoving(ArticleSlice::fromSql($CM), $direction));
 
         if (SliceMoveDirection::Up === $direction) {
             $upd->setValue('priority', $oldPriority - 1);
@@ -162,12 +162,7 @@ final class ContentHandler
 
         $slice = ArticleSlice::fromSql($curr);
 
-        Extension::dispatch(new ExtensionPoint('SLICE_DELETE', '', [
-            'slice_id' => $sliceId,
-            'article_id' => $slice->articleId,
-            'language_id' => $slice->languageId,
-            'slice_revision' => $slice->revision,
-        ]));
+        Extension::dispatch(new SliceDeleting($slice));
 
         $del = Sql::factory();
         $del->setQuery('DELETE FROM rex_article_slice WHERE id=?', [$sliceId]);
@@ -235,12 +230,12 @@ final class ContentHandler
             $gc->setQuery('select * from rex_article_slice where article_id=? and language_id=? and revision=?', [$fromId, $fromLanguageId, $revision]);
         }
 
-        Extension::dispatch(new ExtensionPoint('ART_SLICES_COPY', '', [
-            'article_id' => $toId,
-            'language_id' => $toLanguageId,
-            'slice_revision' => $revision,
-            'overwrite' => $overwrite,
-        ]));
+        Extension::dispatch(new ArticleSlicesCopying(
+            Article::require($toId, $toLanguageId),
+            Article::require($fromId, $fromLanguageId),
+            $revision,
+            $overwrite,
+        ));
 
         // Wenn Überschreiben aktiviert ist, lösche zuerst den bestehenden Inhalt
         if ($overwrite) {

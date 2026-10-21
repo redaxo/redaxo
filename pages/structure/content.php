@@ -11,6 +11,8 @@ use Redaxo\Core\Content\ArticleSliceReference;
 use Redaxo\Core\Content\Category;
 use Redaxo\Core\Content\ContentHandler;
 use Redaxo\Core\Content\ExtensionPoint\ArticleContentUpdated;
+use Redaxo\Core\Content\ExtensionPoint\SliceAdding;
+use Redaxo\Core\Content\ExtensionPoint\SliceUpdating;
 use Redaxo\Core\Content\Module;
 use Redaxo\Core\Content\Template;
 use Redaxo\Core\Core;
@@ -224,12 +226,7 @@ if (
                         if ('edit' == $function) {
                             $newsql->addGlobalUpdateFields();
 
-                            Extension::dispatch(new ExtensionPoint('SLICE_UPDATE', '', [
-                                'slice_id' => $sliceId,
-                                'article_id' => $articleId,
-                                'language_id' => $languageId,
-                                'slice_revision' => $sliceRevision,
-                            ]));
+                            Extension::dispatch(new SliceUpdating(Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $sliceRevision))));
 
                             $newsql->update();
 
@@ -239,11 +236,7 @@ if (
                             $newsql->addGlobalUpdateFields();
                             $newsql->addGlobalCreateFields();
 
-                            Extension::dispatch(new ExtensionPoint('SLICE_ADD', '', [
-                                'article_id' => $articleId,
-                                'language_id' => $languageId,
-                                'slice_revision' => $sliceRevision,
-                            ]));
+                            Extension::dispatch(new SliceAdding($OOArt, $ctype, $moduleKey, (int) $sliceRevision));
 
                             $newsql->insert();
                             $sliceId = $newsql->getLastId();
