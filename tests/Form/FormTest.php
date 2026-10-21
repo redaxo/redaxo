@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\Text;
 use Redaxo\Core\Form\Form;
+use Redaxo\Core\Form\SubmitButton;
 use Redaxo\Core\Tests\Form\Fixtures\Color;
 use Redaxo\Core\Tests\Form\Fixtures\Fieldsets;
 use Redaxo\Core\Tests\Form\Fixtures\Settings;
@@ -112,21 +113,37 @@ final class FormTest extends TestCase
         self::assertMatchesRegularExpression('/<input type="checkbox" name="settings\[active\]"[^>]* checked/', $rest);
     }
 
-    public function testApplyAndCancel(): void
+    public function testButtons(): void
     {
         $form = new Form(new Settings(), csrf: false);
-        self::assertSame('', (string) $form->applyButton());
+        self::assertStringNotContainsString('settings[_button]', (string) $form->buttons());
         self::assertSame('', (string) $form->cancelLink());
 
-        $form = new Form(new Settings(), csrf: false, applyLabel: 'Apply', cancelUrl: 'index.php?a=1&b=2');
-        self::assertStringContainsString('name="settings[_apply]" value="1"', (string) $form->applyButton());
-        self::assertStringContainsString('href="index.php?a=1&amp;b=2"', (string) $form->cancelLink());
+        $form = new Form(
+            new Settings(),
+            csrf: false,
+            buttons: [SubmitButton::apply(), new SubmitButton('reset', 'Reset <all>', class: 'btn-delete')],
+            cancelUrl: 'index.php?a=1&b=2',
+        );
+
+        $html = (string) $form->buttons();
+        self::assertMatchesRegularExpression('/<button class="btn btn-save[^"]*" type="submit".*<button class="btn btn-apply" type="submit" name="settings\[_button\]" value="apply" accesskey="x".*<button class="btn btn-delete" type="submit" name="settings\[_button\]" value="reset" title="Reset &lt;all&gt;">Reset &lt;all&gt;<\/button>.*href="index.php\?a=1&amp;b=2"/s', $html);
 
         self::assertTrue($form->submit(['title' => 'Saved', 'size' => '1']));
-        self::assertFalse($form->isApplied());
+        self::assertFalse($form->isSubmittedBy('apply'));
 
-        self::assertTrue($form->submit(['title' => 'Applied', 'size' => '1', '_apply' => '1']));
-        self::assertTrue($form->isApplied());
+        self::assertTrue($form->submit(['title' => 'Applied', 'size' => '1', '_button' => 'apply']));
+        self::assertTrue($form->isSubmittedBy('apply'));
+        self::assertFalse($form->isSubmittedBy('reset'));
+
+        self::assertFalse($form->submit(['title' => '', 'size' => '1', '_button' => 'reset']));
+        self::assertTrue($form->isSubmittedBy('reset'), 'the button is known even if values are invalid');
+
+        $form->submit(['title' => 'Unknown', 'size' => '1', '_button' => 'unknown']);
+        self::assertFalse($form->isSubmittedBy('unknown'));
+
+        $this->expectException(LogicException::class);
+        $form->button('unknown');
     }
 
     public function testSubmitEmbedded(): void

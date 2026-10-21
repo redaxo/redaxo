@@ -6,6 +6,7 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Filesystem\Url;
 use Redaxo\Core\Form\Form;
 use Redaxo\Core\Form\Storage\DatabaseStorage;
+use Redaxo\Core\Form\SubmitButton;
 use Redaxo\Core\Http\Request;
 use Redaxo\Core\Http\Response;
 use Redaxo\Core\Security\CsrfToken;
@@ -93,7 +94,7 @@ if ('' == $func) {
     $form = new Form(
         $role,
         title: new Translatable('edit' === $func ? 'edit_user_role' : 'add_user_role'),
-        applyLabel: new Translatable('form_apply'),
+        buttons: [SubmitButton::apply()],
         cancelUrl: Url::currentBackendPage(),
     );
 
@@ -101,7 +102,7 @@ if ('' == $func) {
         $storage->save($role);
 
         $saved = 'edit' === $func ? 'updated' : 'added';
-        Response::sendRedirect(Url::currentBackendPage($form->isApplied() ? ['func' => 'edit', 'id' => $storage->id, 'saved' => $saved] : ['saved' => $saved]));
+        Response::sendRedirect(Url::currentBackendPage($form->isSubmittedBy('apply') ? ['func' => 'edit', 'id' => $storage->id, 'saved' => $saved] : ['saved' => $saved]));
     }
 
     $content = $form->render();

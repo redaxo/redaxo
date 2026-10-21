@@ -45,7 +45,7 @@ final class Form implements Renderable
 
     private const string SUBMIT_KEY = '_submit';
 
-    private const string APPLY_KEY = '_apply';
+    private const string BUTTON_KEY = '_button';
 
     /** Name of the request parameter holding the submitted values; defaults to the short class name of the data object. */
     public readonly string $name;
@@ -57,7 +57,7 @@ final class Form implements Renderable
 
     private bool $submitted = false;
 
-    private bool $applied = false;
+    private ?string $submittedBy = null;
 
     /** @var array<string, string|list<string>> */
     private array $raw = [];
@@ -82,10 +82,11 @@ final class Form implements Renderable
         /** Whether the rows place their labels above the widgets instead of next to them, e.g. in narrow columns. */
         public bool $vertical = false,
         /**
-         * Label of a second submit button for saving without leaving the form, see {@see self::isApplied()};
-         * `null` for none.
+         * Additional submit buttons, rendered after the save button.
+         *
+         * @var list<SubmitButton>
          */
-        public string|Translatable|null $applyLabel = null,
+        public array $buttons = [],
         /** Target of a cancel link next to the submit buttons; `null` for none. */
         public ?string $cancelUrl = null,
     ) {
@@ -152,7 +153,8 @@ final class Form implements Renderable
     public function submit(array $submitted): bool
     {
         $this->submitted = true;
-        $this->applied = isset($submitted[self::APPLY_KEY]);
+        $button = self::normalizeRaw($submitted[self::BUTTON_KEY] ?? null);
+        $this->submittedBy = is_string($button) && $this->findButton($button) ? $button : null;
 
         $values = [];
         foreach ($this->fields as $name => $definition) {
@@ -187,10 +189,15 @@ final class Form implements Renderable
         return true;
     }
 
-    /** Whether the form was submitted by the apply button, i.e. the user wants to stay on the form after saving. */
-    public function isApplied(): bool
+    /**
+     * Whether the form was submitted by the given {@see SubmitButton}.
+     *
+     * Known as soon as the form is submitted (and passed the csrf check), even if values are invalid, so a button can
+     * also trigger something else than saving.
+     */
+    public function isSubmittedBy(string $button): bool
     {
-        return $this->applied;
+        return $this->submittedBy === $button;
     }
 
     /** Whether the form was submitted without errors. */
@@ -350,23 +357,32 @@ final class Form implements Renderable
         return Html::raw('</form>');
     }
 
-    public function submitButton(): Html
+    /** Renders the save button, the additional {@see self::$buttons} and the cancel link. */
+    public function buttons(): Html
     {
-        $label = Translatable::text($this->submitLabel);
-
-        return Html::raw('<button class="btn btn-save rex-form-aligned" type="submit"' . Accesskey::attributes($label, 'save') . '>' . escape($label) . '</button>');
-    }
-
-    /** Renders the apply button, or nothing if there is no {@see self::$applyLabel}. */
-    public function applyButton(): Html
-    {
-        if (null === $this->applyLabel) {
-            return Html::raw('');
+        $html = (string) $this->submitButton();
+        foreach ($this->buttons as $button) {
+            $html .= (string) $this->button($button->name);
         }
 
-        $label = Translatable::text($this->applyLabel);
+        return Html::raw($html . (string) $this->cancelLink());
+    }
 
-        return Html::raw('<button class="btn btn-apply" type="submit" name="' . escape($this->name . '[' . self::APPLY_KEY . ']') . '" value="1"' . Accesskey::attributes($label, 'apply') . '>' . escape($label) . '</button>');
+    public function submitButton(): Html
+    {
+        $label = escape(Translatable::text($this->submitLabel));
+
+        return Html::raw('<button class="btn btn-save rex-form-aligned" type="submit"' . Accesskey::attributes($label, 'save') . '>' . $label . '</button>');
+    }
+
+    /** Renders the additional submit button with the given name. */
+    public function button(string $name): Html
+    {
+        $button = $this->findButton($name) ?? throw new LogicException(sprintf('Unknown form button "%s".', $name));
+        $label = escape(Translatable::text($button->label));
+        $attributes = null === $button->accesskey ? ' title="' . $label . '"' : Accesskey::attributes($label, $button->accesskey);
+
+        return Html::raw('<button class="btn ' . escape($button->class) . '" type="submit" name="' . escape($this->name . '[' . self::BUTTON_KEY . ']') . '" value="' . escape($button->name) . '"' . $attributes . '>' . $label . '</button>');
     }
 
     /** Renders the cancel link, or nothing if there is no {@see self::$cancelUrl}. */
@@ -377,6 +393,17 @@ final class Form implements Renderable
         }
 
         return Html::raw('<a class="btn btn-abort" href="' . escape($this->cancelUrl) . '">' . escape(new Translatable('form_abort')->translate()) . '</a>');
+    }
+
+    private function findButton(string $name): ?SubmitButton
+    {
+        foreach ($this->buttons as $button) {
+            if ($button->name === $name) {
+                return $button;
+            }
+        }
+
+        return null;
     }
 
     /** @return array<array-key, mixed>|null */
