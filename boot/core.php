@@ -1,13 +1,16 @@
 <?php
 
 use Redaxo\Core\Content\ArticleSliceHistory;
+use Redaxo\Core\Content\ExtensionPoint\ArticleSlicesCopying;
+use Redaxo\Core\Content\ExtensionPoint\SliceAdding;
+use Redaxo\Core\Content\ExtensionPoint\SliceDeleting;
+use Redaxo\Core\Content\ExtensionPoint\SliceMoving;
+use Redaxo\Core\Content\ExtensionPoint\SliceUpdating;
 use Redaxo\Core\Content\ModulePermission;
-use Redaxo\Core\Content\SliceMoveDirection;
 use Redaxo\Core\Content\StructurePermission;
 use Redaxo\Core\Core;
 use Redaxo\Core\ErrorHandler;
 use Redaxo\Core\ExtensionPoint\Extension;
-use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\DefaultPathProvider;
 use Redaxo\Core\Filesystem\Path;
 use Redaxo\Core\Filesystem\Url;
@@ -113,21 +116,26 @@ if ('cli' !== PHP_SAPI) {
 
 if (Core::getConfig('article_history', false)) {
     Extension::register(
-        ['ART_SLICES_COPY', 'SLICE_ADD', 'SLICE_UPDATE', 'SLICE_MOVE', 'SLICE_DELETE'],
-        static function (ExtensionPoint $ep) {
-            $type = match ($ep->name) {
-                'ART_SLICES_COPY' => 'slices_copy',
-                'SLICE_MOVE' => 'slice_move' . Type::instanceOf($ep->getParam('direction'), SliceMoveDirection::class)->value,
-                default => strtolower($ep->name),
+        [ArticleSlicesCopying::class, SliceAdding::class, SliceUpdating::class, SliceMoving::class, SliceDeleting::class],
+        static function (ArticleSlicesCopying|SliceAdding|SliceUpdating|SliceMoving|SliceDeleting $ep): void {
+            [$articleId, $languageId, $revision] = $ep instanceof ArticleSlicesCopying || $ep instanceof SliceAdding
+                ? [$ep->article->id, $ep->article->languageId, $ep->revision]
+                : [$ep->slice->articleId, $ep->slice->languageId, $ep->slice->revision];
+
+            // the history covers the live revision only, a copy of all revisions includes it
+            if (0 !== ($revision ?? 0)) {
+                return;
+            }
+
+            $type = match (true) {
+                $ep instanceof ArticleSlicesCopying => 'slices_copy',
+                $ep instanceof SliceAdding => 'slice_add',
+                $ep instanceof SliceUpdating => 'slice_update',
+                $ep instanceof SliceMoving => 'slice_move' . $ep->direction->value,
+                $ep instanceof SliceDeleting => 'slice_delete',
             };
 
-            $articleId = $ep->getParam('article_id');
-            $languageId = $ep->getParam('language_id');
-            $sliceRevision = $ep->getParam('slice_revision');
-
-            if (0 == $sliceRevision) {
-                ArticleSliceHistory::makeSnapshot($articleId, $languageId, $type);
-            }
+            ArticleSliceHistory::makeSnapshot($articleId, $languageId, $type);
         },
     );
 }

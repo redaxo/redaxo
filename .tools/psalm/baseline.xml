@@ -30,17 +30,6 @@
       <code><![CDATA[$_SERVER['PHP_SELF']]]></code>
     </PossiblyUndefinedArrayOffset>
   </file>
-  <file src="boot/core.php">
-    <MixedArgument>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$languageId]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$articleId]]></code>
-      <code><![CDATA[$languageId]]></code>
-      <code><![CDATA[$sliceRevision]]></code>
-    </MixedAssignment>
-  </file>
   <file src="boot/frontend.php">
     <MixedAssignment>
       <code><![CDATA[$article]]></code>
