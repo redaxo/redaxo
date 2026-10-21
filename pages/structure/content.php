@@ -133,34 +133,48 @@ if (
     if (Request::request('save', 'boolean') && in_array($function, ['add', 'edit', 'delete'])) {
         // ----- check module
 
-        $CM = Sql::factory();
-        $moduleKey = null;
+        $sliceTable = 'rex_article_slice';
+        $slice = null;
+        $priority = 0;
         if ('edit' == $function || 'delete' == $function) {
             // edit/ delete
             // article_id must match: the permission check above is based on the requested article, so slices of
             // other articles (possibly in categories the user has no permission for) must not be addressable here
-            $CM->setQuery('SELECT * FROM rex_article_slice WHERE id=? AND article_id=? AND language_id=?', [$sliceId, $articleId, $languageId]);
+            $CM = Sql::factory();
+            $CM->setQuery('SELECT * FROM ' . $sliceTable . ' WHERE id=? AND article_id=? AND language_id=?', [$sliceId, $articleId, $languageId]);
             if (1 == $CM->getRows()) {
-                $moduleKey = $CM->getStringValue('module');
+                $slice = ArticleSlice::fromSql($CM);
             }
         } else {
             // add
-            $moduleKey = Request::post('module', 'string');
+
+            // determine priority value to get the new slice into the right order
+            $prevSlice = Sql::factory();
+            if (-1 == $sliceId) {
+                $prevSlice->setQuery('SELECT MAX(priority) as priority FROM ' . $sliceTable . ' WHERE article_id=? AND language_id=? AND ctype_id=? AND revision=?', [$articleId, $languageId, $ctype, $sliceRevision]);
+                $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
+            } else {
+                $prevSlice->setQuery('SELECT priority FROM ' . $sliceTable . ' WHERE id=?', [$sliceId]);
+                $priority = $prevSlice->getIntValue('priority');
+            }
+
+            $slice = ArticleSlice::forNewSlice($articleId, $languageId, $ctype, Request::post('module', 'string'), $priority, (int) $sliceRevision);
         }
 
-        $module = $moduleKey ? Module::get($moduleKey) : null;
+        $module = null !== $slice && Module::exists($slice->moduleKey) ? Module::of($slice) : null;
 
-        if (null === $module || null === $moduleKey) {
+        if (null === $module) {
             // ------------- MODUL IST NICHT VORHANDEN
             $globalWarning = I18n::msg('module_not_found');
             $sliceId = 0;
             $function = '';
         } else {
             // ------------- MODUL IST VORHANDEN
+            $moduleKey = $module->slice->moduleKey;
 
             // ----- RECHTE AM MODUL ?
             $category = $categoryId > 0 ? Category::get($categoryId) : null;
-            if ('delete' != $function && (!Template::checkModuleAllowed($templateKey, $ctype, $moduleKey) || !$module->isAllowedInCategory($category))) {
+            if ('delete' != $function && (!Template::checkModuleAllowed($templateKey, $ctype, $moduleKey) || !$module::isAllowedInCategory($category))) {
                 $globalWarning = I18n::msg('no_rights_to_this_function');
                 $sliceId = 0;
                 $function = '';
@@ -205,7 +219,6 @@ if (
 
                     // ----- SAVE/UPDATE SLICE
                     if ('add' == $function || 'edit' == $function) {
-                        $sliceTable = 'rex_article_slice';
                         $newsql = Sql::factory();
                         $newsql->setTable($sliceTable);
                         $newsql->setValues($action->columnValues);
@@ -213,17 +226,6 @@ if (
                         if ('edit' == $function) {
                             $newsql->setWhere(['id' => $sliceId]);
                         } else {
-                            // determine priority value to get the new slice into the right order
-                            $prevSlice = Sql::factory();
-                            // $prevSlice->setDebug();
-                            if (-1 == $sliceId) {
-                                $prevSlice->setQuery('SELECT MAX(priority) as priority FROM ' . $sliceTable . ' WHERE article_id=? AND language_id=? AND ctype_id=? AND revision=?', [$articleId, $languageId, $ctype, $sliceRevision]);
-                                $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
-                            } else {
-                                $prevSlice->setQuery('SELECT priority FROM ' . $sliceTable . ' WHERE id=?', [$sliceId]);
-                                $priority = $prevSlice->getIntValue('priority');
-                            }
-
                             $newsql->setValue('article_id', $articleId);
                             $newsql->setValue('module', $moduleKey);
                             $newsql->setValue('language_id', $languageId);

@@ -122,7 +122,7 @@ abstract class Template
             return true;
         }
 
-        $module = Module::get($moduleKey);
+        $module = Module::getClass($moduleKey);
 
         if (null === $module) {
             return false;
@@ -158,8 +158,10 @@ abstract class Template
     /**
      * Whether the given module is allowed in the given content section of this template.
      * The default implementation allows all modules everywhere.
+     *
+     * @param class-string<Module> $module
      */
-    public function isModuleAllowed(ContentSection $section, Module $module): bool
+    public function isModuleAllowed(ContentSection $section, string $module): bool
     {
         return true;
     }

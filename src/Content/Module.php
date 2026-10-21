@@ -4,56 +4,82 @@ namespace Redaxo\Core\Content;
 
 use Redaxo\Core\ClassDiscovery;
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
+use Redaxo\Core\Exception\LogicException;
 
+use function sprintf;
+
+/**
+ * Base class of the modules, annotated with {@see AsModule}.
+ *
+ * An instance represents the module of one slice, see {@see self::of()}. What concerns the module as a whole
+ * (key, name, where it is allowed) is static.
+ */
 abstract class Module
 {
-    /** @var array<string, self>|null */
-    private static ?array $instances = null;
+    /** @var array<string, class-string<self>>|null keyed by module key */
+    private static ?array $classes = null;
+
+    /** @var array<class-string<self>, AsModule> */
+    private static array $attributes = [];
 
     final public function __construct(
-        /** Unique key, used as DB reference in rex_article_slice.module. */
-        final public readonly string $key,
-        final public readonly string $name,
+        public readonly ArticleSlice $slice,
     ) {}
 
     /**
-     * Get a module by key or FQCN.
+     * Returns the module of the given slice.
      *
-     * @param string|class-string<self> $keyOrClass
+     * Called on a concrete module class, the slice must belong to that module.
      */
-    final public static function get(string $keyOrClass): ?self
+    final public static function of(ArticleSlice $slice): static
     {
-        $all = self::getAll();
+        $class = self::getClass($slice->moduleKey)
+            ?? throw new LogicException(sprintf('The module "%s" of slice %d does not exist.', $slice->moduleKey, $slice->id));
 
-        /** @var ?self */
-        return $all[$keyOrClass]
-            // FQCN lookup
-            ?? array_find($all, static fn (self $module) => $module instanceof $keyOrClass);
+        if (!is_a($class, static::class, true)) {
+            throw new LogicException(sprintf('Slice %d belongs to module %s, not to %s.', $slice->id, $class, static::class));
+        }
+
+        /** @var static */
+        return new $class($slice);
     }
 
-    /**
-     * Check if a module exists by key or FQCN.
-     *
-     * @param string|class-string<self> $keyOrClass
-     */
-    final public static function exists(string $keyOrClass): bool
-    {
-        return null !== self::get($keyOrClass);
-    }
-
-    /** @return array<string, self> */
+    /** @return array<string, class-string<self>> keyed by module key */
     final public static function getAll(): array
     {
-        if (null !== self::$instances) {
-            return self::$instances;
+        if (null !== self::$classes) {
+            return self::$classes;
         }
 
-        $instances = [];
+        $classes = [];
         foreach (ClassDiscovery::getInstance()->discoverByAttribute(AsModule::class, self::class) as $class => $attribute) {
-            $instances[$attribute->key] = new $class($attribute->key, $attribute->name);
+            $classes[$attribute->key] = $class;
+            self::$attributes[$class] = $attribute;
         }
 
-        return self::$instances = $instances;
+        return self::$classes = $classes;
+    }
+
+    /** @return class-string<self>|null */
+    final public static function getClass(string $key): ?string
+    {
+        return self::getAll()[$key] ?? null;
+    }
+
+    final public static function exists(string $key): bool
+    {
+        return null !== self::getClass($key);
+    }
+
+    /** Unique key, used as DB reference in rex_article_slice.module. */
+    final public static function key(): string
+    {
+        return self::attribute()->key;
+    }
+
+    final public static function name(): string
+    {
+        return self::attribute()->name;
     }
 
     /**
@@ -63,24 +89,31 @@ abstract class Module
      *
      * Override this to restrict to specific categories.
      */
-    public function isAllowedInCategory(?Category $category): bool
+    public static function isAllowedInCategory(?Category $category): bool
     {
         return true;
     }
 
     /** Render the backend edit form. */
-    abstract public function input(ArticleSlice $slice): string;
+    abstract public function input(): string;
 
     /**
      * Render the frontend output.
      *
      * @throws ArticleNotFoundException if rendering should be aborted to switch to the not found article
      */
-    abstract public function output(ArticleSlice $slice): string;
+    abstract public function output(): string;
 
     /** Called before slice data is saved to DB. */
     public function onPresave(ArticleSliceAction $action): void {}
 
     /** Called after slice data is saved to DB. */
     public function onPostsave(ArticleSliceAction $action): void {}
+
+    private static function attribute(): AsModule
+    {
+        self::getAll();
+
+        return self::$attributes[static::class] ?? throw new LogicException(sprintf('%s is not a registered module.', static::class));
+    }
 }
