@@ -343,7 +343,7 @@ return RectorConfig::configure()
         new MethodCallRename(Content\Template::class, 'forKey', 'get'),
         new MethodCallRename(Content\Template::class, 'getCtypes', 'getContentSections'),
         new MethodCallRename(Content\Template::class, 'getDefaultId', 'getDefaultKey'),
-        new MethodCallRename(Content\Module::class, 'forKey', 'get'),
+        new MethodCallRename(Content\Module::class, 'forKey', 'getClass'),
 
         new MethodCallRename(Content\ArticleHandler::class, 'addArticle', 'add'),
         new MethodCallRename(Content\ArticleHandler::class, 'editArticle', 'edit'),
