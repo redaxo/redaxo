@@ -147,28 +147,12 @@ final class MediaPool
     {
         $sql = Sql::factory();
 
-        // FIXME move structure stuff into structure addon
-        $values = [];
-        for ($i = 1; $i < 21; ++$i) {
-            $values[] = 'value' . $i . ' REGEXP ' . $sql->escape('(^|[^[:alnum:]+_-])' . $filename);
-        }
-
-        $files = [];
-        $filelists = [];
-        $escapedFilename = $sql->escape($filename);
-        for ($i = 1; $i < 11; ++$i) {
-            $files[] = 'media' . $i . ' = ' . $escapedFilename;
-            $filelists[] = 'FIND_IN_SET(' . $escapedFilename . ', medialist' . $i . ')';
-        }
-
-        $where = '';
-        $where .= implode(' OR ', $files) . ' OR ';
-        $where .= implode(' OR ', $filelists) . ' OR ';
-        $where .= implode(' OR ', $values);
-        $query = 'SELECT DISTINCT article_id, language_id FROM rex_article_slice WHERE ' . $where;
+        // matches the file name stored by a media field as well as embedded in a text, e.g. in a link
+        $query = 'SELECT DISTINCT article_id, language_id FROM rex_article_slice WHERE CAST(data AS CHAR) REGEXP ?';
+        $params = ['(^|[^[:alnum:]+_-])' . preg_quote($filename)];
 
         $warning = [];
-        $res = $sql->getArray($query);
+        $res = $sql->getArray($query, $params);
         if ($sql->getRows() > 0) {
             $warning[0] = I18n::msg('pool_file_in_use_articles') . '<ul>';
             foreach ($res as $artArr) {

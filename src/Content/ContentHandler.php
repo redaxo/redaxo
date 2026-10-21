@@ -24,20 +24,19 @@ final class ContentHandler
 {
     private function __construct() {}
 
-    /** @param array{priority?: int, revision?: int, ...<string, scalar|null>} $data */
-    public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $data = []): ArticleSlice
+    /**
+     * @param array<string, mixed> $values the stored values of the module fields, keyed by storage key
+     * @param int|null $priority `null` to append the slice to the content section
+     */
+    public static function addSlice(int $articleId, int $languageId, int $ctypeId, string $moduleKey, array $values = [], ?int $priority = null, int $revision = 0): ArticleSlice
     {
-        $data['revision'] ??= 0;
+        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctypeId . ' AND revision=' . $revision;
 
-        $where = 'article_id=' . $articleId . ' AND language_id=' . $languageId . ' AND ctype_id=' . $ctypeId . ' AND revision=' . (int) $data['revision'];
-
-        if (!isset($data['priority'])) {
+        if (null === $priority) {
             $prevSlice = Sql::factory();
             $prevSlice->setQuery('SELECT MAX(priority) as priority FROM rex_article_slice WHERE ' . $where);
 
-            $data['priority'] = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
-        } elseif ($data['priority'] <= 0) {
-            $data['priority'] = 1;
+            $priority = ($prevSlice->getNullableIntValue('priority') ?? 0) + 1;
         }
 
         $sql = Sql::factory();
@@ -46,10 +45,9 @@ final class ContentHandler
         $sql->setValue('language_id', $languageId);
         $sql->setValue('ctype_id', $ctypeId);
         $sql->setValue('module', $moduleKey);
-
-        foreach ($data as $key => $value) {
-            $sql->setValue($key, $value);
-        }
+        $sql->setValue('revision', $revision);
+        $sql->setValue('priority', max(1, $priority));
+        $sql->setValue('data', ArticleSlice::encodeData($values));
 
         $sql->addGlobalCreateFields();
         $sql->addGlobalUpdateFields();
@@ -67,7 +65,7 @@ final class ContentHandler
         ArticleCache::delete($articleId, $languageId);
 
         $article = Article::require($articleId, $languageId);
-        $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, (int) $data['revision']));
+        $slice = Type::notNull(ArticleSlice::getArticleSliceById($sliceId, $languageId, $revision));
 
         Extension::dispatch(new ArticleContentUpdated($article, 'slice_added', $slice));
 

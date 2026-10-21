@@ -13,8 +13,8 @@ use Redaxo\Core\Database\Sql;
 use Redaxo\Core\ExtensionPoint\Extension;
 use Redaxo\Core\ExtensionPoint\ExtensionPoint;
 use Redaxo\Core\Filesystem\Url;
+use Redaxo\Core\Form\Form;
 use Redaxo\Core\Http\Context;
-use Redaxo\Core\Http\Request;
 use Redaxo\Core\Security\CsrfToken;
 use Redaxo\Core\Translation\I18n;
 use Redaxo\Core\View\Fragment;
@@ -34,6 +34,13 @@ final class ArticleContentEditor extends ArticleContentBase
     private ?array $moduleSelect = null;
 
     private int $sliceAddPosition = 0;
+
+    /**
+     * The slice form submitted with invalid values in the current request, to show it again with the errors.
+     *
+     * @internal
+     */
+    public ?Form $invalidSliceForm = null;
 
     #[Override]
     protected function outputSlice(Sql $artDataSql, string $moduleKeyToAdd): string
@@ -80,9 +87,6 @@ final class ArticleContentEditor extends ArticleContentBase
                     // **************** Aktueller Slice
 
                     $slice = ArticleSlice::fromSql($artDataSql);
-                    if ('post' == Request::requestMethod() && 'edit' == Request::request('function', 'string')) {
-                        $slice = $slice->withRequestValues();
-                    }
 
                     return $sliceContent . $this->editSlice($sliceId, $slice, $sliceCtype, $moduleKey, $artDataSql);
                 }
@@ -388,10 +392,9 @@ final class ArticleContentEditor extends ArticleContentBase
             return Message::error(I18n::msg('module_doesnt_exist'));
         }
 
-        $slice = ArticleSlice::forNewSlice($this->articleId, $this->languageId, $this->contentSectionId, $moduleKey, $this->sliceAddPosition, $this->sliceRevision)
-            ->withRequestValues();
+        $slice = ArticleSlice::forNewSlice($this->articleId, $this->languageId, $this->contentSectionId, $moduleKey, $this->sliceAddPosition, $this->sliceRevision);
 
-        $moduleInput = $module::of($slice)->input();
+        $moduleInput = $this->renderModuleInput($slice);
 
         $msg = '';
         if ('' !== $this->error) {
@@ -474,7 +477,7 @@ final class ArticleContentEditor extends ArticleContentBase
         $fragment->setVar('elements', $formElements, false);
         $sliceFooter = $fragment->parse('core/form/submit.php');
 
-        $moduleInput = Module::exists($moduleKey) ? Module::of($slice)->input() : '';
+        $moduleInput = Module::exists($moduleKey) ? $this->renderModuleInput($slice) : '';
 
         $panel = '
                 <fieldset>
@@ -502,5 +505,15 @@ final class ArticleContentEditor extends ArticleContentBase
         $fragment->setVar('formAction', Url::currentBackendPage(['article_id' => $this->articleId, 'slice_id' => $sliceId, 'ctype' => $ctypeId, 'language' => $this->languageId, 'function' => 'edit']) . '#slice' . $sliceId);
         $fragment->setVar('content', $sliceContent, false);
         return $fragment->parse('core/structure/content/slice_list_item.php');
+    }
+
+    /** Renders the form of the module, or the form submitted with invalid values in the current request. */
+    private function renderModuleInput(ArticleSlice $slice): string
+    {
+        $form = $this->invalidSliceForm ?? Module::of($slice)->createForm();
+        $module = $form->data;
+        assert($module instanceof Module);
+
+        return $module->input($form);
     }
 }

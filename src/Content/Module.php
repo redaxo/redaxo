@@ -5,7 +5,15 @@ namespace Redaxo\Core\Content;
 use Redaxo\Core\ClassDiscovery;
 use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Exception\LogicException;
+use Redaxo\Core\Form\Field\Field;
+use Redaxo\Core\Form\Form;
+use Redaxo\Core\Form\FormSchema;
+use Redaxo\Core\Form\InvalidValueException;
+use Redaxo\Core\Http\Request;
+use Redaxo\Core\Translation\Translatable;
+use WeakMap;
 
+use function array_key_exists;
 use function sprintf;
 
 /**
@@ -13,23 +21,48 @@ use function sprintf;
  *
  * An instance represents the module of one slice, see {@see self::of()}. What concerns the module as a whole
  * (key, name, where it is allowed) is static.
+ *
+ * The fields of the module are its properties, annotated with form field types (see {@see Field}), and stored as JSON
+ * in the slice, each under its key: the property name in snake_case, or the `key` of the field, e.g. to keep the
+ * values of a renamed property. The backend form shows all fields by default, and the output reads the properties:
+ *
+ * ```php
+ * #[AsModule('text', 'Text')]
+ * final class TextModule extends Module
+ * {
+ *     #[Text('Headline', required: true)]
+ *     public string $headline = '';
+ *
+ *     public function output(): string
+ *     {
+ *         return '<h2>' . escape($this->headline) . '</h2>';
+ *     }
+ * }
+ * ```
  */
 abstract class Module
 {
+    /** Name of the request parameter holding the submitted field values. */
+    private const string FORM_NAME = 'slice';
+
     /** @var array<string, class-string<self>>|null keyed by module key */
     private static ?array $classes = null;
 
     /** @var array<class-string<self>, AsModule> */
     private static array $attributes = [];
 
+    /** @var WeakMap<ArticleSlice, self>|null */
+    private static ?WeakMap $instances = null;
+
     final public function __construct(
         public readonly ArticleSlice $slice,
     ) {}
 
     /**
-     * Returns the module of the given slice.
+     * Returns the module of the given slice, holding its stored field values.
      *
      * Called on a concrete module class, the slice must belong to that module.
+     * The instance is shared per slice, changes to it are not persisted.
      */
     final public static function of(ArticleSlice $slice): static
     {
@@ -40,8 +73,21 @@ abstract class Module
             throw new LogicException(sprintf('Slice %d belongs to module %s, not to %s.', $slice->id, $class, static::class));
         }
 
+        if (null === self::$instances) {
+            /** @var WeakMap<ArticleSlice, self> $map */
+            $map = new WeakMap();
+            self::$instances = $map;
+        }
+        $instances = self::$instances;
+
+        if (!isset($instances[$slice])) {
+            $module = new $class($slice);
+            $module->hydrate();
+            $instances[$slice] = $module;
+        }
+
         /** @var static */
-        return new $class($slice);
+        return $instances[$slice];
     }
 
     /** @return array<string, class-string<self>> keyed by module key */
@@ -94,8 +140,15 @@ abstract class Module
         return true;
     }
 
-    /** Render the backend edit form. */
-    abstract public function input(): string;
+    /**
+     * Renders the backend edit form.
+     *
+     * The default renders all fields; override it for a custom layout, using {@see Form::row()} etc.
+     */
+    public function input(Form $form): string
+    {
+        return (string) $form->rest();
+    }
 
     /**
      * Render the frontend output.
@@ -104,11 +157,89 @@ abstract class Module
      */
     abstract public function output(): string;
 
-    /** Called before slice data is saved to DB. */
-    public function onPresave(ArticleSliceAction $action): void {}
+    /**
+     * Cross-field validation, called after all fields are valid and written into the instance.
+     *
+     * Return an error message to reject, or `null` if valid.
+     */
+    public function validate(): string|Translatable|null
+    {
+        return null;
+    }
 
-    /** Called after slice data is saved to DB. */
-    public function onPostsave(ArticleSliceAction $action): void {}
+    /** Called after a successful validation, right before the values are saved, e.g. to derive values. */
+    public function beforeSave(): void {}
+
+    /** Called on a fresh instance of the saved slice, e.g. for side effects needing the id of a new slice. */
+    public function afterSave(): void {}
+
+    /**
+     * Creates the form editing the fields of this module.
+     *
+     * @internal
+     */
+    final public function createForm(): Form
+    {
+        return new Form($this, name: self::FORM_NAME, csrf: false);
+    }
+
+    /**
+     * Submits the field values of the current request into the given form, followed by {@see self::validate()}.
+     *
+     * @return bool whether all values are valid
+     * @internal
+     */
+    final public function submitForm(Form $form): bool
+    {
+        /** @var array<array-key, mixed> $values */
+        $values = Request::post(self::FORM_NAME, 'array', []);
+
+        if (!$form->submit($values)) {
+            return false;
+        }
+
+        $error = $this->validate();
+        if (null !== $error) {
+            $form->addError($error);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Encodes the field values for the `data` column of the slice; `null` for a module without fields.
+     *
+     * @internal
+     */
+    final public function encodeData(): ?string
+    {
+        $data = [];
+        foreach (FormSchema::of(static::class)->fields as $definition) {
+            $data[$definition->key] = $definition->field->encode($definition->getValue($this));
+        }
+
+        return ArticleSlice::encodeData($data);
+    }
+
+    /** Stored values that are missing or no longer fit the field keep the default of the property. */
+    private function hydrate(): void
+    {
+        foreach (FormSchema::of(static::class)->fields as $definition) {
+            if (!array_key_exists($definition->key, $this->slice->data)) {
+                continue;
+            }
+
+            try {
+                $value = $definition->field->decode($this->slice->data[$definition->key], $definition->type);
+            } catch (InvalidValueException) {
+                continue;
+            }
+
+            $definition->setValue($this, $value);
+        }
+    }
 
     private static function attribute(): AsModule
     {

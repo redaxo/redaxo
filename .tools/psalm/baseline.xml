@@ -611,7 +611,7 @@
       <code><![CDATA[[$articleId, $languageId, $ctype, $sliceRevision]]]></code>
     </MixedArgumentTypeCoercion>
     <MixedOperand>
-      <code><![CDATA[Controller::includeCurrentPageSubPath(compact('info', 'warning', 'article', 'articleId', 'categoryId', 'languageId', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))]]></code>
+      <code><![CDATA[Controller::includeCurrentPageSubPath(compact('info', 'warning', 'invalidSliceForm', 'article', 'articleId', 'categoryId', 'languageId', 'sliceId', 'sliceRevision', 'function', 'ctype', 'context'))]]></code>
     </MixedOperand>
     <PossiblyInvalidArrayAccess>
       <code><![CDATA[$navigation['navigation']]]></code>

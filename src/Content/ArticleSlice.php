@@ -6,25 +6,24 @@ use Redaxo\Core\Content\Exception\ArticleNotFoundException;
 use Redaxo\Core\Core;
 use Redaxo\Core\Database\Sql;
 use Redaxo\Core\Exception\LogicException;
-use Redaxo\Core\Filesystem\Url;
-use Redaxo\Core\Http\Request;
 use Redaxo\Core\Language\Language;
 
 use function is_array;
+use function json_decode;
+use function json_encode;
 use function sprintf;
+
+use const JSON_PRESERVE_ZERO_FRACTION;
+use const JSON_THROW_ON_ERROR;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 
 final readonly class ArticleSlice
 {
     private const string ORDER_ASC = 'ASC';
     private const string ORDER_DESC = 'DESC';
 
-    /**
-     * @param array<int, string|null> $values
-     * @param array<int, string|null> $media
-     * @param array<int, string|null> $medialists
-     * @param array<int, string|null> $links
-     * @param array<int, string|null> $linklists
-     */
+    /** @param array<string, mixed> $data */
     private function __construct(
         public int $id,
         public int $articleId,
@@ -38,11 +37,12 @@ final readonly class ArticleSlice
         public string $createuser,
         public string $updateuser,
         public int $revision,
-        private array $values,
-        private array $media,
-        private array $medialists,
-        private array $links,
-        private array $linklists,
+        /**
+         * The stored values of the module fields, keyed by storage key; read them typed via {@see Module::of()}.
+         *
+         * @internal
+         */
+        public array $data,
     ) {}
 
     /** @internal  */
@@ -67,11 +67,7 @@ final readonly class ArticleSlice
             $user = Core::requireUser()->login,
             $user,
             $revision,
-            array_fill(0, 20, null),
-            array_fill(0, 10, null),
-            array_fill(0, 10, null),
-            array_fill(0, 10, null),
-            array_fill(0, 10, null),
+            [],
         );
     }
 
@@ -79,14 +75,6 @@ final readonly class ArticleSlice
     public static function fromSql(Sql $sql): self
     {
         $table = 'rex_article_slice';
-
-        $data = [];
-        foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $list => $count) {
-            for ($k = 1; $k <= $count; ++$k) {
-                $value = $sql->getNullableStringValue($table . '.' . $list . $k);
-                $data[$list][] = '' === $value ? null : $value;
-            }
-        }
 
         return new self(
             $sql->getIntValue($table . '.id'),
@@ -101,72 +89,29 @@ final readonly class ArticleSlice
             $sql->getStringValue($table . '.createuser'),
             $sql->getStringValue($table . '.updateuser'),
             $sql->getIntValue($table . '.revision'),
-            $data['value'],
-            $data['media'],
-            $data['medialist'],
-            $data['link'],
-            $data['linklist'],
+            self::decodeData($sql->getNullableStringValue($table . '.data')),
         );
     }
 
     /**
-     * Returns a copy of this slice with the slice fields (`value*`, `media*`, `medialist*`, `link*`, `linklist*`)
-     * overridden by the current `REX_INPUT_*` request values. Fields without a matching request entry are reset to `null`.
+     * Encodes the stored values of the module fields for the `data` column; `null` for no values.
      *
-     * Use this to show the user's pending form input in the edit form (e.g. when an in-form action like
-     * "add row" re-submits before the slice has been persisted).
-     *
+     * @param array<string, mixed> $data
      * @internal
      */
-    public function withRequestValues(): self
+    public static function encodeData(array $data): ?string
     {
-        $lists = self::readRequestValues();
-
-        return new self(
-            $this->id,
-            $this->articleId,
-            $this->languageId,
-            $this->contentSectionId,
-            $this->moduleKey,
-            $this->priority,
-            $this->status,
-            $this->createdate,
-            $this->updatedate,
-            $this->createuser,
-            $this->updateuser,
-            $this->revision,
-            $lists['value'],
-            $lists['media'],
-            $lists['medialist'],
-            $lists['link'],
-            $lists['linklist'],
-        );
+        return $data ? json_encode($data, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION) : null;
     }
 
-    /**
-     * Reads `REX_INPUT_VALUE`, `REX_INPUT_MEDIA`, `REX_INPUT_MEDIALIST`, `REX_INPUT_LINK`, `REX_INPUT_LINKLIST`
-     * from the current request and returns them as fixed-size lists (20 entries for `value`, 10 for the rest).
-     * Slots without a matching request entry are `null`; array values are JSON-encoded so they match the storage format.
-     *
-     * @return array{value: list<?string>, media: list<?string>, medialist: list<?string>, link: list<?string>, linklist: list<?string>}
-     * @internal
-     */
-    public static function readRequestValues(): array
+    /** @return array<string, mixed> */
+    private static function decodeData(?string $json): array
     {
-        $result = [];
-        foreach (['value' => 20, 'media' => 10, 'medialist' => 10, 'link' => 10, 'linklist' => 10] as $key => $max) {
-            /** @var array<int, string|int|null> $requestValues */
-            $requestValues = Request::request('REX_INPUT_' . strtoupper($key), 'array');
-            $list = [];
-            for ($i = 1; $i <= $max; ++$i) {
-                $value = $requestValues[$i] ?? null;
-                $list[] = is_array($value) ? json_encode($value) : (null === $value ? null : (string) $value);
-            }
-            $result[$key] = $list;
-        }
+        /** @var mixed $data */
+        $data = null === $json ? null : json_decode($json, true);
 
-        /** @var array{value: list<?string>, media: list<?string>, medialist: list<?string>, link: list<?string>, linklist: list<?string>} */
-        return $result;
+        /** @var array<string, mixed> */
+        return is_array($data) ? $data : [];
     }
 
     public static function getArticleSliceById(int $id, ?int $languageId = null, int $revision = 0): ?self
@@ -324,108 +269,6 @@ final readonly class ArticleSlice
         return $article;
     }
 
-    /** @param int<1, 20> $index */
-    public function getValue(int $index): ?string
-    {
-        return $this->values[$index - 1];
-    }
-
-    /**
-     * @param int<1, 20> $index
-     * @return array<mixed>|null
-     */
-    public function getValueArray(int $index): ?array
-    {
-        $value = $this->values[$index - 1];
-
-        if (null === $value) {
-            return null;
-        }
-
-        /** @var mixed $value */
-        $value = json_decode($value, true);
-
-        return is_array($value) ? $value : null;
-    }
-
-    /** @param int<1, 10> $index */
-    public function getLink(int $index): ?int
-    {
-        $link = $this->links[$index - 1];
-
-        return null === $link ? null : (int) $link;
-    }
-
-    /** @param int<1, 10> $index */
-    public function getLinkUrl(int $index): ?string
-    {
-        $link = $this->getLink($index);
-
-        return null === $link ? null : Url::article($link);
-    }
-
-    /**
-     * @param int<1, 10> $index
-     * @return string|null comma separated list
-     */
-    public function getLinkList(int $index): ?string
-    {
-        return $this->linklists[$index - 1];
-    }
-
-    /**
-     * @param int<1, 10> $index
-     * @return list<int>|null
-     */
-    public function getLinkListArray(int $index): ?array
-    {
-        $list = $this->linklists[$index - 1];
-
-        if (null === $list) {
-            return null;
-        }
-
-        return array_map('intval', explode(',', $list));
-    }
-
-    /** @param int<1, 10> $index */
-    public function getMedia(int $index): ?string
-    {
-        return $this->media[$index - 1];
-    }
-
-    /** @param int<1, 10> $index */
-    public function getMediaUrl(int $index): ?string
-    {
-        $media = $this->getMedia($index);
-
-        return null === $media ? null : Url::media($media);
-    }
-
-    /**
-     * @param int<1, 10> $index
-     * @return string|null comma separated list
-     */
-    public function getMediaList(int $index): ?string
-    {
-        return $this->medialists[$index - 1];
-    }
-
-    /**
-     * @param int<1, 10> $index
-     * @return list<string>|null
-     */
-    public function getMediaListArray(int $index): ?array
-    {
-        $list = $this->medialists[$index - 1];
-
-        if (null === $list) {
-            return null;
-        }
-
-        return explode(',', $list);
-    }
-
     public function isOnline(): bool
     {
         return 1 === $this->status;
@@ -433,7 +276,7 @@ final readonly class ArticleSlice
 
     /**
      * @internal
-     * @param array{id: int, articleId: int, languageId: int, contentSectionId: int, moduleKey: string, priority: int, status: int, createdate: int, updatedate: int, createuser: string, updateuser: string, revision: int, values: array<int, string|null>, media: array<int, string|null>, medialists: array<int, string|null>, links: array<int, string|null>, linklists: array<int, string|null>} $data
+     * @param array{id: int, articleId: int, languageId: int, contentSectionId: int, moduleKey: string, priority: int, status: int, createdate: int, updatedate: int, createuser: string, updateuser: string, revision: int, data: array<string, mixed>} $data
      */
     public static function __set_state(array $data): self
     {
@@ -450,11 +293,7 @@ final readonly class ArticleSlice
             $data['createuser'],
             $data['updateuser'],
             $data['revision'],
-            $data['values'],
-            $data['media'],
-            $data['medialists'],
-            $data['links'],
-            $data['linklists'],
+            $data['data'],
         );
     }
 }
