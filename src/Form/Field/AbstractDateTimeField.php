@@ -67,7 +67,7 @@ abstract class AbstractDateTimeField extends Field
     #[Override]
     public function widget(BoundField $field): Input
     {
-        return new Input($field->inputName, Type::string($field->raw), $field->id, $this->inputType(), required: $this->required, attributes: new HtmlAttributes([
+        return new Input($field->inputName, Type::string($field->raw), $field->id, $this->inputType(), required: $this->required, disabled: $field->disabled, attributes: new HtmlAttributes([
             'min' => null === $this->min ? null : $this->limit($this->min)->format($this->inputFormat()),
             'max' => null === $this->max ? null : $this->limit($this->max)->format($this->inputFormat()),
         ]));

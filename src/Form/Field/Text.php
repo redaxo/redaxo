@@ -58,6 +58,7 @@ class Text extends Field
             $field->id,
             $this->inputType(),
             $this->required,
+            $field->disabled,
             new HtmlAttributes(['maxlength' => $this->maxLength]),
         );
     }

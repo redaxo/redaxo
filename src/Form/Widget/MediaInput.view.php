@@ -14,7 +14,7 @@ return static function (MediaInput $input): void {
         . ($input->types ? '&types=' . urlencode(implode(',', $input->types)) : ''),
         'js',
     );
-    $allowed = Core::requireUser()->getComplexPerm('media')->hasMediaPerm();
+    $allowed = !$input->disabled && Core::requireUser()->getComplexPerm('media')->hasMediaPerm();
 
     $button = static fn (string $onclick, string $title, string $icon): string => '<a ' . new HtmlAttributes([
         'href' => '#',
@@ -25,7 +25,7 @@ return static function (MediaInput $input): void {
     ])->toString() . '><i class="rex-icon ' . $icon . '"></i></a>' ?>
     <div <?= new HtmlAttributes(['class' => ['rex-js-widget', 'rex-js-widget-media', 'rex-js-widget-preview' => $input->preview, 'rex-js-widget-preview-media-manager' => $input->preview]]) ?>>
         <div class="input-group">
-            <input class="form-control" type="text" name="<?= escape($input->name) ?>" value="<?= escape((string) $input->fileName) ?>" id="<?= escape($input->labelTarget()) ?>" readonly>
+            <input <?= new HtmlAttributes(['class' => ['form-control'], 'type' => 'text', 'name' => $input->name, 'value' => (string) $input->fileName, 'id' => $input->labelTarget(), 'readonly' => true, 'disabled' => $input->disabled]) ?>>
             <span class="input-group-btn">
                 <?= $button("openREXMedia('$id', '$params');", 'form_media_open', 'rex-icon-open-mediapool') ?>
                 <?= $button("addREXMedia('$id', '$params');", 'form_media_new', 'rex-icon-add-media') ?>

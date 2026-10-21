@@ -2,6 +2,7 @@
 
 use Redaxo\Core\ApiFunction\ApiFunction;
 use Redaxo\Core\Content\ArticleContentEditor;
+use Redaxo\Core\Form\Form;
 use Redaxo\Core\View\Fragment;
 
 assert(isset($articleId) && is_int($articleId));
@@ -12,6 +13,8 @@ assert(isset($sliceRevision) && is_int($sliceRevision));
 assert(isset($function) && is_string($function));
 assert(isset($info) && is_string($info));
 assert(isset($warning) && is_string($warning));
+$invalidSliceForm ??= null;
+assert(null === $invalidSliceForm || $invalidSliceForm instanceof Form);
 
 if ($result = ApiFunction::factory()?->result) {
     if ($result->succeeded) {
@@ -24,6 +27,7 @@ if ($result = ApiFunction::factory()?->result) {
 $CONT = new ArticleContentEditor($articleId, $languageId);
 $CONT->success = $info;
 $CONT->error = $warning;
+$CONT->invalidSliceForm = $invalidSliceForm;
 $CONT->sliceId = $sliceId;
 $CONT->mode = 'edit';
 $CONT->eval = true;

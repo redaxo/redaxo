@@ -258,7 +258,6 @@ return RectorConfig::configure()
         'rex_validation_rule' => Validator\ValidationRule::class,
         'rex_version' => Util\Version::class,
         'rex_article' => Content\Article::class,
-        'rex_article_action' => Content\ArticleSliceAction::class,
         'rex_article_cache' => Content\ArticleCache::class,
         'rex_article_content' => Content\ArticleContent::class,
         'rex_article_content_base' => Content\ArticleContentBase::class,
@@ -478,10 +477,6 @@ return RectorConfig::configure()
         new MethodCallToPropertyFetch(Content\ArticleSlice::class, 'getRevision', 'revision'),
         new MethodCallToPropertyFetch(Content\ArticleSlice::class, 'getPriority', 'priority'),
 
-        new MethodCallToPropertyFetch(Content\ArticleSliceAction::class, 'getEvent', 'mode'),
-        new MethodCallToPropertyFetch(Content\ArticleSliceAction::class, 'getSave', 'save'),
-        new MethodCallToPropertyFetch(Content\ArticleSliceAction::class, 'getMessages', 'messages'),
-
         new MethodCallToPropertyFetch(Content\ContentSection::class, 'getId', 'id'),
         new MethodCallToPropertyFetch(Content\ContentSection::class, 'getName', 'name'),
 
@@ -605,8 +600,6 @@ return RectorConfig::configure()
         new MethodCallToPropertyAssign(Content\ArticleContentBase::class, 'setMode', 'mode'),
         new MethodCallToPropertyAssign(Content\ArticleContentBase::class, 'setFunction', 'function'),
         new MethodCallToPropertyAssign(Content\ArticleContentBase::class, 'setEval', 'eval'),
-
-        new MethodCallToPropertyAssign(Content\ArticleSliceAction::class, 'setSave', 'save'),
 
         new MethodCallToPropertyAssign(Content\ExtensionPoint\SliceMenu::class, 'setMenuEditAction', 'menuEditAction'),
         new MethodCallToPropertyAssign(Content\ExtensionPoint\SliceMenu::class, 'setMenuDeleteAction', 'menuDeleteAction'),

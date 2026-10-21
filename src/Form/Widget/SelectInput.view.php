@@ -13,6 +13,7 @@ return static function (SelectInput $select): void { ?>
         'id' => $select->id,
         'multiple' => $select->multiple,
         'required' => $select->required,
+        'disabled' => $select->disabled,
     ]) ?>>
         <?php if (null !== $select->placeholder && !$select->multiple): ?>
             <option value=""><?= escape(Translatable::text($select->placeholder)) ?></option>

@@ -92,7 +92,7 @@ final class Permissions extends Field
             ];
         }
 
-        return new PermissionsInput($field->inputName, $field->id, $groups);
+        return new PermissionsInput($field->inputName, $field->id, $groups, disabled: $field->disabled);
     }
 
     #[Override]

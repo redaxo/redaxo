@@ -60,12 +60,12 @@ final class ContentHandlerTest extends TestCase
 
     public function testSliceActionsDispatchArticleContentUpdatedWithSlice(): void
     {
-        ContentHandler::addSlice($this->articleId, 1, 1, 'test', ['value1' => 'foo']);
-        ContentHandler::addSlice($this->articleId, 1, 1, 'test', ['value1' => 'bar']);
+        ContentHandler::addSlice($this->articleId, 1, 1, 'test', ['text' => 'foo']);
+        ContentHandler::addSlice($this->articleId, 1, 1, 'test', ['text' => 'bar']);
 
         $first = $this->events[0]->slice;
         self::assertNotNull($first);
-        self::assertSame('foo', $first->getValue(1));
+        self::assertSame(['text' => 'foo'], $first->data);
         self::assertSame(1, $first->priority);
 
         // moveSlice() resolves equal priorities by updatedate, so the slices must not share the current second
@@ -82,7 +82,7 @@ final class ContentHandlerTest extends TestCase
 
         [, $second, $moved, $status, $deleted] = array_map(static fn (ArticleContentUpdated $ep) => $ep->slice, $this->events);
 
-        self::assertSame('bar', $second?->getValue(1));
+        self::assertSame(['text' => 'bar'], $second?->data);
         self::assertNotNull($moved);
         self::assertSame(2, $moved->priority);
         self::assertSame(1, $moved->status);

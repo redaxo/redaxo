@@ -10,5 +10,6 @@ return static function (Input $input): void { ?>
         'id' => $input->id,
         'value' => $input->value,
         'required' => $input->required,
+        'disabled' => $input->disabled,
     ]) ?>>
 <?php };
