@@ -256,6 +256,13 @@ form_articlelist_move_top = Move selected link to top
 form_articlelist_move_up = Move selected link up
 form_articlelist_move_down = Move selected link down
 form_articlelist_move_bottom = Move selected link to bottom
+form_collection_invalid = At least one item is invalid.
+form_collection_min = There must be at least {0} items.
+form_collection_max = There may be at most {0} items.
+form_collection_add = Add item
+form_collection_remove = Remove item
+form_collection_move_up = Move item up
+form_collection_move_down = Move item down
 
 # language
 all_languages = All languages

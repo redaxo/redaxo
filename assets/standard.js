@@ -565,6 +565,41 @@ jQuery(document).ready(function($) {
         });
     });
 
+    // collection fields: add, remove and reorder items
+    var updateCollection = function ($collection) {
+        var max = parseInt($collection.attr('data-rex-collection-max'), 10);
+        var count = $collection.children('.rex-form-collection-items').children().length;
+        $collection.children('[data-rex-collection-add]').toggle(isNaN(max) || count < max);
+    };
+    $(document).on('click', '[data-rex-collection-add]', function () {
+        var $collection = $(this).closest('[data-rex-collection]');
+        var index = parseInt($collection.attr('data-rex-collection-next'), 10);
+        var html = $collection.children('template').html().split($collection.attr('data-rex-collection-placeholder')).join(index);
+        var $item = $(html);
+        $collection.attr('data-rex-collection-next', index + 1);
+        $collection.children('.rex-form-collection-items').append($item);
+        updateCollection($collection);
+        $item.trigger('rex:ready', [$item]);
+    });
+    $(document).on('click', '[data-rex-collection-remove]', function () {
+        var $collection = $(this).closest('[data-rex-collection]');
+        $(this).closest('.rex-form-collection-item').remove();
+        updateCollection($collection);
+    });
+    $(document).on('click', '[data-rex-collection-move]', function () {
+        var $item = $(this).closest('.rex-form-collection-item');
+        if ('up' === $(this).attr('data-rex-collection-move')) {
+            $item.prev().before($item);
+        } else {
+            $item.next().after($item);
+        }
+    });
+    $(document).on('rex:ready', function (event, viewRoot) {
+        $(viewRoot).find('[data-rex-collection]').each(function () {
+            updateCollection($(this));
+        });
+    });
+
     // add eye-toggle to each password input
     $(document).on('rex:ready', function (event, viewRoot) {
         $(viewRoot).find('input[type="password"]').each(function() {

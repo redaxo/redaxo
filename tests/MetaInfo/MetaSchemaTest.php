@@ -7,8 +7,10 @@ use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Redaxo\Core\Database\Column;
+use Redaxo\Core\Exception\LogicException;
 use Redaxo\Core\Form\Field\Checkbox;
 use Redaxo\Core\Form\Field\Choice;
+use Redaxo\Core\Form\Field\Collection;
 use Redaxo\Core\Form\Field\DatePicker;
 use Redaxo\Core\Form\Field\Number;
 use Redaxo\Core\Form\Field\Text;
@@ -20,6 +22,7 @@ use Redaxo\Core\MetaInfo\MetaEntity;
 use Redaxo\Core\MetaInfo\MetaField;
 use Redaxo\Core\MetaInfo\MetaSchema;
 use Redaxo\Core\MetaInfo\Translated;
+use Redaxo\Core\Tests\Form\Fixtures\CollectionTag;
 use Redaxo\Core\Tests\Form\Fixtures\Color;
 
 use function array_key_exists;
@@ -185,6 +188,22 @@ final class MetaSchemaTest extends TestCase
         }::class;
 
         self::assertSame('meta_old_name', MetaSchema::fieldsOf($class)[0]->column);
+    }
+
+    public function testCollectionIsNotSupported(): void
+    {
+        $class = new #[AsMetaSchema(MetaEntity::Article)] class extends MetaSchema {
+            /** @var list<CollectionTag> */
+            #[Collection(
+                'Tags',
+                item: CollectionTag::class,
+            )]
+            public array $tags = [];
+        }::class;
+
+        $this->expectException(LogicException::class);
+
+        MetaSchema::fieldsOf($class);
     }
 
     public function testTextColumnWithoutMaxLength(): void
