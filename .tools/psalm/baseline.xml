@@ -12,13 +12,6 @@
             'ctype' => $params['ctype'],
         ]]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code><![CDATA[$metaSidebar]]></code>
-      <code><![CDATA[$subject]]></code>
-    </MixedAssignment>
-    <MixedOperand>
-      <code><![CDATA[$metaSidebar]]></code>
-    </MixedOperand>
     <PossiblyFalseArgument>
       <code><![CDATA[$CONTENT]]></code>
     </PossiblyFalseArgument>
@@ -1030,11 +1023,6 @@
       <code><![CDATA[$countQueryParams]]></code>
       <code><![CDATA[$queryParams]]></code>
     </MixedArgumentTypeCoercion>
-  </file>
-  <file src="src/MetaInfo/Handler/MediaHandler.php">
-    <MixedArgument>
-      <code><![CDATA[$params['filename']]]></code>
-    </MixedArgument>
   </file>
   <file src="src/Security/ApiFunction/UserHasSession.php">
     <MixedArgument>
